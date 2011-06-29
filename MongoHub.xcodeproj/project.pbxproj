@@ -43,7 +43,6 @@
 		1D93C1E411833342003216F7 /* ConnectionsCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D93C1DF11833342003216F7 /* ConnectionsCollectionView.m */; };
 		1D93C1E511833342003216F7 /* IconCollectionItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D93C1E111833342003216F7 /* IconCollectionItem.m */; };
 		1D93C1E611833342003216F7 /* IconViewBox.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D93C1E311833342003216F7 /* IconViewBox.m */; };
-		1D93C24B118334F6003216F7 /* BWToolkitFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D93C24A118334F6003216F7 /* BWToolkitFramework.framework */; };
 		1D93C24F11833599003216F7 /* ConnectionsArrayController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D93C24E11833599003216F7 /* ConnectionsArrayController.m */; };
 		1D93C27211833A19003216F7 /* database.png in Resources */ = {isa = PBXBuildFile; fileRef = 1D93C27111833A19003216F7 /* database.png */; };
 		1D93C29A11833F26003216F7 /* Database.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D93C29911833F26003216F7 /* Database.m */; };
@@ -95,7 +94,6 @@
 		1DF96F9411883D5E00C35AB8 /* QueryWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1DF96F9311883D5E00C35AB8 /* QueryWindow.xib */; };
 		1DFC2A7C11970A1E006AA167 /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DFC2A7B11970A1E006AA167 /* Sparkle.framework */; };
 		1DFC2A8211970A35006AA167 /* Sparkle.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 1DFC2A7B11970A1E006AA167 /* Sparkle.framework */; };
-		1DFC2A8D11970BD0006AA167 /* dsa_pub.pem in Resources */ = {isa = PBXBuildFile; fileRef = 1DFC2A8C11970BD0006AA167 /* dsa_pub.pem */; };
 		2F7446990DB6B7EA00F9684A /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2F7446970DB6B7EA00F9684A /* MainMenu.xib */; };
 		77C8280E06725ACE000B614F /* MongoHub_AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 77C8280C06725ACE000B614F /* MongoHub_AppDelegate.m */; };
 		797A78450DDCFB3E0050D0C2 /* GetMetadataForFile.c in Sources */ = {isa = PBXBuildFile; fileRef = 797A783F0DDCFB3E0050D0C2 /* GetMetadataForFile.c */; };
@@ -336,7 +334,6 @@
 			files = (
 				8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */,
 				1D93C1AE11832A71003216F7 /* libmongoclient.a in Frameworks */,
-				1D93C24B118334F6003216F7 /* BWToolkitFramework.framework in Frameworks */,
 				1D93C37C11835BB4003216F7 /* QuartzCore.framework in Frameworks */,
 				1D93C5F01183992E003216F7 /* libboost_system.a in Frameworks */,
 				1D93C5F211839940003216F7 /* libboost_thread.a in Frameworks */,
@@ -764,7 +761,6 @@
 				1D58BE0B118ED8D20045A044 /* mapreducemenu.png in Resources */,
 				1D210BFB1192FF06000EF41C /* key.png in Resources */,
 				1D210C0011930E18000EF41C /* Auth.xib in Resources */,
-				1DFC2A8D11970BD0006AA167 /* dsa_pub.pem in Resources */,
 				1D601B3811C8E13000C86274 /* importmenu.png in Resources */,
 				1D601B3911C8E13000C86274 /* exportmenu.png in Resources */,
 				1D601B3D11C8E7F900C86274 /* exportbox.png in Resources */,

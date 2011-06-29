@@ -9,7 +9,6 @@
 #import "Configure.h"
 #import "NSString+Extras.h"
 #import "NSProgressIndicator+Extras.h"
-#import <BWToolkitFramework/BWToolkitFramework.h>
 #import "ConnectionWindowController.h"
 #import "QueryWindowController.h"
 #import "AddDBController.h";

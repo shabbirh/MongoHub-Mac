@@ -7,7 +7,6 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import <BWToolkitFramework/BWToolkitFramework.h>
 #import <mongo/client/dbclient.h>
 @class DatabasesArrayController;
 @class ResultsOutlineViewController;
@@ -29,24 +28,24 @@
     IBOutlet NSTextField *skipTextField;
     IBOutlet NSTextField *limitTextField;
     IBOutlet NSTextField *sortTextField;
-    IBOutlet BWInsetTextField *totalResultsTextField;
+    IBOutlet NSTextField *totalResultsTextField;
     IBOutlet NSTextField *findQueryTextField;
     IBOutlet NSProgressIndicator *findQueryLoaderIndicator;
     
     IBOutlet NSTextField *updateCriticalTextField;
     IBOutlet NSTextField *updateSetTextField;
     IBOutlet NSButton *upsetCheckBox;
-    IBOutlet BWInsetTextField *updateResultsTextField;
+    IBOutlet NSTextField *updateResultsTextField;
     IBOutlet NSTextField *updateQueryTextField;
     IBOutlet NSProgressIndicator *updateQueryLoaderIndicator;
     
     IBOutlet NSTextField *removeCriticalTextField;
-    IBOutlet BWInsetTextField *removeResultsTextField;
+    IBOutlet NSTextField *removeResultsTextField;
     IBOutlet NSTextField *removeQueryTextField;
     IBOutlet NSProgressIndicator *removeQueryLoaderIndicator;
     
     IBOutlet NSTextView *insertDataTextView;
-    IBOutlet BWInsetTextField *insertResultsTextField;
+    IBOutlet NSTextField *insertResultsTextField;
     IBOutlet NSProgressIndicator *insertLoaderIndicator;
     
     IBOutlet NSTextField *indexTextField;
@@ -65,7 +64,7 @@
     IBOutlet NSTextField *expSkipTextField;
     IBOutlet NSTextField *expLimitTextField;
     IBOutlet NSTextField *expSortTextField;
-    IBOutlet BWInsetTextField *expResultsTextField;
+    IBOutlet NSTextField *expResultsTextField;
     IBOutlet NSTextField *expPathTextField;
     IBOutlet NSPopUpButton *expTypePopUpButton;
     IBOutlet NSTextField *expQueryTextField;
@@ -76,7 +75,7 @@
     IBOutlet NSButton *impDropCheckBox;
     IBOutlet NSButton *impHeaderlineCheckBox;
     IBOutlet NSTokenField *impFieldsTextField;
-    IBOutlet BWInsetTextField *impResultsTextField;
+    IBOutlet NSTextField *impResultsTextField;
     IBOutlet NSTextField *impPathTextField;
     IBOutlet NSPopUpButton *impTypePopUpButton;
     IBOutlet NSButton *impJsonArrayCheckBox;
@@ -97,7 +96,7 @@
 @property (nonatomic, retain) NSTextField *skipTextField;
 @property (nonatomic, retain) NSTextField *limitTextField;
 @property (nonatomic, retain) NSTextField *sortTextField;
-@property (nonatomic, retain) BWInsetTextField *totalResultsTextField;
+@property (nonatomic, retain) NSTextField *totalResultsTextField;
 @property (nonatomic, retain) NSTextField *findQueryTextField;
 @property (nonatomic, retain) NSOutlineView *findResultsOutlineView;
 @property (nonatomic, retain) NSProgressIndicator *findQueryLoaderIndicator;
@@ -105,17 +104,17 @@
 @property (nonatomic, retain) NSTextField *updateCriticalTextField;
 @property (nonatomic, retain) NSTextField *updateSetTextField;
 @property (nonatomic, retain) NSButton *upsetCheckBox;
-@property (nonatomic, retain) BWInsetTextField *updateResultsTextField;
+@property (nonatomic, retain) NSTextField *updateResultsTextField;
 @property (nonatomic, retain) NSTextField *updateQueryTextField;
 @property (nonatomic, retain) NSProgressIndicator *updateQueryLoaderIndicator;
 
 @property (nonatomic, retain) NSTextField *removeCriticalTextField;
-@property (nonatomic, retain) BWInsetTextField *removeResultsTextField;
+@property (nonatomic, retain) NSTextField *removeResultsTextField;
 @property (nonatomic, retain) NSTextField *removeQueryTextField;
 @property (nonatomic, retain) NSProgressIndicator *removeQueryLoaderIndicator;
 
 @property (nonatomic, retain) NSTextView *insertDataTextView;
-@property (nonatomic, retain) BWInsetTextField *insertResultsTextField;
+@property (nonatomic, retain) NSTextField *insertResultsTextField;
 @property (nonatomic, retain) NSProgressIndicator *insertLoaderIndicator;
 
 @property (nonatomic, retain) NSTextField *indexTextField;
@@ -134,7 +133,7 @@
 @property (nonatomic, retain) NSTextField *expSkipTextField;
 @property (nonatomic, retain) NSTextField *expLimitTextField;
 @property (nonatomic, retain) NSTextField *expSortTextField;
-@property (nonatomic, retain) BWInsetTextField *expResultsTextField;
+@property (nonatomic, retain) NSTextField *expResultsTextField;
 @property (nonatomic, retain) NSTextField *expPathTextField;
 @property (nonatomic, retain) NSPopUpButton *expTypePopUpButton;
 @property (nonatomic, retain) NSTextField *expQueryTextField;
@@ -145,7 +144,7 @@
 @property (nonatomic, retain) NSButton *impDropCheckBox;
 @property (nonatomic, retain) NSButton *impHeaderlineCheckBox;
 @property (nonatomic, retain) NSTokenField *impFieldsTextField;
-@property (nonatomic, retain) BWInsetTextField *impResultsTextField;
+@property (nonatomic, retain) NSTextField *impResultsTextField;
 @property (nonatomic, retain) NSTextField *impPathTextField;
 @property (nonatomic, retain) NSPopUpButton *impTypePopUpButton;
 @property (nonatomic, retain) NSButton *impJsonArrayCheckBox;

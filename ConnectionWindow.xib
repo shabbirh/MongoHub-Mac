@@ -7,17 +7,8 @@
 		<string key="IBDocument.AppKitVersion">1038.35</string>
 		<string key="IBDocument.HIToolboxVersion">461.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
-			<bool key="EncodedWithXMLCoder">YES</bool>
-			<object class="NSArray" key="dict.sortedKeys">
-				<bool key="EncodedWithXMLCoder">YES</bool>
-				<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string>com.brandonwalkin.BWToolkit</string>
-			</object>
-			<object class="NSMutableArray" key="dict.values">
-				<bool key="EncodedWithXMLCoder">YES</bool>
-				<string>804</string>
-				<string>1.2.5</string>
-			</object>
+			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin</string>
+			<string key="NS.object.0">823</string>
 		</object>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -25,7 +16,6 @@
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<string>com.brandonwalkin.BWToolkit</string>
 			<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 		</object>
 		<object class="NSMutableDictionary" key="IBDocument.Metadata">
@@ -370,19 +360,19 @@
 									<int key="NSvFlags">256</int>
 									<object class="NSMutableArray" key="NSSubviews">
 										<bool key="EncodedWithXMLCoder">YES</bool>
-										<object class="BWAnchoredButtonBar" id="1037195992">
+										<object class="NSView" id="1037195992">
 											<reference key="NSNextResponder" ref="902110123"/>
 											<int key="NSvFlags">290</int>
 											<object class="NSMutableArray" key="NSSubviews">
 												<bool key="EncodedWithXMLCoder">YES</bool>
-												<object class="BWAnchoredButton" id="407372034">
+												<object class="NSButton" id="407372034">
 													<reference key="NSNextResponder" ref="1037195992"/>
 													<int key="NSvFlags">268</int>
 													<string key="NSFrame">{{-1, -1}, {32, 24}}</string>
 													<reference key="NSSuperview" ref="1037195992"/>
 													<int key="NSViewLayerContentsRedrawPolicy">2</int>
 													<bool key="NSEnabled">YES</bool>
-													<object class="BWAnchoredButtonCell" key="NSCell" id="663688743">
+													<object class="NSButtonCell" key="NSCell" id="663688743">
 														<int key="NSCellFlags">67239424</int>
 														<int key="NSCellFlags2">134348800</int>
 														<string key="NSContents"/>
@@ -404,14 +394,14 @@
 														<int key="NSPeriodicInterval">25</int>
 													</object>
 												</object>
-												<object class="BWAnchoredButton" id="609356514">
+												<object class="NSButton" id="609356514">
 													<reference key="NSNextResponder" ref="1037195992"/>
 													<int key="NSvFlags">268</int>
 													<string key="NSFrame">{{30, -1}, {32, 24}}</string>
 													<reference key="NSSuperview" ref="1037195992"/>
 													<int key="NSViewLayerContentsRedrawPolicy">2</int>
 													<bool key="NSEnabled">YES</bool>
-													<object class="BWAnchoredButtonCell" key="NSCell" id="567446752">
+													<object class="NSButtonCell" key="NSCell" id="567446752">
 														<int key="NSCellFlags">67239424</int>
 														<int key="NSCellFlags2">134348800</int>
 														<string key="NSContents"/>
@@ -429,13 +419,13 @@
 														<int key="NSPeriodicInterval">25</int>
 													</object>
 												</object>
-												<object class="BWAnchoredButton" id="340130358">
+												<object class="NSButton" id="340130358">
 													<reference key="NSNextResponder" ref="1037195992"/>
 													<int key="NSvFlags">268</int>
 													<string key="NSFrame">{{61, -1}, {32, 24}}</string>
 													<reference key="NSSuperview" ref="1037195992"/>
 													<bool key="NSEnabled">YES</bool>
-													<object class="BWAnchoredButtonCell" key="NSCell" id="151528941">
+													<object class="NSButtonCell" key="NSCell" id="151528941">
 														<int key="NSCellFlags">67239424</int>
 														<int key="NSCellFlags2">134348800</int>
 														<string key="NSContents"/>
@@ -626,7 +616,7 @@
 									<int key="NSvFlags">258</int>
 									<object class="NSMutableArray" key="NSSubviews">
 										<bool key="EncodedWithXMLCoder">YES</bool>
-										<object class="BWGradientBox" id="345892757">
+										<object class="NSView" id="345892757">
 											<reference key="NSNextResponder" ref="282820595"/>
 											<int key="NSvFlags">266</int>
 											<object class="NSMutableArray" key="NSSubviews">
@@ -998,7 +988,7 @@
 			<object class="NSCustomObject" id="668400839">
 				<string key="NSClassName">ResultsOutlineViewController</string>
 			</object>
-			<object class="BWSheetController" id="1011624834">
+			<object class="NSView" id="1011624834">
 				<object class="NSWindowController" key="BWSCSheet">
 					<nil key="NSNextResponder"/>
 					<bool key="NSShouldCascadeWindows">YES</bool>
@@ -1111,7 +1101,7 @@ Y2xvc2UuY29tLwpUd2l0dGVyOiBodHRwOi8vdHdpdHRlci5jb20vYnVidWJhLw</string>
 				<string key="NSScreenRect">{{0, 0}, {1280, 778}}</string>
 				<string key="NSMaxSize">{3.40282e+38, 3.40282e+38}</string>
 			</object>
-			<object class="BWSheetController" id="1003444833">
+			<object class="NSView" id="1003444833">
 				<object class="NSWindowController" key="BWSCSheet">
 					<nil key="NSNextResponder"/>
 					<bool key="NSShouldCascadeWindows">YES</bool>
@@ -1135,13 +1125,13 @@ Y2xvc2UuY29tLwpUd2l0dGVyOiBodHRwOi8vdHdpdHRlci5jb20vYnVidWJhLw</string>
 					<int key="NSvFlags">256</int>
 					<object class="NSMutableArray" key="NSSubviews">
 						<bool key="EncodedWithXMLCoder">YES</bool>
-						<object class="BWTransparentButton" id="403886189">
+						<object class="NSButton" id="403886189">
 							<reference key="NSNextResponder" ref="958987387"/>
 							<int key="NSvFlags">288</int>
 							<string key="NSFrame">{{275, -4}, {203, 28}}</string>
 							<reference key="NSSuperview" ref="958987387"/>
 							<bool key="NSEnabled">YES</bool>
-							<object class="BWTransparentButtonCell" key="NSCell" id="759008758">
+							<object class="NSButtonCell" key="NSCell" id="759008758">
 								<int key="NSCellFlags">67239424</int>
 								<int key="NSCellFlags2">134348800</int>
 								<string key="NSContents">Close</string>
@@ -1155,7 +1145,7 @@ Y2xvc2UuY29tLwpUd2l0dGVyOiBodHRwOi8vdHdpdHRlci5jb20vYnVidWJhLw</string>
 								<int key="NSPeriodicInterval">25</int>
 							</object>
 						</object>
-						<object class="BWTransparentScrollView" id="224845832">
+						<object class="NSScrollView" id="224845832">
 							<reference key="NSNextResponder" ref="958987387"/>
 							<int key="NSvFlags">4370</int>
 							<object class="NSMutableArray" key="NSSubviews">
@@ -1165,7 +1155,7 @@ Y2xvc2UuY29tLwpUd2l0dGVyOiBodHRwOi8vdHdpdHRlci5jb20vYnVidWJhLw</string>
 									<int key="NSvFlags">2304</int>
 									<object class="NSMutableArray" key="NSSubviews">
 										<bool key="EncodedWithXMLCoder">YES</bool>
-										<object class="BWTransparentTableView" id="958138322">
+										<object class="NSTableView" id="958138322">
 											<reference key="NSNextResponder" ref="937201662"/>
 											<int key="NSvFlags">4352</int>
 											<string key="NSFrameSize">{751, 247}</string>
@@ -1202,7 +1192,7 @@ Y2xvc2UuY29tLwpUd2l0dGVyOiBodHRwOi8vdHdpdHRlci5jb20vYnVidWJhLw</string>
 														</object>
 														<reference key="NSTextColor" ref="420603825"/>
 													</object>
-													<object class="BWTransparentTableViewCell" key="NSDataCell" id="975923282">
+													<object class="NSCell" key="NSDataCell" id="975923282">
 														<int key="NSCellFlags">337772096</int>
 														<int key="NSCellFlags2">-2147481600</int>
 														<string key="NSContents">Text Cell</string>
@@ -1305,7 +1295,7 @@ Y2xvc2UuY29tLwpUd2l0dGVyOiBodHRwOi8vdHdpdHRlci5jb20vYnVidWJhLw</string>
 														<reference key="NSBackgroundColor" ref="727837888"/>
 														<reference key="NSTextColor" ref="420603825"/>
 													</object>
-													<object class="BWTransparentTableViewCell" key="NSDataCell" id="879351539">
+													<object class="NSCell" key="NSDataCell" id="879351539">
 														<int key="NSCellFlags">67239424</int>
 														<int key="NSCellFlags2">-2147483648</int>
 														<string key="NSContents">Field</string>
@@ -1381,7 +1371,7 @@ Y2xvc2UuY29tLwpUd2l0dGVyOiBodHRwOi8vdHdpdHRlci5jb20vYnVidWJhLw</string>
 														<reference key="NSBackgroundColor" ref="727837888"/>
 														<reference key="NSTextColor" ref="420603825"/>
 													</object>
-													<object class="BWTransparentTableViewCell" key="NSDataCell" id="736334489">
+													<object class="NSCell" key="NSDataCell" id="736334489">
 														<int key="NSCellFlags">67239424</int>
 														<int key="NSCellFlags2">-2147483648</int>
 														<string key="NSContents">Field</string>
@@ -1457,7 +1447,7 @@ Y2xvc2UuY29tLwpUd2l0dGVyOiBodHRwOi8vdHdpdHRlci5jb20vYnVidWJhLw</string>
 														<reference key="NSBackgroundColor" ref="727837888"/>
 														<reference key="NSTextColor" ref="420603825"/>
 													</object>
-													<object class="BWTransparentTableViewCell" key="NSDataCell" id="162799547">
+													<object class="NSCell" key="NSDataCell" id="162799547">
 														<int key="NSCellFlags">604110336</int>
 														<int key="NSCellFlags2">-2147483648</int>
 														<string key="NSContents">Field</string>
@@ -1533,7 +1523,7 @@ Y2xvc2UuY29tLwpUd2l0dGVyOiBodHRwOi8vdHdpdHRlci5jb20vYnVidWJhLw</string>
 														<reference key="NSBackgroundColor" ref="727837888"/>
 														<reference key="NSTextColor" ref="420603825"/>
 													</object>
-													<object class="BWTransparentTableViewCell" key="NSDataCell" id="569848948">
+													<object class="NSCell" key="NSDataCell" id="569848948">
 														<int key="NSCellFlags">67239424</int>
 														<int key="NSCellFlags2">-2147483648</int>
 														<string key="NSContents">Field</string>
@@ -1609,7 +1599,7 @@ Y2xvc2UuY29tLwpUd2l0dGVyOiBodHRwOi8vdHdpdHRlci5jb20vYnVidWJhLw</string>
 														<reference key="NSBackgroundColor" ref="727837888"/>
 														<reference key="NSTextColor" ref="420603825"/>
 													</object>
-													<object class="BWTransparentTableViewCell" key="NSDataCell" id="704423481">
+													<object class="NSCell" key="NSDataCell" id="704423481">
 														<int key="NSCellFlags">67239424</int>
 														<int key="NSCellFlags2">-2147483648</int>
 														<string key="NSContents">Field</string>
@@ -1685,7 +1675,7 @@ Y2xvc2UuY29tLwpUd2l0dGVyOiBodHRwOi8vdHdpdHRlci5jb20vYnVidWJhLw</string>
 														<reference key="NSBackgroundColor" ref="727837888"/>
 														<reference key="NSTextColor" ref="420603825"/>
 													</object>
-													<object class="BWTransparentTableViewCell" key="NSDataCell" id="674020842">
+													<object class="NSCell" key="NSDataCell" id="674020842">
 														<int key="NSCellFlags">67239424</int>
 														<int key="NSCellFlags2">-2147483648</int>
 														<string key="NSContents">Field</string>
@@ -1761,7 +1751,7 @@ Y2xvc2UuY29tLwpUd2l0dGVyOiBodHRwOi8vdHdpdHRlci5jb20vYnVidWJhLw</string>
 														<reference key="NSBackgroundColor" ref="727837888"/>
 														<reference key="NSTextColor" ref="420603825"/>
 													</object>
-													<object class="BWTransparentTableViewCell" key="NSDataCell" id="403748793">
+													<object class="NSCell" key="NSDataCell" id="403748793">
 														<int key="NSCellFlags">67239424</int>
 														<int key="NSCellFlags2">-2147483648</int>
 														<string key="NSContents">Field</string>
@@ -1837,7 +1827,7 @@ Y2xvc2UuY29tLwpUd2l0dGVyOiBodHRwOi8vdHdpdHRlci5jb20vYnVidWJhLw</string>
 														<reference key="NSBackgroundColor" ref="727837888"/>
 														<reference key="NSTextColor" ref="420603825"/>
 													</object>
-													<object class="BWTransparentTableViewCell" key="NSDataCell" id="679877209">
+													<object class="NSCell" key="NSDataCell" id="679877209">
 														<int key="NSCellFlags">67239424</int>
 														<int key="NSCellFlags2">-2147483648</int>
 														<string key="NSContents">Field</string>
@@ -1913,7 +1903,7 @@ Y2xvc2UuY29tLwpUd2l0dGVyOiBodHRwOi8vdHdpdHRlci5jb20vYnVidWJhLw</string>
 														<reference key="NSBackgroundColor" ref="727837888"/>
 														<reference key="NSTextColor" ref="420603825"/>
 													</object>
-													<object class="BWTransparentTableViewCell" key="NSDataCell" id="136220058">
+													<object class="NSCell" key="NSDataCell" id="136220058">
 														<int key="NSCellFlags">67239424</int>
 														<int key="NSCellFlags2">-2147483648</int>
 														<string key="NSContents">Field</string>
@@ -1989,7 +1979,7 @@ Y2xvc2UuY29tLwpUd2l0dGVyOiBodHRwOi8vdHdpdHRlci5jb20vYnVidWJhLw</string>
 														<reference key="NSBackgroundColor" ref="727837888"/>
 														<reference key="NSTextColor" ref="420603825"/>
 													</object>
-													<object class="BWTransparentTableViewCell" key="NSDataCell" id="856557891">
+													<object class="NSCell" key="NSDataCell" id="856557891">
 														<int key="NSCellFlags">67239424</int>
 														<int key="NSCellFlags2">-2147483648</int>
 														<string key="NSContents">Field</string>
@@ -2067,7 +2057,7 @@ Y2xvc2UuY29tLwpUd2l0dGVyOiBodHRwOi8vdHdpdHRlci5jb20vYnVidWJhLw</string>
 														<reference key="NSBackgroundColor" ref="727837888"/>
 														<reference key="NSTextColor" ref="420603825"/>
 													</object>
-													<object class="BWTransparentTableViewCell" key="NSDataCell" id="609578219">
+													<object class="NSCell" key="NSDataCell" id="609578219">
 														<int key="NSCellFlags">67239424</int>
 														<int key="NSCellFlags2">-2147483648</int>
 														<string key="NSContents">Field</string>
@@ -2143,7 +2133,7 @@ Y2xvc2UuY29tLwpUd2l0dGVyOiBodHRwOi8vdHdpdHRlci5jb20vYnVidWJhLw</string>
 														<reference key="NSBackgroundColor" ref="727837888"/>
 														<reference key="NSTextColor" ref="420603825"/>
 													</object>
-													<object class="BWTransparentTableViewCell" key="NSDataCell" id="69192475">
+													<object class="NSCell" key="NSDataCell" id="69192475">
 														<int key="NSCellFlags">67239424</int>
 														<int key="NSCellFlags2">-2147483648</int>
 														<string key="NSContents">Field</string>
@@ -2219,7 +2209,7 @@ Y2xvc2UuY29tLwpUd2l0dGVyOiBodHRwOi8vdHdpdHRlci5jb20vYnVidWJhLw</string>
 														<reference key="NSBackgroundColor" ref="727837888"/>
 														<reference key="NSTextColor" ref="420603825"/>
 													</object>
-													<object class="BWTransparentTableViewCell" key="NSDataCell" id="403675818">
+													<object class="NSCell" key="NSDataCell" id="403675818">
 														<int key="NSCellFlags">67239424</int>
 														<int key="NSCellFlags2">-2147483648</int>
 														<string key="NSContents">Field</string>
@@ -2279,7 +2269,7 @@ Y2xvc2UuY29tLwpUd2l0dGVyOiBodHRwOi8vdHdpdHRlci5jb20vYnVidWJhLw</string>
 									</object>
 									<int key="NScvFlags">4</int>
 								</object>
-								<object class="BWTransparentScroller" id="1049197551">
+								<object class="NSScroller" id="1049197551">
 									<reference key="NSNextResponder" ref="224845832"/>
 									<int key="NSvFlags">-2147483392</int>
 									<string key="NSFrame">{{-100, -100}, {15, 120}}</string>
@@ -2686,7 +2676,7 @@ Y2xvc2UuY29tLwpUd2l0dGVyOiBodHRwOi8vdHdpdHRlci5jb20vYnVidWJhLw</string>
 						<object class="NSMutableArray" key="children">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<reference ref="1006"/>
-							<object class="BWSelectableToolbarHelper" id="46784786">
+							<object class="NSView" id="46784786">
 								<object class="NSDictionary" key="BWSTHContentViewsByIdentifier">
 									<string key="NS.key.0">0D5950D1-D4A8-44C6-9DBC-251CFEF852E2</string>
 									<reference key="NS.object.0" ref="1006"/>
@@ -4032,7 +4022,7 @@ ZQCUhAEqhIQMe19OU1NpemU9ZmZ9moFaAoF2AYaGA</bytes>
 							<string>DatabasesArrayController</string>
 							<string>NSProgressIndicator</string>
 							<string>NSButton</string>
-							<string>BWSheetController</string>
+							<string>NSView</string>
 							<string>NSButton</string>
 							<string>ResultsOutlineViewController</string>
 							<string>NSTextField</string>
@@ -4075,7 +4065,7 @@ ZQCUhAEqhIQMe19OU1NpemU9ZmZ9moFaAoF2AYaGA</bytes>
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">monitorSheetController</string>
-								<string key="candidateClassName">BWSheetController</string>
+								<string key="candidateClassName">NSView</string>
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">reconnectButton</string>
@@ -4198,7 +4188,7 @@ ZQCUhAEqhIQMe19OU1NpemU9ZmZ9moFaAoF2AYaGA</bytes>
 			<object class="NSMutableArray" key="referencedPartialClassDescriptionsV3.2+">
 				<bool key="EncodedWithXMLCoder">YES</bool>
 				<object class="IBPartialClassDescription">
-					<string key="className">BWAnchoredButton</string>
+					<string key="className">NSButton</string>
 					<string key="superclassName">NSButton</string>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBFrameworkSource</string>
@@ -4206,7 +4196,7 @@ ZQCUhAEqhIQMe19OU1NpemU9ZmZ9moFaAoF2AYaGA</bytes>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
-					<string key="className">BWAnchoredButtonBar</string>
+					<string key="className">NSView</string>
 					<string key="superclassName">NSView</string>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBFrameworkSource</string>
@@ -4214,7 +4204,7 @@ ZQCUhAEqhIQMe19OU1NpemU9ZmZ9moFaAoF2AYaGA</bytes>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
-					<string key="className">BWAnchoredButtonCell</string>
+					<string key="className">NSButtonCell</string>
 					<string key="superclassName">NSButtonCell</string>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBFrameworkSource</string>
@@ -4222,7 +4212,7 @@ ZQCUhAEqhIQMe19OU1NpemU9ZmZ9moFaAoF2AYaGA</bytes>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
-					<string key="className">BWGradientBox</string>
+					<string key="className">NSView</string>
 					<string key="superclassName">NSView</string>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBFrameworkSource</string>
@@ -4230,7 +4220,7 @@ ZQCUhAEqhIQMe19OU1NpemU9ZmZ9moFaAoF2AYaGA</bytes>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
-					<string key="className">BWSheetController</string>
+					<string key="className">NSView</string>
 					<string key="superclassName">NSObject</string>
 					<object class="NSMutableDictionary" key="actions">
 						<bool key="EncodedWithXMLCoder">YES</bool>
@@ -4316,7 +4306,7 @@ ZQCUhAEqhIQMe19OU1NpemU9ZmZ9moFaAoF2AYaGA</bytes>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
-					<string key="className">BWTransparentButton</string>
+					<string key="className">NSButton</string>
 					<string key="superclassName">NSButton</string>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBFrameworkSource</string>
@@ -4324,7 +4314,7 @@ ZQCUhAEqhIQMe19OU1NpemU9ZmZ9moFaAoF2AYaGA</bytes>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
-					<string key="className">BWTransparentButtonCell</string>
+					<string key="className">NSButtonCell</string>
 					<string key="superclassName">NSButtonCell</string>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBFrameworkSource</string>
@@ -4332,7 +4322,7 @@ ZQCUhAEqhIQMe19OU1NpemU9ZmZ9moFaAoF2AYaGA</bytes>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
-					<string key="className">BWTransparentScrollView</string>
+					<string key="className">NSScrollView</string>
 					<string key="superclassName">NSScrollView</string>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBFrameworkSource</string>
@@ -4340,7 +4330,7 @@ ZQCUhAEqhIQMe19OU1NpemU9ZmZ9moFaAoF2AYaGA</bytes>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
-					<string key="className">BWTransparentScroller</string>
+					<string key="className">NSScroller</string>
 					<string key="superclassName">NSScroller</string>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBFrameworkSource</string>
@@ -4356,7 +4346,7 @@ ZQCUhAEqhIQMe19OU1NpemU9ZmZ9moFaAoF2AYaGA</bytes>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
-					<string key="className">BWTransparentTableViewCell</string>
+					<string key="className">NSCell</string>
 					<string key="superclassName">NSTextFieldCell</string>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBFrameworkSource</string>

@@ -7,17 +7,8 @@
 		<string key="IBDocument.AppKitVersion">1038.35</string>
 		<string key="IBDocument.HIToolboxVersion">461.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
-			<bool key="EncodedWithXMLCoder">YES</bool>
-			<object class="NSArray" key="dict.sortedKeys">
-				<bool key="EncodedWithXMLCoder">YES</bool>
-				<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string>com.brandonwalkin.BWToolkit</string>
-			</object>
-			<object class="NSMutableArray" key="dict.values">
-				<bool key="EncodedWithXMLCoder">YES</bool>
-				<string>804</string>
-				<string>1.2.5</string>
-			</object>
+			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin</string>
+			<string key="NS.object.0">823</string>
 		</object>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -27,7 +18,6 @@
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<string>com.brandonwalkin.BWToolkit</string>
 			<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 		</object>
 		<object class="NSMutableDictionary" key="IBDocument.Metadata">
@@ -64,7 +54,7 @@
 					<int key="NSvFlags">256</int>
 					<object class="NSMutableArray" key="NSSubviews">
 						<bool key="EncodedWithXMLCoder">YES</bool>
-						<object class="BWAddRegularBottomBar" id="942800949">
+						<object class="NSView" id="942800949">
 							<reference key="NSNextResponder" ref="823886803"/>
 							<int key="NSvFlags">268</int>
 							<string key="NSFrame">{{419, 4}, {46, 46}}</string>
@@ -247,7 +237,7 @@
 								<int key="NSPeriodicInterval">75</int>
 							</object>
 						</object>
-						<object class="BWTexturedSlider" id="1487582">
+						<object class="NSView" id="1487582">
 							<reference key="NSNextResponder" ref="823886803"/>
 							<int key="NSvFlags">289</int>
 							<object class="NSMutableArray" key="NSSubviews">
@@ -354,7 +344,7 @@ A</bytes>
 							<string key="NSFrame">{{439, 5}, {146, 21}}</string>
 							<reference key="NSSuperview" ref="823886803"/>
 							<bool key="NSEnabled">YES</bool>
-							<object class="BWTexturedSliderCell" key="NSCell" id="489444332">
+							<object class="NSCell" key="NSCell" id="489444332">
 								<int key="NSCellFlags">-2080244224</int>
 								<int key="NSCellFlags2">0</int>
 								<string key="NSContents"/>
@@ -1164,7 +1154,7 @@ A</bytes>
 				<bool key="NSFilterRestrictsInsertion">YES</bool>
 				<bool key="NSClearsFilterPredicateOnInsertion">YES</bool>
 			</object>
-			<object class="BWSheetController" id="1027787608">
+			<object class="NSView" id="1027787608">
 				<object class="NSWindowController" key="BWSCSheet">
 					<nil key="NSNextResponder"/>
 					<bool key="NSShouldCascadeWindows">YES</bool>
@@ -3451,7 +3441,7 @@ Y2xvc2UuY29tLwpUd2l0dGVyOiBodHRwOi8vdHdpdHRlci5jb20vYnVidWJhLw</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
-					<string key="className">BWTexturedSlider</string>
+					<string key="className">NSView</string>
 					<string key="superclassName">NSSlider</string>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBFrameworkSource</string>
@@ -3459,7 +3449,7 @@ Y2xvc2UuY29tLwpUd2l0dGVyOiBodHRwOi8vdHdpdHRlci5jb20vYnVidWJhLw</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
-					<string key="className">BWTexturedSliderCell</string>
+					<string key="className">NSCell</string>
 					<string key="superclassName">NSSliderCell</string>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBFrameworkSource</string>

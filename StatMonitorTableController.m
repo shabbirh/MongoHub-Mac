@@ -7,7 +7,6 @@
 //
 
 #import "StatMonitorTableController.h"
-#import <BWToolkitFramework/BWToolkitFramework.h>
 
 @implementation StatMonitorTableController
 @synthesize nsMutaryDataObj;

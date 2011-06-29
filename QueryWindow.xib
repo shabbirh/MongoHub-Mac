@@ -7,17 +7,8 @@
 		<string key="IBDocument.AppKitVersion">1038.35</string>
 		<string key="IBDocument.HIToolboxVersion">461.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
-			<bool key="EncodedWithXMLCoder">YES</bool>
-			<object class="NSArray" key="dict.sortedKeys">
-				<bool key="EncodedWithXMLCoder">YES</bool>
-				<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string>com.brandonwalkin.BWToolkit</string>
-			</object>
-			<object class="NSMutableArray" key="dict.values">
-				<bool key="EncodedWithXMLCoder">YES</bool>
-				<string>823</string>
-				<string>1.2.5</string>
-			</object>
+			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin</string>
+			<string key="NS.object.0">823</string>
 		</object>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -25,7 +16,6 @@
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<string>com.brandonwalkin.BWToolkit</string>
 			<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 		</object>
 		<object class="NSMutableDictionary" key="IBDocument.Metadata">
@@ -55,7 +45,7 @@
 				<int key="NSWTFlags">544735232</int>
 				<string key="NSWindowTitle">Query Window</string>
 				<string key="NSWindowClass">NSWindow</string>
-				<object class="BWSelectableToolbar" key="NSViewClass" id="260185323">
+				<object class="NSView" key="NSViewClass" id="260185323">
 					<object class="NSMutableString" key="NSToolbarIdentifier">
 						<characters key="NS.bytes">1A2E632D-6D5F-4FC9-99F2-F98547542279</characters>
 					</object>
@@ -378,7 +368,7 @@
 						<bool key="EncodedWithXMLCoder">YES</bool>
 					</object>
 					<reference key="BWSTDocumentToolbar" ref="260185323"/>
-					<object class="BWSelectableToolbarHelper" key="BWSTHelper" id="621361183">
+					<object class="NSView" key="BWSTHelper" id="621361183">
 						<object class="NSDictionary" key="BWSTHContentViewsByIdentifier">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<object class="NSArray" key="dict.sortedKeys">
@@ -401,7 +391,7 @@
 									<int key="NSvFlags">256</int>
 									<object class="NSMutableArray" key="NSSubviews">
 										<bool key="EncodedWithXMLCoder">YES</bool>
-										<object class="BWGradientBox" id="917702899">
+										<object class="NSView" id="917702899">
 											<reference key="NSNextResponder" ref="371648517"/>
 											<int key="NSvFlags">266</int>
 											<object class="NSMutableArray" key="NSSubviews">
@@ -837,7 +827,7 @@
 											<reference key="NSCornerView" ref="861593585"/>
 											<bytes key="NSScrollAmts">QSAAAEEgAABBmAAAQZgAAA</bytes>
 										</object>
-										<object class="BWAddSmallBottomBar" id="704617840">
+										<object class="NSView" id="704617840">
 											<reference key="NSNextResponder" ref="371648517"/>
 											<int key="NSvFlags">268</int>
 											<string key="NSFrame">{{529, -8}, {46, 46}}</string>
@@ -852,7 +842,7 @@
 									<int key="NSvFlags">256</int>
 									<object class="NSMutableArray" key="NSSubviews">
 										<bool key="EncodedWithXMLCoder">YES</bool>
-										<object class="BWAddSmallBottomBar" id="722731056">
+										<object class="NSView" id="722731056">
 											<reference key="NSNextResponder" ref="414120038"/>
 											<int key="NSvFlags">268</int>
 											<string key="NSFrame">{{478, 15}, {46, 46}}</string>
@@ -866,7 +856,7 @@
 									<int key="NSvFlags">256</int>
 									<object class="NSMutableArray" key="NSSubviews">
 										<bool key="EncodedWithXMLCoder">YES</bool>
-										<object class="BWGradientBox" id="81307590">
+										<object class="NSView" id="81307590">
 											<reference key="NSNextResponder" ref="44873520"/>
 											<int key="NSvFlags">266</int>
 											<object class="NSMutableArray" key="NSSubviews">
@@ -1090,7 +1080,7 @@
 											<float key="BWGBTopInsetAlpha">0.30000001192092896</float>
 											<float key="BWGBBottomInsetAlpha">0.0</float>
 										</object>
-										<object class="BWInsetTextField" id="816505767">
+										<object class="NSTextField" id="816505767">
 											<reference key="NSNextResponder" ref="44873520"/>
 											<int key="NSvFlags">268</int>
 											<string key="NSFrame">{{17, 41}, {530, 22}}</string>
@@ -1112,7 +1102,7 @@
 												<reference key="NSTextColor" ref="1065178334"/>
 											</object>
 										</object>
-										<object class="BWAddSmallBottomBar" id="285200312">
+										<object class="NSView" id="285200312">
 											<reference key="NSNextResponder" ref="44873520"/>
 											<int key="NSvFlags">268</int>
 											<string key="NSFrame">{{498, -34}, {46, 46}}</string>
@@ -1127,7 +1117,7 @@
 									<int key="NSvFlags">256</int>
 									<object class="NSMutableArray" key="NSSubviews">
 										<bool key="EncodedWithXMLCoder">YES</bool>
-										<object class="BWAnchoredButtonBar" id="12054289">
+										<object class="NSView" id="12054289">
 											<reference key="NSNextResponder" ref="460177029"/>
 											<int key="NSvFlags">266</int>
 											<string key="NSFrame">{{0, 183}, {564, 24}}</string>
@@ -1138,7 +1128,7 @@
 											<bool key="BWABBHandleIsRightAligned">NO</bool>
 											<int key="BWABBSelectedIndex">2</int>
 										</object>
-										<object class="BWGradientBox" id="899798158">
+										<object class="NSView" id="899798158">
 											<reference key="NSNextResponder" ref="460177029"/>
 											<int key="NSvFlags">266</int>
 											<object class="NSMutableArray" key="NSSubviews">
@@ -1514,7 +1504,7 @@
 											<int key="NSpiFlags">16392</int>
 											<double key="NSMaxValue">100</double>
 										</object>
-										<object class="BWInsetTextField" id="4825623">
+										<object class="NSTextField" id="4825623">
 											<reference key="NSNextResponder" ref="460177029"/>
 											<int key="NSvFlags">266</int>
 											<string key="NSFrame">{{22, 41}, {530, 22}}</string>
@@ -1540,7 +1530,7 @@
 									<int key="NSvFlags">256</int>
 									<object class="NSMutableArray" key="NSSubviews">
 										<bool key="EncodedWithXMLCoder">YES</bool>
-										<object class="BWAnchoredButtonBar" id="80639105">
+										<object class="NSView" id="80639105">
 											<reference key="NSNextResponder" ref="287179144"/>
 											<int key="NSvFlags">266</int>
 											<object class="NSMutableArray" key="NSSubviews">
@@ -1585,7 +1575,7 @@
 											<bool key="BWABBHandleIsRightAligned">NO</bool>
 											<int key="BWABBSelectedIndex">2</int>
 										</object>
-										<object class="BWGradientBox" id="232027153">
+										<object class="NSView" id="232027153">
 											<reference key="NSNextResponder" ref="287179144"/>
 											<int key="NSvFlags">266</int>
 											<object class="NSMutableArray" key="NSSubviews">
@@ -1738,7 +1728,7 @@
 											<float key="BWGBTopInsetAlpha">0.30000001192092896</float>
 											<float key="BWGBBottomInsetAlpha">0.0</float>
 										</object>
-										<object class="BWInsetTextField" id="271764129">
+										<object class="NSTextField" id="271764129">
 											<reference key="NSNextResponder" ref="287179144"/>
 											<int key="NSvFlags">266</int>
 											<string key="NSFrame">{{17, 38}, {530, 22}}</string>
@@ -1756,7 +1746,7 @@
 												<reference key="NSTextColor" ref="1065178334"/>
 											</object>
 										</object>
-										<object class="BWAddSmallBottomBar" id="713692336">
+										<object class="NSView" id="713692336">
 											<reference key="NSNextResponder" ref="287179144"/>
 											<int key="NSvFlags">268</int>
 											<string key="NSFrame">{{489, 0}, {46, 46}}</string>
@@ -1771,7 +1761,7 @@
 									<int key="NSvFlags">256</int>
 									<object class="NSMutableArray" key="NSSubviews">
 										<bool key="EncodedWithXMLCoder">YES</bool>
-										<object class="BWGradientBox" id="513407379">
+										<object class="NSView" id="513407379">
 											<reference key="NSNextResponder" ref="294761841"/>
 											<int key="NSvFlags">266</int>
 											<object class="NSMutableArray" key="NSSubviews">
@@ -2406,7 +2396,7 @@
 									<int key="NSvFlags">256</int>
 									<object class="NSMutableArray" key="NSSubviews">
 										<bool key="EncodedWithXMLCoder">YES</bool>
-										<object class="BWAnchoredButtonBar" id="31255040">
+										<object class="NSView" id="31255040">
 											<reference key="NSNextResponder" ref="1070887860"/>
 											<int key="NSvFlags">266</int>
 											<object class="NSMutableArray" key="NSSubviews">
@@ -2451,7 +2441,7 @@
 											<bool key="BWABBHandleIsRightAligned">NO</bool>
 											<int key="BWABBSelectedIndex">2</int>
 										</object>
-										<object class="BWGradientBox" id="919596763">
+										<object class="NSView" id="919596763">
 											<reference key="NSNextResponder" ref="1070887860"/>
 											<int key="NSvFlags">266</int>
 											<object class="NSMutableArray" key="NSSubviews">
@@ -2545,7 +2535,7 @@
 											<float key="BWGBTopInsetAlpha">0.30000001192092896</float>
 											<float key="BWGBBottomInsetAlpha">0.0</float>
 										</object>
-										<object class="BWInsetTextField" id="328614474">
+										<object class="NSTextField" id="328614474">
 											<reference key="NSNextResponder" ref="1070887860"/>
 											<int key="NSvFlags">268</int>
 											<string key="NSFrame">{{17, 41}, {530, 22}}</string>
@@ -2563,7 +2553,7 @@
 												<reference key="NSTextColor" ref="1065178334"/>
 											</object>
 										</object>
-										<object class="BWAddSmallBottomBar" id="616465499">
+										<object class="NSView" id="616465499">
 											<reference key="NSNextResponder" ref="1070887860"/>
 											<int key="NSvFlags">268</int>
 											<string key="NSFrame">{{518, 0}, {46, 46}}</string>
@@ -2588,7 +2578,7 @@
 									<int key="NSvFlags">256</int>
 									<object class="NSMutableArray" key="NSSubviews">
 										<bool key="EncodedWithXMLCoder">YES</bool>
-										<object class="BWAnchoredButtonBar" id="797745879">
+										<object class="NSView" id="797745879">
 											<reference key="NSNextResponder" ref="468870748"/>
 											<int key="NSvFlags">266</int>
 											<object class="NSMutableArray" key="NSSubviews">
@@ -2623,7 +2613,7 @@
 											<bool key="BWABBHandleIsRightAligned">NO</bool>
 											<int key="BWABBSelectedIndex">2</int>
 										</object>
-										<object class="BWGradientBox" id="266484159">
+										<object class="NSView" id="266484159">
 											<reference key="NSNextResponder" ref="468870748"/>
 											<int key="NSvFlags">266</int>
 											<object class="NSMutableArray" key="NSSubviews">
@@ -3147,7 +3137,7 @@
 											<int key="NSpiFlags">16392</int>
 											<double key="NSMaxValue">100</double>
 										</object>
-										<object class="BWInsetTextField" id="796198903">
+										<object class="NSTextField" id="796198903">
 											<reference key="NSNextResponder" ref="468870748"/>
 											<int key="NSvFlags">266</int>
 											<string key="NSFrame">{{22, 39}, {530, 22}}</string>
@@ -3203,7 +3193,7 @@ NzEtREU1Qi00NTU3LUExMDQtMTIzQ0ZFMTQxQjdFhpKEmJmZmoE0AoGeAYaGA</bytes>
 					<int key="NSvFlags">256</int>
 					<object class="NSMutableArray" key="NSSubviews">
 						<bool key="EncodedWithXMLCoder">YES</bool>
-						<object class="BWAnchoredButtonBar" id="1030582539">
+						<object class="NSView" id="1030582539">
 							<reference key="NSNextResponder" ref="1006"/>
 							<int key="NSvFlags">266</int>
 							<object class="NSMutableArray" key="NSSubviews">
@@ -3248,7 +3238,7 @@ NzEtREU1Qi00NTU3LUExMDQtMTIzQ0ZFMTQxQjdFhpKEmJmZmoE0AoGeAYaGA</bytes>
 							<bool key="BWABBHandleIsRightAligned">NO</bool>
 							<int key="BWABBSelectedIndex">2</int>
 						</object>
-						<object class="BWGradientBox" id="976459818">
+						<object class="NSView" id="976459818">
 							<reference key="NSNextResponder" ref="1006"/>
 							<int key="NSvFlags">266</int>
 							<object class="NSMutableArray" key="NSSubviews">
@@ -3781,7 +3771,7 @@ NzEtREU1Qi00NTU3LUExMDQtMTIzQ0ZFMTQxQjdFhpKEmJmZmoE0AoGeAYaGA</bytes>
 							<reference key="NSCornerView" ref="276746599"/>
 							<bytes key="NSScrollAmts">QSAAAEEgAABBmAAAQZgAAA</bytes>
 						</object>
-						<object class="BWInsetTextField" id="1046656330">
+						<object class="NSTextField" id="1046656330">
 							<reference key="NSNextResponder" ref="1006"/>
 							<int key="NSvFlags">292</int>
 							<string key="NSFrame">{{17, 4}, {193, 14}}</string>
@@ -3799,7 +3789,7 @@ NzEtREU1Qi00NTU3LUExMDQtMTIzQ0ZFMTQxQjdFhpKEmJmZmoE0AoGeAYaGA</bytes>
 								<reference key="NSTextColor" ref="1065178334"/>
 							</object>
 						</object>
-						<object class="BWAddSmallBottomBar" id="188284080">
+						<object class="NSView" id="188284080">
 							<reference key="NSNextResponder" ref="1006"/>
 							<int key="NSvFlags">268</int>
 							<string key="NSFrame">{{526, -12}, {46, 46}}</string>
@@ -7688,7 +7678,7 @@ NzEtREU1Qi00NTU3LUExMDQtMTIzQ0ZFMTQxQjdFhpKEmJmZmoE0AoGeAYaGA</bytes>
 							<string>NSTextField</string>
 							<string>NSProgressIndicator</string>
 							<string>NSTextField</string>
-							<string>BWInsetTextField</string>
+							<string>NSTextField</string>
 							<string>NSTextField</string>
 							<string>NSTextField</string>
 							<string>NSPopUpButton</string>
@@ -7704,7 +7694,7 @@ NzEtREU1Qi00NTU3LUExMDQtMTIzQ0ZFMTQxQjdFhpKEmJmZmoE0AoGeAYaGA</bytes>
 							<string>NSButton</string>
 							<string>NSTextField</string>
 							<string>NSProgressIndicator</string>
-							<string>BWInsetTextField</string>
+							<string>NSTextField</string>
 							<string>NSButton</string>
 							<string>NSPopUpButton</string>
 							<string>NSProgressIndicator</string>
@@ -7712,7 +7702,7 @@ NzEtREU1Qi00NTU3LUExMDQtMTIzQ0ZFMTQxQjdFhpKEmJmZmoE0AoGeAYaGA</bytes>
 							<string>ResultsOutlineViewController</string>
 							<string>NSTextView</string>
 							<string>NSProgressIndicator</string>
-							<string>BWInsetTextField</string>
+							<string>NSTextField</string>
 							<string>NSTextField</string>
 							<string>NSTextView</string>
 							<string>NSProgressIndicator</string>
@@ -7723,14 +7713,14 @@ NzEtREU1Qi00NTU3LUExMDQtMTIzQ0ZFMTQxQjdFhpKEmJmZmoE0AoGeAYaGA</bytes>
 							<string>NSTextField</string>
 							<string>NSProgressIndicator</string>
 							<string>NSTextField</string>
-							<string>BWInsetTextField</string>
 							<string>NSTextField</string>
 							<string>NSTextField</string>
-							<string>BWInsetTextField</string>
+							<string>NSTextField</string>
+							<string>NSTextField</string>
 							<string>NSTextField</string>
 							<string>NSProgressIndicator</string>
 							<string>NSTextField</string>
-							<string>BWInsetTextField</string>
+							<string>NSTextField</string>
 							<string>NSTextField</string>
 							<string>NSButton</string>
 						</object>
@@ -7829,7 +7819,7 @@ NzEtREU1Qi00NTU3LUExMDQtMTIzQ0ZFMTQxQjdFhpKEmJmZmoE0AoGeAYaGA</bytes>
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">expResultsTextField</string>
-								<string key="candidateClassName">BWInsetTextField</string>
+								<string key="candidateClassName">NSTextField</string>
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">expSkipTextField</string>
@@ -7893,7 +7883,7 @@ NzEtREU1Qi00NTU3LUExMDQtMTIzQ0ZFMTQxQjdFhpKEmJmZmoE0AoGeAYaGA</bytes>
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">impResultsTextField</string>
-								<string key="candidateClassName">BWInsetTextField</string>
+								<string key="candidateClassName">NSTextField</string>
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">impStopOnErrorCheckBox</string>
@@ -7925,7 +7915,7 @@ NzEtREU1Qi00NTU3LUExMDQtMTIzQ0ZFMTQxQjdFhpKEmJmZmoE0AoGeAYaGA</bytes>
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">insertResultsTextField</string>
-								<string key="candidateClassName">BWInsetTextField</string>
+								<string key="candidateClassName">NSTextField</string>
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">limitTextField</string>
@@ -7969,7 +7959,7 @@ NzEtREU1Qi00NTU3LUExMDQtMTIzQ0ZFMTQxQjdFhpKEmJmZmoE0AoGeAYaGA</bytes>
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">removeResultsTextField</string>
-								<string key="candidateClassName">BWInsetTextField</string>
+								<string key="candidateClassName">NSTextField</string>
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">skipTextField</string>
@@ -7981,7 +7971,7 @@ NzEtREU1Qi00NTU3LUExMDQtMTIzQ0ZFMTQxQjdFhpKEmJmZmoE0AoGeAYaGA</bytes>
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">totalResultsTextField</string>
-								<string key="candidateClassName">BWInsetTextField</string>
+								<string key="candidateClassName">NSTextField</string>
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">updateCriticalTextField</string>
@@ -7997,7 +7987,7 @@ NzEtREU1Qi00NTU3LUExMDQtMTIzQ0ZFMTQxQjdFhpKEmJmZmoE0AoGeAYaGA</bytes>
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">updateResultsTextField</string>
-								<string key="candidateClassName">BWInsetTextField</string>
+								<string key="candidateClassName">NSTextField</string>
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">updateSetTextField</string>
@@ -8037,7 +8027,7 @@ NzEtREU1Qi00NTU3LUExMDQtMTIzQ0ZFMTQxQjdFhpKEmJmZmoE0AoGeAYaGA</bytes>
 			<object class="NSMutableArray" key="referencedPartialClassDescriptionsV3.2+">
 				<bool key="EncodedWithXMLCoder">YES</bool>
 				<object class="IBPartialClassDescription">
-					<string key="className">BWAnchoredButtonBar</string>
+					<string key="className">NSView</string>
 					<string key="superclassName">NSView</string>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBFrameworkSource</string>
@@ -8045,7 +8035,7 @@ NzEtREU1Qi00NTU3LUExMDQtMTIzQ0ZFMTQxQjdFhpKEmJmZmoE0AoGeAYaGA</bytes>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
-					<string key="className">BWGradientBox</string>
+					<string key="className">NSView</string>
 					<string key="superclassName">NSView</string>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBFrameworkSource</string>
@@ -8053,7 +8043,7 @@ NzEtREU1Qi00NTU3LUExMDQtMTIzQ0ZFMTQxQjdFhpKEmJmZmoE0AoGeAYaGA</bytes>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
-					<string key="className">BWInsetTextField</string>
+					<string key="className">NSTextField</string>
 					<string key="superclassName">NSTextField</string>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBFrameworkSource</string>
@@ -8061,7 +8051,7 @@ NzEtREU1Qi00NTU3LUExMDQtMTIzQ0ZFMTQxQjdFhpKEmJmZmoE0AoGeAYaGA</bytes>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
-					<string key="className">BWSelectableToolbar</string>
+					<string key="className">NSView</string>
 					<string key="superclassName">NSToolbar</string>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBFrameworkSource</string>

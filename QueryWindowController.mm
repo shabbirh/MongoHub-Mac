@@ -13,7 +13,6 @@
 #import "ResultsOutlineViewController.h"
 #import "Connection.h"
 #import "MongoDB.h"
-#import <BWToolkitFramework/BWToolkitFramework.h>
 #import "NSString+Extras.h"
 #import "JsonWindowController.h"
 #include <fstream>

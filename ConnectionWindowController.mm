@@ -276,6 +276,7 @@
     
     [sidebar removeItem:@"2"];
     [sidebar addSection:@"2" caption:[[selectedDB caption] uppercaseString]];
+    [collections sortUsingSelector:@selector(compare:)];
     unsigned int i = 1;
     for (NSString *collection in collections) {
         [sidebar addChild:@"2" key:[NSString stringWithFormat:@"2.%d", i] caption:collection icon:[NSImage imageNamed:@"collectionicon.png"] action:@selector(useCollection:) target:self];

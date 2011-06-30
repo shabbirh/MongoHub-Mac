@@ -26,6 +26,8 @@
     AddConnectionController *addConnectionController;
     EditConnectionController *editConnectionController;
     IBOutlet NSTextField *bundleVersion;
+  
+    IBOutlet NSPanel *supportPanel;
 }
 
 @property (nonatomic, retain) IBOutlet NSWindow *window;
@@ -50,4 +52,8 @@
 - (IBAction)showConnectionWindow:(id)sender;
 - (BOOL)isOpenedConnection:(Connection *)aConnection;
 - (void)doubleClick:(id)sender;
+
+- (IBAction)openSupportPanel:(id)sender;
+- (IBAction)closeSupportPanel:(id)sender;
+
 @end

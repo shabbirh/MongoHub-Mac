@@ -74,7 +74,6 @@
 							<string key="NSFrame">{{419, 4}, {46, 46}}</string>
 							<reference key="NSSuperview" ref="823886803"/>
 							<reference key="NSWindow"/>
-							<reference key="NSNextKeyView"/>
 						</object>
 						<object class="NSScrollView" id="150140682">
 							<reference key="NSNextResponder" ref="823886803"/>
@@ -249,7 +248,7 @@
 							<string key="NSFrame">{{131, 3}, {29, 25}}</string>
 							<reference key="NSSuperview" ref="823886803"/>
 							<reference key="NSWindow"/>
-							<reference key="NSNextKeyView" ref="906511727"/>
+							<reference key="NSNextKeyView" ref="979567804"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSButtonCell" key="NSCell" id="4294407">
 								<int key="NSCellFlags">-2080244224</int>
@@ -269,7 +268,7 @@
 								<int key="NSPeriodicInterval">75</int>
 							</object>
 						</object>
-						<object class="NSSlider" id="906511727">
+						<object class="NSSlider" id="979567804">
 							<reference key="NSNextResponder" ref="823886803"/>
 							<int key="NSvFlags">268</int>
 							<string key="NSFrame">{{417, 5}, {165, 21}}</string>
@@ -277,11 +276,11 @@
 							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="942800949"/>
 							<bool key="NSEnabled">YES</bool>
-							<object class="NSSliderCell" key="NSCell" id="1043072615">
+							<object class="NSSliderCell" key="NSCell" id="163406566">
 								<int key="NSCellFlags">-2080244224</int>
 								<int key="NSCellFlags2">0</int>
 								<string key="NSContents"/>
-								<reference key="NSControlView" ref="906511727"/>
+								<reference key="NSControlView" ref="979567804"/>
 								<double key="NSMaxValue">100</double>
 								<double key="NSMinValue">0.0</double>
 								<double key="NSValue">50</double>
@@ -1164,7 +1163,7 @@
 							<string key="NSFrame">{{17, 42}, {297, 61}}</string>
 							<reference key="NSSuperview" ref="1023384553"/>
 							<reference key="NSWindow"/>
-							<reference key="NSNextKeyView" ref="909020646"/>
+							<reference key="NSNextKeyView" ref="300083118"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSTextFieldCell" key="NSCell" id="999096815">
 								<int key="NSCellFlags">67239424</int>
@@ -1184,20 +1183,19 @@ Y2xvc2UuY29tLwpUd2l0dGVyOiBodHRwOi8vdHdpdHRlci5jb20vYnVidWJhLw</string>
 								</object>
 							</object>
 						</object>
-						<object class="NSButton" id="909020646">
+						<object class="NSButton" id="300083118">
 							<reference key="NSNextResponder" ref="1023384553"/>
 							<int key="NSvFlags">268</int>
 							<string key="NSFrame">{{127, 18}, {76, 25}}</string>
 							<reference key="NSSuperview" ref="1023384553"/>
 							<reference key="NSWindow"/>
-							<reference key="NSNextKeyView"/>
 							<bool key="NSEnabled">YES</bool>
-							<object class="NSButtonCell" key="NSCell" id="64758709">
+							<object class="NSButtonCell" key="NSCell" id="150698888">
 								<int key="NSCellFlags">-2080244224</int>
 								<int key="NSCellFlags2">134217728</int>
 								<string key="NSContents">Close</string>
 								<reference key="NSSupport" ref="298605651"/>
-								<reference key="NSControlView" ref="909020646"/>
+								<reference key="NSControlView" ref="300083118"/>
 								<int key="NSButtonFlags">-2038152961</int>
 								<int key="NSButtonFlags2">163</int>
 								<string key="NSAlternateContents"/>
@@ -1541,14 +1539,6 @@ Y2xvc2UuY29tLwpUd2l0dGVyOiBodHRwOi8vdHdpdHRlci5jb20vYnVidWJhLw</string>
 					<int key="connectionID">597</int>
 				</object>
 				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">openSheet:</string>
-						<reference key="source" ref="1027787608"/>
-						<reference key="destination" ref="743093781"/>
-					</object>
-					<int key="connectionID">598</int>
-				</object>
-				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
 						<string key="label">enabled: selectedObjects.@count</string>
 						<reference key="source" ref="56244733"/>
@@ -1852,6 +1842,30 @@ Y2xvc2UuY29tLwpUd2l0dGVyOiBodHRwOi8vdHdpdHRlci5jb20vYnVidWJhLw</string>
 					</object>
 					<int key="connectionID">707</int>
 				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">supportPanel</string>
+						<reference key="source" ref="612578685"/>
+						<reference key="destination" ref="19594474"/>
+					</object>
+					<int key="connectionID">713</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">openSupportPanel:</string>
+						<reference key="source" ref="612578685"/>
+						<reference key="destination" ref="743093781"/>
+					</object>
+					<int key="connectionID">716</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">closeSupportPanel:</string>
+						<reference key="source" ref="612578685"/>
+						<reference key="destination" ref="300083118"/>
+					</object>
+					<int key="connectionID">717</int>
+				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
 				<object class="NSArray" key="orderedObjects">
@@ -1903,7 +1917,7 @@ Y2xvc2UuY29tLwpUd2l0dGVyOiBodHRwOi8vdHdpdHRlci5jb20vYnVidWJhLw</string>
 							<reference ref="726254851"/>
 							<reference ref="150140682"/>
 							<reference ref="425665274"/>
-							<reference ref="906511727"/>
+							<reference ref="979567804"/>
 						</object>
 						<reference key="parent" ref="483958638"/>
 					</object>
@@ -2250,7 +2264,7 @@ Y2xvc2UuY29tLwpUd2l0dGVyOiBodHRwOi8vdHdpdHRlci5jb20vYnVidWJhLw</string>
 							<reference ref="421534884"/>
 							<reference ref="156243666"/>
 							<reference ref="951232171"/>
-							<reference ref="909020646"/>
+							<reference ref="300083118"/>
 						</object>
 						<reference key="parent" ref="19594474"/>
 					</object>
@@ -2656,31 +2670,31 @@ Y2xvc2UuY29tLwpUd2l0dGVyOiBodHRwOi8vdHdpdHRlci5jb20vYnVidWJhLw</string>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">708</int>
-						<reference key="object" ref="906511727"/>
+						<reference key="object" ref="979567804"/>
 						<object class="NSMutableArray" key="children">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<reference ref="1043072615"/>
+							<reference ref="163406566"/>
 						</object>
 						<reference key="parent" ref="823886803"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">709</int>
-						<reference key="object" ref="1043072615"/>
-						<reference key="parent" ref="906511727"/>
+						<reference key="object" ref="163406566"/>
+						<reference key="parent" ref="979567804"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">710</int>
-						<reference key="object" ref="909020646"/>
+						<reference key="object" ref="300083118"/>
 						<object class="NSMutableArray" key="children">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<reference ref="64758709"/>
+							<reference ref="150698888"/>
 						</object>
 						<reference key="parent" ref="1023384553"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">711</int>
-						<reference key="object" ref="64758709"/>
-						<reference key="parent" ref="909020646"/>
+						<reference key="object" ref="150698888"/>
+						<reference key="parent" ref="300083118"/>
 					</object>
 				</object>
 			</object>
@@ -2957,7 +2971,7 @@ Y2xvc2UuY29tLwpUd2l0dGVyOiBodHRwOi8vdHdpdHRlci5jb20vYnVidWJhLw</string>
 				<reference key="dict.values" ref="0"/>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">711</int>
+			<int key="maxID">717</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -3024,9 +3038,11 @@ Y2xvc2UuY29tLwpUd2l0dGVyOiBodHRwOi8vdHdpdHRlci5jb20vYnVidWJhLw</string>
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>addConection:</string>
+							<string>closeSupportPanel:</string>
 							<string>deleteConnection:</string>
 							<string>doubleClick:</string>
 							<string>editConnection:</string>
+							<string>openSupportPanel:</string>
 							<string>resizeConnectionItemView:</string>
 							<string>saveAction:</string>
 							<string>showAddConnectionPanel:</string>
@@ -3035,6 +3051,8 @@ Y2xvc2UuY29tLwpUd2l0dGVyOiBodHRwOi8vdHdpdHRlci5jb20vYnVidWJhLw</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>id</string>
+							<string>id</string>
 							<string>id</string>
 							<string>id</string>
 							<string>id</string>
@@ -3051,9 +3069,11 @@ Y2xvc2UuY29tLwpUd2l0dGVyOiBodHRwOi8vdHdpdHRlci5jb20vYnVidWJhLw</string>
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>addConection:</string>
+							<string>closeSupportPanel:</string>
 							<string>deleteConnection:</string>
 							<string>doubleClick:</string>
 							<string>editConnection:</string>
+							<string>openSupportPanel:</string>
 							<string>resizeConnectionItemView:</string>
 							<string>saveAction:</string>
 							<string>showAddConnectionPanel:</string>
@@ -3067,6 +3087,10 @@ Y2xvc2UuY29tLwpUd2l0dGVyOiBodHRwOi8vdHdpdHRlci5jb20vYnVidWJhLw</string>
 								<string key="candidateClassName">id</string>
 							</object>
 							<object class="IBActionInfo">
+								<string key="name">closeSupportPanel:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
 								<string key="name">deleteConnection:</string>
 								<string key="candidateClassName">id</string>
 							</object>
@@ -3076,6 +3100,10 @@ Y2xvc2UuY29tLwpUd2l0dGVyOiBodHRwOi8vdHdpdHRlci5jb20vYnVidWJhLw</string>
 							</object>
 							<object class="IBActionInfo">
 								<string key="name">editConnection:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">openSupportPanel:</string>
 								<string key="candidateClassName">id</string>
 							</object>
 							<object class="IBActionInfo">
@@ -3107,6 +3135,7 @@ Y2xvc2UuY29tLwpUd2l0dGVyOiBodHRwOi8vdHdpdHRlci5jb20vYnVidWJhLw</string>
 							<string>bundleVersion</string>
 							<string>connectionsArrayController</string>
 							<string>connectionsCollectionView</string>
+							<string>supportPanel</string>
 							<string>window</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
@@ -3114,6 +3143,7 @@ Y2xvc2UuY29tLwpUd2l0dGVyOiBodHRwOi8vdHdpdHRlci5jb20vYnVidWJhLw</string>
 							<string>NSTextField</string>
 							<string>ConnectionsArrayController</string>
 							<string>ConnectionsCollectionView</string>
+							<string>NSPanel</string>
 							<string>NSWindow</string>
 						</object>
 					</object>
@@ -3124,6 +3154,7 @@ Y2xvc2UuY29tLwpUd2l0dGVyOiBodHRwOi8vdHdpdHRlci5jb20vYnVidWJhLw</string>
 							<string>bundleVersion</string>
 							<string>connectionsArrayController</string>
 							<string>connectionsCollectionView</string>
+							<string>supportPanel</string>
 							<string>window</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
@@ -3139,6 +3170,10 @@ Y2xvc2UuY29tLwpUd2l0dGVyOiBodHRwOi8vdHdpdHRlci5jb20vYnVidWJhLw</string>
 							<object class="IBToOneOutletInfo">
 								<string key="name">connectionsCollectionView</string>
 								<string key="candidateClassName">ConnectionsCollectionView</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">supportPanel</string>
+								<string key="candidateClassName">NSPanel</string>
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">window</string>

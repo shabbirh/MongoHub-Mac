@@ -391,4 +391,19 @@
     return NO;
 }
 
+- (void)openSupportPanel:(id)sender
+{
+    [NSApp beginSheet:supportPanel modalForWindow:window modalDelegate:self didEndSelector:@selector(supportPanelDidEnd:returnCode:contextInfo:) contextInfo:nil];
+}
+
+- (void)supportPanelDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo
+{
+    [sheet close];
+}
+
+- (IBAction)closeSupportPanel:(id)sender
+{
+    [NSApp endSheet:supportPanel];
+}
+
 @end

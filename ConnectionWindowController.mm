@@ -11,7 +11,7 @@
 #import "NSProgressIndicator+Extras.h"
 #import "ConnectionWindowController.h"
 #import "QueryWindowController.h"
-#import "AddDBController.h";
+#import "AddDBController.h"
 #import "AddCollectionController.h"
 #import "AuthWindowController.h"
 #import "ImportWindowController.h"

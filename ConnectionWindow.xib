@@ -766,7 +766,7 @@
 															<string key="NSFrameSize">{447, 331}</string>
 															<reference key="NSSuperview" ref="99471935"/>
 															<reference key="NSWindow"/>
-															<reference key="NSNextKeyView" ref="281002724"/>
+															<reference key="NSNextKeyView" ref="361755619"/>
 															<int key="NSViewLayerContentsRedrawPolicy">2</int>
 															<bool key="NSEnabled">YES</bool>
 															<object class="NSTableHeaderView" key="NSHeaderView" id="312011680">
@@ -929,6 +929,7 @@
 													<string key="NSFrame">{{431, 17}, {15, 341}}</string>
 													<reference key="NSSuperview" ref="848137174"/>
 													<reference key="NSWindow"/>
+													<reference key="NSNextKeyView"/>
 													<int key="NSViewLayerContentsRedrawPolicy">2</int>
 													<reference key="NSTarget" ref="848137174"/>
 													<string key="NSAction">_doScroller:</string>
@@ -968,7 +969,7 @@
 											<string key="NSFrameSize">{447, 348}</string>
 											<reference key="NSSuperview" ref="282820595"/>
 											<reference key="NSWindow"/>
-											<reference key="NSNextKeyView" ref="99471935"/>
+											<reference key="NSNextKeyView" ref="281002724"/>
 											<int key="NSViewLayerContentsRedrawPolicy">2</int>
 											<int key="NSsFlags">560</int>
 											<reference key="NSVScroller" ref="225477757"/>
@@ -1004,6 +1005,7 @@
 				</object>
 				<string key="NSScreenRect">{{0, 0}, {1680, 1028}}</string>
 				<string key="NSMaxSize">{1e+13, 1e+13}</string>
+				<string key="NSFrameAutosaveName">Connection</string>
 			</object>
 			<object class="NSViewController" id="620861750"/>
 			<object class="NSArrayController" id="348695705">
@@ -1028,12 +1030,14 @@
 				<string key="NSFrameSize">{0, 0}</string>
 				<reference key="NSSuperview"/>
 				<reference key="NSWindow"/>
+				<reference key="NSNextKeyView"/>
 			</object>
 			<object class="NSView" id="1003444833">
 				<reference key="NSNextResponder"/>
 				<string key="NSFrameSize">{0, 0}</string>
 				<reference key="NSSuperview"/>
 				<reference key="NSWindow"/>
+				<reference key="NSNextKeyView"/>
 			</object>
 			<object class="NSWindowTemplate" id="1006716240">
 				<int key="NSWindowStyleMask">8223</int>

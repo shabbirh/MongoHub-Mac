@@ -438,7 +438,7 @@
 									<string key="NSFrame">{{473, 29}, {82, 25}}</string>
 									<reference key="NSSuperview" ref="976459818"/>
 									<reference key="NSWindow"/>
-									<reference key="NSNextKeyView" ref="927110482"/>
+									<reference key="NSNextKeyView" ref="1073259218"/>
 									<bool key="NSEnabled">YES</bool>
 									<object class="NSButtonCell" key="NSCell" id="318174186">
 										<int key="NSCellFlags">-2080244224</int>
@@ -486,7 +486,7 @@
 									<string key="NSFrame">{{407, 4}, {148, 19}}</string>
 									<reference key="NSSuperview" ref="976459818"/>
 									<reference key="NSWindow"/>
-									<reference key="NSNextKeyView" ref="124536108"/>
+									<reference key="NSNextKeyView" ref="927110482"/>
 									<bool key="NSEnabled">YES</bool>
 									<object class="NSTextFieldCell" key="NSCell" id="439104243">
 										<int key="NSCellFlags">-1804468671</int>
@@ -504,7 +504,7 @@
 							<string key="NSFrame">{{0, 322}, {564, 58}}</string>
 							<reference key="NSSuperview" ref="1006"/>
 							<reference key="NSWindow"/>
-							<reference key="NSNextKeyView" ref="1073259218"/>
+							<reference key="NSNextKeyView" ref="124536108"/>
 						</object>
 						<object class="NSScrollView" id="927110482">
 							<reference key="NSNextResponder" ref="1006"/>
@@ -522,7 +522,7 @@
 											<string key="NSFrameSize">{564, 282}</string>
 											<reference key="NSSuperview" ref="1009916102"/>
 											<reference key="NSWindow"/>
-											<reference key="NSNextKeyView" ref="1069618668"/>
+											<reference key="NSNextKeyView" ref="958364523"/>
 											<bool key="NSEnabled">YES</bool>
 											<object class="NSTableHeaderView" key="NSHeaderView" id="980940283">
 												<reference key="NSNextResponder" ref="1069618668"/>
@@ -723,7 +723,7 @@
 							<string key="NSFrame">{{0, 24}, {564, 299}}</string>
 							<reference key="NSSuperview" ref="1006"/>
 							<reference key="NSWindow"/>
-							<reference key="NSNextKeyView" ref="1009916102"/>
+							<reference key="NSNextKeyView" ref="1069618668"/>
 							<int key="NSsFlags">560</int>
 							<reference key="NSVScroller" ref="958364523"/>
 							<reference key="NSHScroller" ref="527548618"/>
@@ -738,7 +738,7 @@
 							<string key="NSFrame">{{17, 4}, {193, 14}}</string>
 							<reference key="NSSuperview" ref="1006"/>
 							<reference key="NSWindow"/>
-							<reference key="NSNextKeyView" ref="891051294"/>
+							<reference key="NSNextKeyView" ref="801002076"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSTextFieldCell" key="NSCell" id="141517712">
 								<int key="NSCellFlags">68288064</int>
@@ -757,7 +757,7 @@
 							<string key="NSFrame">{{526, -12}, {46, 46}}</string>
 							<reference key="NSSuperview" ref="1006"/>
 							<reference key="NSWindow"/>
-							<reference key="NSNextKeyView" ref="1006"/>
+							<reference key="NSNextKeyView"/>
 						</object>
 						<object class="NSButton" id="891051294">
 							<reference key="NSNextResponder" ref="1006"/>
@@ -817,6 +817,7 @@
 							<string key="NSFrame">{{311, 2}, {68, 18}}</string>
 							<reference key="NSSuperview" ref="1006"/>
 							<reference key="NSWindow"/>
+							<reference key="NSNextKeyView" ref="891051294"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSButtonCell" key="NSCell" id="884578119">
 								<int key="NSCellFlags">-2080244224</int>
@@ -844,6 +845,7 @@
 				</object>
 				<string key="NSScreenRect">{{0, 0}, {1680, 1028}}</string>
 				<string key="NSMaxSize">{1e+13, 1e+13}</string>
+				<string key="NSFrameAutosaveName">Query</string>
 			</object>
 			<object class="NSCustomObject" id="727808051">
 				<string key="NSClassName">ResultsOutlineViewController</string>
@@ -4196,7 +4198,6 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 										<int key="NSvFlags">268</int>
 										<string key="NSFrame">{{489, 0}, {46, 46}}</string>
 										<reference key="NSSuperview" ref="287179144"/>
-										<reference key="NSNextKeyView" ref="1006"/>
 									</object>
 								</object>
 								<string key="NSFrameSize">{564, 187}</string>

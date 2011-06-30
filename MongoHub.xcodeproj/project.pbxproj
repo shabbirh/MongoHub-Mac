@@ -166,7 +166,6 @@
 
 /* Begin PBXFileReference section */
 		026B2DE413BB6FB8009BEA7B /* RegexKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = RegexKit.framework; sourceTree = "<group>"; };
-		02FCD3CC13BB9B8300316A9F /* MCPKit_bundled.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = MCPKit_bundled.framework; sourceTree = "<group>"; };
 		02FCD3CE13BB9EA400316A9F /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Sparkle.framework; sourceTree = "<group>"; };
 		02FCD3D713BBA4A300316A9F /* MCPKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = MCPKit.framework; sourceTree = "<group>"; };
 		089C165DFE840E0CC02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -365,7 +364,6 @@
 			children = (
 				02FCD3D713BBA4A300316A9F /* MCPKit.framework */,
 				02FCD3CE13BB9EA400316A9F /* Sparkle.framework */,
-				02FCD3CC13BB9B8300316A9F /* MCPKit_bundled.framework */,
 				026B2DE413BB6FB8009BEA7B /* RegexKit.framework */,
 				1D93C5F511839970003216F7 /* libboost_program_options.a */,
 				1D93C5F311839959003216F7 /* libboost_filesystem.a */,

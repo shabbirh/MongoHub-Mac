@@ -13,7 +13,7 @@
 #import "Connection.h"
 #import "NSString+Extras.h"
 #import "MongoDB.h"
-#import <MCPKit_bundled/MCPKit_bundled.h>
+#import <MCPKit/MCPKit.h>
 #import "FieldMapTableController.h"
 #import "FieldMapDataObject.h"
 
@@ -220,7 +220,7 @@
     [db queryString:@"SET NAMES utf8"];
     [db queryString:@"SET CHARACTER SET utf8"];
     [db queryString:@"SET COLLATION_CONNECTION='utf8_general_ci'"];
-    [db setEncoding:NSUTF8StringEncoding];
+    [db setEncoding:@"utf8"];
     MCPResult *dbs = [db listDBs];
     NSArray *row;
     NSMutableArray *databases = [[NSMutableArray alloc] initWithCapacity:[dbs numOfRows]];

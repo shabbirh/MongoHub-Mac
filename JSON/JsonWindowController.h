@@ -18,7 +18,7 @@
 
 @interface JsonWindowController : NSWindowController <UKSyntaxColoredTextViewDelegate>{
     NSManagedObjectContext *managedObjectContext;
-    DatabasesArrayController *databaseArrayController;
+    DatabasesArrayController *databasesArrayController;
     Connection *conn;
     MongoDB *mongoDB;
     NSString *dbname;

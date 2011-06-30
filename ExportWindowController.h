@@ -7,6 +7,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#undef check
 #import <mongo/client/dbclient.h>
 @class Connection;
 @class DatabasesArrayController;

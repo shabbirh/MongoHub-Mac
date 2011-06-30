@@ -10,10 +10,12 @@
 #import "NSString+Extras.h"
 #import <RegexKit/RegexKit.h>
 #import <mongo/client/dbclient.h>
+#import <mongo/util/sock.h>
 
 @implementation MongoDB
 
 - (id)init {
+    mongo::enableIPv6(true);
     self = [super init];
     return self;
 }

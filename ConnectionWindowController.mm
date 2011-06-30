@@ -236,6 +236,7 @@
     
     [databaseArrayController clean:conn databases:databases];
     [sidebar removeItem:@"2"];
+    [databases sortUsingSelector:@selector(compare:)];
     unsigned int i=1;
     for (NSString *db in databases) {
         [sidebar addChild:@"1" key:[NSString stringWithFormat:@"1.%d", i] caption:db icon:[NSImage imageNamed:@"dbicon.png"] action:@selector(useDB:) target:self];

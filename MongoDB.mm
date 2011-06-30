@@ -12,10 +12,16 @@
 #import <mongo/client/dbclient.h>
 #import <mongo/util/sock.h>
 
+extern "C" {
+    void MongoDB_enableIPv6(bool flag)
+    {
+        mongo::enableIPv6(flag);
+    }
+}
+
 @implementation MongoDB
 
 - (id)init {
-    mongo::enableIPv6(true);
     self = [super init];
     return self;
 }

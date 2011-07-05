@@ -124,6 +124,7 @@ objectValueForTableColumn:(NSTableColumn *)tableColumn
 		case -1:
 			break;
 		default:{
+            break;
             id currentItem = [myOutlineView itemAtRow:[myOutlineView selectedRow]];
             if ([myOutlineView isItemExpanded:currentItem]) {
                 [myOutlineView collapseItem:currentItem collapseChildren:NO];

@@ -149,7 +149,8 @@
         [progressIndicator setDoubleValue:0.0];
         [db release];
     }
-    db = [[MCPConnection alloc] initToHost:[hostTextField stringValue] withLogin:[userTextField stringValue] password:[passwdTextField stringValue] usingPort:[portTextField intValue] ];
+    db = [[MCPConnection alloc] initToHost:[hostTextField stringValue] withLogin:[userTextField stringValue] usingPort:[portTextField intValue]];
+    [db setPassword:[passwdTextField stringValue]];
     NSLog(@"Connect: %d", [db isConnected]);
     if (![db isConnected])
     {

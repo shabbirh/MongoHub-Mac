@@ -3,12 +3,12 @@
 	<data>
 		<int key="IBDocument.SystemTarget">1060</int>
 		<string key="IBDocument.SystemVersion">10K540</string>
-		<string key="IBDocument.InterfaceBuilderVersion">1881</string>
+		<string key="IBDocument.InterfaceBuilderVersion">1306</string>
 		<string key="IBDocument.AppKitVersion">1038.36</string>
 		<string key="IBDocument.HIToolboxVersion">461.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin</string>
-			<string key="NS.object.0">1881</string>
+			<string key="NS.object.0">1306</string>
 		</object>
 		<object class="NSArray" key="IBDocument.IntegratedClassDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -387,7 +387,7 @@
 												<object class="NSButton" id="407372034">
 													<reference key="NSNextResponder" ref="1037195992"/>
 													<int key="NSvFlags">268</int>
-													<string key="NSFrame">{{19, -2}, {29, 25}}</string>
+													<string key="NSFrame">{{-1, -2}, {29, 25}}</string>
 													<reference key="NSSuperview" ref="1037195992"/>
 													<reference key="NSWindow"/>
 													<reference key="NSNextKeyView" ref="609356514"/>
@@ -404,7 +404,7 @@
 														</object>
 														<reference key="NSControlView" ref="407372034"/>
 														<int key="NSButtonFlags">-2033958657</int>
-														<int key="NSButtonFlags2">163</int>
+														<int key="NSButtonFlags2">162</int>
 														<object class="NSCustomResource" key="NSNormalImage">
 															<string key="NSClassName">NSImage</string>
 															<string key="NSResourceName">NSAddTemplate</string>
@@ -418,7 +418,7 @@
 												<object class="NSButton" id="609356514">
 													<reference key="NSNextResponder" ref="1037195992"/>
 													<int key="NSvFlags">268</int>
-													<string key="NSFrame">{{58, -2}, {29, 25}}</string>
+													<string key="NSFrame">{{27, -2}, {29, 25}}</string>
 													<reference key="NSSuperview" ref="1037195992"/>
 													<reference key="NSWindow"/>
 													<reference key="NSNextKeyView" ref="340130358"/>
@@ -431,7 +431,7 @@
 														<reference key="NSSupport" ref="934637630"/>
 														<reference key="NSControlView" ref="609356514"/>
 														<int key="NSButtonFlags">-2033958657</int>
-														<int key="NSButtonFlags2">163</int>
+														<int key="NSButtonFlags2">162</int>
 														<object class="NSCustomResource" key="NSNormalImage">
 															<string key="NSClassName">NSImage</string>
 															<string key="NSResourceName">NSRemoveTemplate</string>
@@ -445,10 +445,10 @@
 												<object class="NSButton" id="340130358">
 													<reference key="NSNextResponder" ref="1037195992"/>
 													<int key="NSvFlags">268</int>
-													<string key="NSFrame">{{97, -2}, {32, 25}}</string>
+													<string key="NSFrame">{{55, -2}, {32, 25}}</string>
 													<reference key="NSSuperview" ref="1037195992"/>
 													<reference key="NSWindow"/>
-													<reference key="NSNextKeyView" ref="282820595"/>
+													<reference key="NSNextKeyView" ref="626659287"/>
 													<bool key="NSEnabled">YES</bool>
 													<object class="NSButtonCell" key="NSCell" id="151528941">
 														<int key="NSCellFlags">67239424</int>
@@ -457,7 +457,7 @@
 														<reference key="NSSupport" ref="934637630"/>
 														<reference key="NSControlView" ref="340130358"/>
 														<int key="NSButtonFlags">-2033958657</int>
-														<int key="NSButtonFlags2">163</int>
+														<int key="NSButtonFlags2">162</int>
 														<object class="NSCustomResource" key="NSNormalImage">
 															<string key="NSClassName">NSImage</string>
 															<string key="NSResourceName">key</string>
@@ -466,6 +466,28 @@
 														<string key="NSKeyEquivalent"/>
 														<int key="NSPeriodicDelay">200</int>
 														<int key="NSPeriodicInterval">25</int>
+													</object>
+												</object>
+												<object class="NSButton" id="626659287">
+													<reference key="NSNextResponder" ref="1037195992"/>
+													<int key="NSvFlags">266</int>
+													<string key="NSFrame">{{86, -2}, {60, 25}}</string>
+													<reference key="NSSuperview" ref="1037195992"/>
+													<reference key="NSWindow"/>
+													<reference key="NSNextKeyView" ref="282820595"/>
+													<bool key="NSEnabled">YES</bool>
+													<object class="NSButtonCell" key="NSCell" id="3319530">
+														<int key="NSCellFlags">-1543373312</int>
+														<int key="NSCellFlags2">134217728</int>
+														<string key="NSContents"/>
+														<reference key="NSSupport" ref="934637630"/>
+														<reference key="NSControlView" ref="626659287"/>
+														<int key="NSButtonFlags">-2033434369</int>
+														<int key="NSButtonFlags2">162</int>
+														<string key="NSAlternateContents"/>
+														<string key="NSKeyEquivalent"/>
+														<int key="NSPeriodicDelay">400</int>
+														<int key="NSPeriodicInterval">75</int>
 													</object>
 												</object>
 											</object>
@@ -997,7 +1019,7 @@
 							<int key="NSDividerStyle">3</int>
 						</object>
 					</object>
-					<string key="NSFrameSize">{602, 374}</string>
+					<string key="NSFrame">{{7, 11}, {602, 374}}</string>
 					<reference key="NSSuperview"/>
 					<reference key="NSWindow"/>
 					<reference key="NSNextKeyView" ref="346949694"/>
@@ -1026,18 +1048,12 @@
 				<string key="NSClassName">ResultsOutlineViewController</string>
 			</object>
 			<object class="NSView" id="1011624834">
-				<reference key="NSNextResponder"/>
+				<nil key="NSNextResponder"/>
 				<string key="NSFrameSize">{0, 0}</string>
-				<reference key="NSSuperview"/>
-				<reference key="NSWindow"/>
-				<reference key="NSNextKeyView"/>
 			</object>
 			<object class="NSView" id="1003444833">
-				<reference key="NSNextResponder"/>
+				<nil key="NSNextResponder"/>
 				<string key="NSFrameSize">{0, 0}</string>
-				<reference key="NSSuperview"/>
-				<reference key="NSWindow"/>
-				<reference key="NSNextKeyView"/>
 			</object>
 			<object class="NSWindowTemplate" id="1006716240">
 				<int key="NSWindowStyleMask">8223</int>
@@ -2603,6 +2619,7 @@
 							<reference ref="407372034"/>
 							<reference ref="609356514"/>
 							<reference ref="340130358"/>
+							<reference ref="626659287"/>
 						</object>
 						<reference key="parent" ref="902110123"/>
 					</object>
@@ -3330,6 +3347,20 @@
 						<reference key="object" ref="19234209"/>
 						<reference key="parent" ref="181436149"/>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">293</int>
+						<reference key="object" ref="626659287"/>
+						<object class="NSMutableArray" key="children">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<reference ref="3319530"/>
+						</object>
+						<reference key="parent" ref="1037195992"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">294</int>
+						<reference key="object" ref="3319530"/>
+						<reference key="parent" ref="626659287"/>
+					</object>
 				</object>
 			</object>
 			<object class="NSMutableDictionary" key="flattenedProperties">
@@ -3462,6 +3493,8 @@
 					<string>289.IBPluginDependency</string>
 					<string>29.IBPluginDependency</string>
 					<string>290.IBPluginDependency</string>
+					<string>293.IBPluginDependency</string>
+					<string>294.IBPluginDependency</string>
 					<string>30.IBPluginDependency</string>
 					<string>31.IBPluginDependency</string>
 					<string>32.IBPluginDependency</string>
@@ -3623,6 +3656,8 @@
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>Sidebar</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -3650,7 +3685,7 @@
 				<reference key="dict.values" ref="0"/>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">292</int>
+			<int key="maxID">294</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">

@@ -143,6 +143,12 @@
     if ([conn.usessh intValue]==1) {
         [NSThread detachNewThreadSelector: @selector(checkTunnel) toTarget:self withObject:nil ];
     }
+    [sidebar setDoubleAction:@selector(sidebarDoubleAction:)];
+}
+
+- (void)sidebarDoubleAction:(id)sidebar
+{
+    [self query:sidebar];
 }
 
 - (IBAction)reconnect:(id)sender

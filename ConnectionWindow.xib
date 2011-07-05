@@ -788,7 +788,7 @@
 															<string key="NSFrameSize">{447, 331}</string>
 															<reference key="NSSuperview" ref="99471935"/>
 															<reference key="NSWindow"/>
-															<reference key="NSNextKeyView" ref="361755619"/>
+															<reference key="NSNextKeyView" ref="281002724"/>
 															<int key="NSViewLayerContentsRedrawPolicy">2</int>
 															<bool key="NSEnabled">YES</bool>
 															<object class="NSTableHeaderView" key="NSHeaderView" id="312011680">
@@ -951,7 +951,6 @@
 													<string key="NSFrame">{{431, 17}, {15, 341}}</string>
 													<reference key="NSSuperview" ref="848137174"/>
 													<reference key="NSWindow"/>
-													<reference key="NSNextKeyView"/>
 													<int key="NSViewLayerContentsRedrawPolicy">2</int>
 													<reference key="NSTarget" ref="848137174"/>
 													<string key="NSAction">_doScroller:</string>
@@ -991,7 +990,7 @@
 											<string key="NSFrameSize">{447, 348}</string>
 											<reference key="NSSuperview" ref="282820595"/>
 											<reference key="NSWindow"/>
-											<reference key="NSNextKeyView" ref="281002724"/>
+											<reference key="NSNextKeyView" ref="99471935"/>
 											<int key="NSViewLayerContentsRedrawPolicy">2</int>
 											<int key="NSsFlags">560</int>
 											<reference key="NSVScroller" ref="225477757"/>
@@ -1051,10 +1050,6 @@
 				<nil key="NSNextResponder"/>
 				<string key="NSFrameSize">{0, 0}</string>
 			</object>
-			<object class="NSView" id="1003444833">
-				<nil key="NSNextResponder"/>
-				<string key="NSFrameSize">{0, 0}</string>
-			</object>
 			<object class="NSWindowTemplate" id="1006716240">
 				<int key="NSWindowStyleMask">8223</int>
 				<int key="NSWindowBacking">2</int>
@@ -1064,7 +1059,7 @@
 				<string key="NSWindowClass">NSPanel</string>
 				<nil key="NSViewClass"/>
 				<object class="NSView" key="NSWindowView" id="958987387">
-					<nil key="NSNextResponder"/>
+					<reference key="NSNextResponder"/>
 					<int key="NSvFlags">256</int>
 					<object class="NSMutableArray" key="NSSubviews">
 						<bool key="EncodedWithXMLCoder">YES</bool>
@@ -1073,6 +1068,7 @@
 							<int key="NSvFlags">288</int>
 							<string key="NSFrame">{{275, -4}, {203, 28}}</string>
 							<reference key="NSSuperview" ref="958987387"/>
+							<reference key="NSWindow"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSButtonCell" key="NSCell" id="759008758">
 								<int key="NSCellFlags">67239424</int>
@@ -1103,12 +1099,14 @@
 											<int key="NSvFlags">4352</int>
 											<string key="NSFrameSize">{751, 247}</string>
 											<reference key="NSSuperview" ref="937201662"/>
+											<reference key="NSWindow"/>
 											<bool key="NSEnabled">YES</bool>
 											<object class="NSTableHeaderView" key="NSHeaderView" id="511222295">
 												<reference key="NSNextResponder" ref="641446442"/>
 												<int key="NSvFlags">256</int>
 												<string key="NSFrameSize">{751, 17}</string>
 												<reference key="NSSuperview" ref="641446442"/>
+												<reference key="NSWindow"/>
 												<reference key="NSTableView" ref="958138322"/>
 											</object>
 											<object class="_NSCornerView" key="NSCornerView" id="907643668">
@@ -1116,6 +1114,7 @@
 												<int key="NSvFlags">-2147483392</int>
 												<string key="NSFrame">{{-26, 0}, {16, 17}}</string>
 												<reference key="NSSuperview" ref="224845832"/>
+												<reference key="NSWindow"/>
 											</object>
 											<object class="NSMutableArray" key="NSTableColumns">
 												<bool key="EncodedWithXMLCoder">YES</bool>
@@ -2168,6 +2167,7 @@
 									</object>
 									<string key="NSFrame">{{0, 17}, {751, 247}}</string>
 									<reference key="NSSuperview" ref="224845832"/>
+									<reference key="NSWindow"/>
 									<reference key="NSNextKeyView" ref="958138322"/>
 									<reference key="NSDocView" ref="958138322"/>
 									<object class="NSColor" key="NSBGColor">
@@ -2181,6 +2181,7 @@
 									<int key="NSvFlags">-2147483392</int>
 									<string key="NSFrame">{{-100, -100}, {15, 120}}</string>
 									<reference key="NSSuperview" ref="224845832"/>
+									<reference key="NSWindow"/>
 									<int key="NSArrowsLoc">2</int>
 									<reference key="NSTarget" ref="224845832"/>
 									<string key="NSAction">_doScroller:</string>
@@ -2191,6 +2192,7 @@
 									<int key="NSvFlags">-2147483392</int>
 									<string key="NSFrame">{{-100, -100}, {225, 15}}</string>
 									<reference key="NSSuperview" ref="224845832"/>
+									<reference key="NSWindow"/>
 									<int key="NSsFlags">1</int>
 									<reference key="NSTarget" ref="224845832"/>
 									<string key="NSAction">_doScroller:</string>
@@ -2205,6 +2207,7 @@
 									</object>
 									<string key="NSFrameSize">{751, 17}</string>
 									<reference key="NSSuperview" ref="224845832"/>
+									<reference key="NSWindow"/>
 									<reference key="NSNextKeyView" ref="511222295"/>
 									<reference key="NSDocView" ref="511222295"/>
 									<reference key="NSBGColor" ref="735011394"/>
@@ -2214,6 +2217,7 @@
 							</object>
 							<string key="NSFrame">{{1, 32}, {751, 264}}</string>
 							<reference key="NSSuperview" ref="958987387"/>
+							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="937201662"/>
 							<int key="NSsFlags">528</int>
 							<reference key="NSVScroller" ref="1049197551"/>
@@ -2224,7 +2228,9 @@
 							<bytes key="NSScrollAmts">QSAAAEEgAABBsAAAQbAAAA</bytes>
 						</object>
 					</object>
-					<string key="NSFrameSize">{753, 296}</string>
+					<string key="NSFrame">{{7, 11}, {753, 296}}</string>
+					<reference key="NSSuperview"/>
+					<reference key="NSWindow"/>
 				</object>
 				<string key="NSScreenRect">{{0, 0}, {1280, 778}}</string>
 				<string key="NSMaxSize">{1e+13, 1e+13}</string>
@@ -2431,22 +2437,6 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
-						<string key="label">parentWindow</string>
-						<reference key="source" ref="1003444833"/>
-						<reference key="destination" ref="1005"/>
-					</object>
-					<int key="connectionID">189</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">sheet</string>
-						<reference key="source" ref="1003444833"/>
-						<reference key="destination" ref="1006716240"/>
-					</object>
-					<int key="connectionID">193</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
 						<string key="label">monitorButton</string>
 						<reference key="source" ref="1001"/>
 						<reference key="destination" ref="656386262"/>
@@ -2460,14 +2450,6 @@
 						<reference key="destination" ref="403886189"/>
 					</object>
 					<int key="connectionID">202</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">monitorSheetController</string>
-						<reference key="source" ref="1001"/>
-						<reference key="destination" ref="1003444833"/>
-					</object>
-					<int key="connectionID">203</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
@@ -2524,6 +2506,14 @@
 						<reference key="destination" ref="181436149"/>
 					</object>
 					<int key="connectionID">292</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">monitorPanel</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="1006716240"/>
+					</object>
+					<int key="connectionID">295</int>
 				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -2919,12 +2909,6 @@
 						<reference key="parent" ref="656386262"/>
 					</object>
 					<object class="IBObjectRecord">
-						<int key="objectID">188</int>
-						<reference key="object" ref="1003444833"/>
-						<reference key="parent" ref="0"/>
-						<string key="objectName">Monitor Sheet Controller</string>
-					</object>
-					<object class="IBObjectRecord">
 						<int key="objectID">191</int>
 						<reference key="object" ref="1006716240"/>
 						<object class="NSMutableArray" key="children">
@@ -2938,8 +2922,8 @@
 						<reference key="object" ref="958987387"/>
 						<object class="NSMutableArray" key="children">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<reference ref="224845832"/>
 							<reference ref="403886189"/>
+							<reference ref="224845832"/>
 						</object>
 						<reference key="parent" ref="1006716240"/>
 					</object>
@@ -3406,7 +3390,6 @@
 					<string>184.IBPluginDependency</string>
 					<string>186.IBPluginDependency</string>
 					<string>187.IBPluginDependency</string>
-					<string>188.IBPluginDependency</string>
 					<string>191.IBPluginDependency</string>
 					<string>191.IBWindowTemplateEditedContentRect</string>
 					<string>191.NSWindowTemplate.visibleAtLaunch</string>
@@ -3562,7 +3545,6 @@
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>{{46, 420}, {753, 296}}</string>
 					<boolean value="NO"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -3685,7 +3667,7 @@
 				<reference key="dict.values" ref="0"/>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">294</int>
+			<int key="maxID">295</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -3803,7 +3785,7 @@
 							<string>databaseArrayController</string>
 							<string>loaderIndicator</string>
 							<string>monitorButton</string>
-							<string>monitorSheetController</string>
+							<string>monitorPanel</string>
 							<string>reconnectButton</string>
 							<string>resultsOutlineViewController</string>
 							<string>resultsTitle</string>
@@ -3816,7 +3798,7 @@
 							<string>DatabasesArrayController</string>
 							<string>NSProgressIndicator</string>
 							<string>NSButton</string>
-							<string>BWSheetController</string>
+							<string>NSPanel</string>
 							<string>NSButton</string>
 							<string>ResultsOutlineViewController</string>
 							<string>NSTextField</string>
@@ -3832,7 +3814,7 @@
 							<string>databaseArrayController</string>
 							<string>loaderIndicator</string>
 							<string>monitorButton</string>
-							<string>monitorSheetController</string>
+							<string>monitorPanel</string>
 							<string>reconnectButton</string>
 							<string>resultsOutlineViewController</string>
 							<string>resultsTitle</string>
@@ -3858,8 +3840,8 @@
 								<string key="candidateClassName">NSButton</string>
 							</object>
 							<object class="IBToOneOutletInfo">
-								<string key="name">monitorSheetController</string>
-								<string key="candidateClassName">BWSheetController</string>
+								<string key="name">monitorPanel</string>
+								<string key="candidateClassName">NSPanel</string>
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">reconnectButton</string>

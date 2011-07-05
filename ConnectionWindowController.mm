@@ -36,7 +36,6 @@
 @synthesize loaderIndicator;
 @synthesize monitorButton;
 @synthesize reconnectButton;
-@synthesize monitorSheetController;
 @synthesize statMonitorTableController;
 @synthesize databases;
 @synthesize collections;
@@ -146,9 +145,9 @@
     [sidebar setDoubleAction:@selector(sidebarDoubleAction:)];
 }
 
-- (void)sidebarDoubleAction:(id)sidebar
+- (void)sidebarDoubleAction:(id)sender
 {
-    [self query:sidebar];
+    [self query:sender];
 }
 
 - (IBAction)reconnect:(id)sender
@@ -196,12 +195,12 @@
     [loaderIndicator release];
     [reconnectButton release];
     [monitorButton release];
-    [monitorSheetController release];
     [statMonitorTableController release];
     [bundleVersion release];
     [authWindowController release];
     [importWindowController release];
     [exportWindowController release];
+    [monitorPanel release];
     [super dealloc];
 }
 
@@ -620,12 +619,18 @@
 - (IBAction)startMonitor:(id)sender {
     monitorStopped = NO;
     [NSThread detachNewThreadSelector: @selector(updateMonitor) toTarget:self withObject:nil ];
-    [monitorSheetController openSheet:sender];
+    [NSApp beginSheet:monitorPanel modalForWindow:self.window modalDelegate:self didEndSelector:@selector(monitorPanelDidEnd:returnCode:contextInfo:) contextInfo:nil];
     NSLog(@"startMonitor");
 }
 
-- (IBAction)stopMonitor:(id)sender {
-    [monitorSheetController closeSheet:sender];
+- (IBAction)stopMonitor:(id)sender
+{
+    [NSApp endSheet:monitorPanel];
+}
+
+- (void)monitorPanelDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo
+{
+    [monitorPanel close];
     monitorStopped = YES;
     NSLog(@"stopMonitor");
 }

@@ -33,7 +33,7 @@
     IBOutlet NSProgressIndicator *loaderIndicator;
     IBOutlet NSButton *reconnectButton;
     IBOutlet NSButton *monitorButton;
-    IBOutlet BWSheetController *monitorSheetController;
+    IBOutlet NSPanel *monitorPanel;
     IBOutlet StatMonitorTableController *statMonitorTableController;
     NSMutableArray *databases;
     NSMutableArray *collections;
@@ -65,7 +65,6 @@
 @property (nonatomic, retain) NSProgressIndicator *loaderIndicator;
 @property (nonatomic, retain) NSButton *monitorButton;
 @property (nonatomic, retain) NSButton *reconnectButton;
-@property (nonatomic, retain) BWSheetController *monitorSheetController;
 @property (nonatomic, retain) StatMonitorTableController *statMonitorTableController;
 @property (nonatomic, retain) AddDBController *addDBController;
 @property (nonatomic, retain) AddCollectionController *addCollectionController;

@@ -1046,10 +1046,6 @@
 			<object class="NSCustomObject" id="668400839">
 				<string key="NSClassName">ResultsOutlineViewController</string>
 			</object>
-			<object class="NSView" id="1011624834">
-				<nil key="NSNextResponder"/>
-				<string key="NSFrameSize">{0, 0}</string>
-			</object>
 			<object class="NSWindowTemplate" id="1006716240">
 				<int key="NSWindowStyleMask">8223</int>
 				<int key="NSWindowBacking">2</int>
@@ -2389,22 +2385,6 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
-						<string key="label">openSheet:</string>
-						<reference key="source" ref="1011624834"/>
-						<reference key="destination" ref="309246053"/>
-					</object>
-					<int key="connectionID">152</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">parentWindow</string>
-						<reference key="source" ref="1011624834"/>
-						<reference key="destination" ref="1005"/>
-					</object>
-					<int key="connectionID">156</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
 						<string key="label">showAuth:</string>
 						<reference key="source" ref="1001"/>
 						<reference key="destination" ref="340130358"/>
@@ -2858,12 +2838,6 @@
 						<int key="objectID">150</int>
 						<reference key="object" ref="309246053"/>
 						<reference key="parent" ref="815393006"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">151</int>
-						<reference key="object" ref="1011624834"/>
-						<reference key="parent" ref="0"/>
-						<string key="objectName">Help Sheet Controller</string>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">177</int>
@@ -3382,7 +3356,6 @@
 					<string>145.IBPluginDependency</string>
 					<string>146.IBPluginDependency</string>
 					<string>150.IBPluginDependency</string>
-					<string>151.IBPluginDependency</string>
 					<string>177.IBPluginDependency</string>
 					<string>178.IBPluginDependency</string>
 					<string>180.IBPluginDependency</string>
@@ -3530,7 +3503,6 @@
 					</object>
 					<real value="2"/>
 					<real value="2"/>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>

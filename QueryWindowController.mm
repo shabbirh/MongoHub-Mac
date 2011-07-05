@@ -174,6 +174,16 @@
     [title release];
 }
 
+- (void)controlTextDidEndEditing:(NSNotification *)aNotification
+{
+    NSTextField *ed;
+    
+    ed = [aNotification object];
+    if (ed == criticalTextField) {
+        [self findQuery:nil];
+    }
+}
+
 - (void)windowWillClose:(NSNotification *)notification {
     [self release];
 }
@@ -814,15 +824,13 @@
 {
 	NSTextField *ed = [nd object];
     
-	if (ed == criticalTextField || ed == fieldsTextField || ed == sortTextField || ed == skipTextField || ed == limitTextField)
-    {
+	if (ed == criticalTextField || ed == fieldsTextField || ed == sortTextField || ed == skipTextField || ed == limitTextField) {
         [self findQueryComposer:nil];
-    }else if (ed == updateCriticalTextField || ed == updateSetTextField) {
+    } else if (ed == updateCriticalTextField || ed == updateSetTextField) {
         [self updateQueryComposer:nil];
-    }else if (ed == removeCriticalTextField) {
+    } else if (ed == removeCriticalTextField) {
         [self removeQueryComposer:nil];
-    }else if (ed == expCriticalTextField || ed == expFieldsTextField || ed == expSortTextField || ed == expSkipTextField || ed == expLimitTextField)
-    {
+    } else if (ed == expCriticalTextField || ed == expFieldsTextField || ed == expSortTextField || ed == expSkipTextField || ed == expLimitTextField) {
         [self exportQueryComposer:nil];
     }
 

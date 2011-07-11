@@ -3,12 +3,12 @@
 	<data>
 		<int key="IBDocument.SystemTarget">1060</int>
 		<string key="IBDocument.SystemVersion">10K540</string>
-		<string key="IBDocument.InterfaceBuilderVersion">1881</string>
+		<string key="IBDocument.InterfaceBuilderVersion">1306</string>
 		<string key="IBDocument.AppKitVersion">1038.36</string>
 		<string key="IBDocument.HIToolboxVersion">461.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin</string>
-			<string key="NS.object.0">1881</string>
+			<string key="NS.object.0">1306</string>
 		</object>
 		<object class="NSArray" key="IBDocument.IntegratedClassDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -263,11 +263,10 @@
 						</object>
 						<object class="NSSlider" id="979567804">
 							<reference key="NSNextResponder" ref="823886803"/>
-							<int key="NSvFlags">268</int>
+							<int key="NSvFlags">289</int>
 							<string key="NSFrame">{{417, 5}, {165, 21}}</string>
 							<reference key="NSSuperview" ref="823886803"/>
 							<reference key="NSWindow"/>
-							<reference key="NSNextKeyView"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSSliderCell" key="NSCell" id="163406566">
 								<int key="NSCellFlags">-2080244224</int>
@@ -285,7 +284,7 @@
 							</object>
 						</object>
 					</object>
-					<string key="NSFrameSize">{600, 282}</string>
+					<string key="NSFrame">{{7, 11}, {600, 282}}</string>
 					<reference key="NSSuperview"/>
 					<reference key="NSWindow"/>
 					<reference key="NSNextKeyView" ref="150140682"/>
@@ -987,7 +986,7 @@
 			</object>
 			<object class="NSCollectionViewItem" id="513907462"/>
 			<object class="NSView" id="126490163">
-				<reference key="NSNextResponder"/>
+				<nil key="NSNextResponder"/>
 				<int key="NSvFlags">256</int>
 				<object class="NSMutableArray" key="NSSubviews">
 					<bool key="EncodedWithXMLCoder">YES</bool>
@@ -1008,7 +1007,6 @@
 						</object>
 						<string key="NSFrame">{{17, 35}, {142, 105}}</string>
 						<reference key="NSSuperview" ref="126490163"/>
-						<reference key="NSWindow"/>
 						<object class="NSArray" key="NSViewContentFilters">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<object class="CISpotLight">
@@ -1051,7 +1049,6 @@
 						<int key="NSvFlags">258</int>
 						<string key="NSFrame">{{14, 17}, {145, 17}}</string>
 						<reference key="NSSuperview" ref="126490163"/>
-						<reference key="NSWindow"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="733634740">
 							<int key="NSCellFlags">68288064</int>
@@ -1068,8 +1065,6 @@
 					</object>
 				</object>
 				<string key="NSFrameSize">{179, 157}</string>
-				<reference key="NSSuperview"/>
-				<reference key="NSWindow"/>
 			</object>
 			<object class="NSArrayController" id="698277503">
 				<object class="NSMutableArray" key="NSDeclaredKeys">

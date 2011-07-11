@@ -200,7 +200,6 @@
     [authWindowController release];
     [importWindowController release];
     [exportWindowController release];
-    [monitorPanel release];
     [super dealloc];
 }
 

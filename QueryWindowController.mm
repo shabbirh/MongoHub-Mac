@@ -174,16 +174,6 @@
     [title release];
 }
 
-- (void)controlTextDidEndEditing:(NSNotification *)aNotification
-{
-    NSTextField *ed;
-    
-    ed = [aNotification object];
-    if (ed == criticalTextField) {
-        [self findQuery:nil];
-    }
-}
-
 - (void)windowWillClose:(NSNotification *)notification {
     [self release];
 }

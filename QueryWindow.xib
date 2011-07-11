@@ -3,12 +3,12 @@
 	<data>
 		<int key="IBDocument.SystemTarget">1060</int>
 		<string key="IBDocument.SystemVersion">10K540</string>
-		<string key="IBDocument.InterfaceBuilderVersion">1881</string>
+		<string key="IBDocument.InterfaceBuilderVersion">1306</string>
 		<string key="IBDocument.AppKitVersion">1038.36</string>
 		<string key="IBDocument.HIToolboxVersion">461.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin</string>
-			<string key="NS.object.0">1881</string>
+			<string key="NS.object.0">1306</string>
 		</object>
 		<object class="NSArray" key="IBDocument.IntegratedClassDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -451,13 +451,13 @@
 										</object>
 										<reference key="NSControlView" ref="655349351"/>
 										<int key="NSButtonFlags">-2034482945</int>
-										<int key="NSButtonFlags2">163</int>
+										<int key="NSButtonFlags2">268435619</int>
 										<object class="NSCustomResource" key="NSNormalImage" id="342060510">
 											<string key="NSClassName">NSImage</string>
 											<string key="NSResourceName">runmenu</string>
 										</object>
 										<string key="NSAlternateContents"/>
-										<string key="NSKeyEquivalent"/>
+										<string key="NSKeyEquivalent">r</string>
 										<int key="NSPeriodicDelay">400</int>
 										<int key="NSPeriodicInterval">75</int>
 									</object>
@@ -838,12 +838,12 @@
 							</object>
 						</object>
 					</object>
-					<string key="NSFrameSize">{564, 404}</string>
+					<string key="NSFrame">{{7, 11}, {564, 404}}</string>
 					<reference key="NSSuperview"/>
 					<reference key="NSWindow"/>
 					<reference key="NSNextKeyView" ref="1030582539"/>
 				</object>
-				<string key="NSScreenRect">{{0, 0}, {1680, 1028}}</string>
+				<string key="NSScreenRect">{{0, 0}, {1920, 1178}}</string>
 				<string key="NSMaxSize">{1e+13, 1e+13}</string>
 				<string key="NSFrameAutosaveName">Query</string>
 			</object>
@@ -3020,7 +3020,6 @@
 							<int key="NSvFlags">266</int>
 							<string key="NSFrame">{{22, 41}, {530, 22}}</string>
 							<reference key="NSSuperview" ref="460177029"/>
-							<reference key="NSNextKeyView" ref="1006"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSTextFieldCell" key="NSCell" id="17262602">
 								<int key="NSCellFlags">68288064</int>

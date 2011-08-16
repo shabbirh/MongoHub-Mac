@@ -51,7 +51,7 @@
 
 - (IBAction)add:(id)sender {
     if ([ [dbname stringValue] length] == 0) {
-        NSRunAlertPanel(@"Error", @"Database name could not be empty", @"OK", nil, nil);
+        NSRunAlertPanel(@"Error", @"Database name can not be empty", @"OK", nil, nil);
         return;
     }
     NSArray *keys = [[NSArray alloc] initWithObjects:@"dbname", @"user", @"password", nil];

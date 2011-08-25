@@ -421,7 +421,7 @@ extern "C" {
             [item release];
         }
         NSLog(@"Find in db: %@.%@", dbname, collectionname);
-        return response;
+        return [response autorelease];
     }catch (mongo::DBException &e) {
         NSRunAlertPanel(@"Error", [NSString stringWithUTF8String:e.what()], @"OK", nil, nil);
     }
@@ -667,7 +667,7 @@ extern "C" {
             [item release];
         }
         NSLog(@"Show indexes in db: %@.%@", dbname, collectionname);
-        return response;
+        return [response autorelease];
     }catch (mongo::DBException &e) {
         NSRunAlertPanel(@"Error", [NSString stringWithUTF8String:e.what()], @"OK", nil, nil);
     }
@@ -899,7 +899,8 @@ extern "C" {
                 mongo::BSONObj b = e.embeddedObject();
                 NSMutableArray *tmp = [self bsonArrayWrapper:b];
                 if (tmp!=nil) {
-                    child = tmp;
+                    [child release];
+                    child = [tmp retain];
                     value = @"";
                 }else {
                     value = @"[ ]";
@@ -910,7 +911,8 @@ extern "C" {
                 mongo::BSONObj b = e.embeddedObject();
                 NSMutableArray *tmp = [self bsonDictWrapper:b];
                 if (tmp!=nil) {
-                    child = tmp;
+                    [child release];
+                    child = [tmp retain];
                     value = @"";
                 }else {
                     value = @"{ }";
@@ -980,7 +982,7 @@ extern "C" {
             [fieldName release];
             [child release];
         }
-        return arr;
+        return [arr autorelease];
     }
     return nil;
 }
@@ -1010,7 +1012,8 @@ extern "C" {
                         [arr addObject:@"[ ]"];
                     }
                 }else {
-                    child = tmp;
+                    [child release];
+                    child = [tmp retain];
                     value = @"";
                     if (hasId) {
                         [arr addObject:tmp];
@@ -1026,7 +1029,8 @@ extern "C" {
                         [arr addObject:@"{ }"];
                     }
                 }else {
-                    child = tmp;
+                    [child release];
+                    child = [tmp retain];
                     value = @"{ }";
                     if (hasId) {
                         [arr addObject:tmp];
@@ -1115,7 +1119,7 @@ extern "C" {
             [child release];
             i ++;
         }
-        return arr;
+        return [arr autorelease];
     }
     return nil;
 }

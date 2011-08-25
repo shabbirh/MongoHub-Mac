@@ -242,8 +242,8 @@
     [findResultsViewController.myOutlineView reloadData];
     [results release];
     [findQueryLoaderIndicator stop];
-    [NSThread exit];
     [pool release];
+    [NSThread exit];
 }
 
 - (IBAction)expandFindResults:(id)sender

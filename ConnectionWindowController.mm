@@ -132,8 +132,10 @@
     [pool release];
 }
 
-- (void)windowDidLoad {
+- (void)windowDidLoad
+{
     [super windowDidLoad];
+    self.collections = [NSMutableArray array];
     exitThread = NO;
     NSString *appVersion = [[NSString alloc] initWithFormat:@"version(%@[%@])", [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"], [[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString*)kCFBundleVersionKey] ];
     [bundleVersion setStringValue: appVersion];
@@ -209,8 +211,8 @@
     }
     //exitThread = YES;
     resultsOutlineViewController = nil;
-    selectedDB = nil;
-    selectedCollection = nil;
+    self.selectedDB = nil;
+    self.selectedCollection = nil;
     [super release];
 }
 
@@ -225,12 +227,9 @@
 - (void)reloadDBList {
     NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
     [loaderIndicator start];
-    //[selectedDB release];
-    selectedDB = nil;
-    //[selectedCollection release];
-    selectedCollection = nil;
-    [collections release];
-    collections = [[NSMutableArray alloc] init];
+    self.selectedDB = nil;
+    self.selectedCollection = nil;
+    [self.collections removeAllObjects];
     [databases release];
     if ([conn.defaultdb isPresent]) {
         databases = [[NSMutableArray alloc] initWithObjects:conn.defaultdb, nil];
@@ -252,31 +251,28 @@
     [pool release];
 }
 
-- (void)updateSidebar
+- (void)updateWithNewCollections:(NSArray *)newCollections
 {
+    [self.collections removeAllObjects];
+    [self.collections addObjectsFromArray:newCollections];
     [sidebar removeItem:@"2"];
-    [sidebar addSection:@"2" caption:[[selectedDB caption] uppercaseString]];
-    [collections sortUsingSelector:@selector(compare:)];
+    [sidebar addSection:@"2" caption:[[self.selectedDB caption] uppercaseString]];
+    [self.collections sortUsingSelector:@selector(compare:)];
     unsigned int i = 1;
-    for (NSString *collection in collections) {
+    for (NSString *collection in self.collections) {
         [sidebar addChild:@"2" key:[NSString stringWithFormat:@"2.%d", i] caption:collection icon:[NSImage imageNamed:@"collectionicon.png"] action:@selector(useCollection:) target:self];
         i ++ ;
     }
     [sidebar reloadData];
-    [sidebar setBadge:[selectedDB nodeKey] count:[collections count]];
+    [sidebar setBadge:[self.selectedDB nodeKey] count:[self.collections count]];
     [sidebar expandItem:@"2"];
     [self showDBStats:nil];
+    [loaderIndicator stop];
 }
 
-- (void)useDB:(id)sender {
+- (void)fetchCollectionsWithDBName:(NSString *)dbname
+{
     NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-    NSString *dbname = [[NSString alloc] initWithFormat:@"%@", [sender caption]];
-    if (![[selectedDB caption] isEqualToString:dbname]) {
-        //[selectedDB release];
-        selectedDB = (SidebarNode *)sender;
-    }
-    //[selectedCollection release];
-    selectedCollection = nil;
     NSString *user=nil;
     NSString *password=nil;
     Database *db = [databaseArrayController dbInfo:conn name:dbname];
@@ -285,17 +281,19 @@
         password = db.password;
     }
     [db release];
-    [collections release];
-    [loaderIndicator start];
-    collections = [[NSMutableArray alloc] initWithArray:[mongoDB listCollections:dbname user:user password:password]];
-    if ([collections count] == 0) {
-        [collections addObject:@"test"];
-    }
-    [loaderIndicator stop];
-    [dbname release];
-    
-    [self performSelectorOnMainThread:@selector(updateSidebar) withObject:nil waitUntilDone:NO];
+    [self performSelectorOnMainThread:@selector(updateWithNewCollections:) withObject:[mongoDB listCollections:dbname user:user password:password] waitUntilDone:NO];
     [pool release];
+}
+
+- (void)useDB:(id)sender {
+    NSString *dbname = [[NSString alloc] initWithFormat:@"%@", [sender caption]];
+    if (![[self.selectedDB caption] isEqualToString:dbname]) {
+        self.selectedDB = (SidebarNode *)sender;
+    }
+    self.selectedCollection = nil;
+    [loaderIndicator start];
+    [NSThread detachNewThreadSelector:@selector(fetchCollectionsWithDBName:) toTarget:self withObject:dbname];
+    [dbname release];
 }
 
 - (void)useCollection:(id)sender
@@ -303,8 +301,7 @@
     NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
     NSString *collectionname = [[NSString alloc] initWithFormat:@"%@", [sender caption] ];
     if ([collectionname isPresent]) {
-        //[selectedCollection release];
-        selectedCollection = (SidebarNode *)sender;
+        self.selectedCollection = (SidebarNode *)sender;
         [self showCollStats:nil];
     }
     [collectionname release];
@@ -327,21 +324,21 @@
 
 - (IBAction)showDBStats:(id)sender 
 {
-    if (selectedDB==nil) {
+    if (self.selectedDB == nil) {
         NSRunAlertPanel(@"Error", @"Please specify a database!", @"OK", nil, nil);
         return;
     }
     [loaderIndicator start];
-    [resultsTitle setStringValue:[NSString stringWithFormat:@"Database %@ stats", [selectedDB caption]]];
+    [resultsTitle setStringValue:[NSString stringWithFormat:@"Database %@ stats", [self.selectedDB caption]]];
     NSString *user=nil;
     NSString *password=nil;
-    Database *db = [databaseArrayController dbInfo:conn name:[selectedDB caption]];
+    Database *db = [databaseArrayController dbInfo:conn name:[self.selectedDB caption]];
     if (db) {
         user = db.user;
         password = db.password;
     }
     [db release];
-    NSMutableArray *results = [[NSMutableArray alloc] initWithArray:[mongoDB dbStats:[selectedDB caption] 
+    NSMutableArray *results = [[NSMutableArray alloc] initWithArray:[mongoDB dbStats:[self.selectedDB caption] 
                                                                                 user:user 
                                                                             password:password]];
     resultsOutlineViewController.results = results;
@@ -352,23 +349,23 @@
 }
 
 - (IBAction)showCollStats:(id)sender 
-{NSLog(@"showCollStats");
-    if (selectedDB==nil || selectedCollection==nil) {
+{
+    if (self.selectedDB == nil || self.selectedCollection == nil) {
         NSRunAlertPanel(@"Error", @"Please specify a collection!", @"OK", nil, nil);
         return;
     }
     [loaderIndicator start];
-    [resultsTitle setStringValue:[NSString stringWithFormat:@"Collection %@.%@ stats", [selectedDB caption], [selectedCollection caption]]];
+    [resultsTitle setStringValue:[NSString stringWithFormat:@"Collection %@.%@ stats", [self.selectedDB caption], [self.selectedCollection caption]]];
     NSString *user=nil;
     NSString *password=nil;
-    Database *db = [databaseArrayController dbInfo:conn name:[selectedDB caption] ];
+    Database *db = [databaseArrayController dbInfo:conn name:[self.selectedDB caption] ];
     if (db) {
         user = db.user;
         password = db.password;
     }
     [db release];
-    NSMutableArray *results = [[NSMutableArray alloc] initWithArray:[mongoDB collStats:[selectedCollection caption] 
-                                                                                 forDB:[selectedDB caption] 
+    NSMutableArray *results = [[NSMutableArray alloc] initWithArray:[mongoDB collStats:[self.selectedCollection caption] 
+                                                                                 forDB:[self.selectedDB caption] 
                                                                                   user:user 
                                                                               password:password] ];
     //NSLog(@"STATUS: %@", results);
@@ -380,8 +377,8 @@
 
 - (IBAction)createDBorCollection:(id)sender
 {
-    if (selectedCollection) {
-        [self createCollectionForDB:[selectedDB caption]];
+    if (self.selectedCollection) {
+        [self createCollectionForDB:[self.selectedDB caption]];
     }else {
         [self createDB];
     }
@@ -451,8 +448,8 @@
                         forDB:dbname 
                          user:user 
                      password:password];
-    if ([[selectedDB caption] isEqualToString:dbname]) {
-        [sidebar selectItem:[selectedDB nodeKey]];
+    if ([[self.selectedDB caption] isEqualToString:dbname]) {
+        [sidebar selectItem:[self.selectedDB nodeKey]];
     }
     [dbname release];
     [collectionname release];
@@ -461,10 +458,10 @@
 
 - (IBAction)dropDBorCollection:(id)sender
 {
-    if (selectedCollection) {
-        [self dropWarning:[NSString stringWithFormat:@"COLLECTION:%@", [selectedCollection caption]]];
+    if (self.selectedCollection) {
+        [self dropWarning:[NSString stringWithFormat:@"COLLECTION:%@", [self.selectedCollection caption]]];
     }else {
-        [self dropWarning:[NSString stringWithFormat:@"DB:%@", [selectedDB caption]]];
+        [self dropWarning:[NSString stringWithFormat:@"DB:%@", [self.selectedDB caption]]];
     }
 }
 
@@ -473,7 +470,7 @@
     NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
     NSString *user=nil;
     NSString *password=nil;
-    Database *db = [databaseArrayController dbInfo:conn name:[selectedDB caption]];
+    Database *db = [databaseArrayController dbInfo:conn name:[self.selectedDB caption]];
     if (db) {
         user = db.user;
         password = db.password;
@@ -485,8 +482,8 @@
                        user:user 
                    password:password];
     [loaderIndicator stop];
-    if ([[selectedDB caption] isEqualToString:dbname]) {
-        [sidebar selectItem:[selectedDB nodeKey]];
+    if ([[self.selectedDB caption] isEqualToString:dbname]) {
+        [sidebar selectItem:[self.selectedDB nodeKey]];
     }
     [pool release];
 }
@@ -500,14 +497,14 @@
     NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
     NSString *user=nil;
     NSString *password=nil;
-    Database *db = [databaseArrayController dbInfo:conn name:[selectedDB caption]];
+    Database *db = [databaseArrayController dbInfo:conn name:[self.selectedDB caption]];
     if (db) {
         user = db.user;
         password = db.password;
     }
     [db release];
     [loaderIndicator start];
-    [mongoDB dropDB:[selectedDB caption] 
+    [mongoDB dropDB:[self.selectedDB caption] 
                 user:user 
             password:password];
     [loaderIndicator stop];
@@ -517,7 +514,7 @@
 
 - (IBAction)query:(id)sender
 {
-    if (!selectedCollection) {
+    if (!self.selectedCollection) {
         NSRunAlertPanel(@"Error", @"Please choose a collection!", @"OK", nil, nil);
         return;
     }
@@ -525,8 +522,8 @@
     QueryWindowController *queryWindowController = [[QueryWindowController alloc] init];
     queryWindowController.managedObjectContext = self.managedObjectContext;
     queryWindowController.conn = conn;
-    queryWindowController.dbname = [selectedDB caption];
-    queryWindowController.collectionname = [selectedCollection caption];
+    queryWindowController.dbname = [self.selectedDB caption];
+    queryWindowController.collectionname = [self.selectedCollection caption];
     queryWindowController.mongoDB = mongoDB;
     [queryWindowController showWindow:sender];
 }
@@ -538,7 +535,7 @@
         return;
     }
     
-    if (!selectedDB) 
+    if (!self.selectedDB) 
     {
         NSRunAlertPanel(@"Error", @"Please choose a database!", @"OK", nil, nil);
         return;
@@ -547,7 +544,7 @@
     {
         authWindowController = [[AuthWindowController alloc] init];
     }
-    Database *db = [databaseArrayController dbInfo:conn name:[selectedDB caption]];
+    Database *db = [databaseArrayController dbInfo:conn name:[self.selectedDB caption]];
     if (db) {
         [authWindowController.userTextField setStringValue:db.user];
         [authWindowController.passwordTextField setStringValue:db.password];
@@ -557,13 +554,13 @@
     }
     authWindowController.managedObjectContext = self.managedObjectContext;
     authWindowController.conn = self.conn;
-    authWindowController.dbname = [selectedDB caption];
+    authWindowController.dbname = [self.selectedDB caption];
     [authWindowController showWindow:self];
 }
 
 - (IBAction)importFromMySQL:(id)sender
 {
-    if (selectedDB==nil) {
+    if (self.selectedDB == nil) {
         NSRunAlertPanel(@"Error", @"Please specify a database!", @"OK", nil, nil);
         return;
     }
@@ -574,13 +571,13 @@
     importWindowController.managedObjectContext = self.managedObjectContext;
     importWindowController.conn = self.conn;
     importWindowController.mongoDB = mongoDB;
-    importWindowController.dbname = [selectedDB caption];
+    importWindowController.dbname = [self.selectedDB caption];
     [importWindowController showWindow:self];
 }
 
 - (IBAction)exportToMySQL:(id)sender
 {
-    if (selectedDB==nil) {
+    if (self.selectedDB == nil) {
         NSRunAlertPanel(@"Error", @"Please specify a database!", @"OK", nil, nil);
         return;
     }
@@ -591,7 +588,7 @@
     exportWindowController.managedObjectContext = self.managedObjectContext;
     exportWindowController.conn = self.conn;
     exportWindowController.mongoDB = mongoDB;
-    exportWindowController.dbname = [selectedDB caption];
+    exportWindowController.dbname = [self.selectedDB caption];
     [exportWindowController showWindow:self];
 }
 
@@ -599,8 +596,8 @@
 {
     if (returnCode == NSAlertFirstButtonReturn)
     {
-        if (selectedCollection) {
-            [self dropCollection:[selectedCollection caption] ForDB:[selectedDB caption]];
+        if (self.selectedCollection) {
+            [self dropCollection:[self.selectedCollection caption] ForDB:[self.selectedDB caption]];
         }else {
             [self dropDB];
         }

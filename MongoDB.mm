@@ -379,7 +379,7 @@ extern "C" {
                 oid = [[NSString alloc] initWithUTF8String:e.str().c_str()];
             }
             NSString *jsonString = [[NSString alloc] initWithUTF8String:b.jsonString(mongo::TenGen).c_str()];
-            NSMutableString *jsonStringb = [[NSMutableString alloc] initWithUTF8String:b.jsonString(mongo::TenGen, 1).c_str()];
+            NSMutableString *jsonStringb = [[[NSMutableString alloc] initWithUTF8String:b.jsonString(mongo::TenGen, 1).c_str()] autorelease];
             if (jsonString == nil) {
                 jsonString = @"";
             }

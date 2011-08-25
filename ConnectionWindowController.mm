@@ -175,8 +175,8 @@
 		}
 		[NSThread sleepForTimeInterval:3];
 	}
-    [NSThread exit];
     [pool release];
+    [NSThread exit];
 }
 
 - (void)dealloc {
@@ -650,8 +650,8 @@
         [statMonitorTableController addObject:item];
         
     }
-    [NSThread exit];
     [pool release];
+    [NSThread exit];
 }
 
 @end

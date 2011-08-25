@@ -289,8 +289,8 @@
                   upset:upset];
     [updateResultsTextField setStringValue:[NSString stringWithFormat:@"Affected Rows: %d", total]];
     [updateQueryLoaderIndicator stop];
-    [NSThread exit];
     [pool release];
+    [NSThread exit];
 }
 
 - (IBAction)removeQuery:(id)sender
@@ -322,8 +322,8 @@
                critical:critical];
     [removeResultsTextField setStringValue:[NSString stringWithFormat:@"Affected Rows: %d", total]];
     [removeQueryLoaderIndicator stop];
-    [NSThread exit];
     [pool release];
+    [NSThread exit];
 }
 
 - (IBAction) insertQuery:(id)sender
@@ -350,8 +350,8 @@
              insertData:insertData];
     [insertResultsTextField setStringValue:@"Completed!"];
     [insertLoaderIndicator stop];
-    [NSThread exit];
     [pool release];
+    [NSThread exit];
 }
 
 - (IBAction) indexQuery:(id)sender
@@ -378,8 +378,8 @@
     [indexesOutlineViewController.myOutlineView reloadData];
     [results release];
     [indexLoaderIndicator stop];
-    [NSThread exit];
     [pool release];
+    [NSThread exit];
 }
 
 - (IBAction) ensureIndex:(id)sender
@@ -406,8 +406,8 @@
                    indexData:indexData];
     [self indexQuery:nil];
     [indexLoaderIndicator stop];
-    [NSThread exit];
     [pool release];
+    [NSThread exit];
 }
 
 
@@ -433,8 +433,8 @@
                 password:password];
     [self indexQuery:nil];
     [indexLoaderIndicator stop];
-    [NSThread exit];
     [pool release];
+    [NSThread exit];
 }
 
 
@@ -462,8 +462,8 @@
                  indexName:indexName];
     [self indexQuery:nil];
     [indexLoaderIndicator stop];
-    [NSThread exit];
     [pool release];
+    [NSThread exit];
 }
 
 - (IBAction) mapReduce:(id)sender
@@ -498,8 +498,8 @@
     [mrOutlineViewController.myOutlineView reloadData];
     [results release];
     [mrLoaderIndicator stop];
-    [NSThread exit];
     [pool release];
+    [NSThread exit];
 }
 
 - (IBAction) export:(id)sender
@@ -611,8 +611,8 @@
         out << ']' << std::endl;
     [expProgressIndicator stopAnimation: self];
     [expResultsTextField setStringValue:[NSString stringWithFormat:@"Exported %d records.", total]];
-    [NSThread exit];
     [pool release];
+    [NSThread exit];
 }
 
 - (IBAction) import:(id)sender
@@ -783,8 +783,8 @@
     
     [impProgressIndicator stopAnimation: self];
     [impResultsTextField setStringValue:[NSString stringWithFormat:@"Imported %d records, %d failed", num, errors]];
-    [NSThread exit];
     [pool release];
+    [NSThread exit];
 }
 
 - (IBAction)removeRecord:(id)sender
@@ -825,8 +825,8 @@
         [removeQueryLoaderIndicator stop];
         [self findQuery:nil];
     }
-    [NSThread exit];
     [pool release];
+    [NSThread exit];
 }
 
 - (void)controlTextDidChange:(NSNotification *)nd

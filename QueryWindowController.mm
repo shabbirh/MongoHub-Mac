@@ -167,6 +167,24 @@
     [super dealloc];
 }
 
+- (NSString *)formatedQuery
+{
+    NSString *query = @"";
+    NSString *value;
+    
+    value = [[criticalTextField stringValue] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    if ([value isPresent]) {
+        if ([value hasPrefix:@"{"]) {
+            query = [NSString stringWithString:value];
+        }else if ([value hasPrefix:@"\""] || [value hasPrefix:@"'"]) {
+            query = [NSString stringWithFormat:@"{%@}",value];
+        }else {
+            query = [NSString stringWithFormat:@"{\"_id\":\"%@\"}",value];
+        }
+    }
+    return query;
+}
+
 - (void)windowDidLoad {
     [super windowDidLoad];
     NSString *title = [[NSString alloc] initWithFormat:@"Query in %@.%@", dbname, collectionname];
@@ -195,7 +213,7 @@
         password = db.password;
     }
     [db release];
-    NSString *critical = [criticalTextField stringValue];
+    NSString *critical = [self formatedQuery];
     NSString *fields = [fieldsTextField stringValue];
     NSString *sort = [sortTextField stringValue];
     NSNumber *skip = [NSNumber numberWithInt:[skipTextField intValue]];
@@ -797,7 +815,8 @@
             critical = [NSString stringWithFormat:@"{_id:\"%@\"}", [currentItem objectForKey:@"value"]];
         }else {
             critical = [NSString stringWithFormat:@"{_id:%@}", [currentItem objectForKey:@"value"]];
-        }NSLog(@"%@", critical);
+        }
+        NSLog(@"%@", critical);
         [mongoDB removeInDB:dbname 
                  collection:collectionname 
                        user:user 
@@ -829,15 +848,7 @@
 - (IBAction) findQueryComposer:(id)sender
 {
     NSString *critical;
-    if ([[criticalTextField stringValue] isPresent]) {
-        if ([[criticalTextField stringValue] hasPrefix:@"{"]) {
-            critical = [[NSString alloc] initWithString:[criticalTextField stringValue]];
-        }else {
-            critical = [[NSString alloc] initWithFormat:@"{\"_id\":\"%@\"}",[criticalTextField stringValue]];
-        }
-    }else {
-        critical = [[NSString alloc] initWithString:@""];
-    }
+    critical = [self formatedQuery];
     
     NSString *jsFields;
     if ([[fieldsTextField stringValue] isPresent]) {
@@ -865,7 +876,6 @@
     NSString *col = [NSString stringWithFormat:@"%@.%@", dbname, collectionname];
     
     NSString *query = [NSString stringWithFormat:@"db.%@.find(%@%@)%@%@%@", col, critical, jsFields, sort, skip, limit];
-    [critical release];
     [jsFields release];
     [sort release];
     [skip release];

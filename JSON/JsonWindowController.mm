@@ -148,6 +148,6 @@
     [status setStringValue: @"Saved"];
     [status display];
     [[NSNotificationCenter defaultCenter] postNotificationName:kJsonWindowSaved object:nil];
-    [pool release];
+    [pool drain];
 }
 @end

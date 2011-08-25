@@ -129,7 +129,7 @@
         [self reloadSidebar];
         [self showServerStatus:nil];
     }
-    [pool release];
+    [pool drain];
 }
 
 - (void)windowDidLoad
@@ -175,7 +175,7 @@
 		}
 		[NSThread sleepForTimeInterval:3];
 	}
-    [pool release];
+    [pool drain];
     [NSThread exit];
 }
 
@@ -248,7 +248,7 @@
     [sidebar reloadData];
     [sidebar expandItem:@"1"];
     [loaderIndicator stop];
-    [pool release];
+    [pool drain];
 }
 
 - (void)updateWithNewCollections:(NSArray *)newCollections
@@ -282,7 +282,7 @@
     }
     [db release];
     [self performSelectorOnMainThread:@selector(updateWithNewCollections:) withObject:[mongoDB listCollections:dbname user:user password:password] waitUntilDone:NO];
-    [pool release];
+    [pool drain];
 }
 
 - (void)useDB:(id)sender {
@@ -305,7 +305,7 @@
         [self showCollStats:nil];
     }
     [collectionname release];
-    [pool release];
+    [pool drain];
 }
 
 - (IBAction)showServerStatus:(id)sender 
@@ -425,7 +425,7 @@
     [user release];
     [password release];
     [self reloadSidebar];
-    [pool release];
+    [pool drain];
 }
 
 - (void)addCollection:(id)sender
@@ -453,7 +453,7 @@
     }
     [dbname release];
     [collectionname release];
-    [pool release];
+    [pool drain];
 }
 
 - (IBAction)dropDBorCollection:(id)sender
@@ -485,7 +485,7 @@
     if ([[self.selectedDB caption] isEqualToString:dbname]) {
         [sidebar selectItem:[self.selectedDB nodeKey]];
     }
-    [pool release];
+    [pool drain];
 }
 
 - (void)dropDB
@@ -509,7 +509,7 @@
             password:password];
     [loaderIndicator stop];
     [self reloadSidebar];
-    [pool release];
+    [pool drain];
 }
 
 - (IBAction)query:(id)sender
@@ -650,7 +650,7 @@
         [statMonitorTableController addObject:item];
         
     }
-    [pool release];
+    [pool drain];
     [NSThread exit];
 }
 

@@ -448,7 +448,7 @@
 
 	// Run Thread with selected Action
 	if (action != NULL)
-		[NSThread detachNewThreadSelector:action toTarget:target withObject:selectedNode];
+        [target performSelector:action withObject:selectedNode];
 }
 
 - (BOOL)control:(NSControl *)control textShouldEndEditing:(NSText *)fieldEditor {

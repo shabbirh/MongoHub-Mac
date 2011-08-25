@@ -252,6 +252,22 @@
     [pool release];
 }
 
+- (void)updateSidebar
+{
+    [sidebar removeItem:@"2"];
+    [sidebar addSection:@"2" caption:[[selectedDB caption] uppercaseString]];
+    [collections sortUsingSelector:@selector(compare:)];
+    unsigned int i = 1;
+    for (NSString *collection in collections) {
+        [sidebar addChild:@"2" key:[NSString stringWithFormat:@"2.%d", i] caption:collection icon:[NSImage imageNamed:@"collectionicon.png"] action:@selector(useCollection:) target:self];
+        i ++ ;
+    }
+    [sidebar reloadData];
+    [sidebar setBadge:[selectedDB nodeKey] count:[collections count]];
+    [sidebar expandItem:@"2"];
+    [self showDBStats:nil];
+}
+
 - (void)useDB:(id)sender {
     NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
     NSString *dbname = [[NSString alloc] initWithFormat:@"%@", [sender caption]];
@@ -278,18 +294,7 @@
     [loaderIndicator stop];
     [dbname release];
     
-    [sidebar removeItem:@"2"];
-    [sidebar addSection:@"2" caption:[[selectedDB caption] uppercaseString]];
-    [collections sortUsingSelector:@selector(compare:)];
-    unsigned int i = 1;
-    for (NSString *collection in collections) {
-        [sidebar addChild:@"2" key:[NSString stringWithFormat:@"2.%d", i] caption:collection icon:[NSImage imageNamed:@"collectionicon.png"] action:@selector(useCollection:) target:self];
-        i ++ ;
-    }
-    [sidebar reloadData];
-    [sidebar setBadge:[selectedDB nodeKey] count:[collections count]];
-    [sidebar expandItem:@"2"];
-    [self showDBStats:nil];
+    [self performSelectorOnMainThread:@selector(updateSidebar) withObject:nil waitUntilDone:NO];
     [pool release];
 }
 

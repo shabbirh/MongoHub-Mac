@@ -79,7 +79,7 @@
     [progressIndicator setDoubleValue:0];
     NSString *collection = [[NSString alloc] initWithString:[collectionTextField stringValue]];
     if (![collection isPresent]) {
-        NSRunAlertPanel(@"Error", @"Collection name could not be empty!", @"OK", nil, nil);
+        NSRunAlertPanel(@"Error", @"Collection name can not be empty!", @"OK", nil, nil);
         return;
     }
     NSString *tablename = [[NSString alloc] initWithString:[tablesPopUpButton titleOfSelectedItem]];

@@ -79,11 +79,11 @@
     NSString *collection = [[NSString alloc] initWithString:[collectionTextField stringValue]];
     int chunkSize = [chunkSizeTextField intValue];
     if (![collection isPresent]) {
-        NSRunAlertPanel(@"Error", @"Collection name could not be empty!", @"OK", nil, nil);
+        NSRunAlertPanel(@"Error", @"Collection name can not be empty!", @"OK", nil, nil);
         return;
     }
     if (chunkSize == 0) {
-        NSRunAlertPanel(@"Error", @"Chunk Size could not be 0!", @"OK", nil, nil);
+        NSRunAlertPanel(@"Error", @"Chunk Size can not be 0!", @"OK", nil, nil);
         return;
     }
     NSString *tablename = [[NSString alloc] initWithString:[tablesPopUpButton titleOfSelectedItem]];

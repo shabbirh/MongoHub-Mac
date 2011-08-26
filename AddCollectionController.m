@@ -40,7 +40,7 @@
 
 - (IBAction)add:(id)sender {
     if ([ [collectionname stringValue] length] == 0) {
-        NSRunAlertPanel(@"Error", @"Collection name could not be empty", @"OK", nil, nil);
+        NSRunAlertPanel(@"Error", @"Collection name can not be empty", @"OK", nil, nil);
         return;
     }
     NSArray *keys = [[NSArray alloc] initWithObjects:@"dbname", @"collectionname", nil];

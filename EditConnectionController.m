@@ -212,19 +212,19 @@
         return NO;
     }
     if ([[connectionInfo objectForKey:@"alias"] length]<3) {
-        NSRunAlertPanel(@"Error", @"Connection name should not be less than 3 charaters", @"OK", nil, nil);
+        NSRunAlertPanel(@"Error", @"Alias should not be less than 3 charaters", @"OK", nil, nil);
         return NO;
     }
     if (![[connectionInfo objectForKey:@"alias"] isEqualToString:connection.alias] && [connectionsArrayController checkDuplicate:[connectionInfo objectForKey:@"alias"]]) {
-        NSRunAlertPanel(@"Error", @"Connection alias name has been existed!", @"OK", nil, nil);
+        NSRunAlertPanel(@"Error", @"Alias already in use!", @"OK", nil, nil);
         return NO;
     }
     if ([usesshCheckBox state] == 1 && ([[connectionInfo objectForKey:@"bindaddress"] length] == 0 || [[connectionInfo objectForKey:@"sshhost"] length] == 0)) {
-        NSRunAlertPanel(@"Error", @"Please full fill ssh information!", @"OK", nil, nil);
+        NSRunAlertPanel(@"Error", @"Tunneling requires both Bind Address and SSH Host!", @"OK", nil, nil);
         return NO;
     }
     if ([usereplCheckBox state] == 1 && ([[connectionInfo objectForKey:@"servers"] length] == 0 || [[connectionInfo objectForKey:@"repl_name"] length] == 0)) {
-        NSRunAlertPanel(@"Error", @"Please full fill replica-set information!", @"OK", nil, nil);
+        NSRunAlertPanel(@"Error", @"Replica Set requires both Servers and Set Name!", @"OK", nil, nil);
         return NO;
     }
     return YES;

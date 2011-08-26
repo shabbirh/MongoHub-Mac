@@ -242,14 +242,12 @@
         dbn = [[[dbsArrayController arrangedObjects] objectAtIndex:0] objectForKey:@"name"];
     }else {
         NSPopUpButton *pb = sender;
-        dbn = [[NSString alloc] initWithString:[pb titleOfSelectedItem]];
+        dbn = [NSString stringWithString:[pb titleOfSelectedItem]];
     }
     if (![dbn isPresent]) {
-        [dbn release];
         return;
     }
     [db selectDB:dbn];
-    [dbn release];
     MCPResult *tbs = [db listTables];
     NSArray *row;
     NSMutableArray *tables = [[NSMutableArray alloc] initWithCapacity:[tbs numOfRows]];

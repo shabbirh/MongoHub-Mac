@@ -17,7 +17,7 @@
 @synthesize dbInfo;
 
 - (id)init {
-    if (![super initWithWindowNibName:@"NewCollection"]) return nil;
+    self = [super initWithWindowNibName:@"NewCollection"];
     return self;
 }
 

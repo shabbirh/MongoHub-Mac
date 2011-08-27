@@ -37,7 +37,7 @@
 @synthesize fieldMapTableController;
 
 - (id)init {
-    if (![super initWithWindowNibName:@"Export"]) return nil;
+    self = [super initWithWindowNibName:@"Export"];
     return self;
 }
 
@@ -77,12 +77,12 @@
     [progressIndicator setUsesThreadedAnimation:YES];
     [progressIndicator startAnimation: self];
     [progressIndicator setDoubleValue:0];
-    NSString *collection = [[NSString alloc] initWithString:[collectionTextField stringValue]];
+    NSString *collection = [NSString stringWithString:[collectionTextField stringValue]];
     if (![collection isPresent]) {
         NSRunAlertPanel(@"Error", @"Collection name can not be empty!", @"OK", nil, nil);
         return;
     }
-    NSString *tablename = [[NSString alloc] initWithString:[tablesPopUpButton titleOfSelectedItem]];
+    NSString *tablename = [NSString stringWithString:[tablesPopUpButton titleOfSelectedItem]];
     
     NSString *user=nil;
     NSString *password=nil;
@@ -91,7 +91,6 @@
         user = mongodb.user;
         password = mongodb.password;
     }
-    [mongodb release];
     long long int total = [self exportCount:collection user:user password:password];
     if (total == 0) {
         return;
@@ -117,8 +116,6 @@
         i ++;
     }
     [progressIndicator stopAnimation: self];
-    [tablename release];
-    [collection release];
 }
 
 - (long long int)exportCount:(NSString *)collection user:(NSString *)user password:(NSString *)password

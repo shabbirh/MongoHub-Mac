@@ -22,7 +22,7 @@
 @synthesize databasesArrayController;
 
 - (id)init {
-    if (![super initWithWindowNibName:@"Auth"]) return nil;
+    self = [super initWithWindowNibName:@"Auth"];
     return self;
 }
 

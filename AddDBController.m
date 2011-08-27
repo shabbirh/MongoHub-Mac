@@ -24,7 +24,7 @@
 @synthesize databasesArrayController;
 
 - (id)init {
-    if (![super initWithWindowNibName:@"NewDB"]) return nil;
+    self = [super initWithWindowNibName:@"NewDB"];
     return self;
 }
 

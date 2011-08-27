@@ -34,7 +34,7 @@
 @synthesize tablesPopUpButton;
 
 - (id)init {
-    if (![super initWithWindowNibName:@"Import"]) return nil;
+    self = [super initWithWindowNibName:@"Import"];
     return self;
 }
 
@@ -76,7 +76,7 @@
     [progressIndicator setUsesThreadedAnimation:YES];
     [progressIndicator startAnimation: self];
     [progressIndicator setDoubleValue:0];
-    NSString *collection = [[NSString alloc] initWithString:[collectionTextField stringValue]];
+    NSString *collection = [NSString stringWithString:[collectionTextField stringValue]];
     int chunkSize = [chunkSizeTextField intValue];
     if (![collection isPresent]) {
         NSRunAlertPanel(@"Error", @"Collection name can not be empty!", @"OK", nil, nil);
@@ -95,11 +95,9 @@
         user = mongodb.user;
         password = mongodb.password;
     }
-    [mongodb release];
     [self doImportFromTable:tablename toCollection:collection withChunkSize:chunkSize fromId:0 totalResults:total user:user password:password];
     [progressIndicator stopAnimation: self];
     [tablename release];
-    [collection release];
 }
 
 - (long long int)importCount:(NSString *)tableName
@@ -163,7 +161,7 @@
     MCPResult *dbs = [db listDBs];
     NSArray *row;
     NSMutableArray *databases = [[NSMutableArray alloc] initWithCapacity:[dbs numOfRows]];
-    while (row = [dbs fetchRowAsArray]) {
+    while ((row = [dbs fetchRowAsArray])) {
         NSDictionary *database = [[NSDictionary alloc] initWithObjectsAndKeys:[row objectAtIndex:0], @"name", nil];
         [databases addObject:database];
         [database release];
@@ -179,18 +177,16 @@
         dbn = [[[dbsArrayController arrangedObjects] objectAtIndex:0] objectForKey:@"name"];
     }else {
         NSPopUpButton *pb = sender;
-        dbn = [[NSString alloc] initWithString:[pb titleOfSelectedItem]];
+        dbn = [NSString stringWithString:[pb titleOfSelectedItem]];
     }
     if (![dbn isPresent]) {
-        [dbn release];
         return;
     }
     [db selectDB:dbn];
-    [dbn release];
     MCPResult *tbs = [db listTables];
     NSArray *row;
     NSMutableArray *tables = [[NSMutableArray alloc] initWithCapacity:[tbs numOfRows]];
-    while (row = [tbs fetchRowAsArray]) {
+    while ((row = [tbs fetchRowAsArray])) {
         NSDictionary *table = [[NSDictionary alloc] initWithObjectsAndKeys:[row objectAtIndex:0], @"name", nil];
         [tables addObject:table];
         [table release];

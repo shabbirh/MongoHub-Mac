@@ -36,7 +36,7 @@
 @synthesize managedObjectContext;
 
 - (id)init {
-    if (![super initWithWindowNibName:@"EditConnection"]) return nil;
+    self = [super initWithWindowNibName:@"EditConnection"];
     return self;
 }
 

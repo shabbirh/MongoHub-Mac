@@ -91,7 +91,7 @@
 
 
 - (id)init {
-    if (![super initWithWindowNibName:@"QueryWindow"]) return nil;
+    self = [super initWithWindowNibName:@"QueryWindow"];
     return self;
 }
 
@@ -212,7 +212,6 @@
         user = db.user;
         password = db.password;
     }
-    [db release];
     NSString *critical = [self formatedQuery];
     NSString *fields = [fieldsTextField stringValue];
     NSString *sort = [sortTextField stringValue];
@@ -271,7 +270,6 @@
         user = db.user;
         password = db.password;
     }
-    [db release];
     NSString *critical = [updateCriticalTextField stringValue];
     NSString *fields = [updateSetTextField stringValue];
     NSNumber *upset = [NSNumber numberWithInt:[upsetCheckBox state]];
@@ -308,7 +306,6 @@
         user = db.user;
         password = db.password;
     }
-    [db release];
     NSString *critical = [removeCriticalTextField stringValue];
     int total = [mongoDB countInDB:dbname 
                         collection:collectionname 
@@ -341,7 +338,6 @@
         user = db.user;
         password = db.password;
     }
-    [db release];
     NSString *insertData = [insertDataTextView string];
     [mongoDB insertInDB:dbname 
              collection:collectionname 
@@ -369,7 +365,6 @@
         user = db.user;
         password = db.password;
     }
-    [db release];
     NSMutableArray *results = [[NSMutableArray alloc] initWithArray:[mongoDB indexInDB:dbname 
                                                                             collection:collectionname 
                                                                                   user:user 
@@ -397,7 +392,6 @@
         user = db.user;
         password = db.password;
     }
-    [db release];
     NSString *indexData = [indexTextField stringValue];
     [mongoDB ensureIndexInDB:dbname 
                   collection:collectionname 
@@ -426,7 +420,6 @@
         user = db.user;
         password = db.password;
     }
-    [db release];
     [mongoDB reIndexInDB:dbname 
               collection:collectionname 
                     user:user 
@@ -453,7 +446,6 @@
         user = db.user;
         password = db.password;
     }
-    [db release];
     NSString *indexName = [indexTextField stringValue];
     [mongoDB dropIndexInDB:dbname 
                 collection:collectionname 
@@ -481,7 +473,6 @@
         user = db.user;
         password = db.password;
     }
-    [db release];
     NSString *mapFunction = [mapFunctionTextView string];
     NSString *reduceFunction = [reduceFunctionTextView string];
     NSString *critical = [mrcriticalTextField stringValue];
@@ -541,7 +532,6 @@
         user = db.user;
         password = db.password;
     }
-    [db release];
     NSString *critical = [expCriticalTextField stringValue];
     NSString *fields = [expFieldsTextField stringValue];
     NSString *sort = [expSortTextField stringValue];
@@ -688,7 +678,6 @@
         user = db.user;
         password = db.password;
     }
-    [db release];
     
     if ([impDropCheckBox state] == 1)
     {
@@ -726,27 +715,22 @@
             return;
         }
         
-        int len = 0;
         if (strncmp("\xEF\xBB\xBF", buf, 3) == 0) { // UTF-8 BOM (notepad is stupid)
             buf += 3;
-            len += 3;
         }
         
         if (_jsonArray) {
             while (buf[0] != '{' && buf[0] != '\0') {
-                len++;
                 buf++;
             }
             if (buf[0] == '\0')
                 break;
         }else {
             while (std::isspace( buf[0] )) {
-                len++;
                 buf++;
             }
             if (buf[0] == '\0')
                 continue;
-            len += strlen( buf );
         }
         
         try {
@@ -754,7 +738,6 @@
             if (_jsonArray) {
                 int jslen;
                 o = mongo::fromjson(buf, &jslen);
-                len += jslen;
                 buf += jslen;
             }else {
                 o = [self parseCSVLine:buf type:_type sep:_sep.c_str() headerLine:_headerLine ignoreBlanks:_ignoreBlanks fields:_fields];NSLog(@"%@", [NSString stringWithUTF8String:o.jsonString( mongo::TenGen , false ).c_str()]);
@@ -807,7 +790,6 @@
             user = db.user;
             password = db.password;
         }
-        [db release];
         NSString *critical;
         if ([[currentItem objectForKey:@"type"] isEqualToString:@"ObjectId"]) {
             critical = [NSString stringWithFormat:@"{_id:ObjectId(\"%@\")}", [currentItem objectForKey:@"value"]];

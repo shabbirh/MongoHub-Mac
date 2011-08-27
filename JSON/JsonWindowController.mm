@@ -25,7 +25,7 @@
 @synthesize myTextView;
 
 - (id)init {
-    if (![super initWithWindowNibName:@"JsonWindow"]) return nil;
+    self = [super initWithWindowNibName:@"JsonWindow"];
     return self;
 }
 
@@ -133,7 +133,6 @@
         user = db.user;
         password = db.password;
     }
-    [db release];
     NSString *_id = nil;
     if ([[jsonDict objectForKey:@"type"] isEqualToString:@"ObjectId"]) {
         _id = [NSString stringWithFormat:@"ObjectId(\"%@\")", [jsonDict objectForKey:@"value"]];

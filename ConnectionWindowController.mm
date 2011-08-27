@@ -52,7 +52,7 @@
 
 
 - (id)init {
-    if (![super initWithWindowNibName:@"ConnectionWindow"]) return nil;
+    self = [super initWithWindowNibName:@"ConnectionWindow"];
     return self;
 }
 
@@ -70,7 +70,6 @@
     [reconnectButton setEnabled:NO];
     [monitorButton setEnabled:NO];
     bool connected;
-    NSString *hostaddress = [[[NSString alloc] init] autorelease];
     if (!haveHostAddress && [conn.usessh intValue]==1) {
         NSString *portForward = [[NSString alloc] initWithFormat:@"L:%@:%@:%@:%@", conn.hostport, conn.host, conn.sshhost, conn.bindport];
         NSMutableArray *portForwardings = [[NSMutableArray alloc] initWithObjects:portForward, nil];
@@ -90,13 +89,14 @@
         [sshTunnel setCompression:YES];
         //[sshTunnel start];
         [portForwardings release];
+        [pool drain];
         return;
     }else if (!haveHostAddress && [conn.host isEqualToString:@"flame.mongohq.com"]) {
-        hostaddress = [NSString stringWithFormat:@"%@:%@/%@", conn.host, conn.hostport, conn.defaultdb];
+        NSString *hostaddress = [[NSString alloc] initWithFormat:@"%@:%@/%@", conn.host, conn.hostport, conn.defaultdb];
         connected = mongoDB = [[MongoDB alloc] initWithConn:hostaddress];
+        [hostaddress release];
     }else {
         if ([conn.userepl intValue] == 1) {
-            hostaddress = conn.repl_name;
             NSArray *tmp = [conn.servers componentsSeparatedByString:@","];
             NSMutableArray *hosts = [[NSMutableArray alloc] initWithCapacity:[tmp count]];
             for (NSString *h in tmp) {
@@ -109,8 +109,9 @@
             connected = mongoDB = [[MongoDB alloc] initWithConn:conn.repl_name hosts:hosts];
             [hosts release];
         }else{
-            hostaddress = [NSString stringWithFormat:@"%@:%@", conn.host, conn.hostport];
+            NSString *hostaddress = [[NSString alloc] initWithFormat:@"%@:%@", conn.host, conn.hostport];
             connected = mongoDB = [[MongoDB alloc] initWithConn:hostaddress];
+            [hostaddress release];
         }
     }
     [loaderIndicator stop];
@@ -280,7 +281,6 @@
         user = db.user;
         password = db.password;
     }
-    [db release];
     [self performSelectorOnMainThread:@selector(updateWithNewCollections:) withObject:[mongoDB listCollections:dbname user:user password:password] waitUntilDone:NO];
     [pool drain];
 }
@@ -337,7 +337,6 @@
         user = db.user;
         password = db.password;
     }
-    [db release];
     NSMutableArray *results = [[NSMutableArray alloc] initWithArray:[mongoDB dbStats:[self.selectedDB caption] 
                                                                                 user:user 
                                                                             password:password]];
@@ -363,7 +362,6 @@
         user = db.user;
         password = db.password;
     }
-    [db release];
     NSMutableArray *results = [[NSMutableArray alloc] initWithArray:[mongoDB collStats:[self.selectedCollection caption] 
                                                                                  forDB:[self.selectedDB caption] 
                                                                                   user:user 
@@ -443,7 +441,6 @@
         user = db.user;
         password = db.password;
     }
-    [db release];
     [mongoDB createCollection:collectionname 
                         forDB:dbname 
                          user:user 
@@ -475,7 +472,6 @@
         user = db.user;
         password = db.password;
     }
-    [db release];
     [loaderIndicator start];
     [mongoDB dropCollection:collectionname 
                       forDB:dbname 
@@ -502,7 +498,6 @@
         user = db.user;
         password = db.password;
     }
-    [db release];
     [loaderIndicator start];
     [mongoDB dropDB:[self.selectedDB caption] 
                 user:user 

@@ -232,19 +232,19 @@
 - (IBAction)chooseKeyPath:(id)sender
 {
     NSOpenPanel *tvarNSOpenPanelObj	= [NSOpenPanel openPanel];
-    NSInteger tvarNSInteger	= [tvarNSOpenPanelObj runModalForTypes:nil];
+    NSInteger tvarNSInteger	= [tvarNSOpenPanelObj runModal];
     if(tvarNSInteger == NSOKButton){
      	NSLog(@"doOpen we have an OK button");
         //NSString * tvarDirectory = [tvarNSOpenPanelObj directory];
         //NSLog(@"doOpen directory = %@",tvarDirectory);
-        NSString * tvarFilename = [tvarNSOpenPanelObj filename];
+        NSString * tvarFilename = [[tvarNSOpenPanelObj URL] path];
         NSLog(@"doOpen filename = %@",tvarFilename);
         [sshkeyfileTextField setStringValue:tvarFilename];
     } else if(tvarNSInteger == NSCancelButton) {
      	NSLog(@"doOpen we have a Cancel button");
      	return;
     } else {
-     	NSLog(@"doOpen tvarInt not equal 1 or zero = %3d",tvarNSInteger);
+     	NSLog(@"doOpen tvarInt not equal 1 or zero = %3ld",tvarNSInteger);
      	return;
     } // end if
 }

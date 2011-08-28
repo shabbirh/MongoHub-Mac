@@ -42,7 +42,7 @@
 			<object class="NSWindowTemplate" id="1005">
 				<int key="NSWindowStyleMask">15</int>
 				<int key="NSWindowBacking">2</int>
-				<string key="NSWindowRect">{{196, 424}, {328, 86}}</string>
+				<string key="NSWindowRect">{{196, 424}, {328, 90}}</string>
 				<int key="NSWTFlags">544735232</int>
 				<string key="NSWindowTitle">Add New Collection</string>
 				<string key="NSWindowClass">NSWindow</string>
@@ -56,10 +56,10 @@
 						<object class="NSTextField" id="744141760">
 							<reference key="NSNextResponder" ref="1006"/>
 							<int key="NSvFlags">268</int>
-							<string key="NSFrame">{{140, 51}, {168, 22}}</string>
+							<string key="NSFrame">{{135, 48}, {173, 22}}</string>
 							<reference key="NSSuperview" ref="1006"/>
 							<reference key="NSWindow"/>
-							<reference key="NSNextKeyView" ref="617211074"/>
+							<reference key="NSNextKeyView" ref="139521845"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSTextFieldCell" key="NSCell" id="235450071">
 								<int key="NSCellFlags">-1804468671</int>
@@ -95,15 +95,15 @@
 						<object class="NSTextField" id="139521845">
 							<reference key="NSNextResponder" ref="1006"/>
 							<int key="NSvFlags">268</int>
-							<string key="NSFrame">{{17, 53}, {113, 17}}</string>
+							<string key="NSFrame">{{17, 50}, {113, 17}}</string>
 							<reference key="NSSuperview" ref="1006"/>
 							<reference key="NSWindow"/>
-							<reference key="NSNextKeyView" ref="744141760"/>
+							<reference key="NSNextKeyView" ref="617211074"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSTextFieldCell" key="NSCell" id="473427163">
 								<int key="NSCellFlags">68288064</int>
 								<int key="NSCellFlags2">272630784</int>
-								<string key="NSContents">Collection Name</string>
+								<string key="NSContents">Collection Name:</string>
 								<reference key="NSSupport" ref="252652478"/>
 								<reference key="NSControlView" ref="139521845"/>
 								<object class="NSColor" key="NSBackgroundColor">
@@ -126,7 +126,7 @@
 						<object class="NSButton" id="666783178">
 							<reference key="NSNextResponder" ref="1006"/>
 							<int key="NSvFlags">268</int>
-							<string key="NSFrame">{{250, 18}, {58, 25}}</string>
+							<string key="NSFrame">{{232, 12}, {82, 32}}</string>
 							<reference key="NSSuperview" ref="1006"/>
 							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView"/>
@@ -137,8 +137,9 @@
 								<string key="NSContents">Add</string>
 								<reference key="NSSupport" ref="252652478"/>
 								<reference key="NSControlView" ref="666783178"/>
-								<int key="NSButtonFlags">-2038152961</int>
-								<int key="NSButtonFlags2">163</int>
+								<int key="NSButtonFlags">-2038021889</int>
+								<int key="NSButtonFlags2">129</int>
+								<reference key="NSAlternateImage" ref="252652478"/>
 								<string key="NSAlternateContents"/>
 								<string type="base64-UTF8" key="NSKeyEquivalent">DQ</string>
 								<int key="NSPeriodicDelay">400</int>
@@ -148,7 +149,7 @@
 						<object class="NSButton" id="617211074">
 							<reference key="NSNextResponder" ref="1006"/>
 							<int key="NSvFlags">268</int>
-							<string key="NSFrame">{{177, 18}, {65, 25}}</string>
+							<string key="NSFrame">{{150, 12}, {82, 32}}</string>
 							<reference key="NSSuperview" ref="1006"/>
 							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="666783178"/>
@@ -159,8 +160,9 @@
 								<string key="NSContents">Cancel</string>
 								<reference key="NSSupport" ref="252652478"/>
 								<reference key="NSControlView" ref="617211074"/>
-								<int key="NSButtonFlags">-2038152961</int>
-								<int key="NSButtonFlags2">163</int>
+								<int key="NSButtonFlags">-2038021889</int>
+								<int key="NSButtonFlags2">129</int>
+								<reference key="NSAlternateImage" ref="252652478"/>
 								<string key="NSAlternateContents"/>
 								<string type="base64-UTF8" key="NSKeyEquivalent">Gw</string>
 								<int key="NSPeriodicDelay">400</int>
@@ -168,10 +170,10 @@
 							</object>
 						</object>
 					</object>
-					<string key="NSFrameSize">{328, 86}</string>
+					<string key="NSFrameSize">{328, 90}</string>
 					<reference key="NSSuperview"/>
 					<reference key="NSWindow"/>
-					<reference key="NSNextKeyView" ref="139521845"/>
+					<reference key="NSNextKeyView" ref="744141760"/>
 				</object>
 				<string key="NSScreenRect">{{0, 0}, {1440, 878}}</string>
 				<string key="NSMaxSize">{10000000000000, 10000000000000}</string>

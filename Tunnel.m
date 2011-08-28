@@ -142,14 +142,27 @@ static int GetFirstChildPID(int pid)
 
 - (id) init {
 	if(self = [super init]){
-        uid = [NSString UUIDString];
+        uid = [[NSString UUIDString] retain];
         
         lock = [NSLock new];
-        portForwardings = [NSMutableArray array];
+        portForwardings = [[NSMutableArray alloc] init];
         isRunning = NO;
 	}
 	
 	return (self);
+}
+
+- (void)dealloc
+{
+    self.uid = nil;
+    self.name = nil;
+    self.host = nil;
+    self.user = nil;
+    self.password = nil;
+    self.keyfile = nil;
+    self.additionalArgs = nil;
+    self.portForwardings = nil;
+    [super dealloc];
 }
 
 @synthesize uid;

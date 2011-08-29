@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		026B2DE513BB6FB8009BEA7B /* RegexKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 026B2DE413BB6FB8009BEA7B /* RegexKit.framework */; };
-		02C317B8140AD915005033E5 /* MongoCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = 02C317B7140AD914005033E5 /* MongoCollection.m */; };
+		02C317B8140AD915005033E5 /* MongoCollection.mm in Sources */ = {isa = PBXBuildFile; fileRef = 02C317B7140AD914005033E5 /* MongoCollection.mm */; };
 		02FCD3CF13BB9EA400316A9F /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 02FCD3CE13BB9EA400316A9F /* Sparkle.framework */; };
 		02FCD3D813BBA4A300316A9F /* MCPKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 02FCD3D713BBA4A300316A9F /* MCPKit.framework */; };
 		02FCD3D913BCC7D200316A9F /* RegexKit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 026B2DE413BB6FB8009BEA7B /* RegexKit.framework */; };
@@ -174,7 +174,7 @@
 /* Begin PBXFileReference section */
 		026B2DE413BB6FB8009BEA7B /* RegexKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = RegexKit.framework; sourceTree = "<group>"; };
 		02C317B6140AD913005033E5 /* MongoCollection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MongoCollection.h; sourceTree = "<group>"; };
-		02C317B7140AD914005033E5 /* MongoCollection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MongoCollection.m; sourceTree = "<group>"; };
+		02C317B7140AD914005033E5 /* MongoCollection.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MongoCollection.mm; sourceTree = "<group>"; };
 		02FCD3CE13BB9EA400316A9F /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Sparkle.framework; sourceTree = "<group>"; };
 		02FCD3D713BBA4A300316A9F /* MCPKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = MCPKit.framework; sourceTree = "<group>"; };
 		089C165DFE840E0CC02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -540,7 +540,7 @@
 				1D93C60911841865003216F7 /* MongoDB.h */,
 				1D93C60A11841865003216F7 /* MongoDB.mm */,
 				02C317B6140AD913005033E5 /* MongoCollection.h */,
-				02C317B7140AD914005033E5 /* MongoCollection.m */,
+				02C317B7140AD914005033E5 /* MongoCollection.mm */,
 				1DA6806A11888BDD00DFDD29 /* NSString+Extras.h */,
 				1DA6806B11888BDD00DFDD29 /* NSString+Extras.m */,
 				1D26618F11CFD1640092C6B5 /* FieldMapDataObject.h */,
@@ -832,7 +832,7 @@
 				1D64100512C8E1C00030AA4C /* NSScanner+SkipUpToCharset.m in Sources */,
 				1D64100812C8E21C0030AA4C /* UKSyntaxColoredTextViewController.m in Sources */,
 				1D64100D12C8E3D90030AA4C /* JsonWindowController.mm in Sources */,
-				02C317B8140AD915005033E5 /* MongoCollection.m in Sources */,
+				02C317B8140AD915005033E5 /* MongoCollection.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

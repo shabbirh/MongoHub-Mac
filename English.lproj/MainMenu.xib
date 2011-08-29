@@ -2,7 +2,7 @@
 <archive type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="7.10">
 	<data>
 		<int key="IBDocument.SystemTarget">1070</int>
-		<string key="IBDocument.SystemVersion">11B26</string>
+		<string key="IBDocument.SystemVersion">11A511</string>
 		<string key="IBDocument.InterfaceBuilderVersion">1923</string>
 		<string key="IBDocument.AppKitVersion">1138</string>
 		<string key="IBDocument.HIToolboxVersion">566.00</string>
@@ -225,7 +225,7 @@
 								<reference key="NSSupport" ref="298605651"/>
 								<reference key="NSControlView" ref="726254851"/>
 								<int key="NSButtonFlags">-2033958657</int>
-								<int key="NSButtonFlags2">163</int>
+								<int key="NSButtonFlags2">227</int>
 								<object class="NSCustomResource" key="NSNormalImage">
 									<string key="NSClassName">NSImage</string>
 									<string key="NSResourceName">editicon</string>
@@ -268,7 +268,6 @@
 							<string key="NSFrame">{{417, 5}, {165, 21}}</string>
 							<reference key="NSSuperview" ref="823886803"/>
 							<reference key="NSWindow"/>
-							<reference key="NSNextKeyView"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSSliderCell" key="NSCell" id="163406566">
 								<int key="NSCellFlags">-2080244224</int>
@@ -291,7 +290,7 @@
 					<reference key="NSWindow"/>
 					<reference key="NSNextKeyView" ref="150140682"/>
 				</object>
-				<string key="NSScreenRect">{{0, 0}, {1440, 900}}</string>
+				<string key="NSScreenRect">{{0, 0}, {1920, 1178}}</string>
 				<string key="NSMinSize">{213, 129}</string>
 				<string key="NSMaxSize">{10000000000000, 10000000000000}</string>
 				<bool key="NSWindowIsRestorable">YES</bool>
@@ -1011,6 +1010,7 @@
 						<string key="NSFrame">{{17, 35}, {142, 105}}</string>
 						<reference key="NSSuperview" ref="126490163"/>
 						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView" ref="849556632"/>
 						<object class="NSArray" key="NSViewContentFilters">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<object class="CISpotLight">
@@ -1054,6 +1054,7 @@
 						<string key="NSFrame">{{14, 17}, {145, 17}}</string>
 						<reference key="NSSuperview" ref="126490163"/>
 						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="733634740">
 							<int key="NSCellFlags">68288064</int>
@@ -1072,6 +1073,7 @@
 				<string key="NSFrameSize">{179, 157}</string>
 				<reference key="NSSuperview"/>
 				<reference key="NSWindow"/>
+				<reference key="NSNextKeyView" ref="147980012"/>
 			</object>
 			<object class="NSArrayController" id="698277503">
 				<object class="NSMutableArray" key="NSDeclaredKeys">
@@ -1211,7 +1213,7 @@ Y2xvc2UuY29tLwpUd2l0dGVyOiBodHRwOi8vdHdpdHRlci5jb20vYnVidWJhLw</string>
 					<string key="NSFrameSize">{331, 175}</string>
 					<reference key="NSNextKeyView" ref="421534884"/>
 				</object>
-				<string key="NSScreenRect">{{0, 0}, {1440, 900}}</string>
+				<string key="NSScreenRect">{{0, 0}, {1920, 1178}}</string>
 				<string key="NSMaxSize">{10000000000000, 10000000000000}</string>
 				<bool key="NSWindowIsRestorable">YES</bool>
 			</object>

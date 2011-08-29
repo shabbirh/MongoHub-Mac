@@ -27,7 +27,8 @@
     IBOutlet DatabasesArrayController *databaseArrayController;
     IBOutlet ResultsOutlineViewController *resultsOutlineViewController;
     Connection *conn;
-    MongoDB *mongoDB;
+    MongoDB *_mongoDB;
+    NSTimer *_serverMonitorTimer;
     IBOutlet Sidebar *sidebar;
     IBOutlet NSTextField *resultsTitle;
     IBOutlet NSProgressIndicator *loaderIndicator;
@@ -74,7 +75,6 @@
 @property (nonatomic, retain) ExportWindowController *exportWindowController;
 
 - (void)reloadSidebar;
-- (void)reloadDBList;
 - (void)useDB:(id)sender;
 - (void)useCollection:(id)sender;
 - (IBAction)reconnect:(id)sender;
@@ -99,5 +99,4 @@
 
 - (IBAction)startMonitor:(id)sender;
 - (IBAction)stopMonitor:(id)sender;
-- (void)updateMonitor;
 @end

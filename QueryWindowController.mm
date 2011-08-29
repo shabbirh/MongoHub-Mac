@@ -681,7 +681,7 @@
     
     if ([impDropCheckBox state] == 1)
     {
-        [mongoDB dropCollection:collectionname forDB:dbname user:user password:password];
+        [[mongoDB dropCollectionWithName:collectionname databaseName:dbname userName:user password:password] waitUntilFinished];
     }
     
     if ([impIgnoreBlanksCheckBox state] == 1)

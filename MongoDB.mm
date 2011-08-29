@@ -13,83 +13,147 @@
 #import <mongo/util/sock.h>
 
 extern "C" {
-    void MongoDB_enableIPv6(bool flag)
+    void MongoDB_enableIPv6(BOOL flag)
     {
-        mongo::enableIPv6(flag);
+        mongo::enableIPv6((flag == YES)?true:false);
     }
 }
+
+@interface MongoDB()
+
+@property(nonatomic, readwrite, assign, getter=isConnected) BOOL connected;
+
+- (BOOL)authenticateSynchronouslyWithDatabaseName:(NSString *)databaseName userName:(NSString *)user password:(NSString *)password errorMessage:(NSString **)errorMessage;
+- (BOOL)authUser:(NSString *)user 
+            pass:(NSString *)pass 
+        database:(NSString *)db;
+
+@end
 
 @implementation MongoDB
 
-- (id)init {
-    self = [super init];
-    return self;
-}
+@synthesize connected = _connected, delegate = _delegate, serverStatus = _serverStatus;
 
-- (mongo::DBClientConnection *)mongoConnection
+- (id)init
 {
-    return conn;
+    if ((self = [super init]) != nil) {
+        _operationQueue = [[NSOperationQueue alloc] init];
+        [_operationQueue setMaxConcurrentOperationCount:1];
+        _serverStatus = [[NSMutableArray alloc] init];
+        _databaseList = [[NSMutableDictionary alloc] init];
+    }
+    return self;
 }
 
-- (mongo::DBClientReplicaSet::DBClientReplicaSet *)mongoReplConnection
+- (void)dealloc
 {
-    return repl_conn;
-}
-
-- (id)initWithConn:(NSString *)host {
-    self = [super init];
-    isRepl = NO;
-    [self connect:host];
-    return self;
-}
-
-- (id)initWithConn:(NSString *)name hosts:(NSArray *)hosts {
-    self = [super init];
-    isRepl = YES;
-    [self connect:name hosts:hosts];
-    return self;
-}
-
-- (void)dealloc {
+    if (conn) {
+        delete conn;
+    }
+    if (repl_conn) {
+        delete repl_conn;
+    }
+    [_operationQueue release];
+    [_serverStatus release];
+    [_databaseList release];
     [super dealloc];
 }
 
-- (bool)connect:(NSString *)host {
+- (BOOL)authenticateSynchronouslyWithDatabaseName:(NSString *)databaseName userName:(NSString *)user password:(NSString *)password errorMessage:(NSString **)errorMessage
+{
+    BOOL result = YES;
+    
+    if ([user length] > 0 && [password length] > 0) {
+        if (*errorMessage != NULL) {
+            *errorMessage = nil;
+        }
+        try {
+            std::string errmsg;
+            std::string dbname;
+            
+            if ([databaseName length] == 0) {
+                dbname = [databaseName UTF8String];
+            }else {
+                dbname = "admin";
+            }
+            if (repl_conn) {
+                result = repl_conn->auth(dbname, std::string([user UTF8String]), std::string([password UTF8String]), errmsg) == true;
+            } else {
+                result = conn->auth(dbname, std::string([user UTF8String]), std::string([password UTF8String]), errmsg) == true;
+            }
+            
+            if (result && *errorMessage != NULL) {
+                *errorMessage = [NSString stringWithUTF8String:errmsg.c_str()];
+            }
+        } catch (mongo::DBException &e) {
+            if (*errorMessage) {
+                *errorMessage = [NSString stringWithUTF8String:e.what()];
+            }
+            result = NO;
+        }
+    }
+    return result;
+}
+
+- (void)connectCallback:(NSString *)errorMessage
+{
+    if (errorMessage && [_delegate respondsToSelector:@selector(mongoDBConnectionFailed:withErrorMessage:)]) {
+        [_delegate mongoDBConnectionFailed:self withErrorMessage:errorMessage];
+    } else if (errorMessage == nil && [_delegate respondsToSelector:@selector(mongoDBConnectionSucceded:)]) {
+        [_delegate mongoDBConnectionSucceded:self];
+    }
+    self.connected = (errorMessage == nil);
+}
+
+- (NSOperation *)connectWithHostName:(NSString *)host databaseName:(NSString *)databaseName userName:(NSString *)userName password:(NSString *)password
+{
+    NSBlockOperation *operation;
+    NSAssert(conn == NULL, @"already connected");
+    NSAssert(repl_conn == NULL, @"already connected");
+    
     conn = new mongo::DBClientConnection;
-    try {
-        conn->connect([host UTF8String]);
-        NSLog(@"Connected to: %@", host);
-        return true;
-    }catch( mongo::DBException &e ) {
-        NSRunAlertPanel(@"Error", [NSString stringWithUTF8String:e.what()], @"OK", nil, nil);
-        return false;
-    }
-    return false;
+    operation = [NSBlockOperation blockOperationWithBlock:^{
+        std::string error;
+        NSString *errorMessage = nil;
+        
+        if (conn->connect([host UTF8String], error) == false) {
+            errorMessage = [NSString stringWithUTF8String:error.c_str()];
+        } else if ([userName length] > 0) {
+            [self authenticateSynchronouslyWithDatabaseName:databaseName userName:userName password:password errorMessage:&errorMessage];
+        }
+        [self performSelectorOnMainThread:@selector(connectCallback:) withObject:errorMessage waitUntilDone:NO];
+    }];
+    [_operationQueue addOperation:operation];
+    return operation;
 }
 
-- (bool)connect:(NSString *)name hosts:(NSArray *)hosts {
-    try {
-        std::vector<mongo::HostAndPort> servers;NSLog(@"%@", hosts);
-        for (NSString *h in hosts) {
-            mongo::HostAndPort server([h UTF8String]);
-            servers.push_back(server);
-        }
-        repl_conn = new mongo::DBClientReplicaSet::DBClientReplicaSet([name UTF8String], servers);
-        bool ok = repl_conn->connect();
-        if (!ok) {
-            NSRunAlertPanel(@"Error", @"Connection Failed", @"OK", nil, nil);
-            return false;
-        }
-        NSLog(@"Connected to: %@", hosts);
-        return true;
-    }catch( mongo::DBException &e ) {
-        NSRunAlertPanel(@"Error", [NSString stringWithUTF8String:e.what()], @"OK", nil, nil);
-        return false;
+- (NSOperation *)connectWithReplicaName:(NSString *)name hosts:(NSArray *)hosts databaseName:(NSString *)databaseName userName:(NSString *)userName password:(NSString *)password
+{
+    NSBlockOperation *operation;
+    NSAssert(conn == NULL, @"already connected");
+    NSAssert(repl_conn == NULL, @"already connected");
+    
+    std::vector<mongo::HostAndPort> servers;
+    for (NSString *h in hosts) {
+        mongo::HostAndPort server([h UTF8String]);
+        servers.push_back(server);
     }
-    return false;
+    repl_conn = new mongo::DBClientReplicaSet::DBClientReplicaSet([name UTF8String], servers);
+    operation = [NSBlockOperation blockOperationWithBlock:^{
+        NSString *errorMessage = nil;
+        
+        if (repl_conn->connect() == false) {
+            errorMessage = @"Connection Failed";
+        } else if ([userName length] > 0) {
+            [self authenticateSynchronouslyWithDatabaseName:databaseName userName:userName password:password errorMessage:&errorMessage];
+        }
+        [self performSelectorOnMainThread:@selector(connectCallback:) withObject:errorMessage waitUntilDone:NO];
+    }];
+    [_operationQueue addOperation:operation];
+    return operation;
 }
 
-- (bool)authUser:(NSString *)user 
+- (BOOL)authUser:(NSString *)user 
             pass:(NSString *)pass 
         database:(NSString *)db
 {
@@ -101,8 +165,8 @@ extern "C" {
         }else {
             dbname = "admin";
         }
-        bool ok;
-        if (isRepl) {
+        BOOL ok;
+        if (repl_conn) {
             ok = repl_conn->auth(dbname, std::string([user UTF8String]), std::string([pass UTF8String]), errmsg);
         }else {
             ok = conn->auth(dbname, std::string([user UTF8String]), std::string([pass UTF8String]), errmsg);
@@ -111,7 +175,6 @@ extern "C" {
         if (!ok) {
             NSRunAlertPanel(@"Error", [NSString stringWithUTF8String:errmsg.c_str()], @"OK", nil, nil);
         }
-        NSLog(@"authUser: %@, %@, %@", user, pass, db);
         return ok;
     }catch (mongo::DBException &e) {
         NSRunAlertPanel(@"Error", [NSString stringWithUTF8String:e.what()], @"OK", nil, nil);
@@ -119,107 +182,192 @@ extern "C" {
     return false;
 }
 
-- (NSArray *)listDatabases {
-    try {
-        std::list<std::string> dbs;
-        if (isRepl) {
-            dbs = repl_conn->getDatabaseNames();
-        }else {
-            dbs = conn->getDatabaseNames();
-        }
-        NSMutableArray *dblist = [[NSMutableArray alloc] initWithCapacity:dbs.size() ];
-        for (std::list<std::string>::iterator it=dbs.begin();it!=dbs.end();++it)
-        {
-            NSString *db = [[NSString alloc] initWithUTF8String:(*it).c_str()];
-            [dblist addObject:db];
-            [db release];
-        }
-        NSArray *response = [NSArray arrayWithArray:dblist];
-        [dblist release];
-        NSLog(@"List Databases");
-        return response;
-    }catch( mongo::DBException &e ) {
-        NSRunAlertPanel(@"Error", [NSString stringWithUTF8String:e.what()], @"OK", nil, nil);
-    }
-    return nil;
-}
-
-- (NSArray *)listCollections:(NSString *)db 
-                        user:(NSString *)user 
-                    password:(NSString *)password {
-    try {
-        if ([user length]>0 && [password length]>0) {
-            bool ok = [self authUser:user pass:password database:db];
-            if (!ok) {
-                return nil;
+- (void)fetchDatabaseListCallback:(NSDictionary *)info
+{
+    NSArray *list;
+    
+    list = [info objectForKey:@"databaseList"];
+    [self willChangeValueForKey:@"databaseList"];
+    if (list) {
+        for (NSString *databaseName in list) {
+            if (![_databaseList objectForKey:databaseName]) {
+                [_databaseList setObject:[NSMutableDictionary dictionary] forKey:databaseName];
             }
         }
-        
-        std::list<std::string> collections;
-        if (isRepl) {
-            collections = repl_conn->getCollectionNames([db UTF8String]);
-        }else {
-            collections = conn->getCollectionNames([db UTF8String]);
-        }
-        
-        NSMutableArray *clist = [[NSMutableArray alloc] initWithCapacity:collections.size() ];
-        unsigned int istartp = [db length] + 1;
-        for (std::list<std::string>::iterator it=collections.begin();it!=collections.end();++it)
-        {
-            NSString *collection = [[NSString alloc] initWithUTF8String:(*it).c_str()];
-            [clist addObject:[collection substringWithRange:NSMakeRange( istartp, [collection length]-istartp )] ];
-            [collection release];
-        }
-        NSArray *response = [NSArray arrayWithArray:clist];
-        [clist release];
-        NSLog(@"List Collections");
-        return response;
-    }catch (mongo::DBException &e) {
-        NSRunAlertPanel(@"Error", [NSString stringWithUTF8String:e.what()], @"OK", nil, nil);
-    }
-    return nil;
-}
-
-- (NSMutableArray *) serverStatus
-{
-    try {
-        mongo::BSONObj retval;
-        if (isRepl) {
-            repl_conn->runCommand("admin", BSON("serverStatus"<<1), retval);
-        }else {
-            conn->runCommand("admin", BSON("serverStatus"<<1), retval);
-        }
-        NSLog(@"Show Server Status");
-        return [self bsonDictWrapper:retval];
-    }catch (mongo::DBException &e) {
-        NSRunAlertPanel(@"Error", [NSString stringWithUTF8String:e.what()], @"OK", nil, nil);
-    }
-    return [NSMutableArray arrayWithArray:nil];
-}
-
-- (NSMutableArray *) dbStats:(NSString *)dbname 
-                        user:(NSString *)user 
-                    password:(NSString *)password 
-{
-    try {
-        if ([user length]>0 && [password length]>0) {
-            bool ok = [self authUser:user pass:password database:dbname];
-            if (!ok) {
-                return nil;
+        for (NSString *databaseName in [_databaseList allKeys]) {
+            if (![list containsObject:databaseName]) {
+                [_databaseList removeObjectForKey:databaseName];
             }
         }
-        mongo::BSONObj retval;
-        if (isRepl) {
-            repl_conn->runCommand([dbname UTF8String], BSON("dbstats"<<1), retval);
-        }else {
-            conn->runCommand([dbname UTF8String], BSON("dbstats"<<1), retval);
-        }
-        NSLog(@"Show DB Stats");
-        return [self bsonDictWrapper:retval];
-    }catch (mongo::DBException &e) {
-        NSRunAlertPanel(@"Error", [NSString stringWithUTF8String:e.what()], @"OK", nil, nil);
+    } else {
+        [_databaseList removeAllObjects];
     }
-    return nil;
+    [self didChangeValueForKey:@"databaseList"];
+    if ([_delegate respondsToSelector:@selector(mongoDB:databaseListFetched:withErrorMessage:)]) {
+        [_delegate mongoDB:self databaseListFetched:list withErrorMessage:[info objectForKey:@"errorMessage"]];
+    }
+}
+
+- (NSOperation *)fetchDatabaseList
+{
+    NSBlockOperation *operation;
+    
+    operation = [NSBlockOperation blockOperationWithBlock:^{
+        try {
+            std::list<std::string> dbs;
+            if (repl_conn) {
+                dbs = repl_conn->getDatabaseNames();
+            } else {
+                dbs = conn->getDatabaseNames();
+            }
+            NSMutableArray *dblist = [[NSMutableArray alloc] initWithCapacity:dbs.size()];
+            for (std::list<std::string>::iterator it=dbs.begin();it!=dbs.end();++it) {
+                NSString *db = [[NSString alloc] initWithUTF8String:(*it).c_str()];
+                [dblist addObject:db];
+                [db release];
+            }
+            [self performSelectorOnMainThread:@selector(fetchDatabaseListCallback:) withObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:dblist, @"databaseList", nil] waitUntilDone:NO];
+            [dblist release];
+        } catch( mongo::DBException &e ) {
+            [self performSelectorOnMainThread:@selector(fetchDatabaseListCallback:) withObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:[NSString stringWithUTF8String:e.what()], @"errorMessage", nil] waitUntilDone:NO];
+        }
+    }];
+    [_operationQueue addOperation:operation];
+    return operation;
+}
+
+- (void)fetchServerStatusCallback:(NSDictionary *)result
+{
+    NSArray *serverStatus;
+    
+    serverStatus = [result objectForKey:@"serverStatus"];
+    [self willChangeValueForKey:@"serverStatus"];
+    [_serverStatus removeAllObjects];
+    [_serverStatus addObjectsFromArray:serverStatus];
+    [self didChangeValueForKey:@"serverStatus"];
+    if ([_delegate respondsToSelector:@selector(mongoDB:serverStatusFetched:withErrorMessage:)]) {
+        [_delegate mongoDB:self serverStatusFetched:serverStatus withErrorMessage:[result objectForKey:@"errorMessage"]];
+    }
+}
+
+- (NSOperation *)fetchServerStatus
+{
+    NSBlockOperation *operation;
+    
+    operation = [NSBlockOperation blockOperationWithBlock:^{
+        try {
+            mongo::BSONObj retval;
+            if (repl_conn) {
+                repl_conn->runCommand("admin", BSON("serverStatus"<<1), retval);
+            }else {
+                conn->runCommand("admin", BSON("serverStatus"<<1), retval);
+            }
+            [self performSelectorOnMainThread:@selector(fetchServerStatusCallback:) withObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:[[self class] bsonDictWrapper:retval], @"serverStatus", nil] waitUntilDone:NO];
+        } catch (mongo::DBException &e) {
+            [self performSelectorOnMainThread:@selector(fetchServerStatusCallback:) withObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:[NSString stringWithUTF8String:e.what()], @"errorMessage", nil] waitUntilDone:NO];
+        }
+    }];
+    [_operationQueue addOperation:operation];
+    return operation;
+}
+
+- (void)fetchCollectionListCallback:(NSDictionary *)info
+{
+    NSArray *collectionList;
+    NSString *databaseName;
+    
+    databaseName = [info objectForKey:@"databaseName"];
+    collectionList = [info objectForKey:@"collectionList"];
+    [self willChangeValueForKey:@"databaseList"];
+    if (![_databaseList objectForKey:databaseName]) {
+        [_databaseList setObject:[NSMutableDictionary dictionary] forKey:databaseName];
+    }
+    [[_databaseList objectForKey:databaseName] setObject:collectionList forKey:@"collectionList"];
+    [self didChangeValueForKey:@"databaseList"];
+    if ([_delegate respondsToSelector:@selector(mongoDB:collectionListFetched:withDatabaseName:errorMessage:)]) {
+        [_delegate mongoDB:self collectionListFetched:collectionList withDatabaseName:databaseName errorMessage:[info objectForKey:@"errorMessage"]];
+    }
+}
+
+- (NSOperation *)fetchCollectionListWithDatabaseName:(NSString *)databaseName userName:(NSString *)user password:(NSString *)password
+{
+    NSBlockOperation *operation;
+    
+    operation = [NSBlockOperation blockOperationWithBlock:^{
+        try {
+            NSString *errorMessage = nil;
+            
+            if (![self authenticateSynchronouslyWithDatabaseName:databaseName userName:user password:password errorMessage:&errorMessage]) {
+                [self performSelectorOnMainThread:@selector(fetchCollectionListCallback:) withObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:databaseName, @"databaseName", errorMessage, @"errorMessage", nil] waitUntilDone:NO];
+            } else {
+                std::list<std::string> collections;
+                if (repl_conn) {
+                    collections = repl_conn->getCollectionNames([databaseName UTF8String]);
+                }else {
+                    collections = conn->getCollectionNames([databaseName UTF8String]);
+                }
+                
+                NSMutableArray *collectionList = [[NSMutableArray alloc] initWithCapacity:collections.size() ];
+                unsigned int istartp = [databaseName length] + 1;
+                for (std::list<std::string>::iterator it=collections.begin();it!=collections.end();++it) {
+                    NSString *collection = [[NSString alloc] initWithUTF8String:(*it).c_str()];
+                    [collectionList addObject:[collection substringWithRange:NSMakeRange( istartp, [collection length]-istartp )] ];
+                    [collection release];
+                }
+                [self performSelectorOnMainThread:@selector(fetchCollectionListCallback:) withObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:databaseName, @"databaseName", collectionList, @"collectionList", nil] waitUntilDone:NO];
+                [collectionList release];
+            }
+        } catch (mongo::DBException &e) {
+            [self performSelectorOnMainThread:@selector(fetchCollectionListCallback:) withObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:databaseName, @"databaseName", [NSString stringWithUTF8String:e.what()], @"errorMessage", nil] waitUntilDone:NO];
+        }
+    }];
+    [_operationQueue addOperation:operation];
+    return operation;
+}
+
+- (void)fetchDatabaseStatsCallback:(NSDictionary *)info
+{
+    NSArray *databaseStats;
+    NSString *databaseName;
+    
+    databaseName = [info objectForKey:@"databaseName"];
+    databaseStats = [info objectForKey:@"databaseStats"];
+    [self willChangeValueForKey:@"databaseList"];
+    if (![_databaseList objectForKey:databaseName]) {
+        [_databaseList setObject:[NSMutableDictionary dictionary] forKey:databaseName];
+    }
+    [[_databaseList objectForKey:databaseName] setObject:databaseStats forKey:@"databaseStats"];
+    [self didChangeValueForKey:@"databaseList"];
+    if ([_delegate respondsToSelector:@selector(mongoDB:databaseStatsFetched:withDatabaseName:errorMessage:)]) {
+        [_delegate mongoDB:self databaseStatsFetched:databaseStats withDatabaseName:databaseName errorMessage:[info objectForKey:@"errorMessage"]];
+    }
+}
+
+- (NSOperation *)fetchDatabaseStatsWithDatabaseName:(NSString *)databaseName userName:(NSString *)user password:(NSString *)password
+{
+    NSBlockOperation *operation;
+    
+    operation = [NSBlockOperation blockOperationWithBlock:^{
+        try {
+            NSString *errorMessage = nil;
+            
+            if (![self authenticateSynchronouslyWithDatabaseName:databaseName userName:user password:password errorMessage:&errorMessage]) {
+                [self performSelectorOnMainThread:@selector(fetchDatabaseStatsCallback:) withObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:databaseName, @"databaseName", errorMessage, @"errorMessage", nil] waitUntilDone:NO];
+            } else {
+                mongo::BSONObj retval;
+                if (repl_conn) {
+                    repl_conn->runCommand([databaseName UTF8String], BSON("dbstats"<<1), retval);
+                }else {
+                    conn->runCommand([databaseName UTF8String], BSON("dbstats"<<1), retval);
+                }
+                [self performSelectorOnMainThread:@selector(fetchDatabaseStatsCallback:) withObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:databaseName, @"databaseName", [[self class] bsonDictWrapper:retval], @"databaseStats", nil] waitUntilDone:NO];
+            }
+        }catch (mongo::DBException &e) {
+            [self performSelectorOnMainThread:@selector(fetchDatabaseStatsCallback:) withObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:databaseName, @"databaseName", [NSString stringWithUTF8String:e.what()], @"errorMessage", nil] waitUntilDone:NO];
+        }
+    }];
+    [_operationQueue addOperation:operation];
+    return operation;
 }
 
 - (void) dropDB:(NSString *)dbname 
@@ -228,12 +376,12 @@ extern "C" {
 {
     try {
         if ([user length]>0 && [password length]>0) {
-            bool ok = [self authUser:user pass:password database:dbname];
+            BOOL ok = [self authUser:user pass:password database:dbname];
             if (!ok) {
                 return;
             }
         }
-        if (isRepl) {
+        if (repl_conn) {
             repl_conn->dropDatabase([dbname UTF8String]);
         }else {
             conn->dropDatabase([dbname UTF8String]);
@@ -244,81 +392,171 @@ extern "C" {
     }
 }
 
-- (NSMutableArray *) collStats:(NSString *)collectionname 
-                         forDB:(NSString *)dbname 
-                          user:(NSString *)user 
-                      password:(NSString *)password 
+- (void)fetchCollectionStatsCallback:(NSDictionary *)info
 {
-    try {
-        if ([user length]>0 && [password length]>0) {
-            bool ok = [self authUser:user pass:password database:dbname];
-            if (!ok) {
-                return nil;
-            }
-        }
-        mongo::BSONObj retval;
-        if (isRepl) {
-            repl_conn->runCommand([dbname UTF8String], BSON("collstats"<<[collectionname UTF8String]), retval);
-        }else {
-            conn->runCommand([dbname UTF8String], BSON("collstats"<<[collectionname UTF8String]), retval);
-        }
-        NSLog(@"Show collection stats: %@.%@", dbname, collectionname);
-        return [self bsonDictWrapper:retval];
-    }catch (mongo::DBException &e) {
-        NSRunAlertPanel(@"Error", [NSString stringWithUTF8String:e.what()], @"OK", nil, nil);
-    }
-    return nil;
-}
-
-- (void) createCollection:(NSString *)collectionname 
-                  forDB:(NSString *)dbname 
-                   user:(NSString *)user 
-               password:(NSString *)password 
-{
-    try {
-        if ([user length]>0 && [password length]>0) {
-            bool ok = [self authUser:user pass:password database:dbname];
-            if (!ok) {
-                return;
-            }
-        }
-        NSString *col = [NSString stringWithFormat:@"%@.%@", dbname, collectionname];
-        if (isRepl) {
-            repl_conn->createCollection([col UTF8String]);
-        }else {
-            conn->createCollection([col UTF8String]);
-        }
-        NSLog(@"Creation collection: %@.%@", dbname, collectionname);
-    }catch (mongo::DBException &e) {
-        NSRunAlertPanel(@"Error", [NSString stringWithUTF8String:e.what()], @"OK", nil, nil);
+    NSArray *collectionStats;
+    NSString *databaseName;
+    NSString *collectionName;
+    
+    databaseName = [info objectForKey:@"databaseName"];
+    collectionName = [info objectForKey:@"collectionName"];
+    collectionStats = [info objectForKey:@"collectionStats"];
+    if ([_delegate respondsToSelector:@selector(mongoDB:collectionStatsFetched:withDatabaseName:collectionName:errorMessage:)]) {
+        [_delegate mongoDB:self collectionStatsFetched:collectionStats withDatabaseName:databaseName collectionName:collectionName errorMessage:[info objectForKey:@"errorMessage"]];
     }
 }
 
-- (void) dropCollection:(NSString *)collectionname 
-                  forDB:(NSString *)dbname 
-                   user:(NSString *)user 
-               password:(NSString *)password 
+- (NSOperation *)fetchCollectionStatsWithCollectionName:(NSString *)collectionName databaseName:(NSString *)databaseName userName:(NSString *)user password:(NSString *)password
 {
-    try {
-        if ([user length]>0 && [password length]>0) {
-            bool ok = [self authUser:user pass:password database:dbname];
-            if (!ok) {
-                return;
+    NSBlockOperation *operation;
+    
+    operation = [NSBlockOperation blockOperationWithBlock:^{
+        try {
+            NSString *errorMessage = nil;
+            
+            if (![self authenticateSynchronouslyWithDatabaseName:databaseName userName:user password:password errorMessage:&errorMessage]) {
+                [self performSelectorOnMainThread:@selector(fetchCollectionListCallback:) withObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:databaseName, @"databaseName", collectionName, @"collectionName", errorMessage, @"errorMessage", nil] waitUntilDone:NO];
+            } else {
+                mongo::BSONObj retval;
+                
+                if (repl_conn) {
+                    repl_conn->runCommand([databaseName UTF8String], BSON("collstats"<<[collectionName UTF8String]), retval);
+                }else {
+                    conn->runCommand([databaseName UTF8String], BSON("collstats"<<[collectionName UTF8String]), retval);
+                }
+                
+                [self performSelectorOnMainThread:@selector(fetchCollectionStatsCallback:) withObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:databaseName, @"databaseName", collectionName, @"collectionName", [[self class] bsonDictWrapper:retval], @"collectionStats", nil] waitUntilDone:NO];
             }
+        } catch (mongo::DBException &e) {
+            [self performSelectorOnMainThread:@selector(fetchCollectionStatsCallback:) withObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:databaseName, @"databaseName", collectionName, @"collectionName", [NSString stringWithUTF8String:e.what()], @"errorMessage", nil] waitUntilDone:NO];
         }
-        NSString *col = [NSString stringWithFormat:@"%@.%@", dbname, collectionname];
-        if (isRepl) {
-            repl_conn->dropCollection([col UTF8String]);
-        }else {
-            conn->dropCollection([col UTF8String]);
-        }
-        NSLog(@"Drop collection: %@.%@", dbname, collectionname);
-    }catch (mongo::DBException &e) {
-        NSRunAlertPanel(@"Error", [NSString stringWithUTF8String:e.what()], @"OK", nil, nil);
+    }];
+    [_operationQueue addOperation:operation];
+    return operation;
+}
+
+
+- (void)dropDatabaseCallback:(NSDictionary *)info
+{
+    NSString *databaseName;
+    NSString *errorMessage;
+    
+    databaseName = [info objectForKey:@"databaseName"];
+    errorMessage = [info objectForKey:@"errorMessage"];
+    if ([_delegate respondsToSelector:@selector(mongoDB:databaseDropedWithName:errorMessage:)]) {
+        [_delegate mongoDB:self databaseDropedWithName:databaseName errorMessage:errorMessage];
     }
 }
 
-- (NSMutableArray *) findInDB:(NSString *)dbname 
+- (NSOperation *)dropDatabaseWithName:(NSString *)databaseName userName:(NSString *)user password:(NSString *)password
+{
+    NSBlockOperation *operation;
+    
+    operation = [NSBlockOperation blockOperationWithBlock:^{
+        try {
+            NSString *errorMessage = nil;
+            
+            if (![self authenticateSynchronouslyWithDatabaseName:databaseName userName:user password:password errorMessage:&errorMessage]) {
+                [self performSelectorOnMainThread:@selector(dropDatabaseCallback:) withObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:databaseName, @"databaseName", errorMessage, @"errorMessage", nil] waitUntilDone:NO];
+            } else {
+                if (repl_conn) {
+                    repl_conn->dropDatabase([databaseName UTF8String]);
+                }else {
+                    conn->dropDatabase([databaseName UTF8String]);
+                }
+                [self performSelectorOnMainThread:@selector(dropDatabaseCallback:) withObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:databaseName, @"databaseName", nil] waitUntilDone:NO];
+            }
+        } catch (mongo::DBException &e) {
+            [self performSelectorOnMainThread:@selector(dropDatabaseCallback:) withObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:databaseName, @"databaseName", [NSString stringWithUTF8String:e.what()], @"errorMessage", nil] waitUntilDone:NO];
+        }
+    }];
+    [_operationQueue addOperation:operation];
+    return operation;
+}
+
+- (void)createCollectionCallback:(NSDictionary *)info
+{
+    NSString *collectionName;
+    NSString *databaseName;
+    NSString *errorMessage;
+    
+    collectionName = [info objectForKey:@"collectionName"];
+    databaseName = [info objectForKey:@"databaseName"];
+    errorMessage = [info objectForKey:@"errorMessage"];
+    if ([_delegate respondsToSelector:@selector(mongoDB:collectionCreatedWithName:databaseName:errorMessage:)]) {
+        [_delegate mongoDB:self collectionCreatedWithName:collectionName databaseName:databaseName errorMessage:errorMessage];
+    }
+}
+
+- (NSOperation *)createCollectionWithName:(NSString *)collectionName databaseName:(NSString *)databaseName userName:(NSString *)user password:(NSString *)password
+{
+    NSBlockOperation *operation;
+    
+    operation = [NSBlockOperation blockOperationWithBlock:^{
+        try {
+            NSString *errorMessage = nil;
+            
+            if (![self authenticateSynchronouslyWithDatabaseName:databaseName userName:user password:password errorMessage:&errorMessage]) {
+                [self performSelectorOnMainThread:@selector(createCollectionCallback:) withObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:collectionName, @"collectionName", databaseName, @"databaseName", errorMessage, @"errorMessage", nil] waitUntilDone:NO];
+            } else {
+                NSString *col = [NSString stringWithFormat:@"%@.%@", databaseName, collectionName];
+                if (repl_conn) {
+                    repl_conn->createCollection([col UTF8String]);
+                } else {
+                    conn->createCollection([col UTF8String]);
+                }
+                [self performSelectorOnMainThread:@selector(createCollectionCallback:) withObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:collectionName, @"collectionName", databaseName, @"databaseName", nil] waitUntilDone:NO];
+            }
+        } catch (mongo::DBException &e) {
+            [self performSelectorOnMainThread:@selector(createCollectionCallback:) withObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:collectionName, @"collectionName", databaseName, @"databaseName", [NSString stringWithUTF8String:e.what()], @"errorMessage", nil] waitUntilDone:NO];
+        }
+    }];
+    [_operationQueue addOperation:operation];
+    return operation;
+}
+
+- (void)dropCollectionCallback:(NSDictionary *)info
+{
+    NSString *collectionName;
+    NSString *databaseName;
+    NSString *errorMessage;
+    
+    collectionName = [info objectForKey:@"collectionName"];
+    databaseName = [info objectForKey:@"databaseName"];
+    errorMessage = [info objectForKey:@"errorMessage"];
+    if ([_delegate respondsToSelector:@selector(mongoDB:collectionDropedWithName:databaseName:errorMessage:)]) {
+        [_delegate mongoDB:self collectionDropedWithName:collectionName databaseName:databaseName errorMessage:errorMessage];
+    }
+}
+
+- (NSOperation *)dropCollectionWithName:(NSString *)collectionName databaseName:(NSString *)databaseName userName:(NSString *)user password:(NSString *)password
+{
+    NSBlockOperation *operation;
+    
+    operation = [NSBlockOperation blockOperationWithBlock:^{
+        try {
+            NSString *errorMessage = nil;
+            
+            if (![self authenticateSynchronouslyWithDatabaseName:databaseName userName:user password:password errorMessage:&errorMessage]) {
+                [self performSelectorOnMainThread:@selector(dropCollectionCallback:) withObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:collectionName, @"collectionName", databaseName, @"databaseName", errorMessage, @"errorMessage", nil] waitUntilDone:NO];
+            } else {
+                NSString *col = [NSString stringWithFormat:@"%@.%@", databaseName, collectionName];
+                if (repl_conn) {
+                    repl_conn->dropCollection([col UTF8String]);
+                } else {
+                    conn->dropCollection([col UTF8String]);
+                }
+                [self performSelectorOnMainThread:@selector(dropCollectionCallback:) withObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:collectionName, @"collectionName", databaseName, @"databaseName", nil] waitUntilDone:NO];
+            }
+        } catch (mongo::DBException &e) {
+            [self performSelectorOnMainThread:@selector(dropCollectionCallback:) withObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:collectionName, @"collectionName", databaseName, @"databaseName", [NSString stringWithUTF8String:e.what()], @"errorMessage", nil] waitUntilDone:NO];
+        }
+    }];
+    [_operationQueue addOperation:operation];
+    return operation;
+}
+
+- (NSArray *) findInDB:(NSString *)dbname 
                    collection:(NSString *)collectionname 
                          user:(NSString *)user 
                      password:(NSString *)password 
@@ -330,7 +568,7 @@ extern "C" {
 {
     try {
         if ([user length]>0 && [password length]>0) {
-            bool ok = [self authUser:user pass:password database:dbname];
+            BOOL ok = [self authUser:user pass:password database:dbname];
             if (!ok) {
                 return nil;
             }
@@ -357,7 +595,7 @@ extern "C" {
         }
         
         std::auto_ptr<mongo::DBClientCursor> cursor;
-        if (isRepl) {
+        if (repl_conn) {
             cursor = repl_conn->query(std::string([col UTF8String]), mongo::Query(criticalBSON).sort(sortBSON), [limit intValue], [skip intValue], &fieldsToReturn);
         }else {
             cursor = conn->query(std::string([col UTF8String]), mongo::Query(criticalBSON).sort(sortBSON), [limit intValue], [skip intValue], &fieldsToReturn);
@@ -413,7 +651,7 @@ extern "C" {
             [item setObject:oid forKey:@"value"];
             [item setObject:jsonString forKey:@"raw"];
             [item setObject:jsonStringb forKey:@"beautified"];
-            [item setObject:[self bsonDictWrapper:b] forKey:@"child"];
+            [item setObject:[[self class] bsonDictWrapper:b] forKey:@"child"];
             [response addObject:item];
             [jsonString release];
             [oid release];
@@ -437,7 +675,7 @@ extern "C" {
 {
     try {
         if ([user length]>0 && [password length]>0) {
-            bool ok = [self authUser:user pass:password database:dbname];
+            BOOL ok = [self authUser:user pass:password database:dbname];
             if (!ok) {
                 return;
             }
@@ -446,7 +684,7 @@ extern "C" {
         mongo::BSONObj fields = mongo::fromjson([jsonString UTF8String]);
         mongo::BSONObj critical = mongo::fromjson([[NSString stringWithFormat:@"{\"_id\":%@}", _id] UTF8String]);
         
-        if (isRepl) {
+        if (repl_conn) {
             repl_conn->update(std::string([col UTF8String]), critical, fields, false);
         }else {
             conn->update(std::string([col UTF8String]), critical, fields, false);
@@ -467,7 +705,7 @@ extern "C" {
 {
     try {
         if ([user length]>0 && [password length]>0) {
-            bool ok = [self authUser:user pass:password database:dbname];
+            BOOL ok = [self authUser:user pass:password database:dbname];
             if (!ok) {
                 return;
             }
@@ -475,7 +713,7 @@ extern "C" {
         NSString *col = [NSString stringWithFormat:@"%@.%@", dbname, collectionname];
         mongo::BSONObj criticalBSON = mongo::fromjson([critical UTF8String]);
         mongo::BSONObj fieldsBSON = mongo::fromjson([[NSString stringWithFormat:@"{$set:%@}", fields] UTF8String]);
-        if (isRepl) {
+        if (repl_conn) {
             repl_conn->update(std::string([col UTF8String]), criticalBSON, fieldsBSON, (bool)[upset intValue]);
         }else {
             conn->update(std::string([col UTF8String]), criticalBSON, fieldsBSON, (bool)[upset intValue]);
@@ -494,7 +732,7 @@ extern "C" {
 {
     try {
         if ([user length]>0 && [password length]>0) {
-            bool ok = [self authUser:user pass:password database:dbname];
+            BOOL ok = [self authUser:user pass:password database:dbname];
             if (!ok) {
                 return;
             }
@@ -508,7 +746,7 @@ extern "C" {
                 NSRunAlertPanel(@"Error", [NSString stringWithUTF8String:e.what()], @"OK", nil, nil);
                 return;
             }
-            if (isRepl) {
+            if (repl_conn) {
                 repl_conn->remove(std::string([col UTF8String]), criticalBSON);
             }else {
                 conn->remove(std::string([col UTF8String]), criticalBSON);
@@ -529,7 +767,7 @@ extern "C" {
 {
     try {
         if ([user length]>0 && [password length]>0) {
-            bool ok = [self authUser:user pass:password database:dbname];
+            BOOL ok = [self authUser:user pass:password database:dbname];
             if (!ok) {
                 return;
             }
@@ -543,7 +781,7 @@ extern "C" {
                 NSRunAlertPanel(@"Error", [NSString stringWithUTF8String:e.what()], @"OK", nil, nil);
                 return;
             }
-            if (isRepl) {
+            if (repl_conn) {
                 repl_conn->insert(std::string([col UTF8String]), insertDataBSON);
             }else {
                 conn->insert(std::string([col UTF8String]), insertDataBSON);
@@ -566,7 +804,7 @@ extern "C" {
 {
     try {
         if ([user length]>0 && [password length]>0) {
-            bool ok = [self authUser:user pass:password database:dbname];
+            BOOL ok = [self authUser:user pass:password database:dbname];
             if (!ok) {
                 return;
             }
@@ -622,7 +860,7 @@ extern "C" {
         if (insertDataBSON == emptyBSON) {
             return;
         }
-        if (isRepl) {
+        if (repl_conn) {
             repl_conn->insert(std::string([col UTF8String]), insertDataBSON);
         }else {
             conn->insert(std::string([col UTF8String]), insertDataBSON);
@@ -633,21 +871,21 @@ extern "C" {
     }
 }
 
-- (NSMutableArray *) indexInDB:(NSString *)dbname 
+- (NSArray *) indexInDB:(NSString *)dbname 
          collection:(NSString *)collectionname 
                user:(NSString *)user 
            password:(NSString *)password
 {
     try {
         if ([user length]>0 && [password length]>0) {
-            bool ok = [self authUser:user pass:password database:dbname];
+            BOOL ok = [self authUser:user pass:password database:dbname];
             if (!ok) {
                 return nil;
             }
         }
         NSString *col = [NSString stringWithFormat:@"%@.%@", dbname, collectionname];
         std::auto_ptr<mongo::DBClientCursor> cursor;
-        if (isRepl) {
+        if (repl_conn) {
             cursor = repl_conn->getIndexes(std::string([col UTF8String]));
         }else {
             cursor = conn->getIndexes(std::string([col UTF8String]));
@@ -661,7 +899,7 @@ extern "C" {
             [item setObject:@"name" forKey:@"name"];
             [item setObject:@"String" forKey:@"type"];
             [item setObject:name forKey:@"value"];
-            [item setObject:[self bsonDictWrapper:b] forKey:@"child"];
+            [item setObject:[[self class] bsonDictWrapper:b] forKey:@"child"];
             [response addObject:item];
             [name release];
             [item release];
@@ -682,7 +920,7 @@ extern "C" {
 {
     try {
         if ([user length]>0 && [password length]>0) {
-            bool ok = [self authUser:user pass:password database:dbname];
+            BOOL ok = [self authUser:user pass:password database:dbname];
             if (!ok) {
                 return;
             }
@@ -697,7 +935,7 @@ extern "C" {
                 return;
             }
         }
-        if (isRepl) {
+        if (repl_conn) {
             repl_conn->ensureIndex(std::string([col UTF8String]), indexDataBSON);
         }else {
             conn->ensureIndex(std::string([col UTF8String]), indexDataBSON);
@@ -715,13 +953,13 @@ extern "C" {
 {
     try {
         if ([user length]>0 && [password length]>0) {
-            bool ok = [self authUser:user pass:password database:dbname];
+            BOOL ok = [self authUser:user pass:password database:dbname];
             if (!ok) {
                 return;
             }
         }
         NSString *col = [NSString stringWithFormat:@"%@.%@", dbname, collectionname];
-        if (isRepl) {
+        if (repl_conn) {
             repl_conn->reIndex(std::string([col UTF8String]));
         }else {
             conn->reIndex(std::string([col UTF8String]));
@@ -740,13 +978,13 @@ extern "C" {
 {
     try {
         if ([user length]>0 && [password length]>0) {
-            bool ok = [self authUser:user pass:password database:dbname];
+            BOOL ok = [self authUser:user pass:password database:dbname];
             if (!ok) {
                 return;
             }
         }
         NSString *col = [NSString stringWithFormat:@"%@.%@", dbname, collectionname];
-        if (isRepl) {
+        if (repl_conn) {
             repl_conn->dropIndex(std::string([col UTF8String]), [indexName UTF8String]);
         }else {
             conn->dropIndex(std::string([col UTF8String]), [indexName UTF8String]);
@@ -765,7 +1003,7 @@ extern "C" {
 {
     try {
         if ([user length]>0 && [password length]>0) {
-            bool ok = [self authUser:user pass:password database:dbname];
+            BOOL ok = [self authUser:user pass:password database:dbname];
             if (!ok) {
                 return 0;
             }
@@ -773,7 +1011,7 @@ extern "C" {
         NSString *col = [NSString stringWithFormat:@"%@.%@", dbname, collectionname];
         mongo::BSONObj criticalBSON = mongo::fromjson([critical UTF8String]);
         long long int counter;
-        if (isRepl) {
+        if (repl_conn) {
             counter = repl_conn->count(std::string([col UTF8String]), criticalBSON);
         }else {
             counter = conn->count(std::string([col UTF8String]), criticalBSON);
@@ -786,7 +1024,7 @@ extern "C" {
     return 0;
 }
 
-- (NSMutableArray *)mapReduceInDB:dbname 
+- (NSArray *)mapReduceInDB:dbname 
                        collection:collectionname 
                              user:user 
                          password:password 
@@ -797,7 +1035,7 @@ extern "C" {
 {
     try {
         if ([user length]>0 && [password length]>0) {
-            bool ok = [self authUser:user pass:password database:dbname];
+            BOOL ok = [self authUser:user pass:password database:dbname];
             if (!ok) {
                 return nil;
             }
@@ -808,42 +1046,42 @@ extern "C" {
         NSString *col = [NSString stringWithFormat:@"%@.%@", dbname, collectionname];
         mongo::BSONObj criticalBSON = mongo::fromjson([critical UTF8String]);
         mongo::BSONObj retval;
-        if (isRepl) {
+        if (repl_conn) {
             retval = repl_conn->mapreduce(std::string([col UTF8String]), std::string([mapJs UTF8String]), std::string([reduceJs UTF8String]), criticalBSON, std::string([output UTF8String]));
         }else {
             retval = conn->mapreduce(std::string([col UTF8String]), std::string([mapJs UTF8String]), std::string([reduceJs UTF8String]), criticalBSON, std::string([output UTF8String]));
         }
         NSLog(@"Map reduce in db: %@.%@", dbname, collectionname);
-        return [self bsonDictWrapper:retval];
+        return [[self class] bsonDictWrapper:retval];
     }catch (mongo::DBException &e) {
         NSRunAlertPanel(@"Error", [NSString stringWithUTF8String:e.what()], @"OK", nil, nil);
     }
     return nil;
 }
 
-- (mongo::BSONObj) serverStat{
-    try {
-        mongo::BSONObj retval;
-        if (isRepl) {
-            repl_conn->runCommand("admin", BSON("serverStatus"<<1), retval);
-        }else {
-            conn->runCommand("admin", BSON("serverStatus"<<1), retval);
-        }
-        return retval;
-    }catch (mongo::DBException &e) {
-        //NSRunAlertPanel(@"Error", [NSString stringWithUTF8String:e.what()], @"OK", nil, nil);
-        return mongo::BSONObj();
-    }
-    /*
-    mongo::BSONObj out;
-    if ( ! conn->simpleCommand( "admin" , &out , "serverStatus" ) ){
-        return mongo::BSONObj();
-    }
-    return out.getOwned();
-     */
++ (double) diff:(NSString *)aName first:(mongo::BSONObj)a second:(mongo::BSONObj)b timeInterval:(NSTimeInterval)interval{
+    std::string name = std::string([aName UTF8String]);
+    mongo::BSONElement x = a.getFieldDotted( name.c_str() );
+    mongo::BSONElement y = b.getFieldDotted( name.c_str() );
+    if ( ! x.isNumber() || ! y.isNumber() )
+        return -1;
+    return ( y.number() - x.number() ) / interval;
 }
 
-- (NSDictionary *) serverMonitor:(mongo::BSONObj)a second:(mongo::BSONObj)b currentDate:(NSDate *)now previousDate:(NSDate *)previous{
++ (double) percent:(NSString *)aOut value:(NSString *)aVal first:(mongo::BSONObj)a second:(mongo::BSONObj)b {
+    const char * outof = [aOut UTF8String];
+    const char * val = [aVal UTF8String];
+    double x = ( b.getFieldDotted( val ).number() - a.getFieldDotted( val ).number() );
+    double y = ( b.getFieldDotted( outof ).number() - a.getFieldDotted( outof ).number() );
+    if ( y == 0 )
+        return 0;
+    double p = x / y;
+    p = (double)((int)(p * 1000)) / 10;
+    return p;
+}
+
++ (NSDictionary *) serverMonitor:(mongo::BSONObj)a second:(mongo::BSONObj)b currentDate:(NSDate *)now previousDate:(NSDate *)previous
+{
     NSMutableDictionary *res = [[NSMutableDictionary alloc] initWithCapacity:14];
     [res setObject:now forKey:@"time"];
     NSTimeInterval interval = [now timeIntervalSinceDate:previous];
@@ -880,8 +1118,52 @@ extern "C" {
     return (NSDictionary *)res;
 }
 
+- (void)fetchServerStatusDeltaCallback:(NSDictionary *)info
+{
+    NSDictionary *serverStatusDelta;
+    
+    serverStatusDelta = [info objectForKey:@"serverStatusDelta"];
+    if ([_delegate respondsToSelector:@selector(mongoDB:serverStatusDeltaFetched:withErrorMessage:)]) {
+        [_delegate mongoDB:self serverStatusDeltaFetched:serverStatusDelta withErrorMessage:[info objectForKey:@"errorMessage"]];
+    }
+}
+
+- (NSOperation *)fetchServerStatusDelta
+{
+    NSBlockOperation *operation;
+    
+    operation = [NSBlockOperation blockOperationWithBlock:^{
+        try {
+            mongo::BSONObj currentStats;
+            NSDate *currentDate;
+            NSDictionary *serverStatusDelta = nil;
+            
+            if (repl_conn) {
+                repl_conn->runCommand("admin", BSON("serverStatus"<<1), currentStats);
+            }else {
+                conn->runCommand("admin", BSON("serverStatus"<<1), currentStats);
+            }
+            currentDate = [[NSDate alloc] init];
+            if (_dateForDelta) {
+                serverStatusDelta = [[self class] serverMonitor:_serverStatusForDelta second:currentStats currentDate:currentDate previousDate:_dateForDelta];
+            }
+            [_dateForDelta release];
+            _dateForDelta = currentDate;
+            _serverStatusForDelta = currentStats;
+            
+            if (serverStatusDelta) {
+                [self performSelectorOnMainThread:@selector(fetchServerStatusDeltaCallback:) withObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:serverStatusDelta, @"serverStatusDelta", nil] waitUntilDone:NO];
+            }
+        } catch (mongo::DBException &e) {
+            [self performSelectorOnMainThread:@selector(fetchServerStatusDeltaCallback:) withObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:[NSString stringWithUTF8String:e.what()], @"errorMessage", nil] waitUntilDone:NO];
+        }
+    }];
+    [_operationQueue addOperation:operation];
+    return operation;
+}
+
 #pragma mark BSON to NSMutableArray
-- (NSMutableArray *) bsonDictWrapper:(mongo::BSONObj)retval
++ (NSArray *) bsonDictWrapper:(mongo::BSONObj)retval
 {
     if (!retval.isEmpty())
     {
@@ -897,7 +1179,7 @@ extern "C" {
             NSString *fieldType;
             if (e.type() == mongo::Array) {
                 mongo::BSONObj b = e.embeddedObject();
-                NSMutableArray *tmp = [self bsonArrayWrapper:b];
+                NSMutableArray *tmp = [[self bsonArrayWrapper:b] mutableCopy];
                 if (tmp!=nil) {
                     [child release];
                     child = [tmp retain];
@@ -907,9 +1189,10 @@ extern "C" {
                 }
 
                 fieldType = @"Array";
+                [tmp release];
             }else if (e.type() == mongo::Object) {
                 mongo::BSONObj b = e.embeddedObject();
-                NSMutableArray *tmp = [self bsonDictWrapper:b];
+                NSMutableArray *tmp = [[self bsonDictWrapper:b] mutableCopy];
                 if (tmp!=nil) {
                     [child release];
                     child = [tmp retain];
@@ -919,6 +1202,7 @@ extern "C" {
                 }
 
                 fieldType = @"Object";
+                [tmp release];
             }else{
                 if (e.type() == mongo::jstNULL) {
                     fieldType = @"NULL";
@@ -987,13 +1271,13 @@ extern "C" {
     return nil;
 }
 
-- (NSMutableArray *) bsonArrayWrapper:(mongo::BSONObj)retval
++ (NSArray *) bsonArrayWrapper:(mongo::BSONObj)retval
 {
     if (!retval.isEmpty())
     {
         NSMutableArray *arr = [[NSMutableArray alloc] init];
         mongo::BSONElement idElm;
-        bool hasId = retval.getObjectID(idElm);
+        BOOL hasId = retval.getObjectID(idElm);
         mongo::BSONObjIterator it (retval);
         unsigned int i=0;
         while(it.more())
@@ -1005,7 +1289,7 @@ extern "C" {
             NSMutableArray *child = [[NSMutableArray alloc] init];
             if (e.type() == mongo::Array) {
                 mongo::BSONObj b = e.embeddedObject();
-                NSMutableArray *tmp = [self bsonArrayWrapper:b];
+                NSMutableArray *tmp = [[self bsonArrayWrapper:b] mutableCopy];
                 if (tmp == nil) {
                     value = @"[ ]";
                     if (hasId) {
@@ -1020,9 +1304,10 @@ extern "C" {
                     }
                 }
                 fieldType = @"Array";
+                [tmp release];
             }else if (e.type() == mongo::Object) {
                 mongo::BSONObj b = e.embeddedObject();
-                NSMutableArray *tmp = [self bsonDictWrapper:b];
+                NSMutableArray *tmp = [[self bsonDictWrapper:b] mutableCopy];
                 if (tmp == nil) {
                     value = @"";
                     if (hasId) {
@@ -1037,6 +1322,7 @@ extern "C" {
                     }
                 }
                 fieldType = @"Object";
+                [tmp release];
             }else{
                 if (e.type() == mongo::jstNULL) {
                     fieldType = @"NULL";
@@ -1129,13 +1415,13 @@ extern "C" {
     std::auto_ptr<mongo::DBClientCursor> cursor;
     try {
         if ([user length]>0 && [password length]>0) {
-            bool ok = [self authUser:user pass:password database:dbname];
+            BOOL ok = [self authUser:user pass:password database:dbname];
             if (!ok) {
                 return cursor;
             }
         }
         NSString *col = [NSString stringWithFormat:@"%@.%@", dbname, collectionname];
-        if (isRepl) {
+        if (repl_conn) {
             cursor = repl_conn->query(std::string([col UTF8String]), mongo::Query(), 0, 0, &fields, mongo::QueryOption_SlaveOk | mongo::QueryOption_NoCursorTimeout);
         }else {
             cursor = conn->query(std::string([col UTF8String]), mongo::Query(), 0, 0, &fields, mongo::QueryOption_SlaveOk | mongo::QueryOption_NoCursorTimeout);
@@ -1160,7 +1446,7 @@ extern "C" {
     std::auto_ptr<mongo::DBClientCursor> cursor;
     try {
         if ([user length]>0 && [password length]>0) {
-            bool ok = [self authUser:user pass:password database:dbname];
+            BOOL ok = [self authUser:user pass:password database:dbname];
             if (!ok) {
                 return cursor;
             }
@@ -1178,7 +1464,7 @@ extern "C" {
             fieldsToReturn = builder.obj();
             [keys release];
         }
-        if (isRepl) {
+        if (repl_conn) {
             cursor = repl_conn->query(std::string([col UTF8String]), mongo::Query(criticalBSON).sort(sortBSON), [limit intValue], [skip intValue], &fieldsToReturn, mongo::QueryOption_SlaveOk | mongo::QueryOption_NoCursorTimeout);
         }else {
             cursor = conn->query(std::string([col UTF8String]), mongo::Query(criticalBSON).sort(sortBSON), [limit intValue], [skip intValue], &fieldsToReturn, mongo::QueryOption_SlaveOk | mongo::QueryOption_NoCursorTimeout);
@@ -1196,17 +1482,17 @@ extern "C" {
            password:(NSString *)password 
            critical:(mongo::Query)critical 
              fields:(mongo::BSONObj)fields 
-              upset:(bool)upset
+              upset:(BOOL)upset
 {
     try {
         if ([user length]>0 && [password length]>0) {
-            bool ok = [self authUser:user pass:password database:dbname];
+            BOOL ok = [self authUser:user pass:password database:dbname];
             if (!ok) {
                 return;
             }
         }
         NSString *col = [NSString stringWithFormat:@"%@.%@", dbname, collectionname];
-        if (isRepl) {
+        if (repl_conn) {
             repl_conn->update(std::string([col UTF8String]), critical, fields, upset);
         }else {
             conn->update(std::string([col UTF8String]), critical, fields, upset);
@@ -1217,25 +1503,9 @@ extern "C" {
     }
 }
 
-- (double) diff:(NSString *)aName first:(mongo::BSONObj)a second:(mongo::BSONObj)b timeInterval:(NSTimeInterval)interval{
-    std::string name = std::string([aName UTF8String]);
-    mongo::BSONElement x = a.getFieldDotted( name.c_str() );
-    mongo::BSONElement y = b.getFieldDotted( name.c_str() );
-    if ( ! x.isNumber() || ! y.isNumber() )
-        return -1;
-    return ( y.number() - x.number() ) / interval;
-}
-
-- (double) percent:(NSString *)aOut value:(NSString *)aVal first:(mongo::BSONObj)a second:(mongo::BSONObj)b {
-    const char * outof = [aOut UTF8String];
-    const char * val = [aVal UTF8String];
-    double x = ( b.getFieldDotted( val ).number() - a.getFieldDotted( val ).number() );
-    double y = ( b.getFieldDotted( outof ).number() - a.getFieldDotted( outof ).number() );
-    if ( y == 0 )
-        return 0;
-    double p = x / y;
-    p = (double)((int)(p * 1000)) / 10;
-    return p;
+- (NSArray *)databaseList
+{
+    return [_databaseList allKeys];
 }
 
 @end

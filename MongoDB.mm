@@ -11,6 +11,9 @@
 #import <RegexKit/RegexKit.h>
 #import <mongo/client/dbclient.h>
 #import <mongo/util/sock.h>
+#import "MongoDB_internal.h"
+#import "MongoCollection.h"
+#import "MongoQuery.h"
 
 extern "C" {
     void MongoDB_enableIPv6(BOOL flag)
@@ -19,20 +22,9 @@ extern "C" {
     }
 }
 
-@interface MongoDB()
-
-@property(nonatomic, readwrite, assign, getter=isConnected) BOOL connected;
-
-- (BOOL)authenticateSynchronouslyWithDatabaseName:(NSString *)databaseName userName:(NSString *)user password:(NSString *)password errorMessage:(NSString **)errorMessage;
-- (BOOL)authUser:(NSString *)user 
-            pass:(NSString *)pass 
-        database:(NSString *)db;
-
-@end
-
 @implementation MongoDB
 
-@synthesize connected = _connected, delegate = _delegate, serverStatus = _serverStatus;
+@synthesize connected = _connected, delegate = _delegate, serverStatus = _serverStatus, currentMongoQuery = _currentMongoQuery;
 
 - (id)init
 {
@@ -41,17 +33,21 @@ extern "C" {
         [_operationQueue setMaxConcurrentOperationCount:1];
         _serverStatus = [[NSMutableArray alloc] init];
         _databaseList = [[NSMutableDictionary alloc] init];
+        self.serverStatusForDelta = new mongo::BSONObj();
     }
     return self;
 }
 
 - (void)dealloc
 {
-    if (conn) {
-        delete conn;
+    if (self.connexion) {
+        delete self.connexion;
     }
-    if (repl_conn) {
-        delete repl_conn;
+    if (self.replicaConnexion) {
+        delete self.replicaConnexion;
+    }
+    if (self.serverStatusForDelta) {
+        delete self.serverStatusForDelta;
     }
     [_operationQueue release];
     [_serverStatus release];
@@ -59,14 +55,42 @@ extern "C" {
     [super dealloc];
 }
 
-- (BOOL)authenticateSynchronouslyWithDatabaseName:(NSString *)databaseName userName:(NSString *)user password:(NSString *)password errorMessage:(NSString **)errorMessage
+- (mongo::DBClientConnection *)connexion
+{
+    return (mongo::DBClientConnection *)_connexion;
+}
+
+- (void)setConnexion:(mongo::DBClientConnection *)connexion
+{
+    _connexion = connexion;
+}
+
+- (mongo::DBClientReplicaSet::DBClientReplicaSet *)replicaConnexion
+{
+    return (mongo::DBClientReplicaSet::DBClientReplicaSet *)_replicaConnexion;
+}
+
+- (void)setReplicaConnexion:(mongo::DBClientReplicaSet::DBClientReplicaSet *)replicaConnexion
+{
+    _replicaConnexion = replicaConnexion;
+}
+
+- (mongo::BSONObj *)serverStatusForDelta
+{
+    return (mongo::BSONObj *)_serverStatusForDelta;
+}
+
+- (void)setServerStatusForDelta:(mongo::BSONObj *)serverStatusForDelta
+{
+    _serverStatusForDelta = serverStatusForDelta;
+}
+
+- (BOOL)authenticateSynchronouslyWithDatabaseName:(NSString *)databaseName userName:(NSString *)user password:(NSString *)password mongoQuery:(MongoQuery *)mongoQuery
 {
     BOOL result = YES;
+    NSString *errorMessage = nil;
     
     if ([user length] > 0 && [password length] > 0) {
-        if (*errorMessage != NULL) {
-            *errorMessage = nil;
-        }
         try {
             std::string errmsg;
             std::string dbname;
@@ -76,81 +100,120 @@ extern "C" {
             }else {
                 dbname = "admin";
             }
-            if (repl_conn) {
-                result = repl_conn->auth(dbname, std::string([user UTF8String]), std::string([password UTF8String]), errmsg) == true;
+            if (self.replicaConnexion) {
+                result = self.replicaConnexion->auth(dbname, std::string([user UTF8String]), std::string([password UTF8String]), errmsg) == true;
             } else {
-                result = conn->auth(dbname, std::string([user UTF8String]), std::string([password UTF8String]), errmsg) == true;
+                result = self.connexion->auth(dbname, std::string([user UTF8String]), std::string([password UTF8String]), errmsg) == true;
             }
             
-            if (result && *errorMessage != NULL) {
-                *errorMessage = [NSString stringWithUTF8String:errmsg.c_str()];
+            if (!result) {
+                errorMessage = [[NSString alloc] initWithUTF8String:errmsg.c_str()];
             }
         } catch (mongo::DBException &e) {
-            if (*errorMessage) {
-                *errorMessage = [NSString stringWithUTF8String:e.what()];
-            }
+            errorMessage = [[NSString alloc] initWithUTF8String:e.what()];
             result = NO;
+        }
+        if (errorMessage) {
+            [mongoQuery.mutableParameters setObject:errorMessage forKey:@"errormessage"];
+            [errorMessage release];
         }
     }
     return result;
 }
 
-- (void)connectCallback:(NSString *)errorMessage
+- (MongoQuery *)addQueryInQueue:(void (^)(MongoQuery *currentMongoQuery))block
 {
-    if (errorMessage && [_delegate respondsToSelector:@selector(mongoDBConnectionFailed:withErrorMessage:)]) {
-        [_delegate mongoDBConnectionFailed:self withErrorMessage:errorMessage];
-    } else if (errorMessage == nil && [_delegate respondsToSelector:@selector(mongoDBConnectionSucceded:)]) {
-        [_delegate mongoDBConnectionSucceded:self];
+    MongoQuery *mongoQuery;
+    NSBlockOperation *blockOperation;
+    
+    mongoQuery = [[MongoQuery alloc] init];
+    blockOperation = [[NSBlockOperation alloc] init];
+    [blockOperation addExecutionBlock:^{
+        self.currentMongoQuery = mongoQuery;
+        [mongoQuery starts];
+        block(mongoQuery);
+        self.currentMongoQuery = nil;
+    }];
+    mongoQuery.blockOperation = blockOperation;
+    [_operationQueue addOperation:blockOperation];
+    [blockOperation release];
+    return [mongoQuery autorelease];
+}
+
+- (void)connectCallback:(MongoQuery *)query
+{
+    NSString *errorMessage;
+    
+    errorMessage = [query.mutableParameters objectForKey:@"errormessage"];
+    if (errorMessage && [_delegate respondsToSelector:@selector(mongoDBConnectionFailed:withMongoQuery:errorMessage:)]) {
+        [_delegate mongoDBConnectionFailed:self withMongoQuery:query errorMessage:errorMessage];
+    } else if (errorMessage == nil && [_delegate respondsToSelector:@selector(mongoDBConnectionSucceded:withMongoQuery:)]) {
+        [_delegate mongoDBConnectionSucceded:self withMongoQuery:query];
     }
     self.connected = (errorMessage == nil);
 }
 
-- (NSOperation *)connectWithHostName:(NSString *)host databaseName:(NSString *)databaseName userName:(NSString *)userName password:(NSString *)password
+- (MongoQuery *)connectWithHostName:(NSString *)host databaseName:(NSString *)databaseName userName:(NSString *)userName password:(NSString *)password
 {
-    NSBlockOperation *operation;
-    NSAssert(conn == NULL, @"already connected");
-    NSAssert(repl_conn == NULL, @"already connected");
+    MongoQuery *query;
+    NSAssert(self.connexion == NULL, @"already connected");
+    NSAssert(self.replicaConnexion == NULL, @"already connected");
     
-    conn = new mongo::DBClientConnection;
-    operation = [NSBlockOperation blockOperationWithBlock:^{
+    self.connexion = new mongo::DBClientConnection;
+    query = [self addQueryInQueue:^(MongoQuery *mongoQuery) {
         std::string error;
-        NSString *errorMessage = nil;
         
-        if (conn->connect([host UTF8String], error) == false) {
-            errorMessage = [NSString stringWithUTF8String:error.c_str()];
-        } else if ([userName length] > 0) {
-            [self authenticateSynchronouslyWithDatabaseName:databaseName userName:userName password:password errorMessage:&errorMessage];
+        if (self.connexion->connect([host UTF8String], error) == false) {
+            NSString *errorMessage = nil;
+            
+            errorMessage = [[NSString alloc] initWithUTF8String:error.c_str()];
+            [mongoQuery.mutableParameters setObject:errorMessage forKey:@"errormessage"];
+            [errorMessage release];
+        } else {
+            [self authenticateSynchronouslyWithDatabaseName:databaseName userName:userName password:password mongoQuery:mongoQuery];
         }
-        [self performSelectorOnMainThread:@selector(connectCallback:) withObject:errorMessage waitUntilDone:NO];
+        [self performSelectorOnMainThread:@selector(connectCallback:) withObject:mongoQuery waitUntilDone:NO];
     }];
-    [_operationQueue addOperation:operation];
-    return operation;
+    [query.mutableParameters setObject:databaseName forKey:@"databasename"];
+    if (userName) {
+        [query.mutableParameters setObject:userName forKey:@"username"];
+    }
+    if (password) {
+        [query.mutableParameters setObject:password forKey:@"password"];
+    }
+    return query;
 }
 
-- (NSOperation *)connectWithReplicaName:(NSString *)name hosts:(NSArray *)hosts databaseName:(NSString *)databaseName userName:(NSString *)userName password:(NSString *)password
+- (MongoQuery *)connectWithReplicaName:(NSString *)name hosts:(NSArray *)hosts databaseName:(NSString *)databaseName userName:(NSString *)userName password:(NSString *)password
 {
-    NSBlockOperation *operation;
-    NSAssert(conn == NULL, @"already connected");
-    NSAssert(repl_conn == NULL, @"already connected");
+    MongoQuery *query;
+    NSAssert(self.connexion == NULL, @"already connected");
+    NSAssert(self.replicaConnexion == NULL, @"already connected");
     
     std::vector<mongo::HostAndPort> servers;
     for (NSString *h in hosts) {
         mongo::HostAndPort server([h UTF8String]);
         servers.push_back(server);
     }
-    repl_conn = new mongo::DBClientReplicaSet::DBClientReplicaSet([name UTF8String], servers);
-    operation = [NSBlockOperation blockOperationWithBlock:^{
-        NSString *errorMessage = nil;
-        
-        if (repl_conn->connect() == false) {
-            errorMessage = @"Connection Failed";
-        } else if ([userName length] > 0) {
-            [self authenticateSynchronouslyWithDatabaseName:databaseName userName:userName password:password errorMessage:&errorMessage];
+    self.replicaConnexion = new mongo::DBClientReplicaSet::DBClientReplicaSet([name UTF8String], servers);
+    query = [self addQueryInQueue:^(MongoQuery *mongoQuery){
+        if (self.replicaConnexion->connect() == false) {
+            [mongoQuery.mutableParameters setObject:@"Connection Failed" forKey:@"errormessage"];
+        } else {
+            [self authenticateSynchronouslyWithDatabaseName:databaseName userName:userName password:password mongoQuery:mongoQuery];
         }
-        [self performSelectorOnMainThread:@selector(connectCallback:) withObject:errorMessage waitUntilDone:NO];
+        [self performSelectorOnMainThread:@selector(connectCallback:) withObject:mongoQuery waitUntilDone:NO];
     }];
-    [_operationQueue addOperation:operation];
-    return operation;
+    [query.mutableParameters setObject:name forKey:@"replicaName"];
+    [query.mutableParameters setObject:hosts forKey:@"hosts"];
+    [query.mutableParameters setObject:databaseName forKey:@"databasename"];
+    if (userName) {
+        [query.mutableParameters setObject:userName forKey:@"username"];
+    }
+    if (password) {
+        [query.mutableParameters setObject:password forKey:@"password"];
+    }
+    return query;
 }
 
 - (BOOL)authUser:(NSString *)user 
@@ -166,10 +229,10 @@ extern "C" {
             dbname = "admin";
         }
         BOOL ok;
-        if (repl_conn) {
-            ok = repl_conn->auth(dbname, std::string([user UTF8String]), std::string([pass UTF8String]), errmsg);
+        if (self.replicaConnexion) {
+            ok = self.replicaConnexion->auth(dbname, std::string([user UTF8String]), std::string([pass UTF8String]), errmsg);
         }else {
-            ok = conn->auth(dbname, std::string([user UTF8String]), std::string([pass UTF8String]), errmsg);
+            ok = self.connexion->auth(dbname, std::string([user UTF8String]), std::string([pass UTF8String]), errmsg);
         }
         
         if (!ok) {
@@ -182,11 +245,11 @@ extern "C" {
     return false;
 }
 
-- (void)fetchDatabaseListCallback:(NSDictionary *)info
+- (void)fetchDatabaseListCallback:(MongoQuery *)query
 {
     NSArray *list;
     
-    list = [info objectForKey:@"databaseList"];
+    list = [query.parameters objectForKey:@"databaselist"];
     [self willChangeValueForKey:@"databaseList"];
     if (list) {
         for (NSString *databaseName in list) {
@@ -203,22 +266,20 @@ extern "C" {
         [_databaseList removeAllObjects];
     }
     [self didChangeValueForKey:@"databaseList"];
-    if ([_delegate respondsToSelector:@selector(mongoDB:databaseListFetched:withErrorMessage:)]) {
-        [_delegate mongoDB:self databaseListFetched:list withErrorMessage:[info objectForKey:@"errorMessage"]];
+    if ([_delegate respondsToSelector:@selector(mongoDB:databaseListFetched:withMongoQuery:errorMessage:)]) {
+        [_delegate mongoDB:self databaseListFetched:list withMongoQuery:query errorMessage:[query.parameters objectForKey:@"errormessage"]];
     }
 }
 
-- (NSOperation *)fetchDatabaseList
+- (MongoQuery *)fetchDatabaseList
 {
-    NSBlockOperation *operation;
-    
-    operation = [NSBlockOperation blockOperationWithBlock:^{
+    return [self addQueryInQueue:^(MongoQuery *mongoQuery) {
         try {
             std::list<std::string> dbs;
-            if (repl_conn) {
-                dbs = repl_conn->getDatabaseNames();
+            if (self.replicaConnexion) {
+                dbs = self.replicaConnexion->getDatabaseNames();
             } else {
-                dbs = conn->getDatabaseNames();
+                dbs = self.connexion->getDatabaseNames();
             }
             NSMutableArray *dblist = [[NSMutableArray alloc] initWithCapacity:dbs.size()];
             for (std::list<std::string>::iterator it=dbs.begin();it!=dbs.end();++it) {
@@ -226,148 +287,165 @@ extern "C" {
                 [dblist addObject:db];
                 [db release];
             }
-            [self performSelectorOnMainThread:@selector(fetchDatabaseListCallback:) withObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:dblist, @"databaseList", nil] waitUntilDone:NO];
+            [mongoQuery.mutableParameters setObject:dblist forKey:@"databaselist"];
             [dblist release];
-        } catch( mongo::DBException &e ) {
-            [self performSelectorOnMainThread:@selector(fetchDatabaseListCallback:) withObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:[NSString stringWithUTF8String:e.what()], @"errorMessage", nil] waitUntilDone:NO];
+        } catch (mongo::DBException &e) {
+            NSString *errorMessage;
+            
+            errorMessage = [[NSString alloc] initWithUTF8String:e.what()];
+            [mongoQuery.mutableParameters setObject:errorMessage forKey:@"errormessage"];
+            [errorMessage release];
         }
+        [self performSelectorOnMainThread:@selector(fetchDatabaseListCallback:) withObject:mongoQuery waitUntilDone:NO];
     }];
-    [_operationQueue addOperation:operation];
-    return operation;
 }
 
-- (void)fetchServerStatusCallback:(NSDictionary *)result
+- (void)fetchServerStatusCallback:(MongoQuery *)query
 {
     NSArray *serverStatus;
     
-    serverStatus = [result objectForKey:@"serverStatus"];
+    serverStatus = [query.parameters objectForKey:@"serverstatus"];
     [self willChangeValueForKey:@"serverStatus"];
     [_serverStatus removeAllObjects];
     [_serverStatus addObjectsFromArray:serverStatus];
     [self didChangeValueForKey:@"serverStatus"];
-    if ([_delegate respondsToSelector:@selector(mongoDB:serverStatusFetched:withErrorMessage:)]) {
-        [_delegate mongoDB:self serverStatusFetched:serverStatus withErrorMessage:[result objectForKey:@"errorMessage"]];
+    if ([_delegate respondsToSelector:@selector(mongoDB:serverStatusFetched:withMongoQuery:errorMessage:)]) {
+        [_delegate mongoDB:self serverStatusFetched:serverStatus withMongoQuery:query errorMessage:[query.parameters objectForKey:@"errormessage"]];
     }
 }
 
-- (NSOperation *)fetchServerStatus
+- (MongoQuery *)fetchServerStatus
 {
-    NSBlockOperation *operation;
-    
-    operation = [NSBlockOperation blockOperationWithBlock:^{
+    return [self addQueryInQueue:^(MongoQuery *mongoQuery){
         try {
             mongo::BSONObj retval;
-            if (repl_conn) {
-                repl_conn->runCommand("admin", BSON("serverStatus"<<1), retval);
+            if (self.replicaConnexion) {
+                self.replicaConnexion->runCommand("admin", BSON("serverStatus"<<1), retval);
             }else {
-                conn->runCommand("admin", BSON("serverStatus"<<1), retval);
+                self.connexion->runCommand("admin", BSON("serverStatus"<<1), retval);
             }
-            [self performSelectorOnMainThread:@selector(fetchServerStatusCallback:) withObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:[[self class] bsonDictWrapper:retval], @"serverStatus", nil] waitUntilDone:NO];
+            [mongoQuery.mutableParameters setObject:[[self class] bsonDictWrapper:retval] forKey:@"serverstatus"];
         } catch (mongo::DBException &e) {
-            [self performSelectorOnMainThread:@selector(fetchServerStatusCallback:) withObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:[NSString stringWithUTF8String:e.what()], @"errorMessage", nil] waitUntilDone:NO];
+            NSString *errorMessage;
+            
+            errorMessage = [[NSString alloc] initWithUTF8String:e.what()];
+            [mongoQuery.mutableParameters setObject:errorMessage forKey:@"errormessage"];
+            [errorMessage release];
         }
+        [self performSelectorOnMainThread:@selector(fetchServerStatusCallback:) withObject:mongoQuery waitUntilDone:NO];
     }];
-    [_operationQueue addOperation:operation];
-    return operation;
 }
 
-- (void)fetchCollectionListCallback:(NSDictionary *)info
+- (void)fetchCollectionListCallback:(MongoQuery *)mongoQuery
 {
     NSArray *collectionList;
     NSString *databaseName;
     
-    databaseName = [info objectForKey:@"databaseName"];
-    collectionList = [info objectForKey:@"collectionList"];
+    databaseName = [mongoQuery.parameters objectForKey:@"databasename"];
+    collectionList = [mongoQuery.parameters objectForKey:@"collectionlist"];
     [self willChangeValueForKey:@"databaseList"];
     if (![_databaseList objectForKey:databaseName]) {
         [_databaseList setObject:[NSMutableDictionary dictionary] forKey:databaseName];
     }
     [[_databaseList objectForKey:databaseName] setObject:collectionList forKey:@"collectionList"];
     [self didChangeValueForKey:@"databaseList"];
-    if ([_delegate respondsToSelector:@selector(mongoDB:collectionListFetched:withDatabaseName:errorMessage:)]) {
-        [_delegate mongoDB:self collectionListFetched:collectionList withDatabaseName:databaseName errorMessage:[info objectForKey:@"errorMessage"]];
+    if ([_delegate respondsToSelector:@selector(mongoDB:collectionListFetched:withMongoQuery:errorMessage:)]) {
+        [_delegate mongoDB:self collectionListFetched:collectionList withMongoQuery:mongoQuery errorMessage:[mongoQuery.parameters objectForKey:@"errormessage"]];
     }
 }
 
-- (NSOperation *)fetchCollectionListWithDatabaseName:(NSString *)databaseName userName:(NSString *)user password:(NSString *)password
+- (MongoQuery *)fetchCollectionListWithDatabaseName:(NSString *)databaseName userName:(NSString *)userName password:(NSString *)password
 {
-    NSBlockOperation *operation;
+    MongoQuery *query;
     
-    operation = [NSBlockOperation blockOperationWithBlock:^{
+    query = [self addQueryInQueue:^(MongoQuery *mongoQuery){
         try {
-            NSString *errorMessage = nil;
-            
-            if (![self authenticateSynchronouslyWithDatabaseName:databaseName userName:user password:password errorMessage:&errorMessage]) {
-                [self performSelectorOnMainThread:@selector(fetchCollectionListCallback:) withObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:databaseName, @"databaseName", errorMessage, @"errorMessage", nil] waitUntilDone:NO];
-            } else {
+            if ([self authenticateSynchronouslyWithDatabaseName:databaseName userName:userName password:password mongoQuery:mongoQuery]) {
                 std::list<std::string> collections;
-                if (repl_conn) {
-                    collections = repl_conn->getCollectionNames([databaseName UTF8String]);
+                if (self.replicaConnexion) {
+                    collections = self.replicaConnexion->getCollectionNames([databaseName UTF8String]);
                 }else {
-                    collections = conn->getCollectionNames([databaseName UTF8String]);
+                    collections = self.connexion->getCollectionNames([databaseName UTF8String]);
                 }
                 
-                NSMutableArray *collectionList = [[NSMutableArray alloc] initWithCapacity:collections.size() ];
+                NSMutableArray *collectionList = [NSMutableArray arrayWithCapacity:collections.size() ];
                 unsigned int istartp = [databaseName length] + 1;
                 for (std::list<std::string>::iterator it=collections.begin();it!=collections.end();++it) {
                     NSString *collection = [[NSString alloc] initWithUTF8String:(*it).c_str()];
                     [collectionList addObject:[collection substringWithRange:NSMakeRange( istartp, [collection length]-istartp )] ];
                     [collection release];
                 }
-                [self performSelectorOnMainThread:@selector(fetchCollectionListCallback:) withObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:databaseName, @"databaseName", collectionList, @"collectionList", nil] waitUntilDone:NO];
-                [collectionList release];
+                [mongoQuery.mutableParameters setObject:collectionList forKey:@"collectionlist"];
             }
         } catch (mongo::DBException &e) {
-            [self performSelectorOnMainThread:@selector(fetchCollectionListCallback:) withObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:databaseName, @"databaseName", [NSString stringWithUTF8String:e.what()], @"errorMessage", nil] waitUntilDone:NO];
+            NSString *errorMessage;
+            
+            errorMessage = [[NSString alloc] initWithUTF8String:e.what()];
+            [mongoQuery.mutableParameters setObject:errorMessage forKey:@"errormessage"];
+            [errorMessage release];
         }
+        [self performSelectorOnMainThread:@selector(fetchCollectionListCallback:) withObject:mongoQuery waitUntilDone:NO];
     }];
-    [_operationQueue addOperation:operation];
-    return operation;
+    [query.mutableParameters setObject:databaseName forKey:@"databasename"];
+    if (userName) {
+        [query.mutableParameters setObject:userName forKey:@"username"];
+    }
+    if (password) {
+        [query.mutableParameters setObject:password forKey:@"password"];
+    }
+    return query;
 }
 
-- (void)fetchDatabaseStatsCallback:(NSDictionary *)info
+- (void)fetchDatabaseStatsCallback:(MongoQuery *)mongoQuery
 {
     NSArray *databaseStats;
     NSString *databaseName;
     
-    databaseName = [info objectForKey:@"databaseName"];
-    databaseStats = [info objectForKey:@"databaseStats"];
+    databaseName = [mongoQuery.parameters objectForKey:@"databasename"];
+    databaseStats = [mongoQuery.parameters objectForKey:@"databasestats"];
     [self willChangeValueForKey:@"databaseList"];
     if (![_databaseList objectForKey:databaseName]) {
         [_databaseList setObject:[NSMutableDictionary dictionary] forKey:databaseName];
     }
     [[_databaseList objectForKey:databaseName] setObject:databaseStats forKey:@"databaseStats"];
     [self didChangeValueForKey:@"databaseList"];
-    if ([_delegate respondsToSelector:@selector(mongoDB:databaseStatsFetched:withDatabaseName:errorMessage:)]) {
-        [_delegate mongoDB:self databaseStatsFetched:databaseStats withDatabaseName:databaseName errorMessage:[info objectForKey:@"errorMessage"]];
+    if ([_delegate respondsToSelector:@selector(mongoDB:databaseStatsFetched:withMongoQuery:errorMessage:)]) {
+        [_delegate mongoDB:self databaseStatsFetched:databaseStats withMongoQuery:mongoQuery errorMessage:[mongoQuery.parameters objectForKey:@"errormessage"]];
     }
 }
 
-- (NSOperation *)fetchDatabaseStatsWithDatabaseName:(NSString *)databaseName userName:(NSString *)user password:(NSString *)password
+- (MongoQuery *)fetchDatabaseStatsWithDatabaseName:(NSString *)databaseName userName:(NSString *)userName password:(NSString *)password
 {
-    NSBlockOperation *operation;
+    MongoQuery *query;
     
-    operation = [NSBlockOperation blockOperationWithBlock:^{
+    query = [self addQueryInQueue:^(MongoQuery *mongoQuery){
         try {
-            NSString *errorMessage = nil;
-            
-            if (![self authenticateSynchronouslyWithDatabaseName:databaseName userName:user password:password errorMessage:&errorMessage]) {
-                [self performSelectorOnMainThread:@selector(fetchDatabaseStatsCallback:) withObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:databaseName, @"databaseName", errorMessage, @"errorMessage", nil] waitUntilDone:NO];
-            } else {
+            if ([self authenticateSynchronouslyWithDatabaseName:databaseName userName:userName password:password mongoQuery:mongoQuery]) {
                 mongo::BSONObj retval;
-                if (repl_conn) {
-                    repl_conn->runCommand([databaseName UTF8String], BSON("dbstats"<<1), retval);
+                if (self.replicaConnexion) {
+                    self.replicaConnexion->runCommand([databaseName UTF8String], BSON("dbstats"<<1), retval);
                 }else {
-                    conn->runCommand([databaseName UTF8String], BSON("dbstats"<<1), retval);
+                    self.connexion->runCommand([databaseName UTF8String], BSON("dbstats"<<1), retval);
                 }
-                [self performSelectorOnMainThread:@selector(fetchDatabaseStatsCallback:) withObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:databaseName, @"databaseName", [[self class] bsonDictWrapper:retval], @"databaseStats", nil] waitUntilDone:NO];
+                [mongoQuery.mutableParameters setObject:[[self class] bsonDictWrapper:retval] forKey:@"databasestats"];
             }
-        }catch (mongo::DBException &e) {
-            [self performSelectorOnMainThread:@selector(fetchDatabaseStatsCallback:) withObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:databaseName, @"databaseName", [NSString stringWithUTF8String:e.what()], @"errorMessage", nil] waitUntilDone:NO];
+        } catch (mongo::DBException &e) {
+            NSString *errorMessage;
+            
+            errorMessage = [[NSString alloc] initWithUTF8String:e.what()];
+            [mongoQuery.mutableParameters setObject:errorMessage forKey:@"errormessage"];
+            [errorMessage release];
         }
+        [self performSelectorOnMainThread:@selector(fetchDatabaseStatsCallback:) withObject:mongoQuery waitUntilDone:NO];
     }];
-    [_operationQueue addOperation:operation];
-    return operation;
+    [query.mutableParameters setObject:databaseName forKey:@"databasename"];
+    if (userName) {
+        [query.mutableParameters setObject:userName forKey:@"username"];
+    }
+    if (password) {
+        [query.mutableParameters setObject:password forKey:@"password"];
+    }
+    return query;
 }
 
 - (void) dropDB:(NSString *)dbname 
@@ -381,10 +459,10 @@ extern "C" {
                 return;
             }
         }
-        if (repl_conn) {
-            repl_conn->dropDatabase([dbname UTF8String]);
+        if (self.replicaConnexion) {
+            self.replicaConnexion->dropDatabase([dbname UTF8String]);
         }else {
-            conn->dropDatabase([dbname UTF8String]);
+            self.connexion->dropDatabase([dbname UTF8String]);
         }
         NSLog(@"Drop DB: %@", dbname);
     }catch (mongo::DBException &e) {
@@ -392,278 +470,188 @@ extern "C" {
     }
 }
 
-- (void)fetchCollectionStatsCallback:(NSDictionary *)info
+- (void)fetchCollectionStatsCallback:(MongoQuery *)mongoQuery
 {
     NSArray *collectionStats;
-    NSString *databaseName;
-    NSString *collectionName;
     
-    databaseName = [info objectForKey:@"databaseName"];
-    collectionName = [info objectForKey:@"collectionName"];
-    collectionStats = [info objectForKey:@"collectionStats"];
-    if ([_delegate respondsToSelector:@selector(mongoDB:collectionStatsFetched:withDatabaseName:collectionName:errorMessage:)]) {
-        [_delegate mongoDB:self collectionStatsFetched:collectionStats withDatabaseName:databaseName collectionName:collectionName errorMessage:[info objectForKey:@"errorMessage"]];
+    collectionStats = [mongoQuery.parameters objectForKey:@"collectionstats"];
+    if ([_delegate respondsToSelector:@selector(mongoDB:collectionStatsFetched:withMongoQuery:errorMessage:)]) {
+        [_delegate mongoDB:self collectionStatsFetched:collectionStats withMongoQuery:mongoQuery errorMessage:[mongoQuery.parameters objectForKey:@"errormessage"]];
     }
 }
 
-- (NSOperation *)fetchCollectionStatsWithCollectionName:(NSString *)collectionName databaseName:(NSString *)databaseName userName:(NSString *)user password:(NSString *)password
+- (MongoQuery *)fetchCollectionStatsWithCollectionName:(NSString *)collectionName databaseName:(NSString *)databaseName userName:(NSString *)userName password:(NSString *)password
 {
-    NSBlockOperation *operation;
+    MongoQuery *query;
     
-    operation = [NSBlockOperation blockOperationWithBlock:^{
+    query = [self addQueryInQueue:^(MongoQuery *mongoQuery){
         try {
-            NSString *errorMessage = nil;
-            
-            if (![self authenticateSynchronouslyWithDatabaseName:databaseName userName:user password:password errorMessage:&errorMessage]) {
-                [self performSelectorOnMainThread:@selector(fetchCollectionListCallback:) withObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:databaseName, @"databaseName", collectionName, @"collectionName", errorMessage, @"errorMessage", nil] waitUntilDone:NO];
-            } else {
+            if ([self authenticateSynchronouslyWithDatabaseName:databaseName userName:userName password:password mongoQuery:mongoQuery]) {
                 mongo::BSONObj retval;
                 
-                if (repl_conn) {
-                    repl_conn->runCommand([databaseName UTF8String], BSON("collstats"<<[collectionName UTF8String]), retval);
+                if (self.replicaConnexion) {
+                    self.replicaConnexion->runCommand([databaseName UTF8String], BSON("collstats"<<[collectionName UTF8String]), retval);
                 }else {
-                    conn->runCommand([databaseName UTF8String], BSON("collstats"<<[collectionName UTF8String]), retval);
+                    self.connexion->runCommand([databaseName UTF8String], BSON("collstats"<<[collectionName UTF8String]), retval);
                 }
-                
-                [self performSelectorOnMainThread:@selector(fetchCollectionStatsCallback:) withObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:databaseName, @"databaseName", collectionName, @"collectionName", [[self class] bsonDictWrapper:retval], @"collectionStats", nil] waitUntilDone:NO];
+                [mongoQuery.mutableParameters setObject:[[self class] bsonDictWrapper:retval] forKey:@"collectionstats"];
             }
         } catch (mongo::DBException &e) {
-            [self performSelectorOnMainThread:@selector(fetchCollectionStatsCallback:) withObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:databaseName, @"databaseName", collectionName, @"collectionName", [NSString stringWithUTF8String:e.what()], @"errorMessage", nil] waitUntilDone:NO];
+            NSString *errorMessage;
+            
+            errorMessage = [[NSString alloc] initWithUTF8String:e.what()];
+            [mongoQuery.mutableParameters setObject:errorMessage forKey:@"errormessage"];
+            [errorMessage release];
         }
+        [self performSelectorOnMainThread:@selector(fetchCollectionStatsCallback:) withObject:mongoQuery waitUntilDone:NO];
     }];
-    [_operationQueue addOperation:operation];
-    return operation;
+    [query.mutableParameters setObject:collectionName forKey:@"collectionname"];
+    [query.mutableParameters setObject:databaseName forKey:@"databasename"];
+    if (userName) {
+        [query.mutableParameters setObject:userName forKey:@"username"];
+    }
+    if (password) {
+        [query.mutableParameters setObject:password forKey:@"password"];
+    }
+    return query;
 }
 
 
-- (void)dropDatabaseCallback:(NSDictionary *)info
+- (void)dropDatabaseCallback:(MongoQuery *)mongoQuery
 {
-    NSString *databaseName;
     NSString *errorMessage;
     
-    databaseName = [info objectForKey:@"databaseName"];
-    errorMessage = [info objectForKey:@"errorMessage"];
-    if ([_delegate respondsToSelector:@selector(mongoDB:databaseDropedWithName:errorMessage:)]) {
-        [_delegate mongoDB:self databaseDropedWithName:databaseName errorMessage:errorMessage];
+    errorMessage = [mongoQuery.parameters objectForKey:@"errormessage"];
+    if ([_delegate respondsToSelector:@selector(mongoDB:databaseDropedWithMongoQuery:errorMessage:)]) {
+        [_delegate mongoDB:self databaseDropedWithMongoQuery:mongoQuery errorMessage:errorMessage];
     }
 }
 
-- (NSOperation *)dropDatabaseWithName:(NSString *)databaseName userName:(NSString *)user password:(NSString *)password
+- (MongoQuery *)dropDatabaseWithName:(NSString *)databaseName userName:(NSString *)userName password:(NSString *)password
 {
-    NSBlockOperation *operation;
+    MongoQuery *query;
     
-    operation = [NSBlockOperation blockOperationWithBlock:^{
+    query = [self addQueryInQueue:^(MongoQuery *mongoQuery){
         try {
-            NSString *errorMessage = nil;
-            
-            if (![self authenticateSynchronouslyWithDatabaseName:databaseName userName:user password:password errorMessage:&errorMessage]) {
-                [self performSelectorOnMainThread:@selector(dropDatabaseCallback:) withObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:databaseName, @"databaseName", errorMessage, @"errorMessage", nil] waitUntilDone:NO];
-            } else {
-                if (repl_conn) {
-                    repl_conn->dropDatabase([databaseName UTF8String]);
+            if ([self authenticateSynchronouslyWithDatabaseName:databaseName userName:userName password:password mongoQuery:mongoQuery]) {
+                if (self.replicaConnexion) {
+                    self.replicaConnexion->dropDatabase([databaseName UTF8String]);
                 }else {
-                    conn->dropDatabase([databaseName UTF8String]);
+                    self.connexion->dropDatabase([databaseName UTF8String]);
                 }
-                [self performSelectorOnMainThread:@selector(dropDatabaseCallback:) withObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:databaseName, @"databaseName", nil] waitUntilDone:NO];
             }
         } catch (mongo::DBException &e) {
-            [self performSelectorOnMainThread:@selector(dropDatabaseCallback:) withObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:databaseName, @"databaseName", [NSString stringWithUTF8String:e.what()], @"errorMessage", nil] waitUntilDone:NO];
+            NSString *errorMessage;
+            
+            errorMessage = [[NSString alloc] initWithUTF8String:e.what()];
+            [mongoQuery.mutableParameters setObject:errorMessage forKey:@"errormessage"];
+            [errorMessage release];
         }
+        [self performSelectorOnMainThread:@selector(dropDatabaseCallback:) withObject:mongoQuery waitUntilDone:NO];
     }];
-    [_operationQueue addOperation:operation];
-    return operation;
+    [query.mutableParameters setObject:databaseName forKey:@"databasename"];
+    if (userName) {
+        [query.mutableParameters setObject:userName forKey:@"username"];
+    }
+    if (password) {
+        [query.mutableParameters setObject:password forKey:@"password"];
+    }
+    return query;
 }
 
-- (void)createCollectionCallback:(NSDictionary *)info
+- (void)createCollectionCallback:(MongoQuery *)mongoQuery
 {
-    NSString *collectionName;
-    NSString *databaseName;
     NSString *errorMessage;
     
-    collectionName = [info objectForKey:@"collectionName"];
-    databaseName = [info objectForKey:@"databaseName"];
-    errorMessage = [info objectForKey:@"errorMessage"];
-    if ([_delegate respondsToSelector:@selector(mongoDB:collectionCreatedWithName:databaseName:errorMessage:)]) {
-        [_delegate mongoDB:self collectionCreatedWithName:collectionName databaseName:databaseName errorMessage:errorMessage];
+    errorMessage = [mongoQuery.parameters objectForKey:@"errormessage"];
+    if ([_delegate respondsToSelector:@selector(mongoDB:collectionCreatedWithMongoQuery:errorMessage:)]) {
+        [_delegate mongoDB:self collectionCreatedWithMongoQuery:mongoQuery errorMessage:errorMessage];
     }
 }
 
-- (NSOperation *)createCollectionWithName:(NSString *)collectionName databaseName:(NSString *)databaseName userName:(NSString *)user password:(NSString *)password
+- (MongoQuery *)createCollectionWithName:(NSString *)collectionName databaseName:(NSString *)databaseName userName:(NSString *)userName password:(NSString *)password
 {
-    NSBlockOperation *operation;
+    MongoQuery *query;
     
-    operation = [NSBlockOperation blockOperationWithBlock:^{
-        try {
-            NSString *errorMessage = nil;
-            
-            if (![self authenticateSynchronouslyWithDatabaseName:databaseName userName:user password:password errorMessage:&errorMessage]) {
-                [self performSelectorOnMainThread:@selector(createCollectionCallback:) withObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:collectionName, @"collectionName", databaseName, @"databaseName", errorMessage, @"errorMessage", nil] waitUntilDone:NO];
-            } else {
-                NSString *col = [NSString stringWithFormat:@"%@.%@", databaseName, collectionName];
-                if (repl_conn) {
-                    repl_conn->createCollection([col UTF8String]);
-                } else {
-                    conn->createCollection([col UTF8String]);
-                }
-                [self performSelectorOnMainThread:@selector(createCollectionCallback:) withObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:collectionName, @"collectionName", databaseName, @"databaseName", nil] waitUntilDone:NO];
-            }
-        } catch (mongo::DBException &e) {
-            [self performSelectorOnMainThread:@selector(createCollectionCallback:) withObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:collectionName, @"collectionName", databaseName, @"databaseName", [NSString stringWithUTF8String:e.what()], @"errorMessage", nil] waitUntilDone:NO];
-        }
-    }];
-    [_operationQueue addOperation:operation];
-    return operation;
-}
-
-- (void)dropCollectionCallback:(NSDictionary *)info
-{
-    NSString *collectionName;
-    NSString *databaseName;
-    NSString *errorMessage;
-    
-    collectionName = [info objectForKey:@"collectionName"];
-    databaseName = [info objectForKey:@"databaseName"];
-    errorMessage = [info objectForKey:@"errorMessage"];
-    if ([_delegate respondsToSelector:@selector(mongoDB:collectionDropedWithName:databaseName:errorMessage:)]) {
-        [_delegate mongoDB:self collectionDropedWithName:collectionName databaseName:databaseName errorMessage:errorMessage];
-    }
-}
-
-- (NSOperation *)dropCollectionWithName:(NSString *)collectionName databaseName:(NSString *)databaseName userName:(NSString *)user password:(NSString *)password
-{
-    NSBlockOperation *operation;
-    
-    operation = [NSBlockOperation blockOperationWithBlock:^{
-        try {
-            NSString *errorMessage = nil;
-            
-            if (![self authenticateSynchronouslyWithDatabaseName:databaseName userName:user password:password errorMessage:&errorMessage]) {
-                [self performSelectorOnMainThread:@selector(dropCollectionCallback:) withObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:collectionName, @"collectionName", databaseName, @"databaseName", errorMessage, @"errorMessage", nil] waitUntilDone:NO];
-            } else {
-                NSString *col = [NSString stringWithFormat:@"%@.%@", databaseName, collectionName];
-                if (repl_conn) {
-                    repl_conn->dropCollection([col UTF8String]);
-                } else {
-                    conn->dropCollection([col UTF8String]);
-                }
-                [self performSelectorOnMainThread:@selector(dropCollectionCallback:) withObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:collectionName, @"collectionName", databaseName, @"databaseName", nil] waitUntilDone:NO];
-            }
-        } catch (mongo::DBException &e) {
-            [self performSelectorOnMainThread:@selector(dropCollectionCallback:) withObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:collectionName, @"collectionName", databaseName, @"databaseName", [NSString stringWithUTF8String:e.what()], @"errorMessage", nil] waitUntilDone:NO];
-        }
-    }];
-    [_operationQueue addOperation:operation];
-    return operation;
-}
-
-- (NSArray *) findInDB:(NSString *)dbname 
-                   collection:(NSString *)collectionname 
-                         user:(NSString *)user 
-                     password:(NSString *)password 
-                     critical:(NSString *)critical 
-                       fields:(NSString *)fields 
-                         skip:(NSNumber *)skip 
-                        limit:(NSNumber *)limit 
-                         sort:(NSString *)sort
-{
-    try {
-        if ([user length]>0 && [password length]>0) {
-            BOOL ok = [self authUser:user pass:password database:dbname];
-            if (!ok) {
-                return nil;
-            }
-        }
-        NSString *col = [NSString stringWithFormat:@"%@.%@", dbname, collectionname];
-        mongo::BSONObj criticalBSON = mongo::fromjson([critical UTF8String]);
-        mongo::BSONObj sortBSON = mongo::fromjson([sort UTF8String]);
-        mongo::BSONObj fieldsToReturn;
-        if ([fields isPresent]) {
-            NSArray *keys = [[NSArray alloc] initWithArray:[fields componentsSeparatedByString:@","]];
-            mongo::BSONObjBuilder builder;
-            for (NSString *str in keys) {
-                builder.append([str UTF8String], 1);
-            }
-            fieldsToReturn = builder.obj();
-            /*try{
-                fieldsToReturn = mongo::fromjson([jsFields UTF8String]);
-            }catch (mongo::MsgAssertionException &e) {
-                [keys release];
-                NSRunAlertPanel(@"Error", [NSString stringWithUTF8String:e.what()], @"OK", nil, nil);
-                return nil;
-            }*/
-            [keys release];
-        }
+    query = [self addQueryInQueue:^(MongoQuery *mongoQuery){
+        NSString *collection;
         
-        std::auto_ptr<mongo::DBClientCursor> cursor;
-        if (repl_conn) {
-            cursor = repl_conn->query(std::string([col UTF8String]), mongo::Query(criticalBSON).sort(sortBSON), [limit intValue], [skip intValue], &fieldsToReturn);
-        }else {
-            cursor = conn->query(std::string([col UTF8String]), mongo::Query(criticalBSON).sort(sortBSON), [limit intValue], [skip intValue], &fieldsToReturn);
+        collection = [[NSString alloc] initWithFormat:@"%@.%@", databaseName, collectionName];
+        try {
+            if ([self authenticateSynchronouslyWithDatabaseName:databaseName userName:userName password:password mongoQuery:mongoQuery]) {
+                if (self.replicaConnexion) {
+                    self.replicaConnexion->createCollection([collection UTF8String]);
+                } else {
+                    self.connexion->createCollection([collection UTF8String]);
+                }
+            }
+        } catch (mongo::DBException &e) {
+            NSString *errorMessage;
+            
+            errorMessage = [[NSString alloc] initWithUTF8String:e.what()];
+            [mongoQuery.mutableParameters setObject:errorMessage forKey:@"errormessage"];
+            [errorMessage release];
         }
-        NSMutableArray *response = [[NSMutableArray alloc] initWithCapacity:[limit intValue]];
-        while( cursor->more() )
-        {
-            mongo::BSONObj b = cursor->next();
-            mongo::BSONElement e;
-            b.getObjectID (e);
-            NSString *oid;
-            NSString *oidType;
-            if (e.type() == mongo::jstOID)
-            {
-                oidType = [[NSString alloc] initWithString:@"ObjectId"];
-                oid = [[NSString alloc] initWithUTF8String:e.__oid().str().c_str()];
-            }else {
-                oidType = [[NSString alloc] initWithString:@"String"];
-                oid = [[NSString alloc] initWithUTF8String:e.str().c_str()];
-            }
-            NSString *jsonString = [[NSString alloc] initWithUTF8String:b.jsonString(mongo::TenGen).c_str()];
-            NSMutableString *jsonStringb = [[[NSMutableString alloc] initWithUTF8String:b.jsonString(mongo::TenGen, 1).c_str()] autorelease];
-            if (jsonString == nil) {
-                jsonString = @"";
-            }
-            if (jsonStringb == nil) {
-                jsonStringb = [NSMutableString stringWithString:@""];
-            }
-            NSMutableArray *repArr = [[NSMutableArray alloc] initWithCapacity:4];
-            id regx2 = [RKRegex regexWithRegexString:@"(Date\\(\\s\\d+\\s\\))" options:RKCompileCaseless];
-            RKEnumerator *matchEnumerator2 = [jsonString matchEnumeratorWithRegex:regx2];
-            while([matchEnumerator2 nextRanges] != NULL) {
-                NSString *enumeratedStr=NULL;
-                [matchEnumerator2 getCapturesWithReferences:@"$1", &enumeratedStr, nil];
-                [repArr addObject:enumeratedStr];
-            }
-            NSMutableArray *oriArr = [[NSMutableArray alloc] initWithCapacity:4];
-            id regx = [RKRegex regexWithRegexString:@"(Date\\(\\s+\"[^^]*?\"\\s+\\))" options:RKCompileCaseless];
-            RKEnumerator *matchEnumerator = [jsonStringb matchEnumeratorWithRegex:regx];
-            while([matchEnumerator nextRanges] != NULL) {
-                NSString *enumeratedStr=NULL;
-                [matchEnumerator getCapturesWithReferences:@"$1", &enumeratedStr, nil];
-                [oriArr addObject:enumeratedStr];
-            }
-            for (unsigned int i=0; i<[repArr count]; i++) {
-                jsonStringb = [NSMutableString stringWithString:[jsonStringb stringByReplacingOccurrencesOfString:[oriArr objectAtIndex:i] withString:[repArr objectAtIndex:i]]];
-            }
-            [oriArr release];
-            [repArr release];
-            NSMutableDictionary *item = [[NSMutableDictionary alloc] initWithCapacity:4];
-            [item setObject:@"_id" forKey:@"name"];
-            [item setObject:oidType forKey:@"type"];
-            [item setObject:oid forKey:@"value"];
-            [item setObject:jsonString forKey:@"raw"];
-            [item setObject:jsonStringb forKey:@"beautified"];
-            [item setObject:[[self class] bsonDictWrapper:b] forKey:@"child"];
-            [response addObject:item];
-            [jsonString release];
-            [oid release];
-            [oidType release];
-            [item release];
-        }
-        NSLog(@"Find in db: %@.%@", dbname, collectionname);
-        return [response autorelease];
-    }catch (mongo::DBException &e) {
-        NSRunAlertPanel(@"Error", [NSString stringWithUTF8String:e.what()], @"OK", nil, nil);
+        [self performSelectorOnMainThread:@selector(createCollectionCallback:) withObject:mongoQuery waitUntilDone:NO];
+        [collection release];
+    }];
+    [query.mutableParameters setObject:databaseName forKey:@"databasename"];
+    [query.mutableParameters setObject:collectionName forKey:@"collectionname"];
+    if (userName) {
+        [query.mutableParameters setObject:userName forKey:@"username"];
     }
-    return nil;
+    if (password) {
+        [query.mutableParameters setObject:password forKey:@"password"];
+    }
+    return query;
+}
+
+- (void)dropCollectionCallback:(MongoQuery *)mongoQuery
+{
+    NSString *errorMessage;
+    
+    errorMessage = [mongoQuery.parameters objectForKey:@"errormessage"];
+    if ([_delegate respondsToSelector:@selector(mongoDB:collectionDropedWithMongoQuery:errorMessage:)]) {
+        [_delegate mongoDB:self collectionDropedWithMongoQuery:mongoQuery errorMessage:errorMessage];
+    }
+}
+
+- (MongoQuery *)dropCollectionWithName:(NSString *)collectionName databaseName:(NSString *)databaseName userName:(NSString *)userName password:(NSString *)password
+{
+    MongoQuery *query;
+    query = [self addQueryInQueue:^(MongoQuery *mongoQuery){
+        try {
+            if ([self authenticateSynchronouslyWithDatabaseName:databaseName userName:userName password:password mongoQuery:mongoQuery]) {
+                NSString *col = [NSString stringWithFormat:@"%@.%@", databaseName, collectionName];
+                if (self.replicaConnexion) {
+                    self.replicaConnexion->dropCollection([col UTF8String]);
+                } else {
+                    self.connexion->dropCollection([col UTF8String]);
+                }
+            }
+        } catch (mongo::DBException &e) {
+            NSString *errorMessage;
+            
+            errorMessage = [[NSString alloc] initWithUTF8String:e.what()];
+            [mongoQuery.mutableParameters setObject:errorMessage forKey:@"errormessage"];
+            [errorMessage release];
+        }
+        [self performSelectorOnMainThread:@selector(dropCollectionCallback:) withObject:mongoQuery waitUntilDone:NO];
+    }];
+    [query.mutableParameters setObject:databaseName forKey:@"databasename"];
+    [query.mutableParameters setObject:collectionName forKey:@"collectionname"];
+    if (userName) {
+        [query.mutableParameters setObject:userName forKey:@"username"];
+    }
+    if (password) {
+        [query.mutableParameters setObject:password forKey:@"password"];
+    }
+    return query;
+}
+
+- (MongoCollection *)mongoCollectionWithDatabaseName:(NSString *)databaseName collectionName:(NSString *)collectionName userName:(NSString *)userName password:(NSString *)password
+{
+    return [[[MongoCollection alloc] initWithMongoDB:self databaseName:databaseName collectionName:collectionName userName:userName password:password] autorelease];
 }
 
 - (void) saveInDB:(NSString *)dbname 
@@ -684,41 +672,12 @@ extern "C" {
         mongo::BSONObj fields = mongo::fromjson([jsonString UTF8String]);
         mongo::BSONObj critical = mongo::fromjson([[NSString stringWithFormat:@"{\"_id\":%@}", _id] UTF8String]);
         
-        if (repl_conn) {
-            repl_conn->update(std::string([col UTF8String]), critical, fields, false);
+        if (self.replicaConnexion) {
+            self.replicaConnexion->update(std::string([col UTF8String]), critical, fields, false);
         }else {
-            conn->update(std::string([col UTF8String]), critical, fields, false);
+            self.connexion->update(std::string([col UTF8String]), critical, fields, false);
         }
         NSLog(@"save in db: %@.%@", dbname, collectionname);
-    }catch (mongo::DBException &e) {
-        NSRunAlertPanel(@"Error", [NSString stringWithUTF8String:e.what()], @"OK", nil, nil);
-    }
-}
-
-- (void) updateInDB:(NSString *)dbname 
-         collection:(NSString *)collectionname 
-               user:(NSString *)user 
-           password:(NSString *)password 
-           critical:(NSString *)critical 
-             fields:(NSString *)fields 
-              upset:(NSNumber *)upset
-{
-    try {
-        if ([user length]>0 && [password length]>0) {
-            BOOL ok = [self authUser:user pass:password database:dbname];
-            if (!ok) {
-                return;
-            }
-        }
-        NSString *col = [NSString stringWithFormat:@"%@.%@", dbname, collectionname];
-        mongo::BSONObj criticalBSON = mongo::fromjson([critical UTF8String]);
-        mongo::BSONObj fieldsBSON = mongo::fromjson([[NSString stringWithFormat:@"{$set:%@}", fields] UTF8String]);
-        if (repl_conn) {
-            repl_conn->update(std::string([col UTF8String]), criticalBSON, fieldsBSON, (bool)[upset intValue]);
-        }else {
-            conn->update(std::string([col UTF8String]), criticalBSON, fieldsBSON, (bool)[upset intValue]);
-        }
-        NSLog(@"Update in db: %@.%@", dbname, collectionname);
     }catch (mongo::DBException &e) {
         NSRunAlertPanel(@"Error", [NSString stringWithUTF8String:e.what()], @"OK", nil, nil);
     }
@@ -746,10 +705,10 @@ extern "C" {
                 NSRunAlertPanel(@"Error", [NSString stringWithUTF8String:e.what()], @"OK", nil, nil);
                 return;
             }
-            if (repl_conn) {
-                repl_conn->remove(std::string([col UTF8String]), criticalBSON);
+            if (self.replicaConnexion) {
+                self.replicaConnexion->remove(std::string([col UTF8String]), criticalBSON);
             }else {
-                conn->remove(std::string([col UTF8String]), criticalBSON);
+                self.connexion->remove(std::string([col UTF8String]), criticalBSON);
             }
 
         }
@@ -781,10 +740,10 @@ extern "C" {
                 NSRunAlertPanel(@"Error", [NSString stringWithUTF8String:e.what()], @"OK", nil, nil);
                 return;
             }
-            if (repl_conn) {
-                repl_conn->insert(std::string([col UTF8String]), insertDataBSON);
+            if (self.replicaConnexion) {
+                self.replicaConnexion->insert(std::string([col UTF8String]), insertDataBSON);
             }else {
-                conn->insert(std::string([col UTF8String]), insertDataBSON);
+                self.connexion->insert(std::string([col UTF8String]), insertDataBSON);
             }
 
         }
@@ -860,10 +819,10 @@ extern "C" {
         if (insertDataBSON == emptyBSON) {
             return;
         }
-        if (repl_conn) {
-            repl_conn->insert(std::string([col UTF8String]), insertDataBSON);
+        if (self.replicaConnexion) {
+            self.replicaConnexion->insert(std::string([col UTF8String]), insertDataBSON);
         }else {
-            conn->insert(std::string([col UTF8String]), insertDataBSON);
+            self.connexion->insert(std::string([col UTF8String]), insertDataBSON);
         }
         NSLog(@"Find in db with filetype: %@.%@", dbname, collectionname);
     }catch (mongo::DBException &e) {
@@ -885,10 +844,10 @@ extern "C" {
         }
         NSString *col = [NSString stringWithFormat:@"%@.%@", dbname, collectionname];
         std::auto_ptr<mongo::DBClientCursor> cursor;
-        if (repl_conn) {
-            cursor = repl_conn->getIndexes(std::string([col UTF8String]));
+        if (self.replicaConnexion) {
+            cursor = self.replicaConnexion->getIndexes(std::string([col UTF8String]));
         }else {
-            cursor = conn->getIndexes(std::string([col UTF8String]));
+            cursor = self.connexion->getIndexes(std::string([col UTF8String]));
         }
         NSMutableArray *response = [[NSMutableArray alloc] init];
         while( cursor->more() )
@@ -935,10 +894,10 @@ extern "C" {
                 return;
             }
         }
-        if (repl_conn) {
-            repl_conn->ensureIndex(std::string([col UTF8String]), indexDataBSON);
+        if (self.replicaConnexion) {
+            self.replicaConnexion->ensureIndex(std::string([col UTF8String]), indexDataBSON);
         }else {
-            conn->ensureIndex(std::string([col UTF8String]), indexDataBSON);
+            self.connexion->ensureIndex(std::string([col UTF8String]), indexDataBSON);
         }
         NSLog(@"Ensure index in db: %@.%@", dbname, collectionname);
     }catch (mongo::DBException &e) {
@@ -959,10 +918,10 @@ extern "C" {
             }
         }
         NSString *col = [NSString stringWithFormat:@"%@.%@", dbname, collectionname];
-        if (repl_conn) {
-            repl_conn->reIndex(std::string([col UTF8String]));
+        if (self.replicaConnexion) {
+            self.replicaConnexion->reIndex(std::string([col UTF8String]));
         }else {
-            conn->reIndex(std::string([col UTF8String]));
+            self.connexion->reIndex(std::string([col UTF8String]));
         }
         NSLog(@"Reindex in db: %@.%@", dbname, collectionname);
     }catch (mongo::DBException &e) {
@@ -984,10 +943,10 @@ extern "C" {
             }
         }
         NSString *col = [NSString stringWithFormat:@"%@.%@", dbname, collectionname];
-        if (repl_conn) {
-            repl_conn->dropIndex(std::string([col UTF8String]), [indexName UTF8String]);
+        if (self.replicaConnexion) {
+            self.replicaConnexion->dropIndex(std::string([col UTF8String]), [indexName UTF8String]);
         }else {
-            conn->dropIndex(std::string([col UTF8String]), [indexName UTF8String]);
+            self.connexion->dropIndex(std::string([col UTF8String]), [indexName UTF8String]);
         }
         NSLog(@"Drop index in db: %@.%@", dbname, collectionname);
     }catch (mongo::DBException &e) {
@@ -1011,10 +970,10 @@ extern "C" {
         NSString *col = [NSString stringWithFormat:@"%@.%@", dbname, collectionname];
         mongo::BSONObj criticalBSON = mongo::fromjson([critical UTF8String]);
         long long int counter;
-        if (repl_conn) {
-            counter = repl_conn->count(std::string([col UTF8String]), criticalBSON);
+        if (self.replicaConnexion) {
+            counter = self.replicaConnexion->count(std::string([col UTF8String]), criticalBSON);
         }else {
-            counter = conn->count(std::string([col UTF8String]), criticalBSON);
+            counter = self.connexion->count(std::string([col UTF8String]), criticalBSON);
         }
         NSLog(@"Count in db: %@.%@", dbname, collectionname);
         return counter;
@@ -1046,10 +1005,10 @@ extern "C" {
         NSString *col = [NSString stringWithFormat:@"%@.%@", dbname, collectionname];
         mongo::BSONObj criticalBSON = mongo::fromjson([critical UTF8String]);
         mongo::BSONObj retval;
-        if (repl_conn) {
-            retval = repl_conn->mapreduce(std::string([col UTF8String]), std::string([mapJs UTF8String]), std::string([reduceJs UTF8String]), criticalBSON, std::string([output UTF8String]));
+        if (self.replicaConnexion) {
+            retval = self.replicaConnexion->mapreduce(std::string([col UTF8String]), std::string([mapJs UTF8String]), std::string([reduceJs UTF8String]), criticalBSON, std::string([output UTF8String]));
         }else {
-            retval = conn->mapreduce(std::string([col UTF8String]), std::string([mapJs UTF8String]), std::string([reduceJs UTF8String]), criticalBSON, std::string([output UTF8String]));
+            retval = self.connexion->mapreduce(std::string([col UTF8String]), std::string([mapJs UTF8String]), std::string([reduceJs UTF8String]), criticalBSON, std::string([output UTF8String]));
         }
         NSLog(@"Map reduce in db: %@.%@", dbname, collectionname);
         return [[self class] bsonDictWrapper:retval];
@@ -1118,48 +1077,49 @@ extern "C" {
     return (NSDictionary *)res;
 }
 
-- (void)fetchServerStatusDeltaCallback:(NSDictionary *)info
+- (void)fetchServerStatusDeltaCallback:(MongoQuery *)mongoQuery
 {
     NSDictionary *serverStatusDelta;
     
-    serverStatusDelta = [info objectForKey:@"serverStatusDelta"];
-    if ([_delegate respondsToSelector:@selector(mongoDB:serverStatusDeltaFetched:withErrorMessage:)]) {
-        [_delegate mongoDB:self serverStatusDeltaFetched:serverStatusDelta withErrorMessage:[info objectForKey:@"errorMessage"]];
+    serverStatusDelta = [mongoQuery.parameters objectForKey:@"serverstatusdelta"];
+    if ([_delegate respondsToSelector:@selector(mongoDB:serverStatusDeltaFetched:withMongoQuery:errorMessage:)]) {
+        [_delegate mongoDB:self serverStatusDeltaFetched:serverStatusDelta withMongoQuery:mongoQuery errorMessage:[mongoQuery.parameters objectForKey:@"errormessage"]];
     }
 }
 
-- (NSOperation *)fetchServerStatusDelta
+- (MongoQuery *)fetchServerStatusDelta
 {
-    NSBlockOperation *operation;
-    
-    operation = [NSBlockOperation blockOperationWithBlock:^{
+    return [self addQueryInQueue:^(MongoQuery *mongoQuery){
         try {
             mongo::BSONObj currentStats;
             NSDate *currentDate;
             NSDictionary *serverStatusDelta = nil;
             
-            if (repl_conn) {
-                repl_conn->runCommand("admin", BSON("serverStatus"<<1), currentStats);
+            if (self.replicaConnexion) {
+                self.replicaConnexion->runCommand("admin", BSON("serverStatus"<<1), currentStats);
             }else {
-                conn->runCommand("admin", BSON("serverStatus"<<1), currentStats);
+                self.connexion->runCommand("admin", BSON("serverStatus"<<1), currentStats);
             }
             currentDate = [[NSDate alloc] init];
             if (_dateForDelta) {
-                serverStatusDelta = [[self class] serverMonitor:_serverStatusForDelta second:currentStats currentDate:currentDate previousDate:_dateForDelta];
+                serverStatusDelta = [[self class] serverMonitor:*self.serverStatusForDelta second:currentStats currentDate:currentDate previousDate:_dateForDelta];
             }
             [_dateForDelta release];
             _dateForDelta = currentDate;
-            _serverStatusForDelta = currentStats;
+            *self.serverStatusForDelta = currentStats;
             
             if (serverStatusDelta) {
-                [self performSelectorOnMainThread:@selector(fetchServerStatusDeltaCallback:) withObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:serverStatusDelta, @"serverStatusDelta", nil] waitUntilDone:NO];
+                [mongoQuery.mutableParameters setObject:serverStatusDelta forKey:@"serverstatusdelta"];
             }
-        } catch (mongo::DBException &e) {
-            [self performSelectorOnMainThread:@selector(fetchServerStatusDeltaCallback:) withObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:[NSString stringWithUTF8String:e.what()], @"errorMessage", nil] waitUntilDone:NO];
+        } catch( mongo::DBException &e ) {
+            NSString *errorMessage;
+            
+            errorMessage = [[NSString alloc] initWithUTF8String:e.what()];
+            [mongoQuery.mutableParameters setObject:errorMessage forKey:@"errormessage"];
+            [errorMessage release];
         }
+        [self performSelectorOnMainThread:@selector(fetchServerStatusDeltaCallback:) withObject:mongoQuery waitUntilDone:NO];
     }];
-    [_operationQueue addOperation:operation];
-    return operation;
 }
 
 #pragma mark BSON to NSMutableArray
@@ -1421,10 +1381,10 @@ extern "C" {
             }
         }
         NSString *col = [NSString stringWithFormat:@"%@.%@", dbname, collectionname];
-        if (repl_conn) {
-            cursor = repl_conn->query(std::string([col UTF8String]), mongo::Query(), 0, 0, &fields, mongo::QueryOption_SlaveOk | mongo::QueryOption_NoCursorTimeout);
+        if (self.replicaConnexion) {
+            cursor = self.replicaConnexion->query(std::string([col UTF8String]), mongo::Query(), 0, 0, &fields, mongo::QueryOption_SlaveOk | mongo::QueryOption_NoCursorTimeout);
         }else {
-            cursor = conn->query(std::string([col UTF8String]), mongo::Query(), 0, 0, &fields, mongo::QueryOption_SlaveOk | mongo::QueryOption_NoCursorTimeout);
+            cursor = self.connexion->query(std::string([col UTF8String]), mongo::Query(), 0, 0, &fields, mongo::QueryOption_SlaveOk | mongo::QueryOption_NoCursorTimeout);
         }
         return cursor;
     }catch (mongo::DBException &e) {
@@ -1464,10 +1424,10 @@ extern "C" {
             fieldsToReturn = builder.obj();
             [keys release];
         }
-        if (repl_conn) {
-            cursor = repl_conn->query(std::string([col UTF8String]), mongo::Query(criticalBSON).sort(sortBSON), [limit intValue], [skip intValue], &fieldsToReturn, mongo::QueryOption_SlaveOk | mongo::QueryOption_NoCursorTimeout);
+        if (self.replicaConnexion) {
+            cursor = self.replicaConnexion->query(std::string([col UTF8String]), mongo::Query(criticalBSON).sort(sortBSON), [limit intValue], [skip intValue], &fieldsToReturn, mongo::QueryOption_SlaveOk | mongo::QueryOption_NoCursorTimeout);
         }else {
-            cursor = conn->query(std::string([col UTF8String]), mongo::Query(criticalBSON).sort(sortBSON), [limit intValue], [skip intValue], &fieldsToReturn, mongo::QueryOption_SlaveOk | mongo::QueryOption_NoCursorTimeout);
+            cursor = self.connexion->query(std::string([col UTF8String]), mongo::Query(criticalBSON).sort(sortBSON), [limit intValue], [skip intValue], &fieldsToReturn, mongo::QueryOption_SlaveOk | mongo::QueryOption_NoCursorTimeout);
         }
         return cursor;
     }catch (mongo::DBException &e) {
@@ -1492,10 +1452,10 @@ extern "C" {
             }
         }
         NSString *col = [NSString stringWithFormat:@"%@.%@", dbname, collectionname];
-        if (repl_conn) {
-            repl_conn->update(std::string([col UTF8String]), critical, fields, upset);
+        if (self.replicaConnexion) {
+            self.replicaConnexion->update(std::string([col UTF8String]), critical, fields, upset);
         }else {
-            conn->update(std::string([col UTF8String]), critical, fields, upset);
+            self.connexion->update(std::string([col UTF8String]), critical, fields, upset);
         }
         NSLog(@"Update in db: %@.%@", dbname, collectionname);
     }catch (mongo::DBException &e) {

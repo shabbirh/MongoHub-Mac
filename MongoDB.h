@@ -6,83 +6,67 @@
 //  Copyright 2010 MusicPeace.ORG. All rights reserved.
 //
 
-#import <Cocoa/Cocoa.h>
+#import <Foundation/Foundation.h>
 #undef check
 #import <mongo/client/dbclient.h>
 
-#define ERROR_MESSAGE_MONGODB @"error"
-#define CONNECTION_NOTIFICATION_MONGODB @"connection"
-
 @class MongoDB;
+@class MongoCollection;
+@class MongoQuery;
 
-@protocol MongoDBDelegate
+@protocol MongoDBDelegate<NSObject>
 @optional
-- (void)mongoDBConnectionSucceded:(MongoDB *)mongoDB;
-- (void)mongoDBConnectionFailed:(MongoDB *)mongoDB withErrorMessage:(NSString *)errorMessage;
-- (void)mongoDB:(MongoDB *)mongoDB databaseListFetched:(NSArray *)list withErrorMessage:(NSString *)errorMessage;
-- (void)mongoDB:(MongoDB *)mongoDB serverStatusFetched:(NSArray *)serverStatus withErrorMessage:(NSString *)errorMessage;
-- (void)mongoDB:(MongoDB *)mongoDB serverStatusDeltaFetched:(NSDictionary *)serverStatusDelta withErrorMessage:(NSString *)errorMessage;
-- (void)mongoDB:(MongoDB *)mongoDB collectionListFetched:(NSArray *)collectionList withDatabaseName:(NSString *)databaseName errorMessage:(NSString *)errorMessage;
-- (void)mongoDB:(MongoDB *)mongoDB databaseStatsFetched:(NSArray *)databaseStats withDatabaseName:(NSString *)databaseName errorMessage:(NSString *)errorMessage;
-- (void)mongoDB:(MongoDB *)mongoDB collectionStatsFetched:(NSArray *)databaseStats withDatabaseName:(NSString *)databaseName collectionName:(NSString *)collectionName errorMessage:(NSString *)errorMessage;
+- (void)mongoDBConnectionSucceded:(MongoDB *)mongoDB withMongoQuery:(MongoQuery *)mongoQuery;
+- (void)mongoDBConnectionFailed:(MongoDB *)mongoDB withMongoQuery:(MongoQuery *)mongoQuery errorMessage:(NSString *)errorMessage;
+- (void)mongoDB:(MongoDB *)mongoDB databaseListFetched:(NSArray *)list withMongoQuery:(MongoQuery *)mongoQuery errorMessage:(NSString *)errorMessage;
+- (void)mongoDB:(MongoDB *)mongoDB serverStatusFetched:(NSArray *)serverStatus withMongoQuery:(MongoQuery *)mongoQuery errorMessage:(NSString *)errorMessage;
+- (void)mongoDB:(MongoDB *)mongoDB serverStatusDeltaFetched:(NSDictionary *)serverStatusDelta withMongoQuery:(MongoQuery *)mongoQuery errorMessage:(NSString *)errorMessage;
+- (void)mongoDB:(MongoDB *)mongoDB collectionListFetched:(NSArray *)collectionList withMongoQuery:(MongoQuery *)mongoQuery errorMessage:(NSString *)errorMessage;
+- (void)mongoDB:(MongoDB *)mongoDB databaseStatsFetched:(NSArray *)databaseStats withMongoQuery:(MongoQuery *)mongoQuery errorMessage:(NSString *)errorMessage;
+- (void)mongoDB:(MongoDB *)mongoDB collectionStatsFetched:(NSArray *)databaseStats withMongoQuery:(MongoQuery *)mongoQuery errorMessage:(NSString *)errorMessage;
 
-- (void)mongoDB:(MongoDB *)mongoDB databaseDropedWithName:(NSString *)databaseName errorMessage:(NSString *)errorMessage;
-- (void)mongoDB:(MongoDB *)mongoDB collectionCreatedWithName:(NSString *)collectionName databaseName:(NSString *)databaseName errorMessage:(NSString *)errorMessage;
-- (void)mongoDB:(MongoDB *)mongoDB collectionDropedWithName:(NSString *)collectionName databaseName:(NSString *)databaseName errorMessage:(NSString *)errorMessage;
+- (void)mongoDB:(MongoDB *)mongoDB databaseDropedWithMongoQuery:(MongoQuery *)mongoQuery errorMessage:(NSString *)errorMessage;
+- (void)mongoDB:(MongoDB *)mongoDB collectionCreatedWithMongoQuery:(MongoQuery *)mongoQuery errorMessage:(NSString *)errorMessage;
+- (void)mongoDB:(MongoDB *)mongoDB collectionDropedWithMongoQuery:(MongoQuery *)mongoQuery errorMessage:(NSString *)errorMessage;
 @end
 
-@interface MongoDB : NSObject {
-    id<MongoDBDelegate, NSObject>   _delegate;
+@interface MongoDB : NSObject
+{
+    id<MongoDBDelegate>             _delegate;
     NSOperationQueue                *_operationQueue;
+    MongoQuery                      *_currentMongoQuery;
     
-    mongo::DBClientConnection *conn;
-    mongo::DBClientReplicaSet::DBClientReplicaSet *repl_conn;
+    void                            *_connexion;
+    void                            *_replicaConnexion;
     
     BOOL                            _connected;
     NSMutableDictionary             *_databaseList;
     NSMutableArray                  *_serverStatus;
     NSDate                          *_dateForDelta;
-    mongo::BSONObj                  _serverStatusForDelta;
+    void                            *_serverStatusForDelta;
 }
-+ (NSArray *) bsonDictWrapper:(mongo::BSONObj)retval;
-+ (NSArray *) bsonArrayWrapper:(mongo::BSONObj)retval;
+- (MongoQuery *)connectWithHostName:(NSString *)host databaseName:(NSString *)databaseName userName:(NSString *)userName password:(NSString *)password;
+- (MongoQuery *)connectWithReplicaName:(NSString *)name hosts:(NSArray *)hosts databaseName:(NSString *)databaseName userName:(NSString *)userName password:(NSString *)password;
+- (MongoQuery *)fetchDatabaseList;
+- (MongoQuery *)fetchServerStatus;
+- (MongoQuery *)fetchServerStatusDelta;
+- (MongoQuery *)fetchCollectionListWithDatabaseName:(NSString *)databaseName userName:(NSString *)user password:(NSString *)password;
+- (MongoQuery *)fetchDatabaseStatsWithDatabaseName:(NSString *)databaseName userName:(NSString *)user password:(NSString *)password;
+- (MongoQuery *)fetchCollectionStatsWithCollectionName:(NSString *)collectionName databaseName:(NSString *)databaseName userName:(NSString *)user password:(NSString *)password;
 
-- (NSOperation *)connectWithHostName:(NSString *)host databaseName:(NSString *)databaseName userName:(NSString *)userName password:(NSString *)password;
-- (NSOperation *)connectWithReplicaName:(NSString *)name hosts:(NSArray *)hosts databaseName:(NSString *)databaseName userName:(NSString *)userName password:(NSString *)password;
-- (NSOperation *)fetchDatabaseList;
-- (NSOperation *)fetchServerStatus;
-- (NSOperation *)fetchServerStatusDelta;
-- (NSOperation *)fetchCollectionListWithDatabaseName:(NSString *)databaseName userName:(NSString *)user password:(NSString *)password;
-- (NSOperation *)fetchDatabaseStatsWithDatabaseName:(NSString *)databaseName userName:(NSString *)user password:(NSString *)password;
-- (NSOperation *)fetchCollectionStatsWithCollectionName:(NSString *)collectionName databaseName:(NSString *)databaseName userName:(NSString *)user password:(NSString *)password;
+- (MongoQuery *)dropDatabaseWithName:(NSString *)databaseName userName:(NSString *)user password:(NSString *)password;
 
-- (NSOperation *)dropDatabaseWithName:(NSString *)databaseName userName:(NSString *)user password:(NSString *)password;
+- (MongoQuery *)createCollectionWithName:(NSString *)collectionName databaseName:(NSString *)databaseName userName:(NSString *)user password:(NSString *)password;
+- (MongoQuery *)dropCollectionWithName:(NSString *)collectionName databaseName:(NSString *)databaseName userName:(NSString *)user password:(NSString *)password;
 
-- (NSOperation *)createCollectionWithName:(NSString *)collectionName databaseName:(NSString *)databaseName userName:(NSString *)user password:(NSString *)password;
-- (NSOperation *)dropCollectionWithName:(NSString *)collectionName databaseName:(NSString *)databaseName userName:(NSString *)user password:(NSString *)password;
+- (MongoCollection *)mongoCollectionWithDatabaseName:(NSString *)databaseName collectionName:(NSString *)collectionName userName:(NSString *)userName password:(NSString *)password;
 
-- (NSArray *) findInDB:(NSString *)dbname 
-                   collection:(NSString *)collectionname 
-                         user:(NSString *)user 
-                     password:(NSString *)password 
-                     critical:(NSString *)critical 
-                       fields:(NSString *)fields 
-                         skip:(NSNumber *)skip 
-                        limit:(NSNumber *)limit 
-                         sort:(NSString *)sort;
 - (void) saveInDB:(NSString *)dbname 
        collection:(NSString *)collectionname 
              user:(NSString *)user 
          password:(NSString *)password 
        jsonString:(NSString *)jsonString 
               _id:(NSString *)_id;
-- (void) updateInDB:(NSString *)dbname 
-         collection:(NSString *)collectionname 
-               user:(NSString *)user 
-           password:(NSString *)password 
-           critical:(NSString *)critical 
-             fields:(NSString *)fields 
-              upset:(NSNumber *)upset;
 - (void) removeInDB:(NSString *)dbname 
          collection:(NSString *)collectionname 
                user:(NSString *)user 
@@ -144,9 +128,10 @@
                  fields:(mongo::BSONObj)fields 
                   upset:(BOOL)upset;
 
-@property(nonatomic, readwrite, assign) id<MongoDBDelegate, NSObject> delegate;
+@property(nonatomic, readwrite, assign) id<MongoDBDelegate> delegate;
 @property(nonatomic, readonly, assign, getter=isConnected) BOOL connected;
 @property(nonatomic, readonly, retain) NSArray *databaseList;
 @property(nonatomic, readonly, retain) NSArray *serverStatus;
+@property(nonatomic, readonly, assign) MongoQuery *currentMongoQuery;
 
 @end

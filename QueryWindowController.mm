@@ -15,9 +15,10 @@
 #import "MongoDB.h"
 #import "NSString+Extras.h"
 #import "JsonWindowController.h"
-#include <fstream>
-#include <iostream>
-#include <boost/filesystem/operations.hpp>
+#import <fstream>
+#import <iostream>
+#import <boost/filesystem/operations.hpp>
+#import "MongoQuery.h"
 
 @implementation QueryWindowController
 
@@ -101,6 +102,7 @@
     [findResultsViewController release];
     [conn release];
     [mongoDB release];
+    [_mongoCollection release];
     [dbname release];
     [collectionname release];
     
@@ -167,6 +169,17 @@
     [super dealloc];
 }
 
+- (MongoCollection *)mongoCollection
+{
+    return _mongoCollection;
+}
+
+- (void)setMongoCollection:(MongoCollection *)mongoCollection
+{
+    _mongoCollection = [mongoCollection retain];
+    _mongoCollection.delegate = self;
+}
+
 - (NSString *)formatedQuery
 {
     NSString *query = @"";
@@ -175,7 +188,7 @@
     value = [[criticalTextField stringValue] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     if ([value isPresent]) {
         if ([value hasPrefix:@"{"]) {
-            query = [NSString stringWithString:value];
+            query = value;
         }else if ([value hasPrefix:@"\""] || [value hasPrefix:@"'"]) {
             query = [NSString stringWithFormat:@"{%@}",value];
         }else {
@@ -198,51 +211,19 @@
 
 - (IBAction)findQuery:(id)sender
 {
-    [NSThread detachNewThreadSelector:@selector(doFindQuery) toTarget:self withObject:nil];
-}
-
-- (void)doFindQuery {
-    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-    NSTimeInterval speed = [NSDate timeIntervalSinceReferenceDate];
+    int limit = [limitTextField intValue];
+    MongoQuery *countQuery;
+    MongoQuery *findQuery;
+    
+    if (limit <= 0) {
+        limit = 30;
+    }
+    findQuery = [_mongoCollection findWithQuery:[self formatedQuery] fields:[fieldsTextField stringValue] skip:[skipTextField intValue] limit:limit sort:[sortTextField stringValue]];
+    countQuery = [_mongoCollection countWithQuery:[self formatedQuery]];
+    [countQuery.userInfo setObject:@"Total Results: %lld (%0.2fs)" forKey:@"title"];
+    [countQuery.userInfo setObject:totalResultsTextField forKey:@"textfield"];
+    [countQuery.userInfo setObject:findQuery forKey:@"timequery"];
     [findQueryLoaderIndicator start];
-    NSString *user=nil;
-    NSString *password=nil;
-    Database *db = [databasesArrayController dbInfo:conn name:dbname];
-    if (db) {
-        user = db.user;
-        password = db.password;
-    }
-    NSString *critical = [self formatedQuery];
-    NSString *fields = [fieldsTextField stringValue];
-    NSString *sort = [sortTextField stringValue];
-    NSNumber *skip = [NSNumber numberWithInt:[skipTextField intValue]];
-    NSNumber *limit;
-    if ([limitTextField intValue] == 0) {
-        limit = [NSNumber numberWithInt:30];
-    }else {
-        limit = [NSNumber numberWithInt:[limitTextField intValue]];
-    }
-    NSMutableArray *results = [[NSMutableArray alloc] initWithArray:[mongoDB findInDB:dbname 
-                                                                           collection:collectionname 
-                                                                                 user:user 
-                                                                             password:password 
-                                                                             critical:critical 
-                                                                               fields:fields 
-                                                                                 skip:skip 
-                                                                                limit:limit
-                                                                                 sort:sort]];
-    long long int total = [mongoDB countInDB:dbname 
-                                  collection:collectionname 
-                                        user:user 
-                                    password:password 
-                                    critical:critical];
-    [totalResultsTextField setStringValue:[NSString stringWithFormat:@"Total Results: %d (%0.2fs)", total, [NSDate timeIntervalSinceReferenceDate]-speed]];
-    findResultsViewController.results = results;
-    [findResultsViewController.myOutlineView reloadData];
-    [results release];
-    [findQueryLoaderIndicator stop];
-    [pool drain];
-    [NSThread exit];
 }
 
 - (IBAction)expandFindResults:(id)sender
@@ -257,38 +238,15 @@
 
 - (IBAction)updateQuery:(id)sender
 {
-    [NSThread detachNewThreadSelector:@selector(doUpdateQuery) toTarget:self withObject:nil];
-}
-
-- (void)doUpdateQuery {
-    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-    [updateQueryLoaderIndicator start];
-    NSString *user=nil;
-    NSString *password=nil;
-    Database *db = [databasesArrayController dbInfo:conn name:dbname];
-    if (db) {
-        user = db.user;
-        password = db.password;
-    }
-    NSString *critical = [updateCriticalTextField stringValue];
+    MongoQuery *countQuery;
+    NSString *query = [updateCriticalTextField stringValue];
     NSString *fields = [updateSetTextField stringValue];
-    NSNumber *upset = [NSNumber numberWithInt:[upsetCheckBox state]];
-    int total = [mongoDB countInDB:dbname 
-                        collection:collectionname 
-                              user:user 
-                          password:password 
-                          critical:critical];
-    [mongoDB updateInDB:dbname 
-             collection:collectionname 
-                   user:user 
-               password:password 
-               critical:critical 
-                 fields:fields 
-                  upset:upset];
-    [updateResultsTextField setStringValue:[NSString stringWithFormat:@"Affected Rows: %d", total]];
-    [updateQueryLoaderIndicator stop];
-    [pool drain];
-    [NSThread exit];
+    
+    [updateQueryLoaderIndicator start];
+    countQuery = [_mongoCollection countWithQuery:query];
+    [countQuery.userInfo setObject:@"Affected Rows: %lld" forKey:@"title"];
+    [countQuery.userInfo setObject:updateResultsTextField forKey:@"textfield"];
+    [_mongoCollection updateWithQuery:query fields:fields upset:[upsetCheckBox state]];
 }
 
 - (IBAction)removeQuery:(id)sender
@@ -1098,5 +1056,47 @@
     }
     return b.obj();
 }
+
+@end
+
+@implementation QueryWindowController(MongoCollectionDelegate)
+
+- (void)mongoCollection:(MongoCollection *)collection queryResultFetched:(NSArray *)result withMongoQuery:(MongoQuery *)mongoQuery errorMessage:(NSString *)errorMessage
+{
+    [findQueryLoaderIndicator stop];
+    if (collection == _mongoCollection) {
+        if (errorMessage) {
+            NSRunAlertPanel(@"Error", errorMessage, @"OK", nil, nil);
+        } else {
+            [findResultsViewController.results removeAllObjects];
+            [findResultsViewController.results addObjectsFromArray:result];
+            [findResultsViewController.myOutlineView reloadData];
+        }
+    }
+}
+
+- (void)mongoCollection:(MongoCollection *)collection queryCountWithValue:(long long)value withMongoQuery:(MongoQuery *)mongoQuery errorMessage:(NSString *)errorMessage
+{
+    if (collection == _mongoCollection) {
+        if ([mongoQuery.userInfo objectForKey:@"title"]) {
+            if ([mongoQuery.userInfo objectForKey:@"timequery"]) {
+                [[mongoQuery.userInfo objectForKey:@"textfield"] setStringValue:[NSString stringWithFormat:[mongoQuery.userInfo objectForKey:@"title"], value, [[mongoQuery.userInfo objectForKey:@"timequery"] duration]]];
+            } else {
+                [[mongoQuery.userInfo objectForKey:@"textfield"] setStringValue:[NSString stringWithFormat:[mongoQuery.userInfo objectForKey:@"title"], value]];
+            }
+        }
+    }
+}
+
+- (void)mongoCollection:(MongoCollection *)collection updateDonwWithMongoQuery:(MongoQuery *)mongoQuery errorMessage:(NSString *)errorMessage
+{
+    if (collection == _mongoCollection) {
+        [findQueryLoaderIndicator stop];
+        if (errorMessage) {
+            NSRunAlertPanel(@"Error", errorMessage, @"OK", nil, nil);
+        }
+    }
+}
+
 
 @end

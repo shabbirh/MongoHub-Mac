@@ -8,19 +8,24 @@
 
 #import <Cocoa/Cocoa.h>
 #import "UKSyntaxColoredTextViewController.h"
+#import "MongoQuery.h"
+
 @class DatabasesArrayController;
 @class Connection;
 @class MongoDB;
+@class MongoCollection;
 
 #ifndef UKSCTD_DEFAULT_TEXTENCODING
 #define UKSCTD_DEFAULT_TEXTENCODING		NSUTF8StringEncoding
 #endif
 
-@interface JsonWindowController : NSWindowController <UKSyntaxColoredTextViewDelegate>{
+@interface JsonWindowController : NSWindowController <UKSyntaxColoredTextViewDelegate, MongoQueryCallbackTarget>
+{
     NSManagedObjectContext *managedObjectContext;
     DatabasesArrayController *databasesArrayController;
     Connection *conn;
     MongoDB *mongoDB;
+    MongoCollection *_mongoCollection;
     NSString *dbname;
     NSString *collectionname;
     NSDictionary *jsonDict;
@@ -38,9 +43,9 @@
 @property (nonatomic, retain) Connection *conn;
 @property (nonatomic, retain) NSDictionary *jsonDict;
 @property (nonatomic, retain) NSTextView *myTextView;
+@property (nonatomic, readwrite, retain) MongoCollection *mongoCollection;
 
 -(IBAction) save:(id)sender;
--(void) doSave;
 -(IBAction)	recolorCompleteFile: (id)sender;
 
 @end

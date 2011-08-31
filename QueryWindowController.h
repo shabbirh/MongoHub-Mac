@@ -7,19 +7,24 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import "MongoCollection.h"
 #undef check
 #import <mongo/client/dbclient.h>
+
 @class DatabasesArrayController;
 @class ResultsOutlineViewController;
 @class Connection;
 @class MongoDB;
+@class MongoCollection;
 
-@interface QueryWindowController : NSWindowController {
+@interface QueryWindowController : NSWindowController
+{
     NSManagedObjectContext *managedObjectContext;
     DatabasesArrayController *databasesArrayController;
     IBOutlet ResultsOutlineViewController *findResultsViewController;
     IBOutlet NSOutlineView *findResultsOutlineView;
     MongoDB *mongoDB;
+    MongoCollection *               _mongoCollection;
     NSString *dbname;
     NSString *collectionname;
     Connection *conn;
@@ -88,6 +93,7 @@
 @property (nonatomic, retain) DatabasesArrayController *databasesArrayController;
 @property (nonatomic, retain) ResultsOutlineViewController *findResultsViewController;
 @property (nonatomic, retain) MongoDB *mongoDB;
+@property (nonatomic, retain, readwrite) MongoCollection *mongoCollection;
 @property (nonatomic, retain) NSString *dbname;
 @property (nonatomic, retain) NSString *collectionname;
 @property (nonatomic, retain) Connection *conn;
@@ -153,11 +159,9 @@
 @property (nonatomic, retain) NSProgressIndicator *impProgressIndicator;
 
 - (IBAction)findQuery:(id)sender;
-- (void)doFindQuery;
 - (IBAction)expandFindResults:(id)sender;
 - (IBAction)collapseFindResults:(id)sender;
 - (IBAction)updateQuery:(id)sender;
-- (void)doUpdateQuery;
 - (IBAction)removeQuery:(id)sender;
 - (void)doRemoveQuery;
 - (IBAction)insertQuery:(id)sender;
@@ -190,4 +194,7 @@
 - (IBAction)chooseExportPath:(id)sender;
 - (IBAction)chooseImportPath:(id)sender;
 - (mongo::BSONObj)parseCSVLine:(char *)line type:(int)_type sep:(const char *)_sep headerLine:(bool)_headerLine ignoreBlanks:(bool)_ignoreBlanks fields:(std::vector<std::string> &)_fields;
+@end
+
+@interface QueryWindowController(MongoCollectionDelegate)<MongoCollectionDelegate>
 @end

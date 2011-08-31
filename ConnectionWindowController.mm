@@ -24,6 +24,7 @@
 #import "SidebarNode.h"
 #import "MongoDB.h"
 #import "Tunnel.h"
+#import "MongoQuery.h"
 
 @interface ConnectionWindowController()
 - (void)closeMongoDB;
@@ -370,8 +371,10 @@
         NSRunAlertPanel(@"Error", @"Please choose a collection!", @"OK", nil, nil);
         return;
     }
+    Database *db = [databaseArrayController dbInfo:conn name:[self.selectedDB caption]];
     
     QueryWindowController *queryWindowController = [[QueryWindowController alloc] init];
+    queryWindowController.mongoCollection = [_mongoDB mongoCollectionWithDatabaseName:[self.selectedDB caption] collectionName:[self.selectedCollection caption] userName:db.user password:db.password];
     queryWindowController.managedObjectContext = self.managedObjectContext;
     queryWindowController.conn = conn;
     queryWindowController.dbname = [self.selectedDB caption];
@@ -495,7 +498,7 @@
 
 @implementation ConnectionWindowController(MongoDBDelegate)
 
-- (void)mongoDBConnectionSucceded:(MongoDB *)mongoDB
+- (void)mongoDBConnectionSucceded:(MongoDB *)mongoDB withMongoQuery:(MongoQuery *)mongoQuery
 {
     NSAssert(mongoDB == _mongoDB, @"wrong database");
     [loaderIndicator stop];
@@ -511,14 +514,14 @@
     [self showServerStatus:nil];
 }
 
-- (void)mongoDBConnectionFailed:(MongoDB *)mongoDB withErrorMessage:(NSString *)errorMessage
+- (void)mongoDBConnectionFailed:(MongoDB *)mongoDB withMongoQuery:(MongoQuery *)mongoQuery errorMessage:(NSString *)errorMessage
 {
     NSAssert(mongoDB == _mongoDB, @"wrong database");
     [loaderIndicator stop];
     NSRunAlertPanel(@"Error", errorMessage, @"OK", nil, nil);
 }
 
-- (void)mongoDB:(MongoDB *)mongoDB databaseListFetched:(NSArray *)list withErrorMessage:(NSString *)errorMessage
+- (void)mongoDB:(MongoDB *)mongoDB databaseListFetched:(NSArray *)list withMongoQuery:(MongoQuery *)mongoQuery errorMessage:(NSString *)errorMessage
 {
     NSAssert(mongoDB == _mongoDB, @"wrong database");
     [loaderIndicator stop];
@@ -548,7 +551,7 @@
     [sidebar expandItem:@"1"];
 }
 
-- (void)mongoDB:(MongoDB *)mongoDB serverStatusFetched:(NSArray *)serverStatus withErrorMessage:(NSString *)errorMessage
+- (void)mongoDB:(MongoDB *)mongoDB serverStatusFetched:(NSArray *)serverStatus withMongoQuery:(MongoQuery *)mongoQuery errorMessage:(NSString *)errorMessage
 {
     NSAssert(mongoDB == _mongoDB, @"wrong database");
     [loaderIndicator stop];
@@ -561,11 +564,11 @@
     [resultsOutlineViewController.myOutlineView reloadData];
 }
 
-- (void)mongoDB:(MongoDB *)mongoDB collectionListFetched:(NSArray *)collectionList withDatabaseName:(NSString *)databaseName errorMessage:(NSString *)errorMessage
+- (void)mongoDB:(MongoDB *)mongoDB collectionListFetched:(NSArray *)collectionList withMongoQuery:(MongoQuery *)mongoQuery errorMessage:(NSString *)errorMessage
 {
     NSAssert(mongoDB == _mongoDB, @"wrong database");
     [loaderIndicator stop];
-    if ([[self.selectedDB caption] isEqualToString:databaseName]) {
+    if ([[self.selectedDB caption] isEqualToString:[mongoQuery.parameters objectForKey:@"databasename"]]) {
         [self.collections removeAllObjects];
         if (collectionList) {
             [self.collections addObjectsFromArray:collectionList];
@@ -587,7 +590,7 @@
     }
 }
 
-- (void)mongoDB:(MongoDB *)mongoDB databaseStatsFetched:(NSArray *)databaseStats withDatabaseName:(NSString *)databaseName errorMessage:(NSString *)errorMessage
+- (void)mongoDB:(MongoDB *)mongoDB databaseStatsFetched:(NSArray *)databaseStats withMongoQuery:(MongoQuery *)mongoQuery errorMessage:(NSString *)errorMessage
 {
     NSAssert(mongoDB == _mongoDB, @"wrong database");
     [loaderIndicator stop];
@@ -600,11 +603,11 @@
         [resultsOutlineViewController.myOutlineView reloadData];
 }
 
-- (void)mongoDB:(MongoDB *)mongoDB collectionStatsFetched:(NSArray *)collectionStats withDatabaseName:(NSString *)databaseName collectionName:(NSString *)collectionName errorMessage:(NSString *)errorMessage
+- (void)mongoDB:(MongoDB *)mongoDB collectionStatsFetched:(NSArray *)collectionStats withMongoQuery:(MongoQuery *)mongoQuery errorMessage:(NSString *)errorMessage
 {
     NSAssert(mongoDB == _mongoDB, @"wrong database");
     [loaderIndicator stop];
-    if ([[self.selectedDB caption] isEqualToString:databaseName] && [[self.selectedCollection caption] isEqualToString:collectionName]) {
+    if ([[self.selectedDB caption] isEqualToString:[mongoQuery.parameters objectForKey:@"databasename"]] && [[self.selectedCollection caption] isEqualToString:[mongoQuery.parameters objectForKey:@"collectionname"]]) {
         [resultsOutlineViewController.results removeAllObjects];
         if (collectionStats) {
             [resultsOutlineViewController.results addObjectsFromArray:collectionStats];
@@ -615,14 +618,14 @@
     }
 }
 
-- (void)mongoDB:(MongoDB *)mongoDB serverStatusDeltaFetched:(NSDictionary *)serverStatusDelta withErrorMessage:(NSString *)errorMessage
+- (void)mongoDB:(MongoDB *)mongoDB serverStatusDeltaFetched:(NSDictionary *)serverStatusDelta withMongoQuery:(MongoQuery *)mongoQuery errorMessage:(NSString *)errorMessage
 {
     if (serverStatusDelta) {
         [statMonitorTableController addObject:serverStatusDelta];
     }
 }
 
-- (void)mongoDB:(MongoDB *)mongoDB databaseDropedWithName:(NSString *)databaseName errorMessage:(NSString *)errorMessage
+- (void)mongoDB:(MongoDB *)mongoDB databaseDropedWithMongoQuery:(MongoQuery *)mongoQuery errorMessage:(NSString *)errorMessage
 {
     NSAssert(mongoDB == _mongoDB, @"wrong database");
     [loaderIndicator stop];
@@ -632,26 +635,26 @@
     }
 }
 
-- (void)mongoDB:(MongoDB *)mongoDB collectionCreatedWithName:(NSString *)collectionName databaseName:(NSString *)databaseName errorMessage:(NSString *)errorMessage
+- (void)mongoDB:(MongoDB *)mongoDB collectionCreatedWithMongoQuery:(MongoQuery *)mongoQuery errorMessage:(NSString *)errorMessage
 {
     NSAssert(mongoDB == _mongoDB, @"wrong database");
     [loaderIndicator stop];
     if (errorMessage) {
         NSRunAlertPanel(@"Error", errorMessage, @"OK", nil, nil);
     }
-    if ([[self.selectedDB caption] isEqualToString:databaseName]) {
+    if ([[self.selectedDB caption] isEqualToString:[mongoQuery.parameters objectForKey:@"databasemame"]]) {
         [sidebar selectItem:[self.selectedDB nodeKey]];
     }
 }
 
-- (void)mongoDB:(MongoDB *)mongoDB collectionDropedWithName:(NSString *)collectionName databaseName:(NSString *)databaseName errorMessage:(NSString *)errorMessage
+- (void)mongoDB:(MongoDB *)mongoDB collectionDropedWithMongoQuery:(MongoQuery *)mongoQuery errorMessage:(NSString *)errorMessage
 {
     NSAssert(mongoDB == _mongoDB, @"wrong database");
     [loaderIndicator stop];
     if (errorMessage) {
         NSRunAlertPanel(@"Error", errorMessage, @"OK", nil, nil);
     }
-    if ([[self.selectedDB caption] isEqualToString:databaseName]) {
+    if ([[self.selectedDB caption] isEqualToString:[mongoQuery.parameters objectForKey:@"databasemame"]]) {
         [sidebar selectItem:[self.selectedDB nodeKey]];
     }
 }

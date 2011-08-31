@@ -13,11 +13,13 @@
 #import "Connection.h"
 #import "MongoDB.h"
 #import "NSString+Extras.h"
+#import "MongoCollection.h"
 
 @implementation JsonWindowController
 @synthesize managedObjectContext;
 @synthesize databasesArrayController;
 @synthesize mongoDB;
+@synthesize mongoCollection = _mongoCollection;
 @synthesize conn;
 @synthesize dbname;
 @synthesize collectionname;
@@ -34,13 +36,14 @@
     [databasesArrayController release];
     [conn release];
     [mongoDB release];
+    [_mongoCollection release];
     [dbname release];
     [collectionname release];
     [jsonDict release];
     [myTextView release];
     [syntaxColoringController setDelegate: nil];
-	[syntaxColoringController release];
-	syntaxColoringController = nil;
+    [syntaxColoringController release];
+    syntaxColoringController = nil;
     [progress release];
     [super dealloc];
 }
@@ -116,37 +119,31 @@
 
 -(IBAction) save:(id)sender
 {
-    [NSThread detachNewThreadSelector:@selector(doSave) toTarget:self withObject:nil];
-}
-
--(void) doSave
-{
-    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    MongoQuery *query;
+    NSString *recordId = nil;
+    
     [status setStringValue: @"Saving..."];
     [status display];
     [progress startAnimation: self];
 	[progress display];
-    NSString *user=nil;
-    NSString *password=nil;
-    Database *db = [databasesArrayController dbInfo:conn name:dbname];
-    if (db) {
-        user = db.user;
-        password = db.password;
-    }
-    NSString *_id = nil;
     if ([[jsonDict objectForKey:@"type"] isEqualToString:@"ObjectId"]) {
-        _id = [NSString stringWithFormat:@"ObjectId(\"%@\")", [jsonDict objectForKey:@"value"]];
+        recordId = [[NSString alloc] initWithFormat:@"ObjectId(\"%@\")", [jsonDict objectForKey:@"value"]];
     }else {
-        _id = [NSString stringWithFormat:@"\"%@\"", [jsonDict objectForKey:@"value"]];
+        recordId = [[NSString alloc] initWithFormat:@"\"%@\"", [jsonDict objectForKey:@"value"]];
     }
-    NSMutableString *json = [[NSMutableString alloc] initWithString:[myTextView string]];
-    [mongoDB saveInDB:dbname collection:collectionname user:user password:password jsonString:json _id:_id];
-    [json release];
+    query = [_mongoCollection saveJsonString:[myTextView string] withRecordId:recordId];
+    [query addCallbackWithTarget:self];
     [progress stopAnimation: self];
+    [recordId release];
 	[progress display];
     [status setStringValue: @"Saved"];
     [status display];
     [[NSNotificationCenter defaultCenter] postNotificationName:kJsonWindowSaved object:nil];
-    [pool drain];
 }
+
+- (void)mongoQueryDidFinish:(MongoQuery *)mongoQuery
+{
+    
+}
+
 @end

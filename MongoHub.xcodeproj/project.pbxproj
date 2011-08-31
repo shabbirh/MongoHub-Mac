@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		02102768140CD0DB00F550AD /* MongoQuery.mm in Sources */ = {isa = PBXBuildFile; fileRef = 02102767140CD0DA00F550AD /* MongoQuery.mm */; };
 		026B2DE513BB6FB8009BEA7B /* RegexKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 026B2DE413BB6FB8009BEA7B /* RegexKit.framework */; };
 		02C317B8140AD915005033E5 /* MongoCollection.mm in Sources */ = {isa = PBXBuildFile; fileRef = 02C317B7140AD914005033E5 /* MongoCollection.mm */; };
 		02FCD3CF13BB9EA400316A9F /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 02FCD3CE13BB9EA400316A9F /* Sparkle.framework */; };
@@ -172,9 +173,12 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		02102766140CD0DA00F550AD /* MongoQuery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MongoQuery.h; sourceTree = "<group>"; };
+		02102767140CD0DA00F550AD /* MongoQuery.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MongoQuery.mm; sourceTree = "<group>"; };
 		026B2DE413BB6FB8009BEA7B /* RegexKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = RegexKit.framework; sourceTree = "<group>"; };
 		02C317B6140AD913005033E5 /* MongoCollection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MongoCollection.h; sourceTree = "<group>"; };
 		02C317B7140AD914005033E5 /* MongoCollection.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MongoCollection.mm; sourceTree = "<group>"; };
+		02C4274D140C401500718B69 /* MongoDB_internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MongoDB_internal.h; sourceTree = "<group>"; };
 		02FCD3CE13BB9EA400316A9F /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Sparkle.framework; sourceTree = "<group>"; };
 		02FCD3D713BBA4A300316A9F /* MCPKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = MCPKit.framework; sourceTree = "<group>"; };
 		089C165DFE840E0CC02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -539,6 +543,9 @@
 			children = (
 				1D93C60911841865003216F7 /* MongoDB.h */,
 				1D93C60A11841865003216F7 /* MongoDB.mm */,
+				02C4274D140C401500718B69 /* MongoDB_internal.h */,
+				02102766140CD0DA00F550AD /* MongoQuery.h */,
+				02102767140CD0DA00F550AD /* MongoQuery.mm */,
 				02C317B6140AD913005033E5 /* MongoCollection.h */,
 				02C317B7140AD914005033E5 /* MongoCollection.mm */,
 				1DA6806A11888BDD00DFDD29 /* NSString+Extras.h */,
@@ -833,6 +840,7 @@
 				1D64100812C8E21C0030AA4C /* UKSyntaxColoredTextViewController.m in Sources */,
 				1D64100D12C8E3D90030AA4C /* JsonWindowController.mm in Sources */,
 				02C317B8140AD915005033E5 /* MongoCollection.mm in Sources */,
+				02102768140CD0DB00F550AD /* MongoQuery.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

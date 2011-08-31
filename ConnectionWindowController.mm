@@ -117,8 +117,8 @@
     [loaderIndicator start];
     [reconnectButton setEnabled:NO];
     [monitorButton setEnabled:NO];
-    if (!haveHostAddress && [conn.usessh intValue]==1) {
-        NSString *portForward = [[NSString alloc] initWithFormat:@"L:%@:%@:%@:%@", conn.hostport, conn.host, conn.sshhost, conn.bindport];
+    if (!haveHostAddress && [conn.usessh intValue] == 1) {
+        NSString *portForward = [[NSString alloc] initWithFormat:@"L:%@:%@:%@:%@", conn.bindport, conn.bindaddress, conn.host, conn.hostport];
         NSMutableArray *portForwardings = [[NSMutableArray alloc] initWithObjects:portForward, nil];
         [portForward release];
         if (!sshTunnel)
@@ -154,8 +154,14 @@
             }
             [_mongoDB connectWithReplicaName:conn.repl_name hosts:hosts databaseName:conn.defaultdb userName:conn.adminuser password:conn.adminpass];
             [hosts release];
-        }else{
-            NSString *hostaddress = [[NSString alloc] initWithFormat:@"%@:%@", conn.host, conn.hostport];
+        } else {
+            NSString *hostaddress;
+            
+            if ([conn.usessh intValue] == 1) {
+                hostaddress = [[NSString alloc] initWithFormat:@"127.0.0.1:%@", conn.bindport];
+            } else {
+                hostaddress = [[NSString alloc] initWithFormat:@"%@:%@", conn.host, conn.hostport];
+            }
             [_mongoDB connectWithHostName:hostaddress databaseName:conn.defaultdb userName:conn.adminuser password:conn.adminpass];
             [hostaddress release];
         }

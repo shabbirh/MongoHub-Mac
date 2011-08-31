@@ -118,7 +118,7 @@
     [reconnectButton setEnabled:NO];
     [monitorButton setEnabled:NO];
     if (!haveHostAddress && [conn.usessh intValue] == 1) {
-        NSString *portForward = [[NSString alloc] initWithFormat:@"L:%@:%@:%@:%@", conn.bindport, conn.bindaddress, conn.host, conn.hostport];
+        NSString *portForward = [[NSString alloc] initWithFormat:@"L:%@:%@:%@:%@", conn.bindaddress, conn.bindport, conn.host, conn.hostport];
         NSMutableArray *portForwardings = [[NSMutableArray alloc] initWithObjects:portForward, nil];
         [portForward release];
         if (!sshTunnel)

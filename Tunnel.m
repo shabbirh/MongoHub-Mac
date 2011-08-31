@@ -324,15 +324,21 @@ static int GetFirstChildPID(int pid)
 
 -(NSArray*) prepareSSHCommandArgs {
 	
-	NSString* pfs = @"";
+	NSMutableString* pfs = [[NSMutableString alloc] init];
+    NSArray *result;
+    
 	for(NSString* pf in portForwardings){
 		NSArray* pfa = [pf componentsSeparatedByString: @":"];
-		pfs = [NSString stringWithFormat: @"%@ -%@ %@:%@:%@:%@", pfs, [pfa objectAtIndex: 0], [pfa objectAtIndex: 2], [pfa objectAtIndex: 1], [pfa objectAtIndex: 3], [pfa objectAtIndex: 4] ];
+        if ([[pfa objectAtIndex:1] length] == 0) {
+            [pfs appendFormat:@"%@ -%@ %@:%@:%@", pfs, [pfa objectAtIndex: 0], [pfa objectAtIndex: 2], [pfa objectAtIndex: 3], [pfa objectAtIndex: 4]];
+        } else {
+            [pfs appendFormat:@"%@ -%@ %@:%@:%@:%@", pfs, [pfa objectAtIndex: 0], [pfa objectAtIndex: 1], [pfa objectAtIndex: 2], [pfa objectAtIndex: 3], [pfa objectAtIndex: 4]];
+        }
 	}
 	
 	NSString* cmd;
     if ([password isNotEqualTo:@""]|| [keyfile isEqualToString:@""]) {
-        cmd = [NSString stringWithFormat: @"ssh -N -o ConnectTimeout=28 %@%@%@%@%@%@-p %d %@@%@",
+        cmd = [[NSString alloc] initWithFormat: @"ssh -N -o ConnectTimeout=28 %@%@%@%@%@%@-p %d %@@%@",
                [additionalArgs length] > 0 ? [NSString stringWithFormat: @"%@ ", additionalArgs] : @"",
                [pfs length] > 0 ? [NSString stringWithFormat: @"%@ ",pfs] : @"",
                aliveInterval > 0 ? [NSString stringWithFormat: @"-o ServerAliveInterval=%d ",aliveInterval] : @"",
@@ -341,7 +347,7 @@ static int GetFirstChildPID(int pid)
                compression == YES ? @"-C " : @"",
                port,user,host];
     }else {
-        cmd = [NSString stringWithFormat: @"ssh -N -o ConnectTimeout=28 %@%@%@%@%@%@-p %d -i %@ %@@%@",
+        cmd = [[NSString alloc] initWithFormat: @"ssh -N -o ConnectTimeout=28 %@%@%@%@%@%@-p %d -i %@ %@@%@",
                [additionalArgs length] > 0 ? [NSString stringWithFormat: @"%@ ", additionalArgs] : @"",
                [pfs length] > 0 ? [NSString stringWithFormat: @"%@ ",pfs] : @"",
                aliveInterval > 0 ? [NSString stringWithFormat: @"-o ServerAliveInterval=%d ",aliveInterval] : @"",
@@ -353,7 +359,10 @@ static int GetFirstChildPID(int pid)
 
     
 	NSLog(@"cmd: %@", cmd);
-	return [NSArray arrayWithObjects: cmd, password, nil];
+    result = [NSArray arrayWithObjects: cmd, password, nil];
+    [pfs release];
+    [cmd release];
+	return result;
 }
 
 -(void) tunnelLoaded {

@@ -681,6 +681,8 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 26FC0A840875C7B200E6366F /* Build configuration list for PBXNativeTarget "MongoHub" */;
 			buildPhases = (
+				02216E5814128ACE00789BD1 /* mongo-c-driver */,
+				02216E5914128B1900789BD1 /* mongo-objc-driver */,
 				8D1107290486CEB800E47090 /* Resources */,
 				8D11072C0486CEB800E47090 /* Sources */,
 				8D11072E0486CEB800E47090 /* Frameworks */,
@@ -788,6 +790,37 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		02216E5814128ACE00789BD1 /* mongo-c-driver */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "mongo-c-driver";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "module_path=\"Libraries/mongo-c-driver\"\nmodule_owner=\"fotonauts\"\nmodule_name=\"mongo-c-driver\"\nmodule_branch=\"master\"\n\nfiles=`ls \"${module_path}\"`\nif [ \"${files}\" = \"\" ] ; then\nif [ -d .git ] ; then\ngit submodule update --init\ncd \"${module_path}\"\ngit branch --track \"${module_branch}\" \"origin/${module_branch}\"\ngit checkout \"${module_branch}\"\nelse\ncd \"${module_path}\"\ncurl -o \"${module_name}.zip\" -L \"https://nodeload.github.com/${module_owner}/${module_name}/zipball/${module_branch}\"\nunzip \"${module_name}.zip\"\nrm \"${module_name}.zip\"\nmodule_unzip_dir=`ls`\ncd \"${module_unzip_dir}\"\nmv * ..\ncd ..\nrmdir \"${module_unzip_dir}\"\nfi\nfi\n";
+		};
+		02216E5914128B1900789BD1 /* mongo-objc-driver */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "mongo-objc-driver";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "module_path=\"Libraries/mongo-objc-driver\"\nmodule_owner=\"fotonauts\"\nmodule_name=\"mongo-objc-driver\"\nmodule_branch=\"master\"\n\nfiles=`ls \"${module_path}\"`\nif [ \"${files}\" = \"\" ] ; then\nif [ -d .git ] ; then\ngit submodule update --init\ncd \"${module_path}\"\ngit branch --track \"${module_branch}\" \"origin/${module_branch}\"\ngit checkout \"${module_branch}\"\nelse\ncd \"${module_path}\"\ncurl -o \"${module_name}.zip\" -L \"https://nodeload.github.com/${module_owner}/${module_name}/zipball/${module_branch}\"\nunzip \"${module_name}.zip\"\nrm \"${module_name}.zip\"\nmodule_unzip_dir=`ls`\ncd \"${module_unzip_dir}\"\nmv * ..\ncd ..\nrmdir \"${module_unzip_dir}\"\nfi\nfi\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		797A78360DDCFADE0050D0C2 /* Sources */ = {

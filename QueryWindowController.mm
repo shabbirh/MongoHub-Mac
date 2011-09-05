@@ -12,23 +12,23 @@
 #import "DatabasesArrayController.h"
 #import "ResultsOutlineViewController.h"
 #import "Connection.h"
-#import "MongoDB.h"
 #import "NSString+Extras.h"
 #import "JsonWindowController.h"
 #import <fstream>
 #import <iostream>
-#import <boost/filesystem/operations.hpp>
-#import "MongoQuery.h"
+#import "MODServer.h"
+#import "MODCollection.h"
+
+@interface QueryWindowController(MODCollectionDelegate)<MODCollectionDelegate>
+@end
 
 @implementation QueryWindowController
 
 @synthesize managedObjectContext;
 @synthesize databasesArrayController;
 @synthesize findResultsViewController;
-@synthesize mongoDB;
+@synthesize mongoCollection;
 @synthesize conn;
-@synthesize dbname;
-@synthesize collectionname;
 
 @synthesize criticalTextField;
 @synthesize fieldsTextField;
@@ -101,10 +101,7 @@
     [databasesArrayController release];
     [findResultsViewController release];
     [conn release];
-    [mongoDB release];
-    [_mongoCollection release];
-    [dbname release];
-    [collectionname release];
+    [mongoCollection release];
     
     [criticalTextField release];
     [fieldsTextField release];
@@ -169,15 +166,16 @@
     [super dealloc];
 }
 
-- (MongoCollection *)mongoCollection
+- (MODCollection *)mongoCollection
 {
-    return _mongoCollection;
+    return mongoCollection;
 }
 
-- (void)setMongoCollection:(MongoCollection *)mongoCollection
+- (void)setMongoCollection:(MODCollection *)newMongoCollection
 {
-    _mongoCollection = [mongoCollection retain];
-    _mongoCollection.delegate = self;
+    [mongoCollection release];
+    mongoCollection = [newMongoCollection retain];
+    mongoCollection.delegate = self;
 }
 
 - (NSString *)formatedQuery
@@ -200,7 +198,7 @@
 
 - (void)windowDidLoad {
     [super windowDidLoad];
-    NSString *title = [[NSString alloc] initWithFormat:@"Query in %@.%@", dbname, collectionname];
+    NSString *title = [[NSString alloc] initWithFormat:@"Query in %@.%@", mongoCollection.databaseName, mongoCollection.collectionName];
     [self.window setTitle:title];
     [title release];
 }
@@ -212,14 +210,14 @@
 - (IBAction)findQuery:(id)sender
 {
     int limit = [limitTextField intValue];
-    MongoQuery *countQuery;
-    MongoQuery *findQuery;
+    MODQuery *countQuery;
+    MODQuery *findQuery;
     
     if (limit <= 0) {
         limit = 30;
     }
-    findQuery = [_mongoCollection findWithQuery:[self formatedQuery] fields:[fieldsTextField stringValue] skip:[skipTextField intValue] limit:limit sort:[sortTextField stringValue]];
-    countQuery = [_mongoCollection countWithQuery:[self formatedQuery]];
+    findQuery = [mongoCollection findWithQuery:[self formatedQuery] fields:[fieldsTextField stringValue] skip:[skipTextField intValue] limit:limit sort:[sortTextField stringValue]];
+    countQuery = [mongoCollection countWithQuery:[self formatedQuery]];
     [countQuery.userInfo setObject:@"Total Results: %lld (%0.2fs)" forKey:@"title"];
     [countQuery.userInfo setObject:totalResultsTextField forKey:@"textfield"];
     [countQuery.userInfo setObject:findQuery forKey:@"timequery"];
@@ -238,15 +236,15 @@
 
 - (IBAction)updateQuery:(id)sender
 {
-    MongoQuery *countQuery;
+    MODQuery *countQuery;
     NSString *query = [updateCriticalTextField stringValue];
     NSString *fields = [updateSetTextField stringValue];
     
     [updateQueryLoaderIndicator start];
-    countQuery = [_mongoCollection countWithQuery:query];
+    countQuery = [mongoCollection countWithQuery:query];
     [countQuery.userInfo setObject:@"Affected Rows: %lld" forKey:@"title"];
     [countQuery.userInfo setObject:updateResultsTextField forKey:@"textfield"];
-    [_mongoCollection updateWithQuery:query fields:fields upset:[upsetCheckBox state]];
+    [mongoCollection updateWithQuery:query fields:fields upset:[upsetCheckBox state]];
 }
 
 - (IBAction)removeQuery:(id)sender
@@ -259,23 +257,21 @@
     [removeQueryLoaderIndicator start];
     NSString *user=nil;
     NSString *password=nil;
-    Database *db = [databasesArrayController dbInfo:conn name:dbname];
+    Database *db = [databasesArrayController dbInfo:conn name:mongoCollection.databaseName];
     if (db) {
         user = db.user;
         password = db.password;
     }
     NSString *critical = [removeCriticalTextField stringValue];
-    int total = [mongoDB countInDB:dbname 
-                        collection:collectionname 
-                              user:user 
-                          password:password 
-                          critical:critical];
-    [mongoDB removeInDB:dbname 
-             collection:collectionname 
+    MODQuery *query = [mongoCollection countWithQuery:critical];
+    [query waitUntilFinished];
+    long long int total = [[query.parameters objectForKey:@"count"] longLongValue];
+    [mongoCollection removeInDB:mongoCollection.databaseName 
+             collection:mongoCollection.collectionName 
                    user:user 
                password:password 
                critical:critical];
-    [removeResultsTextField setStringValue:[NSString stringWithFormat:@"Affected Rows: %d", total]];
+    [removeResultsTextField setStringValue:[NSString stringWithFormat:@"Affected Rows: %lld", total]];
     [removeQueryLoaderIndicator stop];
     [pool drain];
     [NSThread exit];
@@ -291,14 +287,14 @@
     [insertLoaderIndicator start];
     NSString *user=nil;
     NSString *password=nil;
-    Database *db = [databasesArrayController dbInfo:conn name:dbname];
+    Database *db = [databasesArrayController dbInfo:conn name:mongoCollection.databaseName];
     if (db) {
         user = db.user;
         password = db.password;
     }
     NSString *insertData = [insertDataTextView string];
-    [mongoDB insertInDB:dbname 
-             collection:collectionname 
+    [mongoCollection insertInDB:mongoCollection.databaseName 
+             collection:mongoCollection.collectionName 
                    user:user 
                password:password 
              insertData:insertData];
@@ -318,13 +314,13 @@
     [indexLoaderIndicator start];
     NSString *user=nil;
     NSString *password=nil;
-    Database *db = [databasesArrayController dbInfo:conn name:dbname];
+    Database *db = [databasesArrayController dbInfo:conn name:mongoCollection.databaseName];
     if (db) {
         user = db.user;
         password = db.password;
     }
-    NSMutableArray *results = [[NSMutableArray alloc] initWithArray:[mongoDB indexInDB:dbname 
-                                                                            collection:collectionname 
+    NSMutableArray *results = [[NSMutableArray alloc] initWithArray:[mongoCollection indexInDB:mongoCollection.databaseName 
+                                                                            collection:mongoCollection.collectionName 
                                                                                   user:user 
                                                                               password:password]];
     indexesOutlineViewController.results = results;
@@ -345,14 +341,14 @@
     [indexLoaderIndicator start];
     NSString *user=nil;
     NSString *password=nil;
-    Database *db = [databasesArrayController dbInfo:conn name:dbname];
+    Database *db = [databasesArrayController dbInfo:conn name:mongoCollection.databaseName];
     if (db) {
         user = db.user;
         password = db.password;
     }
     NSString *indexData = [indexTextField stringValue];
-    [mongoDB ensureIndexInDB:dbname 
-                  collection:collectionname 
+    [mongoCollection ensureIndexInDB:mongoCollection.databaseName 
+                  collection:mongoCollection.collectionName 
                         user:user 
                     password:password 
                    indexData:indexData];
@@ -373,13 +369,13 @@
     [indexLoaderIndicator start];
     NSString *user=nil;
     NSString *password=nil;
-    Database *db = [databasesArrayController dbInfo:conn name:dbname];
+    Database *db = [databasesArrayController dbInfo:conn name:mongoCollection.databaseName];
     if (db) {
         user = db.user;
         password = db.password;
     }
-    [mongoDB reIndexInDB:dbname 
-              collection:collectionname 
+    [mongoCollection reIndexInDB:mongoCollection.databaseName 
+              collection:mongoCollection.collectionName 
                     user:user 
                 password:password];
     [self indexQuery:nil];
@@ -399,14 +395,14 @@
     [indexLoaderIndicator start];
     NSString *user=nil;
     NSString *password=nil;
-    Database *db = [databasesArrayController dbInfo:conn name:dbname];
+    Database *db = [databasesArrayController dbInfo:conn name:mongoCollection.databaseName];
     if (db) {
         user = db.user;
         password = db.password;
     }
     NSString *indexName = [indexTextField stringValue];
-    [mongoDB dropIndexInDB:dbname 
-                collection:collectionname 
+    [mongoCollection dropIndexInDB:mongoCollection.databaseName 
+                collection:mongoCollection.collectionName 
                       user:user 
                   password:password 
                  indexName:indexName];
@@ -426,7 +422,7 @@
     [mrLoaderIndicator start];
     NSString *user=nil;
     NSString *password=nil;
-    Database *db = [databasesArrayController dbInfo:conn name:dbname];
+    Database *db = [databasesArrayController dbInfo:conn name:mongoCollection.databaseName];
     if (db) {
         user = db.user;
         password = db.password;
@@ -435,8 +431,8 @@
     NSString *reduceFunction = [reduceFunctionTextView string];
     NSString *critical = [mrcriticalTextField stringValue];
     NSString *output = [mroutputTextField stringValue];
-    NSMutableArray *results = [[NSMutableArray alloc] initWithArray:[mongoDB mapReduceInDB:dbname 
-                                                                                collection:collectionname 
+    NSMutableArray *results = [[NSMutableArray alloc] initWithArray:[mongoCollection mapReduceInDB:mongoCollection.databaseName 
+                                                                                collection:mongoCollection.collectionName 
                                                                                       user:user 
                                                                                   password:password 
                                                                                      mapJs:mapFunction 
@@ -485,7 +481,7 @@
     [expResultsTextField setStringValue:@"Start exporting"];
     NSString *user=nil;
     NSString *password=nil;
-    Database *db = [databasesArrayController dbInfo:conn name:dbname];
+    Database *db = [databasesArrayController dbInfo:conn name:mongoCollection.databaseName];
     if (db) {
         user = db.user;
         password = db.password;
@@ -495,11 +491,9 @@
     NSString *sort = [expSortTextField stringValue];
     NSNumber *skip = [NSNumber numberWithInt:[expSkipTextField intValue]];
     NSNumber *limit = [NSNumber numberWithInt:[expLimitTextField intValue]];
-    long long int total = [mongoDB countInDB:dbname 
-                                  collection:collectionname 
-                                        user:user 
-                                    password:password 
-                                    critical:critical];
+    MODQuery *query = [mongoCollection countWithQuery:critical];
+    [query waitUntilFinished];
+    long long int total = [[query.parameters objectForKey:@"count"] longLongValue];
     if (total == 0) {
         [expResultsTextField setStringValue:@"No data to export!"];
         return;
@@ -515,8 +509,8 @@
     [expProgressIndicator setUsesThreadedAnimation:YES];
     [expProgressIndicator startAnimation: self];
     [expProgressIndicator setDoubleValue:0];
-    std::auto_ptr<mongo::DBClientCursor> cursor = [mongoDB findCursorInDB:dbname 
-                                                               collection:collectionname 
+    std::auto_ptr<mongo::DBClientCursor> cursor = [mongoCollection findCursorInDB:mongoCollection.databaseName 
+                                                               collection:mongoCollection.collectionName 
                                                                      user:user 
                                                                  password:password 
                                                                  critical:critical 
@@ -631,7 +625,7 @@
     
     NSString *user=nil;
     NSString *password=nil;
-    Database *db = [databasesArrayController dbInfo:conn name:dbname];
+    Database *db = [databasesArrayController dbInfo:conn name:mongoCollection.databaseName];
     if (db) {
         user = db.user;
         password = db.password;
@@ -639,7 +633,7 @@
     
     if ([impDropCheckBox state] == 1)
     {
-        [[mongoDB dropCollectionWithName:collectionname databaseName:dbname userName:user password:password] waitUntilFinished];
+        [[mongoCollection dropCollectionWithName:mongoCollection.collectionName databaseName:mongoCollection.databaseName userName:user password:password] waitUntilFinished];
     }
     
     if ([impIgnoreBlanksCheckBox state] == 1)
@@ -703,8 +697,8 @@
             if ( _headerLine ) {
                 _headerLine = false;
             }else{
-                [mongoDB insertInDB:dbname 
-                             collection:collectionname 
+                [mongoCollection insertInDB:mongoCollection.databaseName 
+                             collection:mongoCollection.collectionName 
                                    user:user 
                                password:password 
                              insertData:[NSString stringWithUTF8String:o.jsonString( mongo::TenGen , false ).c_str()]
@@ -743,7 +737,7 @@
         [removeQueryLoaderIndicator start];
         NSString *user=nil;
         NSString *password=nil;
-        Database *db = [databasesArrayController dbInfo:conn name:dbname];
+        Database *db = [databasesArrayController dbInfo:conn name:mongoCollection.databaseName];
         if (db) {
             user = db.user;
             password = db.password;
@@ -757,8 +751,8 @@
             critical = [NSString stringWithFormat:@"{_id:%@}", [currentItem objectForKey:@"value"]];
         }
         NSLog(@"%@", critical);
-        [mongoDB removeInDB:dbname 
-                 collection:collectionname 
+        [mongoCollection removeInDB:mongoCollection.databaseName 
+                 collection:mongoCollection.collectionName 
                        user:user 
                    password:password 
                    critical:critical];
@@ -813,7 +807,7 @@
     
     NSString *skip = [[NSString alloc] initWithFormat:@".skip(%d)", [skipTextField intValue]];
     NSString *limit = [[NSString alloc] initWithFormat:@".limit(%d)", [limitTextField intValue]];
-    NSString *col = [NSString stringWithFormat:@"%@.%@", dbname, collectionname];
+    NSString *col = [NSString stringWithFormat:@"%@.%@", mongoCollection.databaseName, mongoCollection.collectionName];
     
     NSString *query = [NSString stringWithFormat:@"db.%@.find(%@%@)%@%@%@", col, critical, jsFields, sort, skip, limit];
     [jsFields release];
@@ -825,7 +819,7 @@
 
 - (IBAction)updateQueryComposer:(id)sender
 {
-    NSString *col = [NSString stringWithFormat:@"%@.%@", dbname, collectionname];
+    NSString *col = [NSString stringWithFormat:@"%@.%@", mongoCollection.databaseName, mongoCollection.collectionName];
     NSString *critical;
     if ([[updateCriticalTextField stringValue] isPresent]) {
         critical = [[NSString alloc] initWithString:[updateCriticalTextField stringValue]];
@@ -855,7 +849,7 @@
 
 - (IBAction)removeQueryComposer:(id)sender
 {
-    NSString *col = [NSString stringWithFormat:@"%@.%@", dbname, collectionname];
+    NSString *col = [NSString stringWithFormat:@"%@.%@", mongoCollection.databaseName, mongoCollection.collectionName];
     NSString *critical;
     if ([[removeCriticalTextField stringValue] isPresent]) {
         critical = [[NSString alloc] initWithString:[removeCriticalTextField stringValue]];
@@ -899,7 +893,7 @@
     
     NSString *skip = [[NSString alloc] initWithFormat:@".skip(%d)", [expSkipTextField intValue]];
     NSString *limit = [[NSString alloc] initWithFormat:@".limit(%d)", [expLimitTextField intValue]];
-    NSString *col = [NSString stringWithFormat:@"%@.%@", dbname, collectionname];
+    NSString *col = [NSString stringWithFormat:@"%@.%@", mongoCollection.databaseName, mongoCollection.collectionName];
     
     NSString *query = [NSString stringWithFormat:@"db.%@.find(%@%@)%@%@%@", col, critical, jsFields, sort, skip, limit];
     [critical release];
@@ -924,9 +918,7 @@
             JsonWindowController *jsonWindowController = [[JsonWindowController alloc] init];
             jsonWindowController.managedObjectContext = self.managedObjectContext;
             jsonWindowController.conn = conn;
-            jsonWindowController.dbname = dbname;
-            jsonWindowController.collectionname = collectionname;
-            jsonWindowController.mongoDB = mongoDB;
+            jsonWindowController.mongoCollection = mongoCollection;
             jsonWindowController.jsonDict = [findResultsViewController rootForItem:currentItem];
             [jsonWindowController showWindow:sender];
 			break;
@@ -979,92 +971,92 @@
     } // end if
 }
 
-- (mongo::BSONObj)parseCSVLine:(char *) line type:(int)_type sep:(const char *)_sep headerLine:(bool)_headerLine ignoreBlanks:(bool)_ignoreBlanks fields:(std::vector<std::string>&)_fields
-{
-    if ( _type == 0 ) {
-        char * end = ( line + strlen( line ) ) - 1;
-        while ( std::isspace(*end) ) {
-            *end = 0;
-            end--;
-        }
-        return mongo::fromjson( line );
-    }
-    mongo::BSONObjBuilder b;
-    
-    unsigned int pos=0;
-    while ( line[0] ) {
-        std::string name;
-        if ( pos < _fields.size() ) {
-            name = _fields[pos];
-        }else {
-            std::stringstream ss;
-            ss << "field" << pos;
-            name = ss.str();
-        }
-        pos++;
-        
-        bool done = false;
-        std::string data;
-        char * end;
-        if ( _type == 1 && line[0] == '"' ) {
-            line++; //skip first '"'
-            
-            while (true) {
-                end = strchr( line , '"' );NSLog(@"%s", line);
-                if (!end) {
-                    data += line;
-                    done = true;
-                    break;
-                } else if (end[1] == '"') {
-                    // two '"'s get appended as one
-                    data.append(line, end-line+1); //include '"'
-                    line = end+2; //skip both '"'s
-                } else if (end[-1] == '\\') {
-                    // "\\\"" gets appended as '"'
-                    data.append(line, end-line-1); //exclude '\\'
-                    data.append("\"");
-                    line = end+1; //skip the '"'
-                } else {
-                    data.append(line, end-line);
-                    line = end+2; //skip '"' and ','
-                    break;
-                }
-            }
-        } else {
-            end = strstr( line , _sep );NSLog(@"end: %s", end);
-            if ( ! end ) {
-                done = true;
-                data = std::string( line );
-            } else {
-                data = std::string( line , end - line );
-                line = end+1;
-            }
-        }
-        
-        if ( _headerLine ) {
-            while ( std::isspace( data[0] ) )
-                data = data.substr( 1 );
-            _fields.push_back( data );
-        }else{
-            if ( !b.appendAsNumber( name , data ) && !(_ignoreBlanks && data.size() == 0) ){
-                b.append( name , data );
-            }
-        }
-        
-        if ( done )
-            break;
-    }
-    return b.obj();
-}
+//- (mongo::BSONObj)parseCSVLine:(char *) line type:(int)_type sep:(const char *)_sep headerLine:(bool)_headerLine ignoreBlanks:(bool)_ignoreBlanks fields:(std::vector<std::string>&)_fields
+//{
+//    if ( _type == 0 ) {
+//        char * end = ( line + strlen( line ) ) - 1;
+//        while ( std::isspace(*end) ) {
+//            *end = 0;
+//            end--;
+//        }
+//        return mongo::fromjson( line );
+//    }
+//    mongo::BSONObjBuilder b;
+//    
+//    unsigned int pos=0;
+//    while ( line[0] ) {
+//        std::string name;
+//        if ( pos < _fields.size() ) {
+//            name = _fields[pos];
+//        }else {
+//            std::stringstream ss;
+//            ss << "field" << pos;
+//            name = ss.str();
+//        }
+//        pos++;
+//        
+//        bool done = false;
+//        std::string data;
+//        char * end;
+//        if ( _type == 1 && line[0] == '"' ) {
+//            line++; //skip first '"'
+//            
+//            while (true) {
+//                end = strchr( line , '"' );NSLog(@"%s", line);
+//                if (!end) {
+//                    data += line;
+//                    done = true;
+//                    break;
+//                } else if (end[1] == '"') {
+//                    // two '"'s get appended as one
+//                    data.append(line, end-line+1); //include '"'
+//                    line = end+2; //skip both '"'s
+//                } else if (end[-1] == '\\') {
+//                    // "\\\"" gets appended as '"'
+//                    data.append(line, end-line-1); //exclude '\\'
+//                    data.append("\"");
+//                    line = end+1; //skip the '"'
+//                } else {
+//                    data.append(line, end-line);
+//                    line = end+2; //skip '"' and ','
+//                    break;
+//                }
+//            }
+//        } else {
+//            end = strstr( line , _sep );NSLog(@"end: %s", end);
+//            if ( ! end ) {
+//                done = true;
+//                data = std::string( line );
+//            } else {
+//                data = std::string( line , end - line );
+//                line = end+1;
+//            }
+//        }
+//        
+//        if ( _headerLine ) {
+//            while ( std::isspace( data[0] ) )
+//                data = data.substr( 1 );
+//            _fields.push_back( data );
+//        }else{
+//            if ( !b.appendAsNumber( name , data ) && !(_ignoreBlanks && data.size() == 0) ){
+//                b.append( name , data );
+//            }
+//        }
+//        
+//        if ( done )
+//            break;
+//    }
+//    return b.obj();
+//}
 
 @end
 
-@implementation QueryWindowController(MongoCollectionDelegate)
+@implementation QueryWindowController(MODCollectionDelegate)
 
-- (void)mongoCollection:(MongoCollection *)collection queryResultFetched:(NSArray *)result withMongoQuery:(MongoQuery *)mongoQuery errorMessage:(NSString *)errorMessage
+- (void)mongoCollection:(MODCollection *)collection queryResultFetched:(NSArray *)result withMongoQuery:(MODQuery *)mongoQuery errorMessage:(NSString *)errorMessage
 {
     [findQueryLoaderIndicator stop];
-    if (collection == _mongoCollection) {
+    if (collection == mongoCollection) {
         if (errorMessage) {
             NSRunAlertPanel(@"Error", errorMessage, @"OK", nil, nil);
         } else {
@@ -1075,9 +1067,9 @@
     }
 }
 
-- (void)mongoCollection:(MongoCollection *)collection queryCountWithValue:(long long)value withMongoQuery:(MongoQuery *)mongoQuery errorMessage:(NSString *)errorMessage
+- (void)mongoCollection:(MODCollection *)collection queryCountWithValue:(long long)value withMongoQuery:(MODQuery *)mongoQuery errorMessage:(NSString *)errorMessage
 {
-    if (collection == _mongoCollection) {
+    if (collection == mongoCollection) {
         if ([mongoQuery.userInfo objectForKey:@"title"]) {
             if ([mongoQuery.userInfo objectForKey:@"timequery"]) {
                 [[mongoQuery.userInfo objectForKey:@"textfield"] setStringValue:[NSString stringWithFormat:[mongoQuery.userInfo objectForKey:@"title"], value, [[mongoQuery.userInfo objectForKey:@"timequery"] duration]]];
@@ -1088,9 +1080,9 @@
     }
 }
 
-- (void)mongoCollection:(MongoCollection *)collection updateDonwWithMongoQuery:(MongoQuery *)mongoQuery errorMessage:(NSString *)errorMessage
+- (void)mongoCollection:(MODCollection *)collection updateDonwWithMongoQuery:(MODQuery *)mongoQuery errorMessage:(NSString *)errorMessage
 {
-    if (collection == _mongoCollection) {
+    if (collection == mongoCollection) {
         [findQueryLoaderIndicator stop];
         if (errorMessage) {
             NSRunAlertPanel(@"Error", errorMessage, @"OK", nil, nil);

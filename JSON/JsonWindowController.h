@@ -8,7 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 #import "UKSyntaxColoredTextViewController.h"
-#import "MongoQuery.h"
+#import "MODQuery.h"
 
 @class DatabasesArrayController;
 @class Connection;
@@ -19,7 +19,7 @@
 #define UKSCTD_DEFAULT_TEXTENCODING		NSUTF8StringEncoding
 #endif
 
-@interface JsonWindowController : NSWindowController <UKSyntaxColoredTextViewDelegate, MongoQueryCallbackTarget>
+@interface JsonWindowController : NSWindowController <UKSyntaxColoredTextViewDelegate, MODQueryCallbackTarget>
 {
     NSManagedObjectContext *managedObjectContext;
     DatabasesArrayController *databasesArrayController;

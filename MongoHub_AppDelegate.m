@@ -15,8 +15,6 @@
 #import "ConnectionWindowController.h"
 #import "Connection.h"
 
-void MongoDB_enableIPv6(BOOL flag);
-
 #define YOUR_EXTERNAL_RECORD_EXTENSION @"mgo"
 #define YOUR_STORE_TYPE NSXMLStoreType
 
@@ -292,7 +290,6 @@ void MongoDB_enableIPv6(BOOL flag);
 
 
 - (void)applicationDidFinishLaunching:(NSNotification *)notification {
-    MongoDB_enableIPv6(YES);
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(addConection:) name:kNewConnectionWindowWillClose object:nil];
     NSString *appVersion = [[NSString alloc] initWithFormat:@"version(%@[%@])", [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"], [[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString*)kCFBundleVersionKey] ];
     [bundleVersion setStringValue: appVersion];

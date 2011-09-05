@@ -6,10 +6,36 @@
 	objectVersion = 46;
 	objects = {
 
+/* Begin PBXAggregateTarget section */
+		02216F201412D54600789BD1 /* Submodules */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 02216F221412D54600789BD1 /* Build configuration list for PBXAggregateTarget "Submodules" */;
+			buildPhases = (
+				02216F251412D56100789BD1 /* mongo-c-driver */,
+				02216F261412D57B00789BD1 /* mongo-objc-driver */,
+				02216F271412D5B800789BD1 /* libjson */,
+			);
+			dependencies = (
+			);
+			name = Submodules;
+			productName = Submodules;
+		};
+/* End PBXAggregateTarget section */
+
 /* Begin PBXBuildFile section */
-		02102768140CD0DB00F550AD /* MongoQuery.mm in Sources */ = {isa = PBXBuildFile; fileRef = 02102767140CD0DA00F550AD /* MongoQuery.mm */; };
+		02216EC514128CE000789BD1 /* bson.c in Sources */ = {isa = PBXBuildFile; fileRef = 02216E7814128CBF00789BD1 /* bson.c */; };
+		02216EC614128CEE00789BD1 /* encoding.c in Sources */ = {isa = PBXBuildFile; fileRef = 02216E7A14128CBF00789BD1 /* encoding.c */; };
+		02216EC714128CEE00789BD1 /* gridfs.c in Sources */ = {isa = PBXBuildFile; fileRef = 02216E7C14128CBF00789BD1 /* gridfs.c */; };
+		02216EC814128CEE00789BD1 /* md5.c in Sources */ = {isa = PBXBuildFile; fileRef = 02216E7E14128CBF00789BD1 /* md5.c */; };
+		02216EC914128CEE00789BD1 /* mongo.c in Sources */ = {isa = PBXBuildFile; fileRef = 02216E8014128CBF00789BD1 /* mongo.c */; };
+		02216ECA14128CEE00789BD1 /* net.c in Sources */ = {isa = PBXBuildFile; fileRef = 02216E8214128CBF00789BD1 /* net.c */; };
+		02216ECB14128CEE00789BD1 /* numbers.c in Sources */ = {isa = PBXBuildFile; fileRef = 02216E8414128CBF00789BD1 /* numbers.c */; };
+		02216ECC14128D1200789BD1 /* MODCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = 02216EB614128CBF00789BD1 /* MODCollection.m */; };
+		02216ECD14128D1200789BD1 /* MODDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 02216EB814128CBF00789BD1 /* MODDatabase.m */; };
+		02216ECE14128D1200789BD1 /* MODQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = 02216EBA14128CBF00789BD1 /* MODQuery.m */; };
+		02216ECF14128D1200789BD1 /* MODServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 02216EBC14128CBF00789BD1 /* MODServer.m */; };
+		02216F651412D6FE00789BD1 /* json.c in Sources */ = {isa = PBXBuildFile; fileRef = 02216F361412D6C400789BD1 /* json.c */; };
 		026B2DE513BB6FB8009BEA7B /* RegexKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 026B2DE413BB6FB8009BEA7B /* RegexKit.framework */; };
-		02C317B8140AD915005033E5 /* MongoCollection.mm in Sources */ = {isa = PBXBuildFile; fileRef = 02C317B7140AD914005033E5 /* MongoCollection.mm */; };
 		02FCD3CF13BB9EA400316A9F /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 02FCD3CE13BB9EA400316A9F /* Sparkle.framework */; };
 		02FCD3D813BBA4A300316A9F /* MCPKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 02FCD3D713BBA4A300316A9F /* MCPKit.framework */; };
 		02FCD3D913BCC7D200316A9F /* RegexKit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 026B2DE413BB6FB8009BEA7B /* RegexKit.framework */; };
@@ -43,7 +69,6 @@
 		1D799455118755EE009C187F /* AddDBController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D799454118755EE009C187F /* AddDBController.m */; };
 		1D79945711875E7A009C187F /* NewDB.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1D79945611875E7A009C187F /* NewDB.xib */; };
 		1D8A624E11897C6800D55937 /* indexmenu.png in Resources */ = {isa = PBXBuildFile; fileRef = 1D8A624D11897C6800D55937 /* indexmenu.png */; };
-		1D93C1AE11832A71003216F7 /* libmongoclient.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D93C1AD11832A71003216F7 /* libmongoclient.a */; };
 		1D93C1DA11832C1D003216F7 /* Connection.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D93C1D911832C1D003216F7 /* Connection.m */; };
 		1D93C1E411833342003216F7 /* ConnectionsCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D93C1DF11833342003216F7 /* ConnectionsCollectionView.m */; };
 		1D93C1E511833342003216F7 /* IconCollectionItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D93C1E111833342003216F7 /* IconCollectionItem.m */; };
@@ -66,11 +91,6 @@
 		1D93C45311837668003216F7 /* Sidebar.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D93C44E11837668003216F7 /* Sidebar.m */; };
 		1D93C45411837668003216F7 /* SidebarBadgeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D93C45011837668003216F7 /* SidebarBadgeCell.m */; };
 		1D93C45511837668003216F7 /* SidebarNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D93C45211837668003216F7 /* SidebarNode.m */; };
-		1D93C5F01183992E003216F7 /* libboost_system.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D93C5EF1183992E003216F7 /* libboost_system.a */; };
-		1D93C5F211839940003216F7 /* libboost_thread-mt.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D93C5F111839940003216F7 /* libboost_thread-mt.a */; };
-		1D93C5F411839959003216F7 /* libboost_filesystem.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D93C5F311839959003216F7 /* libboost_filesystem.a */; };
-		1D93C5F611839970003216F7 /* libboost_program_options.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D93C5F511839970003216F7 /* libboost_program_options.a */; };
-		1D93C60B11841865003216F7 /* MongoDB.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1D93C60A11841865003216F7 /* MongoDB.mm */; };
 		1D93C7491184369D003216F7 /* DatabasesArrayController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D93C7481184369D003216F7 /* DatabasesArrayController.m */; };
 		1D93CB5C1184C243003216F7 /* ResultsOutlineViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D93CB5B1184C243003216F7 /* ResultsOutlineViewController.m */; };
 		1DA68047118875B300DFDD29 /* findmenu.png in Resources */ = {isa = PBXBuildFile; fileRef = 1DA68042118875B300DFDD29 /* findmenu.png */; };
@@ -111,6 +131,34 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		02216EC114128CBF00789BD1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 02216EA914128CBF00789BD1 /* mongo-objc-driver.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 02ABA1C014103B37000417F4;
+			remoteInfo = "mongo-objc-driver";
+		};
+		02216EC314128CBF00789BD1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 02216EA914128CBF00789BD1 /* mongo-objc-driver.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 02F121BD1410EF5200197811;
+			remoteInfo = "mongo-test";
+		};
+		02216F611412D6E900789BD1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 02216F201412D54600789BD1;
+			remoteInfo = Submodules;
+		};
+		02216F631412D6F000789BD1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 02216F201412D54600789BD1;
+			remoteInfo = Submodules;
+		};
 		790512FB0DDD0A100070760D /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
@@ -173,12 +221,134 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		02102766140CD0DA00F550AD /* MongoQuery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MongoQuery.h; sourceTree = "<group>"; };
-		02102767140CD0DA00F550AD /* MongoQuery.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MongoQuery.mm; sourceTree = "<group>"; };
+		02216E6114128CBF00789BD1 /* .astylerc */ = {isa = PBXFileReference; lastKnownFileType = text; path = .astylerc; sourceTree = "<group>"; };
+		02216E6214128CBF00789BD1 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
+		02216E6314128CBF00789BD1 /* APACHE-2.0.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = "APACHE-2.0.txt"; sourceTree = "<group>"; };
+		02216E6614128CBF00789BD1 /* __init__.py */ = {isa = PBXFileReference; lastKnownFileType = text.script.python; path = __init__.py; sourceTree = "<group>"; };
+		02216E6714128CBF00789BD1 /* docs.py */ = {isa = PBXFileReference; lastKnownFileType = text.script.python; path = docs.py; sourceTree = "<group>"; };
+		02216E6A14128CBF00789BD1 /* make.bat */ = {isa = PBXFileReference; lastKnownFileType = text; path = make.bat; sourceTree = "<group>"; };
+		02216E6B14128CBF00789BD1 /* Makefile */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
+		02216E6D14128CBF00789BD1 /* bson.rst */ = {isa = PBXFileReference; lastKnownFileType = text; path = bson.rst; sourceTree = "<group>"; };
+		02216E6E14128CBF00789BD1 /* building.rst */ = {isa = PBXFileReference; lastKnownFileType = text; path = building.rst; sourceTree = "<group>"; };
+		02216E6F14128CBF00789BD1 /* conf.py */ = {isa = PBXFileReference; lastKnownFileType = text.script.python; path = conf.py; sourceTree = "<group>"; };
+		02216E7014128CBF00789BD1 /* connections.rst */ = {isa = PBXFileReference; lastKnownFileType = text; path = connections.rst; sourceTree = "<group>"; };
+		02216E7114128CBF00789BD1 /* index.rst */ = {isa = PBXFileReference; lastKnownFileType = text; path = index.rst; sourceTree = "<group>"; };
+		02216E7214128CBF00789BD1 /* tutorial.rst */ = {isa = PBXFileReference; lastKnownFileType = text; path = tutorial.rst; sourceTree = "<group>"; };
+		02216E7314128CBF00789BD1 /* doxygenConfig */ = {isa = PBXFileReference; lastKnownFileType = text; path = doxygenConfig; sourceTree = "<group>"; };
+		02216E7414128CBF00789BD1 /* HISTORY.md */ = {isa = PBXFileReference; lastKnownFileType = text; path = HISTORY.md; sourceTree = "<group>"; };
+		02216E7514128CBF00789BD1 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
+		02216E7614128CBF00789BD1 /* SConstruct */ = {isa = PBXFileReference; lastKnownFileType = text; path = SConstruct; sourceTree = "<group>"; };
+		02216E7814128CBF00789BD1 /* bson.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = bson.c; sourceTree = "<group>"; };
+		02216E7914128CBF00789BD1 /* bson.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = bson.h; sourceTree = "<group>"; };
+		02216E7A14128CBF00789BD1 /* encoding.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = encoding.c; sourceTree = "<group>"; };
+		02216E7B14128CBF00789BD1 /* encoding.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = encoding.h; sourceTree = "<group>"; };
+		02216E7C14128CBF00789BD1 /* gridfs.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = gridfs.c; sourceTree = "<group>"; };
+		02216E7D14128CBF00789BD1 /* gridfs.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = gridfs.h; sourceTree = "<group>"; };
+		02216E7E14128CBF00789BD1 /* md5.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = md5.c; sourceTree = "<group>"; };
+		02216E7F14128CBF00789BD1 /* md5.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = md5.h; sourceTree = "<group>"; };
+		02216E8014128CBF00789BD1 /* mongo.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = mongo.c; sourceTree = "<group>"; };
+		02216E8114128CBF00789BD1 /* mongo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = mongo.h; sourceTree = "<group>"; };
+		02216E8214128CBF00789BD1 /* net.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = net.c; sourceTree = "<group>"; };
+		02216E8314128CBF00789BD1 /* net.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = net.h; sourceTree = "<group>"; };
+		02216E8414128CBF00789BD1 /* numbers.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = numbers.c; sourceTree = "<group>"; };
+		02216E8714128CBF00789BD1 /* net.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = net.c; sourceTree = "<group>"; };
+		02216E8814128CBF00789BD1 /* net.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = net.h; sourceTree = "<group>"; };
+		02216E8914128CBF00789BD1 /* platform.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = platform.h; sourceTree = "<group>"; };
+		02216E8B14128CBF00789BD1 /* auth.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = auth.c; sourceTree = "<group>"; };
+		02216E8C14128CBF00789BD1 /* benchmark.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = benchmark.c; sourceTree = "<group>"; };
+		02216E8D14128CBF00789BD1 /* bson.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = bson.c; sourceTree = "<group>"; };
+		02216E8E14128CBF00789BD1 /* bson_subobject.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = bson_subobject.c; sourceTree = "<group>"; };
+		02216E8F14128CBF00789BD1 /* count_delete.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = count_delete.c; sourceTree = "<group>"; };
+		02216E9014128CBF00789BD1 /* cpptest.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = cpptest.cpp; sourceTree = "<group>"; };
+		02216E9114128CBF00789BD1 /* cursors.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = cursors.c; sourceTree = "<group>"; };
+		02216E9214128CBF00789BD1 /* endian_swap.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = endian_swap.c; sourceTree = "<group>"; };
+		02216E9314128CBF00789BD1 /* errors.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = errors.c; sourceTree = "<group>"; };
+		02216E9414128CBF00789BD1 /* examples.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = examples.c; sourceTree = "<group>"; };
+		02216E9514128CBF00789BD1 /* functions.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = functions.c; sourceTree = "<group>"; };
+		02216E9614128CBF00789BD1 /* gridfs.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = gridfs.c; sourceTree = "<group>"; };
+		02216E9714128CBF00789BD1 /* helpers.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = helpers.c; sourceTree = "<group>"; };
+		02216E9814128CBF00789BD1 /* json.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = json.c; sourceTree = "<group>"; };
+		02216E9914128CBF00789BD1 /* oid.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = oid.c; sourceTree = "<group>"; };
+		02216E9C14128CBF00789BD1 /* timeouts.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = timeouts.c; sourceTree = "<group>"; };
+		02216E9D14128CBF00789BD1 /* replica_set.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = replica_set.c; sourceTree = "<group>"; };
+		02216E9E14128CBF00789BD1 /* resize.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = resize.c; sourceTree = "<group>"; };
+		02216E9F14128CBF00789BD1 /* simple.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = simple.c; sourceTree = "<group>"; };
+		02216EA014128CBF00789BD1 /* sizes.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = sizes.c; sourceTree = "<group>"; };
+		02216EA114128CBF00789BD1 /* test.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = test.h; sourceTree = "<group>"; };
+		02216EA214128CBF00789BD1 /* update.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = update.c; sourceTree = "<group>"; };
+		02216EA314128CBF00789BD1 /* validate.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = validate.c; sourceTree = "<group>"; };
+		02216EA514128CBF00789BD1 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
+		02216EA614128CBF00789BD1 /* .gitmodules */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitmodules; sourceTree = "<group>"; };
+		02216EA914128CBF00789BD1 /* mongo-objc-driver.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = "mongo-objc-driver.xcodeproj"; sourceTree = "<group>"; };
+		02216EAD14128CBF00789BD1 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		02216EAE14128CBF00789BD1 /* mongo-test-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "mongo-test-Prefix.pch"; sourceTree = "<group>"; };
+		02216EAF14128CBF00789BD1 /* mongo_test.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = mongo_test.1; sourceTree = "<group>"; };
+		02216EB014128CBF00789BD1 /* README */ = {isa = PBXFileReference; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
+		02216EB314128CBF00789BD1 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		02216EB414128CBF00789BD1 /* MOD_internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MOD_internal.h; sourceTree = "<group>"; };
+		02216EB514128CBF00789BD1 /* MODCollection.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MODCollection.h; sourceTree = "<group>"; };
+		02216EB614128CBF00789BD1 /* MODCollection.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MODCollection.m; sourceTree = "<group>"; };
+		02216EB714128CBF00789BD1 /* MODDatabase.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MODDatabase.h; sourceTree = "<group>"; };
+		02216EB814128CBF00789BD1 /* MODDatabase.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MODDatabase.m; sourceTree = "<group>"; };
+		02216EB914128CBF00789BD1 /* MODQuery.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MODQuery.h; sourceTree = "<group>"; };
+		02216EBA14128CBF00789BD1 /* MODQuery.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MODQuery.m; sourceTree = "<group>"; };
+		02216EBB14128CBF00789BD1 /* MODServer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MODServer.h; sourceTree = "<group>"; };
+		02216EBC14128CBF00789BD1 /* MODServer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MODServer.m; sourceTree = "<group>"; };
+		02216EBD14128CBF00789BD1 /* mongo-objc-driver-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "mongo-objc-driver-Info.plist"; sourceTree = "<group>"; };
+		02216EBE14128CBF00789BD1 /* mongo-objc-driver-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "mongo-objc-driver-Prefix.pch"; sourceTree = "<group>"; };
+		02216F2A1412D6C400789BD1 /* changelog */ = {isa = PBXFileReference; lastKnownFileType = text; path = changelog; sourceTree = "<group>"; };
+		02216F2B1412D6C400789BD1 /* compat */ = {isa = PBXFileReference; lastKnownFileType = text; path = compat; sourceTree = "<group>"; };
+		02216F2C1412D6C400789BD1 /* control */ = {isa = PBXFileReference; lastKnownFileType = text; path = control; sourceTree = "<group>"; };
+		02216F2D1412D6C400789BD1 /* copyright */ = {isa = PBXFileReference; lastKnownFileType = text; path = copyright; sourceTree = "<group>"; };
+		02216F2E1412D6C400789BD1 /* docs */ = {isa = PBXFileReference; lastKnownFileType = text; path = docs; sourceTree = "<group>"; };
+		02216F2F1412D6C400789BD1 /* libjson-dev.dirs */ = {isa = PBXFileReference; lastKnownFileType = text; path = "libjson-dev.dirs"; sourceTree = "<group>"; };
+		02216F301412D6C400789BD1 /* libjson-dev.install */ = {isa = PBXFileReference; lastKnownFileType = text; path = "libjson-dev.install"; sourceTree = "<group>"; };
+		02216F311412D6C400789BD1 /* libjson.dirs */ = {isa = PBXFileReference; lastKnownFileType = text; path = libjson.dirs; sourceTree = "<group>"; };
+		02216F321412D6C400789BD1 /* libjson.install */ = {isa = PBXFileReference; lastKnownFileType = text; path = libjson.install; sourceTree = "<group>"; };
+		02216F331412D6C400789BD1 /* rules */ = {isa = PBXFileReference; lastKnownFileType = text; path = rules; sourceTree = "<group>"; };
+		02216F341412D6C400789BD1 /* watch */ = {isa = PBXFileReference; lastKnownFileType = text; path = watch; sourceTree = "<group>"; };
+		02216F351412D6C400789BD1 /* documentation */ = {isa = PBXFileReference; lastKnownFileType = text; path = documentation; sourceTree = "<group>"; };
+		02216F361412D6C400789BD1 /* json.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = json.c; sourceTree = "<group>"; };
+		02216F371412D6C400789BD1 /* json.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = json.h; sourceTree = "<group>"; };
+		02216F381412D6C400789BD1 /* jsonlint.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = jsonlint.c; sourceTree = "<group>"; };
+		02216F391412D6C400789BD1 /* libjson.pc.in */ = {isa = PBXFileReference; lastKnownFileType = text; path = libjson.pc.in; sourceTree = "<group>"; };
+		02216F3A1412D6C400789BD1 /* Makefile */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
+		02216F3B1412D6C500789BD1 /* README */ = {isa = PBXFileReference; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
+		02216F3E1412D6C500789BD1 /* empty.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = empty.json; sourceTree = "<group>"; };
+		02216F3F1412D6C500789BD1 /* esc0.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = esc0.json; sourceTree = "<group>"; };
+		02216F401412D6C500789BD1 /* esc1.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = esc1.json; sourceTree = "<group>"; };
+		02216F411412D6C500789BD1 /* esc2.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = esc2.json; sourceTree = "<group>"; };
+		02216F421412D6C500789BD1 /* esc3.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = esc3.json; sourceTree = "<group>"; };
+		02216F431412D6C500789BD1 /* esc4.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = esc4.json; sourceTree = "<group>"; };
+		02216F441412D6C500789BD1 /* float0.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = float0.json; sourceTree = "<group>"; };
+		02216F451412D6C500789BD1 /* float1.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = float1.json; sourceTree = "<group>"; };
+		02216F461412D6C500789BD1 /* object0.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = object0.json; sourceTree = "<group>"; };
+		02216F471412D6C500789BD1 /* object1.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = object1.json; sourceTree = "<group>"; };
+		02216F481412D6C500789BD1 /* object2.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = object2.json; sourceTree = "<group>"; };
+		02216F491412D6C500789BD1 /* object3.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = object3.json; sourceTree = "<group>"; };
+		02216F4B1412D6C500789BD1 /* 1.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = 1.json; sourceTree = "<group>"; };
+		02216F4C1412D6C500789BD1 /* 2.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = 2.json; sourceTree = "<group>"; };
+		02216F4D1412D6C500789BD1 /* 2obj.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = 2obj.json; sourceTree = "<group>"; };
+		02216F4E1412D6C500789BD1 /* 3.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = 3.json; sourceTree = "<group>"; };
+		02216F4F1412D6C500789BD1 /* 4.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = 4.json; sourceTree = "<group>"; };
+		02216F501412D6C500789BD1 /* 5.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = 5.json; sourceTree = "<group>"; };
+		02216F511412D6C500789BD1 /* 6.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = 6.json; sourceTree = "<group>"; };
+		02216F521412D6C500789BD1 /* 7.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = 7.json; sourceTree = "<group>"; };
+		02216F531412D6C500789BD1 /* c-comment.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "c-comment.json"; sourceTree = "<group>"; };
+		02216F541412D6C500789BD1 /* complex0.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = complex0.json; sourceTree = "<group>"; };
+		02216F551412D6C500789BD1 /* emptyobj.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = emptyobj.json; sourceTree = "<group>"; };
+		02216F561412D6C500789BD1 /* esc0.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = esc0.json; sourceTree = "<group>"; };
+		02216F571412D6C500789BD1 /* esc1.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = esc1.json; sourceTree = "<group>"; };
+		02216F581412D6C500789BD1 /* esc2.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = esc2.json; sourceTree = "<group>"; };
+		02216F591412D6C500789BD1 /* esc3.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = esc3.json; sourceTree = "<group>"; };
+		02216F5A1412D6C500789BD1 /* esc4.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = esc4.json; sourceTree = "<group>"; };
+		02216F5B1412D6C500789BD1 /* float0.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = float0.json; sourceTree = "<group>"; };
+		02216F5C1412D6C500789BD1 /* float1.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = float1.json; sourceTree = "<group>"; };
+		02216F5D1412D6C500789BD1 /* float2.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = float2.json; sourceTree = "<group>"; };
+		02216F5E1412D6C500789BD1 /* multiobj.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = multiobj.json; sourceTree = "<group>"; };
+		02216F5F1412D6C500789BD1 /* yaml-comment.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "yaml-comment.json"; sourceTree = "<group>"; };
+		02216F601412D6C500789BD1 /* runtest */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = runtest; sourceTree = "<group>"; };
 		026B2DE413BB6FB8009BEA7B /* RegexKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = RegexKit.framework; sourceTree = "<group>"; };
-		02C317B6140AD913005033E5 /* MongoCollection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MongoCollection.h; sourceTree = "<group>"; };
-		02C317B7140AD914005033E5 /* MongoCollection.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MongoCollection.mm; sourceTree = "<group>"; };
-		02C4274D140C401500718B69 /* MongoDB_internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MongoDB_internal.h; sourceTree = "<group>"; };
 		02FCD3CE13BB9EA400316A9F /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Sparkle.framework; sourceTree = "<group>"; };
 		02FCD3D713BBA4A300316A9F /* MCPKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = MCPKit.framework; sourceTree = "<group>"; };
 		089C165DFE840E0CC02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -221,7 +391,6 @@
 		1D799454118755EE009C187F /* AddDBController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddDBController.m; sourceTree = "<group>"; };
 		1D79945611875E7A009C187F /* NewDB.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NewDB.xib; sourceTree = "<group>"; };
 		1D8A624D11897C6800D55937 /* indexmenu.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = indexmenu.png; path = Resourses/images/indexmenu.png; sourceTree = SOURCE_ROOT; };
-		1D93C1AD11832A71003216F7 /* libmongoclient.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libmongoclient.a; path = /usr/local/lib/libmongoclient.a; sourceTree = "<absolute>"; };
 		1D93C1D811832C1D003216F7 /* Connection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Connection.h; sourceTree = "<group>"; };
 		1D93C1D911832C1D003216F7 /* Connection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Connection.m; sourceTree = "<group>"; };
 		1D93C1DE11833342003216F7 /* ConnectionsCollectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConnectionsCollectionView.h; sourceTree = "<group>"; };
@@ -258,12 +427,6 @@
 		1D93C45011837668003216F7 /* SidebarBadgeCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SidebarBadgeCell.m; path = Sidebar/SidebarBadgeCell.m; sourceTree = SOURCE_ROOT; };
 		1D93C45111837668003216F7 /* SidebarNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SidebarNode.h; path = Sidebar/SidebarNode.h; sourceTree = SOURCE_ROOT; };
 		1D93C45211837668003216F7 /* SidebarNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SidebarNode.m; path = Sidebar/SidebarNode.m; sourceTree = SOURCE_ROOT; };
-		1D93C5EF1183992E003216F7 /* libboost_system.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_system.a; path = /usr/local/lib/libboost_system.a; sourceTree = "<absolute>"; };
-		1D93C5F111839940003216F7 /* libboost_thread-mt.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libboost_thread-mt.a"; path = "/usr/local/lib/libboost_thread-mt.a"; sourceTree = "<absolute>"; };
-		1D93C5F311839959003216F7 /* libboost_filesystem.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_filesystem.a; path = /usr/local/lib/libboost_filesystem.a; sourceTree = "<absolute>"; };
-		1D93C5F511839970003216F7 /* libboost_program_options.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_program_options.a; path = /usr/local/lib/libboost_program_options.a; sourceTree = "<absolute>"; };
-		1D93C60911841865003216F7 /* MongoDB.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MongoDB.h; sourceTree = "<group>"; };
-		1D93C60A11841865003216F7 /* MongoDB.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MongoDB.mm; sourceTree = "<group>"; };
 		1D93C7471184369D003216F7 /* DatabasesArrayController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DatabasesArrayController.h; sourceTree = "<group>"; };
 		1D93C7481184369D003216F7 /* DatabasesArrayController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DatabasesArrayController.m; sourceTree = "<group>"; };
 		1D93CB5A1184C243003216F7 /* ResultsOutlineViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ResultsOutlineViewController.h; sourceTree = "<group>"; };
@@ -338,12 +501,7 @@
 			files = (
 				026B2DE513BB6FB8009BEA7B /* RegexKit.framework in Frameworks */,
 				8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */,
-				1D93C1AE11832A71003216F7 /* libmongoclient.a in Frameworks */,
 				1D93C37C11835BB4003216F7 /* QuartzCore.framework in Frameworks */,
-				1D93C5F01183992E003216F7 /* libboost_system.a in Frameworks */,
-				1D93C5F211839940003216F7 /* libboost_thread-mt.a in Frameworks */,
-				1D93C5F411839959003216F7 /* libboost_filesystem.a in Frameworks */,
-				1D93C5F611839970003216F7 /* libboost_program_options.a in Frameworks */,
 				1DEC7FF112B7EDB900FC804E /* Security.framework in Frameworks */,
 				02FCD3CF13BB9EA400316A9F /* Sparkle.framework in Frameworks */,
 				02FCD3D813BBA4A300316A9F /* MCPKit.framework in Frameworks */,
@@ -353,6 +511,325 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		02216E5F14128CBF00789BD1 /* Libraries */ = {
+			isa = PBXGroup;
+			children = (
+				02216E6014128CBF00789BD1 /* mongo-c-driver */,
+				02216EA414128CBF00789BD1 /* mongo-objc-driver */,
+				02216F281412D6C400789BD1 /* libjson */,
+			);
+			path = Libraries;
+			sourceTree = "<group>";
+		};
+		02216E6014128CBF00789BD1 /* mongo-c-driver */ = {
+			isa = PBXGroup;
+			children = (
+				02216E6114128CBF00789BD1 /* .astylerc */,
+				02216E6214128CBF00789BD1 /* .gitignore */,
+				02216E6314128CBF00789BD1 /* APACHE-2.0.txt */,
+				02216E6414128CBF00789BD1 /* docs */,
+				02216E7314128CBF00789BD1 /* doxygenConfig */,
+				02216E7414128CBF00789BD1 /* HISTORY.md */,
+				02216E7514128CBF00789BD1 /* README.md */,
+				02216E7614128CBF00789BD1 /* SConstruct */,
+				02216E7714128CBF00789BD1 /* src */,
+				02216E8A14128CBF00789BD1 /* test */,
+			);
+			path = "mongo-c-driver";
+			sourceTree = "<group>";
+		};
+		02216E6414128CBF00789BD1 /* docs */ = {
+			isa = PBXGroup;
+			children = (
+				02216E6514128CBF00789BD1 /* buildscripts */,
+				02216E6814128CBF00789BD1 /* source */,
+			);
+			path = docs;
+			sourceTree = "<group>";
+		};
+		02216E6514128CBF00789BD1 /* buildscripts */ = {
+			isa = PBXGroup;
+			children = (
+				02216E6614128CBF00789BD1 /* __init__.py */,
+				02216E6714128CBF00789BD1 /* docs.py */,
+			);
+			path = buildscripts;
+			sourceTree = "<group>";
+		};
+		02216E6814128CBF00789BD1 /* source */ = {
+			isa = PBXGroup;
+			children = (
+				02216E6914128CBF00789BD1 /* sphinx */,
+			);
+			path = source;
+			sourceTree = "<group>";
+		};
+		02216E6914128CBF00789BD1 /* sphinx */ = {
+			isa = PBXGroup;
+			children = (
+				02216E6A14128CBF00789BD1 /* make.bat */,
+				02216E6B14128CBF00789BD1 /* Makefile */,
+				02216E6C14128CBF00789BD1 /* source */,
+			);
+			path = sphinx;
+			sourceTree = "<group>";
+		};
+		02216E6C14128CBF00789BD1 /* source */ = {
+			isa = PBXGroup;
+			children = (
+				02216E6D14128CBF00789BD1 /* bson.rst */,
+				02216E6E14128CBF00789BD1 /* building.rst */,
+				02216E6F14128CBF00789BD1 /* conf.py */,
+				02216E7014128CBF00789BD1 /* connections.rst */,
+				02216E7114128CBF00789BD1 /* index.rst */,
+				02216E7214128CBF00789BD1 /* tutorial.rst */,
+			);
+			path = source;
+			sourceTree = "<group>";
+		};
+		02216E7714128CBF00789BD1 /* src */ = {
+			isa = PBXGroup;
+			children = (
+				02216E7814128CBF00789BD1 /* bson.c */,
+				02216E7914128CBF00789BD1 /* bson.h */,
+				02216E7A14128CBF00789BD1 /* encoding.c */,
+				02216E7B14128CBF00789BD1 /* encoding.h */,
+				02216E7C14128CBF00789BD1 /* gridfs.c */,
+				02216E7D14128CBF00789BD1 /* gridfs.h */,
+				02216E7E14128CBF00789BD1 /* md5.c */,
+				02216E7F14128CBF00789BD1 /* md5.h */,
+				02216E8014128CBF00789BD1 /* mongo.c */,
+				02216E8114128CBF00789BD1 /* mongo.h */,
+				02216E8214128CBF00789BD1 /* net.c */,
+				02216E8314128CBF00789BD1 /* net.h */,
+				02216E8414128CBF00789BD1 /* numbers.c */,
+				02216E8514128CBF00789BD1 /* platform */,
+				02216E8914128CBF00789BD1 /* platform.h */,
+			);
+			path = src;
+			sourceTree = "<group>";
+		};
+		02216E8514128CBF00789BD1 /* platform */ = {
+			isa = PBXGroup;
+			children = (
+				02216E8614128CBF00789BD1 /* linux */,
+			);
+			path = platform;
+			sourceTree = "<group>";
+		};
+		02216E8614128CBF00789BD1 /* linux */ = {
+			isa = PBXGroup;
+			children = (
+				02216E8714128CBF00789BD1 /* net.c */,
+				02216E8814128CBF00789BD1 /* net.h */,
+			);
+			path = linux;
+			sourceTree = "<group>";
+		};
+		02216E8A14128CBF00789BD1 /* test */ = {
+			isa = PBXGroup;
+			children = (
+				02216E8B14128CBF00789BD1 /* auth.c */,
+				02216E8C14128CBF00789BD1 /* benchmark.c */,
+				02216E8D14128CBF00789BD1 /* bson.c */,
+				02216E8E14128CBF00789BD1 /* bson_subobject.c */,
+				02216E8F14128CBF00789BD1 /* count_delete.c */,
+				02216E9014128CBF00789BD1 /* cpptest.cpp */,
+				02216E9114128CBF00789BD1 /* cursors.c */,
+				02216E9214128CBF00789BD1 /* endian_swap.c */,
+				02216E9314128CBF00789BD1 /* errors.c */,
+				02216E9414128CBF00789BD1 /* examples.c */,
+				02216E9514128CBF00789BD1 /* functions.c */,
+				02216E9614128CBF00789BD1 /* gridfs.c */,
+				02216E9714128CBF00789BD1 /* helpers.c */,
+				02216E9814128CBF00789BD1 /* json.c */,
+				02216E9914128CBF00789BD1 /* oid.c */,
+				02216E9A14128CBF00789BD1 /* platform */,
+				02216E9D14128CBF00789BD1 /* replica_set.c */,
+				02216E9E14128CBF00789BD1 /* resize.c */,
+				02216E9F14128CBF00789BD1 /* simple.c */,
+				02216EA014128CBF00789BD1 /* sizes.c */,
+				02216EA114128CBF00789BD1 /* test.h */,
+				02216EA214128CBF00789BD1 /* update.c */,
+				02216EA314128CBF00789BD1 /* validate.c */,
+			);
+			path = test;
+			sourceTree = "<group>";
+		};
+		02216E9A14128CBF00789BD1 /* platform */ = {
+			isa = PBXGroup;
+			children = (
+				02216E9B14128CBF00789BD1 /* linux */,
+			);
+			path = platform;
+			sourceTree = "<group>";
+		};
+		02216E9B14128CBF00789BD1 /* linux */ = {
+			isa = PBXGroup;
+			children = (
+				02216E9C14128CBF00789BD1 /* timeouts.c */,
+			);
+			path = linux;
+			sourceTree = "<group>";
+		};
+		02216EA414128CBF00789BD1 /* mongo-objc-driver */ = {
+			isa = PBXGroup;
+			children = (
+				02216EA514128CBF00789BD1 /* .gitignore */,
+				02216EA614128CBF00789BD1 /* .gitmodules */,
+				02216EA714128CBF00789BD1 /* Libraries */,
+				02216EA914128CBF00789BD1 /* mongo-objc-driver.xcodeproj */,
+				02216EAC14128CBF00789BD1 /* mongo-test */,
+				02216EB014128CBF00789BD1 /* README */,
+				02216EB114128CBF00789BD1 /* Sources */,
+			);
+			path = "mongo-objc-driver";
+			sourceTree = "<group>";
+		};
+		02216EA714128CBF00789BD1 /* Libraries */ = {
+			isa = PBXGroup;
+			children = (
+				02216EA814128CBF00789BD1 /* mongo-c-driver */,
+			);
+			path = Libraries;
+			sourceTree = "<group>";
+		};
+		02216EA814128CBF00789BD1 /* mongo-c-driver */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = "mongo-c-driver";
+			sourceTree = "<group>";
+		};
+		02216EAA14128CBF00789BD1 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				02216EC214128CBF00789BD1 /* mongo-objc-driver.framework */,
+				02216EC414128CBF00789BD1 /* mongo-test */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		02216EAC14128CBF00789BD1 /* mongo-test */ = {
+			isa = PBXGroup;
+			children = (
+				02216EAD14128CBF00789BD1 /* main.m */,
+				02216EAE14128CBF00789BD1 /* mongo-test-Prefix.pch */,
+				02216EAF14128CBF00789BD1 /* mongo_test.1 */,
+			);
+			path = "mongo-test";
+			sourceTree = "<group>";
+		};
+		02216EB114128CBF00789BD1 /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				02216EB214128CBF00789BD1 /* InfoPlist.strings */,
+				02216EB414128CBF00789BD1 /* MOD_internal.h */,
+				02216EB514128CBF00789BD1 /* MODCollection.h */,
+				02216EB614128CBF00789BD1 /* MODCollection.m */,
+				02216EB714128CBF00789BD1 /* MODDatabase.h */,
+				02216EB814128CBF00789BD1 /* MODDatabase.m */,
+				02216EB914128CBF00789BD1 /* MODQuery.h */,
+				02216EBA14128CBF00789BD1 /* MODQuery.m */,
+				02216EBB14128CBF00789BD1 /* MODServer.h */,
+				02216EBC14128CBF00789BD1 /* MODServer.m */,
+				02216EBD14128CBF00789BD1 /* mongo-objc-driver-Info.plist */,
+				02216EBE14128CBF00789BD1 /* mongo-objc-driver-Prefix.pch */,
+			);
+			path = Sources;
+			sourceTree = "<group>";
+		};
+		02216F281412D6C400789BD1 /* libjson */ = {
+			isa = PBXGroup;
+			children = (
+				02216F291412D6C400789BD1 /* debian */,
+				02216F351412D6C400789BD1 /* documentation */,
+				02216F361412D6C400789BD1 /* json.c */,
+				02216F371412D6C400789BD1 /* json.h */,
+				02216F381412D6C400789BD1 /* jsonlint.c */,
+				02216F391412D6C400789BD1 /* libjson.pc.in */,
+				02216F3A1412D6C400789BD1 /* Makefile */,
+				02216F3B1412D6C500789BD1 /* README */,
+				02216F3C1412D6C500789BD1 /* tests */,
+			);
+			path = libjson;
+			sourceTree = "<group>";
+		};
+		02216F291412D6C400789BD1 /* debian */ = {
+			isa = PBXGroup;
+			children = (
+				02216F2A1412D6C400789BD1 /* changelog */,
+				02216F2B1412D6C400789BD1 /* compat */,
+				02216F2C1412D6C400789BD1 /* control */,
+				02216F2D1412D6C400789BD1 /* copyright */,
+				02216F2E1412D6C400789BD1 /* docs */,
+				02216F2F1412D6C400789BD1 /* libjson-dev.dirs */,
+				02216F301412D6C400789BD1 /* libjson-dev.install */,
+				02216F311412D6C400789BD1 /* libjson.dirs */,
+				02216F321412D6C400789BD1 /* libjson.install */,
+				02216F331412D6C400789BD1 /* rules */,
+				02216F341412D6C400789BD1 /* watch */,
+			);
+			path = debian;
+			sourceTree = "<group>";
+		};
+		02216F3C1412D6C500789BD1 /* tests */ = {
+			isa = PBXGroup;
+			children = (
+				02216F3D1412D6C500789BD1 /* bad */,
+				02216F4A1412D6C500789BD1 /* good */,
+				02216F601412D6C500789BD1 /* runtest */,
+			);
+			path = tests;
+			sourceTree = "<group>";
+		};
+		02216F3D1412D6C500789BD1 /* bad */ = {
+			isa = PBXGroup;
+			children = (
+				02216F3E1412D6C500789BD1 /* empty.json */,
+				02216F3F1412D6C500789BD1 /* esc0.json */,
+				02216F401412D6C500789BD1 /* esc1.json */,
+				02216F411412D6C500789BD1 /* esc2.json */,
+				02216F421412D6C500789BD1 /* esc3.json */,
+				02216F431412D6C500789BD1 /* esc4.json */,
+				02216F441412D6C500789BD1 /* float0.json */,
+				02216F451412D6C500789BD1 /* float1.json */,
+				02216F461412D6C500789BD1 /* object0.json */,
+				02216F471412D6C500789BD1 /* object1.json */,
+				02216F481412D6C500789BD1 /* object2.json */,
+				02216F491412D6C500789BD1 /* object3.json */,
+			);
+			path = bad;
+			sourceTree = "<group>";
+		};
+		02216F4A1412D6C500789BD1 /* good */ = {
+			isa = PBXGroup;
+			children = (
+				02216F4B1412D6C500789BD1 /* 1.json */,
+				02216F4C1412D6C500789BD1 /* 2.json */,
+				02216F4D1412D6C500789BD1 /* 2obj.json */,
+				02216F4E1412D6C500789BD1 /* 3.json */,
+				02216F4F1412D6C500789BD1 /* 4.json */,
+				02216F501412D6C500789BD1 /* 5.json */,
+				02216F511412D6C500789BD1 /* 6.json */,
+				02216F521412D6C500789BD1 /* 7.json */,
+				02216F531412D6C500789BD1 /* c-comment.json */,
+				02216F541412D6C500789BD1 /* complex0.json */,
+				02216F551412D6C500789BD1 /* emptyobj.json */,
+				02216F561412D6C500789BD1 /* esc0.json */,
+				02216F571412D6C500789BD1 /* esc1.json */,
+				02216F581412D6C500789BD1 /* esc2.json */,
+				02216F591412D6C500789BD1 /* esc3.json */,
+				02216F5A1412D6C500789BD1 /* esc4.json */,
+				02216F5B1412D6C500789BD1 /* float0.json */,
+				02216F5C1412D6C500789BD1 /* float1.json */,
+				02216F5D1412D6C500789BD1 /* float2.json */,
+				02216F5E1412D6C500789BD1 /* multiobj.json */,
+				02216F5F1412D6C500789BD1 /* yaml-comment.json */,
+			);
+			path = good;
+			sourceTree = "<group>";
+		};
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
@@ -378,11 +855,6 @@
 				02FCD3D713BBA4A300316A9F /* MCPKit.framework */,
 				02FCD3CE13BB9EA400316A9F /* Sparkle.framework */,
 				026B2DE413BB6FB8009BEA7B /* RegexKit.framework */,
-				1D93C5F511839970003216F7 /* libboost_program_options.a */,
-				1D93C5F311839959003216F7 /* libboost_filesystem.a */,
-				1D93C5F111839940003216F7 /* libboost_thread-mt.a */,
-				1D93C5EF1183992E003216F7 /* libboost_system.a */,
-				1D93C1AD11832A71003216F7 /* libmongoclient.a */,
 				1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */,
 			);
 			name = "Linked Frameworks";
@@ -541,13 +1013,6 @@
 		1D93C608118417D5003216F7 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
-				1D93C60911841865003216F7 /* MongoDB.h */,
-				1D93C60A11841865003216F7 /* MongoDB.mm */,
-				02C4274D140C401500718B69 /* MongoDB_internal.h */,
-				02102766140CD0DA00F550AD /* MongoQuery.h */,
-				02102767140CD0DA00F550AD /* MongoQuery.mm */,
-				02C317B6140AD913005033E5 /* MongoCollection.h */,
-				02C317B7140AD914005033E5 /* MongoCollection.mm */,
 				1DA6806A11888BDD00DFDD29 /* NSString+Extras.h */,
 				1DA6806B11888BDD00DFDD29 /* NSString+Extras.m */,
 				1D26618F11CFD1640092C6B5 /* FieldMapDataObject.h */,
@@ -582,6 +1047,7 @@
 				080E96DDFE201D6D7F000001 /* Classes */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
+				02216E5F14128CBF00789BD1 /* Libraries */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
 				797A7AE70DDCFD2A0050D0C2 /* Importer Read Me.txt */,
@@ -671,6 +1137,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				02216F621412D6E900789BD1 /* PBXTargetDependency */,
 			);
 			name = "MongoHub Spotlight Importer";
 			productName = "MongoHub Spotlight Importer";
@@ -681,8 +1148,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 26FC0A840875C7B200E6366F /* Build configuration list for PBXNativeTarget "MongoHub" */;
 			buildPhases = (
-				02216E5814128ACE00789BD1 /* mongo-c-driver */,
-				02216E5914128B1900789BD1 /* mongo-objc-driver */,
 				8D1107290486CEB800E47090 /* Resources */,
 				8D11072C0486CEB800E47090 /* Sources */,
 				8D11072E0486CEB800E47090 /* Frameworks */,
@@ -695,6 +1160,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				02216F641412D6F000789BD1 /* PBXTargetDependency */,
 				790512FC0DDD0A100070760D /* PBXTargetDependency */,
 			);
 			name = MongoHub;
@@ -721,16 +1187,41 @@
 				Japanese,
 				French,
 				German,
+				en,
 			);
 			mainGroup = 29B97314FDCFA39411CA2CEA /* MongoHub */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 02216EAA14128CBF00789BD1 /* Products */;
+					ProjectRef = 02216EA914128CBF00789BD1 /* mongo-objc-driver.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				8D1107260486CEB800E47090 /* MongoHub */,
 				797A78380DDCFADE0050D0C2 /* MongoHub Spotlight Importer */,
+				02216F201412D54600789BD1 /* Submodules */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		02216EC214128CBF00789BD1 /* mongo-objc-driver.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = "mongo-objc-driver.framework";
+			remoteRef = 02216EC114128CBF00789BD1 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		02216EC414128CBF00789BD1 /* mongo-test */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.executable";
+			path = "mongo-test";
+			remoteRef = 02216EC314128CBF00789BD1 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		797A78350DDCFADE0050D0C2 /* Resources */ = {
@@ -792,7 +1283,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		02216E5814128ACE00789BD1 /* mongo-c-driver */ = {
+		02216F251412D56100789BD1 /* mongo-c-driver */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -804,9 +1295,9 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "module_path=\"Libraries/mongo-c-driver\"\nmodule_owner=\"fotonauts\"\nmodule_name=\"mongo-c-driver\"\nmodule_branch=\"master\"\n\nfiles=`ls \"${module_path}\" 2> /dev/null`\nif [ \"${files}\" = \"\" ] ; then\nif [ -d .git ] ; then\ngit submodule update --init\ncd \"${module_path}\"\ngit branch --track \"${module_branch}\" \"origin/${module_branch}\"\ngit checkout \"${module_branch}\"\nelse\ncd \"${module_path}\"\ncurl -o \"${module_name}.zip\" -L \"https://nodeload.github.com/${module_owner}/${module_name}/zipball/${module_branch}\"\nunzip \"${module_name}.zip\"\nrm \"${module_name}.zip\"\nmodule_unzip_dir=`ls`\ncd \"${module_unzip_dir}\"\nmv * ..\ncd ..\nrmdir \"${module_unzip_dir}\"\nfi\nfi\n";
+			shellScript = "module_name=\"mongo-c-driver\"\nmodule_owner=\"fotonauts\"\nmodule_branch=\"master\"\nmodule_path=\"Libraries/${module_name}\"\n\nfiles=`ls \"${module_path}\" 2> /dev/null`\nif [ \"${files}\" = \"\" ] ; then\nif [ -d .git ] ; then\ngit submodule update --init\ncd \"${module_path}\"\ngit branch --track \"${module_branch}\" \"origin/${module_branch}\"\ngit checkout \"${module_branch}\"\nelse\ncd \"${module_path}\"\ncurl -o \"${module_name}.zip\" -L \"https://nodeload.github.com/${module_owner}/${module_name}/zipball/${module_branch}\"\nunzip \"${module_name}.zip\"\nrm \"${module_name}.zip\"\nmodule_unzip_dir=`ls`\ncd \"${module_unzip_dir}\"\nmv * ..\ncd ..\nrmdir \"${module_unzip_dir}\"\nfi\nfi\n";
 		};
-		02216E5914128B1900789BD1 /* mongo-objc-driver */ = {
+		02216F261412D57B00789BD1 /* mongo-objc-driver */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -818,7 +1309,21 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "module_path=\"Libraries/mongo-objc-driver\"\nmodule_owner=\"fotonauts\"\nmodule_name=\"mongo-objc-driver\"\nmodule_branch=\"master\"\n\nfiles=`ls \"${module_path}\" 2> /dev/null`\nif [ \"${files}\" = \"\" ] ; then\nif [ -d .git ] ; then\ngit submodule update --init\ncd \"${module_path}\"\ngit branch --track \"${module_branch}\" \"origin/${module_branch}\"\ngit checkout \"${module_branch}\"\nelse\ncd \"${module_path}\"\ncurl -o \"${module_name}.zip\" -L \"https://nodeload.github.com/${module_owner}/${module_name}/zipball/${module_branch}\"\nunzip \"${module_name}.zip\"\nrm \"${module_name}.zip\"\nmodule_unzip_dir=`ls`\ncd \"${module_unzip_dir}\"\nmv * ..\ncd ..\nrmdir \"${module_unzip_dir}\"\nfi\nfi\n";
+			shellScript = "module_name=\"mongo-objc-driver\"\nmodule_owner=\"fotonauts\"\nmodule_branch=\"master\"\nmodule_path=\"Libraries/${module_name}\"\n\nfiles=`ls \"${module_path}\" 2> /dev/null`\nif [ \"${files}\" = \"\" ] ; then\nif [ -d .git ] ; then\ngit submodule update --init\ncd \"${module_path}\"\ngit branch --track \"${module_branch}\" \"origin/${module_branch}\"\ngit checkout \"${module_branch}\"\nelse\ncd \"${module_path}\"\ncurl -o \"${module_name}.zip\" -L \"https://nodeload.github.com/${module_owner}/${module_name}/zipball/${module_branch}\"\nunzip \"${module_name}.zip\"\nrm \"${module_name}.zip\"\nmodule_unzip_dir=`ls`\ncd \"${module_unzip_dir}\"\nmv * ..\ncd ..\nrmdir \"${module_unzip_dir}\"\nfi\nfi\n";
+		};
+		02216F271412D5B800789BD1 /* libjson */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = libjson;
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "module_name=\"libjson\"\nmodule_owner=\"vincenthz\"\nmodule_branch=\"master\"\nmodule_path=\"Libraries/${module_name}\"\n\nfiles=`ls \"${module_path}\" 2> /dev/null`\nif [ \"${files}\" = \"\" ] ; then\nif [ -d .git ] ; then\ngit submodule update --init\ncd \"${module_path}\"\ngit branch --track \"${module_branch}\" \"origin/${module_branch}\"\ngit checkout \"${module_branch}\"\nelse\ncd \"${module_path}\"\ncurl -o \"${module_name}.zip\" -L \"https://nodeload.github.com/${module_owner}/${module_name}/zipball/${module_branch}\"\nunzip \"${module_name}.zip\"\nrm \"${module_name}.zip\"\nmodule_unzip_dir=`ls`\ncd \"${module_unzip_dir}\"\nmv * ..\ncd ..\nrmdir \"${module_unzip_dir}\"\nfi\nfi\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -853,7 +1358,6 @@
 				1D93C45311837668003216F7 /* Sidebar.m in Sources */,
 				1D93C45411837668003216F7 /* SidebarBadgeCell.m in Sources */,
 				1D93C45511837668003216F7 /* SidebarNode.m in Sources */,
-				1D93C60B11841865003216F7 /* MongoDB.mm in Sources */,
 				1D93C7491184369D003216F7 /* DatabasesArrayController.m in Sources */,
 				1D93CB5C1184C243003216F7 /* ResultsOutlineViewController.m in Sources */,
 				1D799455118755EE009C187F /* AddDBController.m in Sources */,
@@ -872,14 +1376,34 @@
 				1D64100512C8E1C00030AA4C /* NSScanner+SkipUpToCharset.m in Sources */,
 				1D64100812C8E21C0030AA4C /* UKSyntaxColoredTextViewController.m in Sources */,
 				1D64100D12C8E3D90030AA4C /* JsonWindowController.mm in Sources */,
-				02C317B8140AD915005033E5 /* MongoCollection.mm in Sources */,
-				02102768140CD0DB00F550AD /* MongoQuery.mm in Sources */,
+				02216EC514128CE000789BD1 /* bson.c in Sources */,
+				02216EC614128CEE00789BD1 /* encoding.c in Sources */,
+				02216EC714128CEE00789BD1 /* gridfs.c in Sources */,
+				02216EC814128CEE00789BD1 /* md5.c in Sources */,
+				02216EC914128CEE00789BD1 /* mongo.c in Sources */,
+				02216ECA14128CEE00789BD1 /* net.c in Sources */,
+				02216ECB14128CEE00789BD1 /* numbers.c in Sources */,
+				02216ECC14128D1200789BD1 /* MODCollection.m in Sources */,
+				02216ECD14128D1200789BD1 /* MODDatabase.m in Sources */,
+				02216ECE14128D1200789BD1 /* MODQuery.m in Sources */,
+				02216ECF14128D1200789BD1 /* MODServer.m in Sources */,
+				02216F651412D6FE00789BD1 /* json.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		02216F621412D6E900789BD1 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 02216F201412D54600789BD1 /* Submodules */;
+			targetProxy = 02216F611412D6E900789BD1 /* PBXContainerItemProxy */;
+		};
+		02216F641412D6F000789BD1 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 02216F201412D54600789BD1 /* Submodules */;
+			targetProxy = 02216F631412D6F000789BD1 /* PBXContainerItemProxy */;
+		};
 		790512FC0DDD0A100070760D /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 797A78380DDCFADE0050D0C2 /* MongoHub Spotlight Importer */;
@@ -888,6 +1412,14 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		02216EB214128CBF00789BD1 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				02216EB314128CBF00789BD1 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
 		089C165CFE840E0CC02AAC07 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -907,6 +1439,20 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		02216F231412D54600789BD1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		02216F241412D54600789BD1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 		26FC0A850875C7B200E6366F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1054,6 +1600,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		02216F221412D54600789BD1 /* Build configuration list for PBXAggregateTarget "Submodules" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				02216F231412D54600789BD1 /* Debug */,
+				02216F241412D54600789BD1 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		26FC0A840875C7B200E6366F /* Build configuration list for PBXNativeTarget "MongoHub" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

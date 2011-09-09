@@ -210,6 +210,7 @@
     }
     db = [[MCPConnection alloc] initToHost:[hostTextField stringValue] withLogin:[userTextField stringValue] usingPort:[portTextField intValue]];
     [db setPassword:[passwdTextField stringValue]];
+    [db connect];
     NSLog(@"Connect: %d", [db isConnected]);
     if (![db isConnected])
     {

@@ -433,6 +433,9 @@
     importWindowController.conn = self.conn;
     importWindowController.mongoDB = _mongoDB;
     importWindowController.dbname = [self.selectedDB caption];
+    if (self.selectedCollection) {
+        [exportWindowController.collectionTextField setStringValue:[self.selectedCollection caption]];
+    }
     [importWindowController showWindow:self];
 }
 
@@ -450,6 +453,9 @@
     exportWindowController.conn = self.conn;
     exportWindowController.mongoDB = _mongoDB;
     exportWindowController.dbname = [self.selectedDB caption];
+    if (self.selectedCollection) {
+        [exportWindowController.collectionTextField setStringValue:[self.selectedCollection caption]];
+    }
     [exportWindowController showWindow:self];
 }
 

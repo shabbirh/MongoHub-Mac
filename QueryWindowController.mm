@@ -920,12 +920,14 @@
             [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(findQuery:) name:kJsonWindowSaved object:nil];
             [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(jsonWindowWillClose:) name:kJsonWindowWillClose object:nil];
             id currentItem = [findResultsViewController.myOutlineView itemAtRow:[findResultsViewController.myOutlineView selectedRow]];
+            Database *db = [databasesArrayController dbInfo:conn name:dbname];
             //NSLog(@"%@", [findResultsViewController rootForItem:currentItem]);
             JsonWindowController *jsonWindowController = [[JsonWindowController alloc] init];
             jsonWindowController.managedObjectContext = self.managedObjectContext;
             jsonWindowController.conn = conn;
             jsonWindowController.dbname = dbname;
             jsonWindowController.collectionname = collectionname;
+            jsonWindowController.mongoCollection = [mongoDB mongoCollectionWithDatabaseName:dbname collectionName:collectionname userName:db.user password:db.password];
             jsonWindowController.mongoDB = mongoDB;
             jsonWindowController.jsonDict = [findResultsViewController rootForItem:currentItem];
             [jsonWindowController showWindow:sender];

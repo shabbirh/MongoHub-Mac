@@ -968,6 +968,9 @@ extern "C" {
             }
         }
         NSString *col = [NSString stringWithFormat:@"%@.%@", dbname, collectionname];
+        if (!critical) {
+            critical = @"{}";
+        }
         mongo::BSONObj criticalBSON = mongo::fromjson([critical UTF8String]);
         long long int counter;
         if (self.replicaConnexion) {
@@ -975,7 +978,7 @@ extern "C" {
         }else {
             counter = self.connexion->count(std::string([col UTF8String]), criticalBSON);
         }
-        NSLog(@"Count in db: %@.%@", dbname, collectionname);
+        NSLog(@"Count in db: %@.%@ %lld", dbname, collectionname, counter);
         return counter;
     }catch (mongo::DBException &e) {
         NSRunAlertPanel(@"Error", [NSString stringWithUTF8String:e.what()], @"OK", nil, nil);

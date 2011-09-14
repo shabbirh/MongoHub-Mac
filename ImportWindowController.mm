@@ -12,14 +12,14 @@
 #import "Database.h"
 #import "Connection.h"
 #import "NSString+Extras.h"
-#import "MongoDB.h"
+#import "MODServer.h"
 #import <MCPKit/MCPKit.h>
 
 @implementation ImportWindowController
 @synthesize dbname;
 @synthesize conn;
 @synthesize db;
-@synthesize mongoDB;
+@synthesize mongoServer;
 @synthesize databasesArrayController;
 @synthesize managedObjectContext;
 @synthesize dbsArrayController;
@@ -44,7 +44,7 @@
     [databasesArrayController release];
     [conn release];
     [db release];
-    [mongoDB release];
+    [mongoServer release];
     [dbsArrayController release];
     [tablesArrayController release];
     [hostTextField release];
@@ -125,7 +125,7 @@
     int i = 1;
     while (NSDictionary *row = [theResult fetchRowAsDictionary]) {
         [progressIndicator setDoubleValue:(double)(fromId+i)/total];
-        [mongoDB insertInDB:dbname 
+        [mongoServer insertInDB:dbname 
                  collection:collection
                        user:user 
                    password:password 

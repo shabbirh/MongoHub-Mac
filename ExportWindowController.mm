@@ -12,7 +12,7 @@
 #import "Database.h"
 #import "Connection.h"
 #import "NSString+Extras.h"
-#import "MongoDB.h"
+#import "MODServer.h"
 #import <MCPKit/MCPKit.h>
 #import "FieldMapTableController.h"
 #import "FieldMapDataObject.h"
@@ -22,7 +22,7 @@
 @synthesize dbname;
 @synthesize conn;
 @synthesize db;
-@synthesize mongoDB;
+@synthesize mongoServer;
 @synthesize databasesArrayController;
 @synthesize managedObjectContext;
 @synthesize dbsArrayController;
@@ -47,7 +47,7 @@
     [databasesArrayController release];
     [conn release];
     [db release];
-    [mongoDB release];
+    [mongoServer release];
     [dbsArrayController release];
     [tablesArrayController release];
     [hostTextField release];
@@ -91,7 +91,7 @@
         user = mongodb.user;
         password = mongodb.password;
     }
-    long long int total = [self exportCount:collection user:user password:password];
+    int64_t total = [self exportCount:collection user:user password:password];
     if (total == 0) {
         return;
     }
@@ -106,7 +106,7 @@
         fieldsBSONBuilder.append([field.mongoKey UTF8String], 1);
     }
     mongo::BSONObj fieldsBSONObj = fieldsBSONBuilder.obj();
-    std::auto_ptr<mongo::DBClientCursor> cursor = [mongoDB findAllCursorInDB:dbname collection:collection user:user password:password fields:fieldsBSONObj];
+    std::auto_ptr<mongo::DBClientCursor> cursor = [mongoServer findAllCursorInDB:dbname collection:collection user:user password:password fields:fieldsBSONObj];
     int i = 1;
     while( cursor->more() )
     {
@@ -118,9 +118,9 @@
     [progressIndicator stopAnimation: self];
 }
 
-- (long long int)exportCount:(NSString *)collection user:(NSString *)user password:(NSString *)password
+- (int64_t)exportCount:(NSString *)collection user:(NSString *)user password:(NSString *)password
 {
-    long long int result = [mongoDB countInDB:dbname collection:collection user:user password:password critical:nil];
+    int64_t result = [mongoServer countInDB:dbname collection:collection user:user password:password critical:nil];
     return result;
 }
 

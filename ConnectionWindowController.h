@@ -20,14 +20,18 @@
 @class Connection;
 @class Sidebar;
 @class SidebarNode;
-@class MongoDB;
+@class MODServer;
+@class MODDatabase;
+@class MODCollection;
 
 @interface ConnectionWindowController : NSWindowController {
     NSManagedObjectContext *managedObjectContext;
     IBOutlet DatabasesArrayController *databaseArrayController;
     IBOutlet ResultsOutlineViewController *resultsOutlineViewController;
     Connection *conn;
-    MongoDB *_mongoDB;
+    MODServer *mongoServer;
+    MODDatabase *mongoDatabase;
+    MODCollection *mongoCollection;
     NSTimer *_serverMonitorTimer;
     IBOutlet Sidebar *sidebar;
     IBOutlet NSTextField *resultsTitle;
@@ -55,7 +59,7 @@
 @property (nonatomic, retain) DatabasesArrayController *databaseArrayController;
 @property (nonatomic, retain) ResultsOutlineViewController *resultsOutlineViewController;
 @property (nonatomic, retain) Connection *conn;
-@property (nonatomic, retain) MongoDB *mongoDB;
+@property (nonatomic, retain) MODServer *mongoServer;
 @property (nonatomic, retain) Sidebar *sidebar;
 @property (nonatomic, retain) NSMutableArray *databases;
 @property (nonatomic, retain) NSMutableArray *collections;

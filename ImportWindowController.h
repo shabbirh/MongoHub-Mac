@@ -10,14 +10,14 @@
 @class Connection;
 @class DatabasesArrayController;
 @class MCPConnection;
-@class MongoDB;
+@class MODServer;
 
 @interface ImportWindowController : NSWindowController {
     NSManagedObjectContext *managedObjectContext;
     DatabasesArrayController *databasesArrayController;
     NSString *dbname;
     Connection *conn;
-    MongoDB *mongoDB;
+    MODServer *mongoServer;
     MCPConnection *db;
     IBOutlet NSArrayController *dbsArrayController;
     IBOutlet NSArrayController *tablesArrayController;
@@ -33,7 +33,7 @@
 
 @property (nonatomic, retain) Connection *conn;
 @property (nonatomic, retain) MCPConnection *db;
-@property (nonatomic, retain) MongoDB *mongoDB;
+@property (nonatomic, retain) MODServer *mongoServer;
 @property (nonatomic, retain) DatabasesArrayController *databasesArrayController;
 @property (nonatomic, retain) NSManagedObjectContext *managedObjectContext;
 @property (nonatomic, retain) NSString *dbname;

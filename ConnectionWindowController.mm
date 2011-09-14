@@ -22,15 +22,13 @@
 #import "Connection.h"
 #import "Sidebar.h"
 #import "SidebarNode.h"
-#import "MongoDB.h"
 #import "Tunnel.h"
-#import "MongoQuery.h"
+#import "MODServer.h"
+#import "MODDatabase.h"
+#import "MODQuery.h"
 
 @interface ConnectionWindowController()
 - (void)closeMongoDB;
-@end
-
-@interface ConnectionWindowController(MongoDBDelegate)<MongoDBDelegate>
 @end
 
 @implementation ConnectionWindowController
@@ -39,7 +37,7 @@
 @synthesize databaseArrayController;
 @synthesize resultsOutlineViewController;
 @synthesize conn;
-@synthesize mongoDB = _mongoDB;
+@synthesize mongoServer;
 @synthesize sidebar;
 @synthesize loaderIndicator;
 @synthesize monitorButton;
@@ -99,9 +97,10 @@
     [_serverMonitorTimer invalidate];
     [_serverMonitorTimer release];
     _serverMonitorTimer = nil;
-    _mongoDB.delegate = nil;
-    [_mongoDB release];
-    _mongoDB = nil;
+    [mongoServer release];
+    mongoServer = nil;
+    [mongoDatabase release];
+    mongoDatabase = nil;
 }
 
 - (void) tunnelStatusChanged: (Tunnel*) tunnel status: (NSString*) status {
@@ -110,6 +109,27 @@
         exitThread = YES;
         [self connect:YES];
     }
+}
+
+- (void)didConnect
+{
+    [loaderIndicator stop];
+    
+    if (![conn.defaultdb isPresent]) {
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(addDB:) name:kNewDBWindowWillClose object:nil];
+    }
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(addCollection:) name:kNewCollectionWindowWillClose object:nil];
+    [reconnectButton setEnabled:YES];
+    [monitorButton setEnabled:YES];
+    [self reloadSidebar];
+    [self showServerStatus:nil];
+}
+
+- (void)didFailToConnectWithError:(NSError *)error
+{
+    [loaderIndicator stop];
+    NSRunAlertPanel(@"Error", [error localizedDescription], @"OK", nil, nil);
 }
 
 - (void)connect:(BOOL)haveHostAddress {
@@ -140,8 +160,9 @@
         return;
     }else {
         [self closeMongoDB];
-        _mongoDB = [[MongoDB alloc] init];
-        _mongoDB.delegate = self;
+        mongoServer = [[MODServer alloc] init];
+        mongoServer.userName = conn.adminuser;
+        mongoServer.password = conn.adminpass;
         if ([conn.userepl intValue] == 1) {
             NSArray *tmp = [conn.servers componentsSeparatedByString:@","];
             NSMutableArray *hosts = [[NSMutableArray alloc] initWithCapacity:[tmp count]];
@@ -152,7 +173,13 @@
                 }
                 [hosts addObject:host];
             }
-            [_mongoDB connectWithReplicaName:conn.repl_name hosts:hosts databaseName:conn.defaultdb userName:conn.adminuser password:conn.adminpass];
+            [mongoServer connectWithReplicaName:conn.repl_name hosts:hosts callback:^(BOOL connected, MODQuery *mongoQuery) {
+                if (connected) {
+                    [self didConnect];
+                } else {
+                    [self didFailToConnectWithError:mongoQuery.error];
+                }
+            }];
             [hosts release];
         } else {
             NSString *hostaddress;
@@ -162,7 +189,13 @@
             } else {
                 hostaddress = [[NSString alloc] initWithFormat:@"%@:%@", conn.host, conn.hostport];
             }
-            [_mongoDB connectWithHostName:hostaddress databaseName:conn.defaultdb userName:conn.adminuser password:conn.adminpass];
+            [mongoServer connectWithHostName:hostaddress callback:^(BOOL connected, MODQuery *mongoQuery) {
+                if (connected) {
+                    [self didConnect];
+                } else {
+                    [self didFailToConnectWithError:mongoQuery.error];
+                }
+            }];
             [hostaddress release];
         }
     }
@@ -231,20 +264,73 @@
 - (void)reloadSidebar
 {
     [loaderIndicator start];
-    [_mongoDB fetchDatabaseList];
+    [mongoServer fetchDatabaseListWithCallback:^(NSArray *list, MODQuery *mongoQuery) {
+        [loaderIndicator stop];
+        self.selectedDB = nil;
+        self.selectedCollection = nil;
+        [self.collections removeAllObjects];
+        [self.databases removeAllObjects];
+        if ([conn.defaultdb isPresent]) {
+            [self.databases addObject:conn.defaultdb];
+        } else if (list != nil) {
+            [self.databases addObjectsFromArray:list];
+        } else if (mongoQuery.error) {
+            NSRunAlertPanel(@"Error", [mongoQuery.error localizedDescription], @"OK", nil, nil);
+        }
+        [databases sortUsingSelector:@selector(compare:)];
+        
+        [databaseArrayController clean:conn databases:databases];
+        [sidebar removeItem:@"1"];
+        [sidebar removeItem:@"2"];
+        [sidebar addSection:@"1" caption:@"DATABASES"];
+        unsigned int i=1;
+        for (NSString *db in databases) {
+            [sidebar addChild:@"1" key:[NSString stringWithFormat:@"1.%d", i] caption:db icon:[NSImage imageNamed:@"dbicon.png"] action:@selector(useDB:) target:self];
+            i++;
+        }
+        [sidebar reloadData];
+        [sidebar expandItem:@"1"];
+    }];
 }
 
 - (void)useDB:(id)sender {
-    NSString *dbname = [[NSString alloc] initWithFormat:@"%@", [sender caption]];
+    NSString *dbname = [sender caption];
     Database *db = [databaseArrayController dbInfo:conn name:dbname];
     
+    [mongoDatabase release];
+    mongoDatabase = [mongoServer databaseForName:dbname];
+    mongoDatabase.userName = db.user;
+    mongoDatabase.password = db.password;
+    [mongoCollection release];
+    mongoCollection = nil;
     if (![[self.selectedDB caption] isEqualToString:dbname]) {
         self.selectedDB = (SidebarNode *)sender;
     }
     self.selectedCollection = nil;
     [loaderIndicator start];
-    [_mongoDB fetchCollectionListWithDatabaseName:dbname userName:db.user password:db.password];
-    [dbname release];
+    [mongoDatabase fetchCollectionListWithCallback:^(NSArray *collectionList, MODQuery *mongoQuery) {
+        [loaderIndicator stop];
+        if ([[self.selectedDB caption] isEqualToString:[mongoQuery.parameters objectForKey:@"databasename"]]) {
+            [self.collections removeAllObjects];
+            if (collectionList) {
+                [self.collections addObjectsFromArray:collectionList];
+            } else if (mongoQuery.error) {
+                NSRunAlertPanel(@"Error", [mongoQuery.error localizedDescription], @"OK", nil, nil);
+            }
+            [sidebar removeItem:@"2"];
+            [sidebar addSection:@"2" caption:[[self.selectedDB caption] uppercaseString]];
+            [self.collections sortUsingSelector:@selector(compare:)];
+            unsigned int i = 1;
+            for (NSString *collection in self.collections) {
+                [sidebar addChild:@"2" key:[NSString stringWithFormat:@"2.%d", i] caption:collection icon:[NSImage imageNamed:@"collectionicon.png"] action:@selector(useCollection:) target:self];
+                i ++ ;
+            }
+            [sidebar reloadData];
+            [sidebar setBadge:[self.selectedDB nodeKey] count:[self.collections count]];
+            [sidebar expandItem:@"2"];
+            [self showDBStats:nil];
+        }
+    }];
 }
 
 - (void)useCollection:(id)sender
@@ -261,7 +347,18 @@
 {
     [loaderIndicator start];
     [resultsTitle setStringValue:[NSString stringWithFormat:@"Server %@:%@ stats", conn.host, conn.hostport]];
-    [_mongoDB fetchServerStatus];
+    [mongoServer fetchServerStatusWithCallback:^(NSDictionary *serverStatus, MODQuery *mongoQuery) {
+        [loaderIndicator stop];
+        if ([[self.selectedDB caption] isEqualToString:[mongoQuery.parameters objectForKey:@"databasename"]]) {
+            [resultsOutlineViewController.results removeAllObjects];
+            if (serverStatus) {
+                [resultsOutlineViewController.results addObjectsFromArray:serverStatus];
+            } else if (mongoQuery.error) {
+                NSRunAlertPanel(@"Error", [mongoQuery.error localizedDescription], @"OK", nil, nil);
+            }
+            [resultsOutlineViewController.myOutlineView reloadData];
+        }
+    }];
     
 }
 
@@ -274,8 +371,16 @@
     [loaderIndicator start];
     [resultsTitle setStringValue:[NSString stringWithFormat:@"Database %@ stats", [self.selectedDB caption]]];
     
-    Database *db = [databaseArrayController dbInfo:conn name:[self.selectedDB caption]];
-    [_mongoDB fetchDatabaseStatsWithDatabaseName:[self.selectedDB caption] userName:db.user password:db.password];
+    [mongoDatabase fetchDatabaseStatsWithCallback:^(NSDictionary *databaseStats, MODQuery *mongoQuery) {
+        [loaderIndicator stop];
+        [resultsOutlineViewController.results removeAllObjects];
+        if (databaseStats) {
+            [resultsOutlineViewController.results addObjectsFromArray:databaseStats];
+        } else if (mongoQuery.error) {
+            NSRunAlertPanel(@"Error", [mongoQuery.error localizedDescription], @"OK", nil, nil);
+        }
+        [resultsOutlineViewController.myOutlineView reloadData];
+    }];
 }
 
 - (IBAction)showCollStats:(id)sender 
@@ -287,7 +392,7 @@
     [loaderIndicator start];
     [resultsTitle setStringValue:[NSString stringWithFormat:@"Collection %@.%@ stats", [self.selectedDB caption], [self.selectedCollection caption]]];
     Database *db = [databaseArrayController dbInfo:conn name:[self.selectedDB caption] ];
-    [_mongoDB fetchCollectionStatsWithCollectionName:[self.selectedCollection caption] databaseName:[self.selectedDB caption] userName:db.user password:db.password];
+    [mongoServer fetchCollectionStatsWithCollectionName:[self.selectedCollection caption] databaseName:[self.selectedDB caption] userName:db.user password:db.password];
 }
 
 - (IBAction)createDBorCollection:(id)sender
@@ -328,7 +433,7 @@
     if (![sender object]) {
         return;
     }
-    [_mongoDB fetchDatabaseStatsWithDatabaseName:[[sender object] objectForKey:@"dbname"] userName:[[sender object] objectForKey:@"user"] password:[[sender object] objectForKey:@"password"]];
+    [mongoServer fetchDatabaseStatsWithDatabaseName:[[sender object] objectForKey:@"dbname"] userName:[[sender object] objectForKey:@"user"] password:[[sender object] objectForKey:@"password"]];
     [self reloadSidebar];
 }
 
@@ -340,7 +445,7 @@
     NSString *dbname = [[sender object] objectForKey:@"dbname"];
     NSString *collectionname = [[sender object] objectForKey:@"collectionname"];
     Database *db = [databaseArrayController dbInfo:conn name:dbname];
-    [_mongoDB createCollectionWithName:collectionname databaseName:dbname userName:db.user password:db.password];
+    [mongoServer createCollectionWithName:collectionname databaseName:dbname userName:db.user password:db.password];
     [loaderIndicator start];
 }
 
@@ -356,7 +461,7 @@
 - (void)dropCollection:(NSString *)collectionname ForDB:(NSString *)dbname
 {
     Database *db = [databaseArrayController dbInfo:conn name:[self.selectedDB caption]];
-    [_mongoDB dropCollectionWithName:collectionname databaseName:dbname userName:db.user password:db.password];
+    [mongoServer dropCollectionWithName:collectionname databaseName:dbname userName:db.user password:db.password];
     [loaderIndicator start];
 }
 
@@ -368,7 +473,7 @@
     }
     Database *db = [databaseArrayController dbInfo:conn name:[self.selectedDB caption]];
     [loaderIndicator start];
-    [_mongoDB dropDatabaseWithName:[self.selectedDB caption] userName:db.user password:db.password];
+    [mongoServer dropDatabaseWithName:[self.selectedDB caption] userName:db.user password:db.password];
 }
 
 - (IBAction)query:(id)sender
@@ -377,15 +482,10 @@
         NSRunAlertPanel(@"Error", @"Please choose a collection!", @"OK", nil, nil);
         return;
     }
-    Database *db = [databaseArrayController dbInfo:conn name:[self.selectedDB caption]];
-    
     QueryWindowController *queryWindowController = [[QueryWindowController alloc] init];
-    queryWindowController.mongoCollection = [_mongoDB mongoCollectionWithDatabaseName:[self.selectedDB caption] collectionName:[self.selectedCollection caption] userName:db.user password:db.password];
+    queryWindowController.mongoCollection = mongoCollection;
     queryWindowController.managedObjectContext = self.managedObjectContext;
     queryWindowController.conn = conn;
-    queryWindowController.dbname = [self.selectedDB caption];
-    queryWindowController.collectionname = [self.selectedCollection caption];
-    queryWindowController.mongoDB = _mongoDB;
     [queryWindowController showWindow:sender];
 }
 
@@ -431,7 +531,7 @@
     }
     importWindowController.managedObjectContext = self.managedObjectContext;
     importWindowController.conn = self.conn;
-    importWindowController.mongoDB = _mongoDB;
+    importWindowController.mongoServer = mongoServer;
     importWindowController.dbname = [self.selectedDB caption];
     if (self.selectedCollection) {
         [exportWindowController.collectionTextField setStringValue:[self.selectedCollection caption]];
@@ -451,7 +551,7 @@
     }
     exportWindowController.managedObjectContext = self.managedObjectContext;
     exportWindowController.conn = self.conn;
-    exportWindowController.mongoDB = _mongoDB;
+    exportWindowController.mongoServer = mongoServer;
     exportWindowController.dbname = [self.selectedDB caption];
     if (self.selectedCollection) {
         [exportWindowController.collectionTextField setStringValue:[self.selectedCollection caption]];
@@ -486,8 +586,8 @@
 
 - (IBAction)startMonitor:(id)sender {
     if (!_serverMonitorTimer) {
-        [_mongoDB fetchServerStatusDelta];
-        _serverMonitorTimer = [[NSTimer scheduledTimerWithTimeInterval:1 target:_mongoDB selector:@selector(fetchServerStatusDelta) userInfo:nil repeats:YES] retain];
+        //[mongoServer fetchServerStatusDelta];
+        _serverMonitorTimer = [[NSTimer scheduledTimerWithTimeInterval:1 target:mongoServer selector:@selector(fetchServerStatusDelta) userInfo:nil repeats:YES] retain];
     }
     [NSApp beginSheet:monitorPanel modalForWindow:self.window modalDelegate:self didEndSelector:@selector(monitorPanelDidEnd:returnCode:contextInfo:) contextInfo:nil];
     NSLog(@"startMonitor");
@@ -510,114 +610,9 @@
 
 @implementation ConnectionWindowController(MongoDBDelegate)
 
-- (void)mongoDBConnectionSucceded:(MongoDB *)mongoDB withMongoQuery:(MongoQuery *)mongoQuery
-{
-    NSAssert(mongoDB == _mongoDB, @"wrong database");
-    [loaderIndicator stop];
-    
-    if (![conn.defaultdb isPresent]) {
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(addDB:) name:kNewDBWindowWillClose object:nil];
-    }
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(addCollection:) name:kNewCollectionWindowWillClose object:nil];
-    [reconnectButton setEnabled:YES];
-    [monitorButton setEnabled:YES];
-    [self reloadSidebar];
-    [self showServerStatus:nil];
-}
-
-- (void)mongoDBConnectionFailed:(MongoDB *)mongoDB withMongoQuery:(MongoQuery *)mongoQuery errorMessage:(NSString *)errorMessage
-{
-    NSAssert(mongoDB == _mongoDB, @"wrong database");
-    [loaderIndicator stop];
-    NSRunAlertPanel(@"Error", errorMessage, @"OK", nil, nil);
-}
-
-- (void)mongoDB:(MongoDB *)mongoDB databaseListFetched:(NSArray *)list withMongoQuery:(MongoQuery *)mongoQuery errorMessage:(NSString *)errorMessage
-{
-    NSAssert(mongoDB == _mongoDB, @"wrong database");
-    [loaderIndicator stop];
-    self.selectedDB = nil;
-    self.selectedCollection = nil;
-    [self.collections removeAllObjects];
-    [self.databases removeAllObjects];
-    if ([conn.defaultdb isPresent]) {
-        [self.databases addObject:conn.defaultdb];
-    } else if (list != nil) {
-        [self.databases addObjectsFromArray:list];
-    } else if (errorMessage) {
-        NSRunAlertPanel(@"Error", errorMessage, @"OK", nil, nil);
-    }
-    [databases sortUsingSelector:@selector(compare:)];
-
-    [databaseArrayController clean:conn databases:databases];
-    [sidebar removeItem:@"1"];
-    [sidebar removeItem:@"2"];
-    [sidebar addSection:@"1" caption:@"DATABASES"];
-    unsigned int i=1;
-    for (NSString *db in databases) {
-        [sidebar addChild:@"1" key:[NSString stringWithFormat:@"1.%d", i] caption:db icon:[NSImage imageNamed:@"dbicon.png"] action:@selector(useDB:) target:self];
-        i++;
-    }
-    [sidebar reloadData];
-    [sidebar expandItem:@"1"];
-}
-
-- (void)mongoDB:(MongoDB *)mongoDB serverStatusFetched:(NSArray *)serverStatus withMongoQuery:(MongoQuery *)mongoQuery errorMessage:(NSString *)errorMessage
-{
-    NSAssert(mongoDB == _mongoDB, @"wrong database");
-    [loaderIndicator stop];
-    [resultsOutlineViewController.results removeAllObjects];
-    if (serverStatus) {
-        [resultsOutlineViewController.results addObjectsFromArray:serverStatus];
-    } else if (errorMessage) {
-        NSRunAlertPanel(@"Error", errorMessage, @"OK", nil, nil);
-    }
-    [resultsOutlineViewController.myOutlineView reloadData];
-}
-
-- (void)mongoDB:(MongoDB *)mongoDB collectionListFetched:(NSArray *)collectionList withMongoQuery:(MongoQuery *)mongoQuery errorMessage:(NSString *)errorMessage
-{
-    NSAssert(mongoDB == _mongoDB, @"wrong database");
-    [loaderIndicator stop];
-    if ([[self.selectedDB caption] isEqualToString:[mongoQuery.parameters objectForKey:@"databasename"]]) {
-        [self.collections removeAllObjects];
-        if (collectionList) {
-            [self.collections addObjectsFromArray:collectionList];
-        } else if (errorMessage) {
-            NSRunAlertPanel(@"Error", errorMessage, @"OK", nil, nil);
-        }
-        [sidebar removeItem:@"2"];
-        [sidebar addSection:@"2" caption:[[self.selectedDB caption] uppercaseString]];
-        [self.collections sortUsingSelector:@selector(compare:)];
-        unsigned int i = 1;
-        for (NSString *collection in self.collections) {
-            [sidebar addChild:@"2" key:[NSString stringWithFormat:@"2.%d", i] caption:collection icon:[NSImage imageNamed:@"collectionicon.png"] action:@selector(useCollection:) target:self];
-            i ++ ;
-        }
-        [sidebar reloadData];
-        [sidebar setBadge:[self.selectedDB nodeKey] count:[self.collections count]];
-        [sidebar expandItem:@"2"];
-        [self showDBStats:nil];
-    }
-}
-
-- (void)mongoDB:(MongoDB *)mongoDB databaseStatsFetched:(NSArray *)databaseStats withMongoQuery:(MongoQuery *)mongoQuery errorMessage:(NSString *)errorMessage
-{
-    NSAssert(mongoDB == _mongoDB, @"wrong database");
-    [loaderIndicator stop];
-        [resultsOutlineViewController.results removeAllObjects];
-        if (databaseStats) {
-            [resultsOutlineViewController.results addObjectsFromArray:databaseStats];
-        } else if (errorMessage) {
-            NSRunAlertPanel(@"Error", errorMessage, @"OK", nil, nil);
-        }
-        [resultsOutlineViewController.myOutlineView reloadData];
-}
-
 - (void)mongoDB:(MongoDB *)mongoDB collectionStatsFetched:(NSArray *)collectionStats withMongoQuery:(MongoQuery *)mongoQuery errorMessage:(NSString *)errorMessage
 {
-    NSAssert(mongoDB == _mongoDB, @"wrong database");
+    NSAssert(mongoDB == mongoServer, @"wrong database");
     [loaderIndicator stop];
     if ([[self.selectedDB caption] isEqualToString:[mongoQuery.parameters objectForKey:@"databasename"]] && [[self.selectedCollection caption] isEqualToString:[mongoQuery.parameters objectForKey:@"collectionname"]]) {
         [resultsOutlineViewController.results removeAllObjects];
@@ -639,7 +634,7 @@
 
 - (void)mongoDB:(MongoDB *)mongoDB databaseDropedWithMongoQuery:(MongoQuery *)mongoQuery errorMessage:(NSString *)errorMessage
 {
-    NSAssert(mongoDB == _mongoDB, @"wrong database");
+    NSAssert(mongoDB == mongoServer, @"wrong database");
     [loaderIndicator stop];
     [self reloadSidebar];
     if (errorMessage) {
@@ -649,7 +644,7 @@
 
 - (void)mongoDB:(MongoDB *)mongoDB collectionCreatedWithMongoQuery:(MongoQuery *)mongoQuery errorMessage:(NSString *)errorMessage
 {
-    NSAssert(mongoDB == _mongoDB, @"wrong database");
+    NSAssert(mongoDB == mongoServer, @"wrong database");
     [loaderIndicator stop];
     if (errorMessage) {
         NSRunAlertPanel(@"Error", errorMessage, @"OK", nil, nil);
@@ -661,7 +656,7 @@
 
 - (void)mongoDB:(MongoDB *)mongoDB collectionDropedWithMongoQuery:(MongoQuery *)mongoQuery errorMessage:(NSString *)errorMessage
 {
-    NSAssert(mongoDB == _mongoDB, @"wrong database");
+    NSAssert(mongoDB == mongoServer, @"wrong database");
     [loaderIndicator stop];
     if (errorMessage) {
         NSRunAlertPanel(@"Error", errorMessage, @"OK", nil, nil);

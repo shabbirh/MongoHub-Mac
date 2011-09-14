@@ -18,9 +18,7 @@
 #import <iostream>
 #import "MODServer.h"
 #import "MODCollection.h"
-
-@interface QueryWindowController(MODCollectionDelegate)<MODCollectionDelegate>
-@end
+#import "MODDatabase.h"
 
 @implementation QueryWindowController
 
@@ -166,18 +164,6 @@
     [super dealloc];
 }
 
-- (MODCollection *)mongoCollection
-{
-    return mongoCollection;
-}
-
-- (void)setMongoCollection:(MODCollection *)newMongoCollection
-{
-    [mongoCollection release];
-    mongoCollection = [newMongoCollection retain];
-    mongoCollection.delegate = self;
-}
-
 - (NSString *)formatedQuery
 {
     NSString *query = @"";
@@ -216,8 +202,8 @@
     if (limit <= 0) {
         limit = 30;
     }
-    findQuery = [mongoCollection findWithQuery:[self formatedQuery] fields:[fieldsTextField stringValue] skip:[skipTextField intValue] limit:limit sort:[sortTextField stringValue]];
-    countQuery = [mongoCollection countWithQuery:[self formatedQuery]];
+    findQuery = [mongoCollection findWithCriteria:[self formatedQuery] fields:[fieldsTextField stringValue] skip:[skipTextField intValue] limit:limit sort:[sortTextField stringValue]];
+    countQuery = [mongoCollection countWithCriteria:[self formatedQuery] ];
     [countQuery.userInfo setObject:@"Total Results: %lld (%0.2fs)" forKey:@"title"];
     [countQuery.userInfo setObject:totalResultsTextField forKey:@"textfield"];
     [countQuery.userInfo setObject:findQuery forKey:@"timequery"];
@@ -241,7 +227,7 @@
     NSString *fields = [updateSetTextField stringValue];
     
     [updateQueryLoaderIndicator start];
-    countQuery = [mongoCollection countWithQuery:query];
+    countQuery = [mongoCollection countWithCriteria:query];
     [countQuery.userInfo setObject:@"Affected Rows: %lld" forKey:@"title"];
     [countQuery.userInfo setObject:updateResultsTextField forKey:@"textfield"];
     [mongoCollection updateWithQuery:query fields:fields upset:[upsetCheckBox state]];
@@ -263,14 +249,10 @@
         password = db.password;
     }
     NSString *critical = [removeCriticalTextField stringValue];
-    MODQuery *query = [mongoCollection countWithQuery:critical];
+    MODQuery *query = [mongoCollection countWithCriteria:critical];
     [query waitUntilFinished];
     long long int total = [[query.parameters objectForKey:@"count"] longLongValue];
-    [mongoCollection removeInDB:mongoCollection.databaseName 
-             collection:mongoCollection.collectionName 
-                   user:user 
-               password:password 
-               critical:critical];
+    [mongoCollection removeWithCriteria:critical];
     [removeResultsTextField setStringValue:[NSString stringWithFormat:@"Affected Rows: %lld", total]];
     [removeQueryLoaderIndicator stop];
     [pool drain];
@@ -339,19 +321,12 @@
 - (void) doEnsureIndex {
     NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
     [indexLoaderIndicator start];
-    NSString *user=nil;
-    NSString *password=nil;
-    Database *db = [databasesArrayController dbInfo:conn name:mongoCollection.databaseName];
-    if (db) {
-        user = db.user;
-        password = db.password;
-    }
     NSString *indexData = [indexTextField stringValue];
-    [mongoCollection ensureIndexInDB:mongoCollection.databaseName 
-                  collection:mongoCollection.collectionName 
-                        user:user 
-                    password:password 
-                   indexData:indexData];
+//    [mongoCollection ensureIndexInDB:mongoCollection.databaseName 
+//                  collection:mongoCollection.collectionName 
+//                        user:user 
+//                    password:password 
+//                   indexData:indexData];
     [self indexQuery:nil];
     [indexLoaderIndicator stop];
     [pool drain];
@@ -367,17 +342,10 @@
 - (void) doReIndex {
     NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
     [indexLoaderIndicator start];
-    NSString *user=nil;
-    NSString *password=nil;
-    Database *db = [databasesArrayController dbInfo:conn name:mongoCollection.databaseName];
-    if (db) {
-        user = db.user;
-        password = db.password;
-    }
-    [mongoCollection reIndexInDB:mongoCollection.databaseName 
-              collection:mongoCollection.collectionName 
-                    user:user 
-                password:password];
+//    [mongoCollection reIndexInDB:mongoCollection.databaseName 
+//              collection:mongoCollection.collectionName 
+//                    user:user 
+//                password:password];
     [self indexQuery:nil];
     [indexLoaderIndicator stop];
     [pool drain];
@@ -395,17 +363,12 @@
     [indexLoaderIndicator start];
     NSString *user=nil;
     NSString *password=nil;
-    Database *db = [databasesArrayController dbInfo:conn name:mongoCollection.databaseName];
-    if (db) {
-        user = db.user;
-        password = db.password;
-    }
     NSString *indexName = [indexTextField stringValue];
-    [mongoCollection dropIndexInDB:mongoCollection.databaseName 
-                collection:mongoCollection.collectionName 
-                      user:user 
-                  password:password 
-                 indexName:indexName];
+//    [mongoCollection dropIndexInDB:mongoCollection.databaseName 
+//                collection:mongoCollection.collectionName 
+//                      user:user 
+//                  password:password 
+//                 indexName:indexName];
     [self indexQuery:nil];
     [indexLoaderIndicator stop];
     [pool drain];
@@ -418,33 +381,33 @@
 }
 
 - (void)doMapReduce {
-    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-    [mrLoaderIndicator start];
-    NSString *user=nil;
-    NSString *password=nil;
-    Database *db = [databasesArrayController dbInfo:conn name:mongoCollection.databaseName];
-    if (db) {
-        user = db.user;
-        password = db.password;
-    }
-    NSString *mapFunction = [mapFunctionTextView string];
-    NSString *reduceFunction = [reduceFunctionTextView string];
-    NSString *critical = [mrcriticalTextField stringValue];
-    NSString *output = [mroutputTextField stringValue];
-    NSMutableArray *results = [[NSMutableArray alloc] initWithArray:[mongoCollection mapReduceInDB:mongoCollection.databaseName 
-                                                                                collection:mongoCollection.collectionName 
-                                                                                      user:user 
-                                                                                  password:password 
-                                                                                     mapJs:mapFunction 
-                                                                                  reduceJs:reduceFunction 
-                                                                                  critical:critical 
-                                                                                    output:output]];
-    mrOutlineViewController.results = results;
-    [mrOutlineViewController.myOutlineView reloadData];
-    [results release];
-    [mrLoaderIndicator stop];
-    [pool drain];
-    [NSThread exit];
+//    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+//    [mrLoaderIndicator start];
+//    NSString *user=nil;
+//    NSString *password=nil;
+//    Database *db = [databasesArrayController dbInfo:conn name:mongoCollection.databaseName];
+//    if (db) {
+//        user = db.user;
+//        password = db.password;
+//    }
+//    NSString *mapFunction = [mapFunctionTextView string];
+//    NSString *reduceFunction = [reduceFunctionTextView string];
+//    NSString *critical = [mrcriticalTextField stringValue];
+//    NSString *output = [mroutputTextField stringValue];
+//    NSMutableArray *results = [[NSMutableArray alloc] initWithArray:[mongoCollection mapReduceInDB:mongoCollection.databaseName 
+//                                                                                collection:mongoCollection.collectionName 
+//                                                                                      user:user 
+//                                                                                  password:password 
+//                                                                                     mapJs:mapFunction 
+//                                                                                  reduceJs:reduceFunction 
+//                                                                                  critical:critical 
+//                                                                                    output:output]];
+//    mrOutlineViewController.results = results;
+//    [mrOutlineViewController.myOutlineView reloadData];
+//    [results release];
+//    [mrLoaderIndicator stop];
+//    [pool drain];
+//    [NSThread exit];
 }
 
 - (IBAction) export:(id)sender
@@ -491,7 +454,7 @@
     NSString *sort = [expSortTextField stringValue];
     NSNumber *skip = [NSNumber numberWithInt:[expSkipTextField intValue]];
     NSNumber *limit = [NSNumber numberWithInt:[expLimitTextField intValue]];
-    MODQuery *query = [mongoCollection countWithQuery:critical];
+    MODQuery *query = [mongoCollection countWithCriteria:critical];
     [query waitUntilFinished];
     long long int total = [[query.parameters objectForKey:@"count"] longLongValue];
     if (total == 0) {

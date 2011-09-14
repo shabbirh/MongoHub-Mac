@@ -12,7 +12,7 @@
 @class Connection;
 @class DatabasesArrayController;
 @class MCPConnection;
-@class MongoDB;
+@class MODServer;
 @class FieldMapTableController;
 
 @interface ExportWindowController : NSWindowController {
@@ -20,7 +20,7 @@
     DatabasesArrayController *databasesArrayController;
     NSString *dbname;
     Connection *conn;
-    MongoDB *mongoDB;
+    MODServer *mongoServer;
     MCPConnection *db;
     IBOutlet NSArrayController *dbsArrayController;
     IBOutlet NSArrayController *tablesArrayController;
@@ -36,7 +36,7 @@
 
 @property (nonatomic, retain) Connection *conn;
 @property (nonatomic, retain) MCPConnection *db;
-@property (nonatomic, retain) MongoDB *mongoDB;
+@property (nonatomic, retain) MODServer *mongoServer;
 @property (nonatomic, retain) DatabasesArrayController *databasesArrayController;
 @property (nonatomic, retain) NSManagedObjectContext *managedObjectContext;
 @property (nonatomic, retain) NSString *dbname;
@@ -56,6 +56,6 @@
 - (IBAction)export:(id)sender;
 - (IBAction)showTables:(id)sender;
 - (IBAction)showFields:(id)sender;
-- (long long int)exportCount:(NSString *)collection user:(NSString *)user password:(NSString *)password;
+- (int64_t)exportCount:(NSString *)collection user:(NSString *)user password:(NSString *)password;
 - (void)doExportToTable:(NSString *)tableName data:(mongo::BSONObj) bsonObj fieldTypes:(NSDictionary *)fieldTypes;
 @end

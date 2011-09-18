@@ -298,7 +298,7 @@
     Database *db = [databaseArrayController dbInfo:conn name:dbname];
     
     [mongoDatabase release];
-    mongoDatabase = [mongoServer databaseForName:dbname];
+    mongoDatabase = [[mongoServer databaseForName:dbname] retain];
     mongoDatabase.userName = db.user;
     mongoDatabase.password = db.password;
     [mongoCollection release];
@@ -433,7 +433,7 @@
         return;
     }
     [mongoDatabase release];
-    mongoDatabase = [mongoServer databaseForName:[[sender object] objectForKey:@"dbname"]];
+    mongoDatabase = [[mongoServer databaseForName:[[sender object] objectForKey:@"dbname"]] retain];
     mongoDatabase.userName = [[sender object] objectForKey:@"user"];
     mongoDatabase.password = [[sender object] objectForKey:@"password"];
     [mongoDatabase fetchDatabaseStatsWithCallback:nil];

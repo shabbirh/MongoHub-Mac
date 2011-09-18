@@ -60,6 +60,7 @@
 @property (nonatomic, retain) ResultsOutlineViewController *resultsOutlineViewController;
 @property (nonatomic, retain) Connection *conn;
 @property (nonatomic, retain) MODServer *mongoServer;
+@property (nonatomic, retain) MODDatabase *mongoDatabase;
 @property (nonatomic, retain) Sidebar *sidebar;
 @property (nonatomic, retain) NSMutableArray *databases;
 @property (nonatomic, retain) NSMutableArray *collections;

@@ -38,6 +38,7 @@
 @synthesize resultsOutlineViewController;
 @synthesize conn;
 @synthesize mongoServer;
+@synthesize mongoDatabase;
 @synthesize sidebar;
 @synthesize loaderIndicator;
 @synthesize monitorButton;
@@ -310,7 +311,7 @@
     [loaderIndicator start];
     [mongoDatabase fetchCollectionListWithCallback:^(NSArray *collectionList, MODQuery *mongoQuery) {
         [loaderIndicator stop];
-        if ([[self.selectedDB caption] isEqualToString:[mongoQuery.parameters objectForKey:@"databasename"]]) {
+        if ([self mongoDatabase] == [mongoQuery.parameters objectForKey:@"mongodatabase"]) {
             [self.collections removeAllObjects];
             if (collectionList) {
                 [self.collections addObjectsFromArray:collectionList];

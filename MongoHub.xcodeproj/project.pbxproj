@@ -23,6 +23,8 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		021DB3881425819D0033E77C /* MODCursor.m in Sources */ = {isa = PBXBuildFile; fileRef = 021DB3861425819D0033E77C /* MODCursor.m */; };
+		021DB3891425819D0033E77C /* MODServer_utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 021DB3871425819D0033E77C /* MODServer_utils.m */; };
 		02216EC514128CE000789BD1 /* bson.c in Sources */ = {isa = PBXBuildFile; fileRef = 02216E7814128CBF00789BD1 /* bson.c */; };
 		02216EC614128CEE00789BD1 /* encoding.c in Sources */ = {isa = PBXBuildFile; fileRef = 02216E7A14128CBF00789BD1 /* encoding.c */; };
 		02216EC714128CEE00789BD1 /* gridfs.c in Sources */ = {isa = PBXBuildFile; fileRef = 02216E7C14128CBF00789BD1 /* gridfs.c */; };
@@ -131,20 +133,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		02216EC114128CBF00789BD1 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 02216EA914128CBF00789BD1 /* mongo-objc-driver.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 02ABA1C014103B37000417F4;
-			remoteInfo = "mongo-objc-driver";
-		};
-		02216EC314128CBF00789BD1 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 02216EA914128CBF00789BD1 /* mongo-objc-driver.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 02F121BD1410EF5200197811;
-			remoteInfo = "mongo-test";
-		};
 		02216F611412D6E900789BD1 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
@@ -221,6 +209,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		021DB3851425819D0033E77C /* MODCursor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MODCursor.h; sourceTree = "<group>"; };
+		021DB3861425819D0033E77C /* MODCursor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MODCursor.m; sourceTree = "<group>"; };
+		021DB3871425819D0033E77C /* MODServer_utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MODServer_utils.m; sourceTree = "<group>"; };
 		02216E6114128CBF00789BD1 /* .astylerc */ = {isa = PBXFileReference; lastKnownFileType = text; path = .astylerc; sourceTree = "<group>"; };
 		02216E6214128CBF00789BD1 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		02216E6314128CBF00789BD1 /* APACHE-2.0.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = "APACHE-2.0.txt"; sourceTree = "<group>"; };
@@ -279,7 +270,6 @@
 		02216EA314128CBF00789BD1 /* validate.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = validate.c; sourceTree = "<group>"; };
 		02216EA514128CBF00789BD1 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		02216EA614128CBF00789BD1 /* .gitmodules */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitmodules; sourceTree = "<group>"; };
-		02216EA914128CBF00789BD1 /* mongo-objc-driver.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = "mongo-objc-driver.xcodeproj"; sourceTree = "<group>"; };
 		02216EAD14128CBF00789BD1 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		02216EAE14128CBF00789BD1 /* mongo-test-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "mongo-test-Prefix.pch"; sourceTree = "<group>"; };
 		02216EAF14128CBF00789BD1 /* mongo_test.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = mongo_test.1; sourceTree = "<group>"; };
@@ -678,7 +668,6 @@
 				02216EA514128CBF00789BD1 /* .gitignore */,
 				02216EA614128CBF00789BD1 /* .gitmodules */,
 				02216EA714128CBF00789BD1 /* Libraries */,
-				02216EA914128CBF00789BD1 /* mongo-objc-driver.xcodeproj */,
 				02216EAC14128CBF00789BD1 /* mongo-test */,
 				02216EB014128CBF00789BD1 /* README */,
 				02216EB114128CBF00789BD1 /* Sources */,
@@ -701,15 +690,6 @@
 			path = "mongo-c-driver";
 			sourceTree = "<group>";
 		};
-		02216EAA14128CBF00789BD1 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				02216EC214128CBF00789BD1 /* mongo-objc-driver.framework */,
-				02216EC414128CBF00789BD1 /* mongo-test */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		02216EAC14128CBF00789BD1 /* mongo-test */ = {
 			isa = PBXGroup;
 			children = (
@@ -726,6 +706,9 @@
 				02216EB214128CBF00789BD1 /* InfoPlist.strings */,
 				02216EB414128CBF00789BD1 /* MOD_internal.h */,
 				02216EB514128CBF00789BD1 /* MODCollection.h */,
+				021DB3851425819D0033E77C /* MODCursor.h */,
+				021DB3861425819D0033E77C /* MODCursor.m */,
+				021DB3871425819D0033E77C /* MODServer_utils.m */,
 				02216EB614128CBF00789BD1 /* MODCollection.m */,
 				02216EB714128CBF00789BD1 /* MODDatabase.h */,
 				02216EB814128CBF00789BD1 /* MODDatabase.m */,
@@ -1191,12 +1174,6 @@
 			);
 			mainGroup = 29B97314FDCFA39411CA2CEA /* MongoHub */;
 			projectDirPath = "";
-			projectReferences = (
-				{
-					ProductGroup = 02216EAA14128CBF00789BD1 /* Products */;
-					ProjectRef = 02216EA914128CBF00789BD1 /* mongo-objc-driver.xcodeproj */;
-				},
-			);
 			projectRoot = "";
 			targets = (
 				8D1107260486CEB800E47090 /* MongoHub */,
@@ -1205,23 +1182,6 @@
 			);
 		};
 /* End PBXProject section */
-
-/* Begin PBXReferenceProxy section */
-		02216EC214128CBF00789BD1 /* mongo-objc-driver.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = "mongo-objc-driver.framework";
-			remoteRef = 02216EC114128CBF00789BD1 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		02216EC414128CBF00789BD1 /* mongo-test */ = {
-			isa = PBXReferenceProxy;
-			fileType = "compiled.mach-o.executable";
-			path = "mongo-test";
-			remoteRef = 02216EC314128CBF00789BD1 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		797A78350DDCFADE0050D0C2 /* Resources */ = {
@@ -1388,6 +1348,8 @@
 				02216ECE14128D1200789BD1 /* MODQuery.m in Sources */,
 				02216ECF14128D1200789BD1 /* MODServer.m in Sources */,
 				02216F651412D6FE00789BD1 /* json.c in Sources */,
+				021DB3881425819D0033E77C /* MODCursor.m in Sources */,
+				021DB3891425819D0033E77C /* MODServer_utils.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

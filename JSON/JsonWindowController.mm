@@ -11,15 +11,13 @@
 #import "NSProgressIndicator+Extras.h"
 #import "DatabasesArrayController.h"
 #import "Connection.h"
-#import "MongoDB.h"
 #import "NSString+Extras.h"
-#import "MongoCollection.h"
 
 @implementation JsonWindowController
 @synthesize managedObjectContext;
 @synthesize databasesArrayController;
-@synthesize mongoDB;
-@synthesize mongoCollection = _mongoCollection;
+@synthesize mongoServer;
+@synthesize mongoCollection;
 @synthesize conn;
 @synthesize dbname;
 @synthesize collectionname;
@@ -35,8 +33,8 @@
     [managedObjectContext release];
     [databasesArrayController release];
     [conn release];
-    [mongoDB release];
-    [_mongoCollection release];
+    [mongoServer release];
+    [mongoCollection release];
     [dbname release];
     [collectionname release];
     [jsonDict release];
@@ -119,7 +117,7 @@
 
 -(IBAction) save:(id)sender
 {
-    MongoQuery *query;
+    MODQuery *query;
     NSString *recordId = nil;
     
     [status setStringValue: @"Saving..."];
@@ -131,7 +129,7 @@
     }else {
         recordId = [[NSString alloc] initWithFormat:@"\"%@\"", [jsonDict objectForKey:@"value"]];
     }
-    query = [_mongoCollection saveJsonString:[myTextView string] withRecordId:recordId];
+    query = [mongoCollection saveJsonString:[myTextView string] withRecordId:recordId];
     [query addCallbackWithTarget:self];
     [progress stopAnimation: self];
     [recordId release];
@@ -141,7 +139,7 @@
     [[NSNotificationCenter defaultCenter] postNotificationName:kJsonWindowSaved object:nil];
 }
 
-- (void)mongoQueryDidFinish:(MongoQuery *)mongoQuery
+- (void)mongoQueryDidFinish:(MODQuery *)mongoQuery
 {
     
 }

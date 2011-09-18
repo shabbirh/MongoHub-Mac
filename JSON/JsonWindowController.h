@@ -12,8 +12,8 @@
 
 @class DatabasesArrayController;
 @class Connection;
-@class MongoDB;
-@class MongoCollection;
+@class MODServer;
+@class MODCollection;
 
 #ifndef UKSCTD_DEFAULT_TEXTENCODING
 #define UKSCTD_DEFAULT_TEXTENCODING		NSUTF8StringEncoding
@@ -24,8 +24,8 @@
     NSManagedObjectContext *managedObjectContext;
     DatabasesArrayController *databasesArrayController;
     Connection *conn;
-    MongoDB *mongoDB;
-    MongoCollection *_mongoCollection;
+    MODServer *mongoServer;
+    MODCollection *mongoCollection;
     NSString *dbname;
     NSString *collectionname;
     NSDictionary *jsonDict;
@@ -37,13 +37,13 @@
 
 @property (nonatomic, retain) NSManagedObjectContext *managedObjectContext;
 @property (nonatomic, retain) DatabasesArrayController *databasesArrayController;
-@property (nonatomic, retain) MongoDB *mongoDB;
+@property (nonatomic, retain) MODServer *mongoServer;
 @property (nonatomic, retain) NSString *dbname;
 @property (nonatomic, retain) NSString *collectionname;
 @property (nonatomic, retain) Connection *conn;
 @property (nonatomic, retain) NSDictionary *jsonDict;
 @property (nonatomic, retain) NSTextView *myTextView;
-@property (nonatomic, readwrite, retain) MongoCollection *mongoCollection;
+@property (nonatomic, readwrite, retain) MODCollection *mongoCollection;
 
 -(IBAction) save:(id)sender;
 -(IBAction)	recolorCompleteFile: (id)sender;

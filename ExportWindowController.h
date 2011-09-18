@@ -7,12 +7,11 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#undef check
-#import <mongo/client/dbclient.h>
 @class Connection;
 @class DatabasesArrayController;
 @class MCPConnection;
 @class MODServer;
+@class MODCollection;
 @class FieldMapTableController;
 
 @interface ExportWindowController : NSWindowController {
@@ -21,6 +20,7 @@
     NSString *dbname;
     Connection *conn;
     MODServer *mongoServer;
+    MODCollection *mongoCollection;
     MCPConnection *db;
     IBOutlet NSArrayController *dbsArrayController;
     IBOutlet NSArrayController *tablesArrayController;
@@ -37,6 +37,7 @@
 @property (nonatomic, retain) Connection *conn;
 @property (nonatomic, retain) MCPConnection *db;
 @property (nonatomic, retain) MODServer *mongoServer;
+@property (nonatomic, retain) MODCollection *mongoCollection;
 @property (nonatomic, retain) DatabasesArrayController *databasesArrayController;
 @property (nonatomic, retain) NSManagedObjectContext *managedObjectContext;
 @property (nonatomic, retain) NSString *dbname;
@@ -57,5 +58,5 @@
 - (IBAction)showTables:(id)sender;
 - (IBAction)showFields:(id)sender;
 - (int64_t)exportCount:(NSString *)collection user:(NSString *)user password:(NSString *)password;
-- (void)doExportToTable:(NSString *)tableName data:(mongo::BSONObj) bsonObj fieldTypes:(NSDictionary *)fieldTypes;
+- (void)doExportToTable:(NSString *)tableName data:(id)bsonObj fieldTypes:(NSDictionary *)fieldTypes;
 @end

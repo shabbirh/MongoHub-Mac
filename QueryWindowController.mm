@@ -196,18 +196,20 @@
 - (IBAction)findQuery:(id)sender
 {
     int limit = [limitTextField intValue];
-    MODQuery *countQuery;
-    MODQuery *findQuery;
+    NSArray *fields;
+    NSString *criteria;
     
     if (limit <= 0) {
         limit = 30;
     }
-    findQuery = [mongoCollection findWithCriteria:[self formatedQuery] fields:[fieldsTextField stringValue] skip:[skipTextField intValue] limit:limit sort:[sortTextField stringValue]];
-    countQuery = [mongoCollection countWithCriteria:[self formatedQuery] ];
-    [countQuery.userInfo setObject:@"Total Results: %lld (%0.2fs)" forKey:@"title"];
-    [countQuery.userInfo setObject:totalResultsTextField forKey:@"textfield"];
-    [countQuery.userInfo setObject:findQuery forKey:@"timequery"];
+    criteria = [self formatedQuery];
+    fields = [[fieldsTextField stringValue] componentsSeparatedByString:@","];
     [findQueryLoaderIndicator start];
+    [mongoCollection findWithCriteria:criteria fields:fields skip:[skipTextField intValue] limit:limit sort:[sortTextField stringValue] callback:^(NSArray *documents, MODQuery *mongoQuery) {
+        [mongoCollection countWithCriteria:criteria callback:^(int64_t count, MODQuery *) {
+            [totalResultsTextField setStringValue:[NSString stringWithFormat:@"Total Results: %lld (%0.2fs)", count, [[mongoQuery.userInfo objectForKey:@"timequery"] duration]]];
+        }];
+    }];
 }
 
 - (IBAction)expandFindResults:(id)sender
@@ -222,157 +224,99 @@
 
 - (IBAction)updateQuery:(id)sender
 {
-    MODQuery *countQuery;
-    NSString *query = [updateCriticalTextField stringValue];
-    NSString *fields = [updateSetTextField stringValue];
+    NSString *criteria = [updateCriticalTextField stringValue];
     
     [updateQueryLoaderIndicator start];
-    countQuery = [mongoCollection countWithCriteria:query];
-    [countQuery.userInfo setObject:@"Affected Rows: %lld" forKey:@"title"];
-    [countQuery.userInfo setObject:updateResultsTextField forKey:@"textfield"];
-    [mongoCollection updateWithQuery:query fields:fields upset:[upsetCheckBox state]];
+    [mongoCollection countWithCriteria:criteria callback:^(int64_t count, MODQuery *) {
+        [updateResultsTextField setStringValue:[NSString stringWithFormat:@"Affected Rows: %lld", count]];
+    }];
+    [mongoCollection updateWithCriteria:criteria update:[updateSetTextField stringValue] upsert:[upsetCheckBox state] multiUpdate:YES callback:^(MODQuery *mongoQuery) {
+        [updateQueryLoaderIndicator stop];
+    }];
 }
 
 - (IBAction)removeQuery:(id)sender
 {
-    [NSThread detachNewThreadSelector:@selector(doRemoveQuery) toTarget:self withObject:nil];
-}
-
-- (IBAction)doRemoveQuery {
-    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
     [removeQueryLoaderIndicator start];
-    NSString *user=nil;
-    NSString *password=nil;
-    Database *db = [databasesArrayController dbInfo:conn name:mongoCollection.databaseName];
-    if (db) {
-        user = db.user;
-        password = db.password;
-    }
-    NSString *critical = [removeCriticalTextField stringValue];
-    MODQuery *query = [mongoCollection countWithCriteria:critical];
-    [query waitUntilFinished];
-    long long int total = [[query.parameters objectForKey:@"count"] longLongValue];
-    [mongoCollection removeWithCriteria:critical];
-    [removeResultsTextField setStringValue:[NSString stringWithFormat:@"Affected Rows: %lld", total]];
-    [removeQueryLoaderIndicator stop];
-    [pool drain];
-    [NSThread exit];
+    NSString *criteria = [removeCriticalTextField stringValue];
+    
+    [mongoCollection countWithCriteria:criteria callback:^(int64_t count, MODQuery *) {
+        [updateResultsTextField setStringValue:[NSString stringWithFormat:@"Affected Rows: %lld", count]];
+    }];
+    [mongoCollection removeWithCriteria:criteria callback:^(MODQuery *mongoQuery) {
+        [removeQueryLoaderIndicator stop];
+    }];
 }
 
 - (IBAction) insertQuery:(id)sender
 {
-    [NSThread detachNewThreadSelector:@selector(doInsertQuery) toTarget:self withObject:nil];
-}
-
-- (void)doInsertQuery {
-    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
     [insertLoaderIndicator start];
-    NSString *user=nil;
-    NSString *password=nil;
-    Database *db = [databasesArrayController dbInfo:conn name:mongoCollection.databaseName];
-    if (db) {
-        user = db.user;
-        password = db.password;
-    }
     NSString *insertData = [insertDataTextView string];
-    [mongoCollection insertInDB:mongoCollection.databaseName 
-             collection:mongoCollection.collectionName 
-                   user:user 
-               password:password 
-             insertData:insertData];
-    [insertResultsTextField setStringValue:@"Completed!"];
-    [insertLoaderIndicator stop];
-    [pool drain];
-    [NSThread exit];
+    [mongoCollection insertWithDocuments:[NSArray arrayWithObjects:insertData, nil] callback:^(MODQuery *mongoQuery) {
+        [insertResultsTextField setStringValue:@"Completed!"];
+        [insertLoaderIndicator stop];
+    }];
 }
 
 - (IBAction) indexQuery:(id)sender
 {
-    [NSThread detachNewThreadSelector:@selector(doIndexQuery) toTarget:self withObject:nil];
-}
-
-- (void)doIndexQuery {
-    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-    [indexLoaderIndicator start];
-    NSString *user=nil;
-    NSString *password=nil;
-    Database *db = [databasesArrayController dbInfo:conn name:mongoCollection.databaseName];
-    if (db) {
-        user = db.user;
-        password = db.password;
-    }
-    NSMutableArray *results = [[NSMutableArray alloc] initWithArray:[mongoCollection indexInDB:mongoCollection.databaseName 
-                                                                            collection:mongoCollection.collectionName 
-                                                                                  user:user 
-                                                                              password:password]];
-    indexesOutlineViewController.results = results;
-    [indexesOutlineViewController.myOutlineView reloadData];
-    [results release];
-    [indexLoaderIndicator stop];
-    [pool drain];
-    [NSThread exit];
+//    [indexLoaderIndicator start];
+//    NSString *user=nil;
+//    NSString *password=nil;
+//    Database *db = [databasesArrayController dbInfo:conn name:mongoCollection.databaseName];
+//    if (db) {
+//        user = db.user;
+//        password = db.password;
+//    }
+//    NSMutableArray *results = [[NSMutableArray alloc] initWithArray:[mongoCollection indexInDB:mongoCollection.databaseName 
+//                                                                            collection:mongoCollection.collectionName 
+//                                                                                  user:user 
+//                                                                              password:password]];
+//    indexesOutlineViewController.results = results;
+//    [indexesOutlineViewController.myOutlineView reloadData];
+//    [results release];
+//    [indexLoaderIndicator stop];
 }
 
 - (IBAction) ensureIndex:(id)sender
 {
-    [NSThread detachNewThreadSelector:@selector(doEnsureIndex) toTarget:self withObject:nil];
-}
-
-- (void) doEnsureIndex {
-    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-    [indexLoaderIndicator start];
-    NSString *indexData = [indexTextField stringValue];
+//    [indexLoaderIndicator start];
+//    NSString *indexData = [indexTextField stringValue];
 //    [mongoCollection ensureIndexInDB:mongoCollection.databaseName 
 //                  collection:mongoCollection.collectionName 
 //                        user:user 
 //                    password:password 
 //                   indexData:indexData];
-    [self indexQuery:nil];
-    [indexLoaderIndicator stop];
-    [pool drain];
-    [NSThread exit];
+//    [self indexQuery:nil];
+//    [indexLoaderIndicator stop];
 }
 
 
 - (IBAction) reIndex:(id)sender
 {
-    [NSThread detachNewThreadSelector:@selector(doReIndex) toTarget:self withObject:nil];
-}
-
-- (void) doReIndex {
-    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-    [indexLoaderIndicator start];
+//    [indexLoaderIndicator start];
 //    [mongoCollection reIndexInDB:mongoCollection.databaseName 
 //              collection:mongoCollection.collectionName 
 //                    user:user 
 //                password:password];
-    [self indexQuery:nil];
-    [indexLoaderIndicator stop];
-    [pool drain];
-    [NSThread exit];
+//    [self indexQuery:nil];
+//    [indexLoaderIndicator stop];
 }
 
 
 - (IBAction) dropIndex:(id)sender
 {
-    [NSThread detachNewThreadSelector:@selector(doDropIndex) toTarget:self withObject:nil];
-}
-
-- (void) doDropIndex {
-    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-    [indexLoaderIndicator start];
-    NSString *user=nil;
-    NSString *password=nil;
-    NSString *indexName = [indexTextField stringValue];
+//    [indexLoaderIndicator start];
+//    NSString *user=nil;
+//    NSString *password=nil;
+//    NSString *indexName = [indexTextField stringValue];
 //    [mongoCollection dropIndexInDB:mongoCollection.databaseName 
 //                collection:mongoCollection.collectionName 
 //                      user:user 
 //                  password:password 
 //                 indexName:indexName];
-    [self indexQuery:nil];
-    [indexLoaderIndicator stop];
-    [pool drain];
-    [NSThread exit];
+//    [self indexQuery:nil];
+//    [indexLoaderIndicator stop];
 }
 
 - (IBAction) mapReduce:(id)sender
@@ -426,98 +370,98 @@
 
 - (void)doExport
 {
-    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-    std::auto_ptr<std::ofstream> fileStream;
-    std::ofstream * s = new std::ofstream( [[expPathTextField stringValue] UTF8String] , std::ios_base::out );
-    fileStream.reset( s );
-    std::ostream *outPtr = &std::cout;
-    outPtr = s;
-    if ( ! s->good() ) {
-        NSRunAlertPanel(@"Error", [NSString stringWithFormat:@"Couldn't open [%@]", [expPathTextField stringValue]], @"OK", nil, nil);
-    }
-    std::ostream &out = *outPtr;
-    bool _jsonArray = false;
-    if ([expJsonArrayCheckBox state] == 1) {
-        _jsonArray = true;
-    }
-    unsigned int exportType = [[expTypePopUpButton selectedItem] tag];
-    [expResultsTextField setStringValue:@"Start exporting"];
-    NSString *user=nil;
-    NSString *password=nil;
-    Database *db = [databasesArrayController dbInfo:conn name:mongoCollection.databaseName];
-    if (db) {
-        user = db.user;
-        password = db.password;
-    }
-    NSString *critical = [expCriticalTextField stringValue];
-    NSString *fields = [expFieldsTextField stringValue];
-    NSString *sort = [expSortTextField stringValue];
-    NSNumber *skip = [NSNumber numberWithInt:[expSkipTextField intValue]];
-    NSNumber *limit = [NSNumber numberWithInt:[expLimitTextField intValue]];
-    MODQuery *query = [mongoCollection countWithCriteria:critical];
-    [query waitUntilFinished];
-    long long int total = [[query.parameters objectForKey:@"count"] longLongValue];
-    if (total == 0) {
-        [expResultsTextField setStringValue:@"No data to export!"];
-        return;
-    }
-    
-    if ( exportType == 1 ) {
-        out << [fields UTF8String] << std::endl;
-    }else if (_jsonArray) {
-        out << '[';
-    }
-
-    
-    [expProgressIndicator setUsesThreadedAnimation:YES];
-    [expProgressIndicator startAnimation: self];
-    [expProgressIndicator setDoubleValue:0];
-    std::auto_ptr<mongo::DBClientCursor> cursor = [mongoCollection findCursorInDB:mongoCollection.databaseName 
-                                                               collection:mongoCollection.collectionName 
-                                                                     user:user 
-                                                                 password:password 
-                                                                 critical:critical 
-                                                                   fields:fields 
-                                                                     skip:skip 
-                                                                    limit:limit
-                                                                     sort:sort];
-    unsigned int i = 1;
-    while( cursor->more() )
-    {
-        mongo::BSONObj obj = cursor->next();
-        if ( exportType == 1 ) {
-            NSArray *keys = [[NSArray alloc] initWithArray:[fields componentsSeparatedByString:@","]];
-            unsigned int fieldIndex = 0;
-            for (NSString *str in keys) {
-                if (fieldIndex > 0) {
-                    out << ",";
-                }
-                const mongo::BSONElement & e = obj.getFieldDotted([str UTF8String]);
-                if ( ! e.eoo() ) {
-                    out << e.jsonString( mongo::TenGen , false );
-                }
-                fieldIndex ++;
-            }
-            [keys release];
-            out << std::endl;
-        }else {
-            if (_jsonArray && i != 1)
-                out << ',';
-            out << obj.jsonString();
-            if (!_jsonArray)
-            {
-                out << std::endl;
-            }
-        }
-        [expProgressIndicator setDoubleValue:(double)i/total*100];
-        i ++;
-    }
-    if ( exportType == 1 && _jsonArray) 
-        out << ']' << std::endl;
-    [expProgressIndicator stopAnimation: self];
-    [expResultsTextField setStringValue:[NSString stringWithFormat:@"Exported %d records.", total]];
-    [pool drain];
-    [NSThread exit];
+//    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+//    std::auto_ptr<std::ofstream> fileStream;
+//    std::ofstream * s = new std::ofstream( [[expPathTextField stringValue] UTF8String] , std::ios_base::out );
+//    fileStream.reset( s );
+//    std::ostream *outPtr = &std::cout;
+//    outPtr = s;
+//    if ( ! s->good() ) {
+//        NSRunAlertPanel(@"Error", [NSString stringWithFormat:@"Couldn't open [%@]", [expPathTextField stringValue]], @"OK", nil, nil);
+//    }
+//    std::ostream &out = *outPtr;
+//    bool _jsonArray = false;
+//    if ([expJsonArrayCheckBox state] == 1) {
+//        _jsonArray = true;
+//    }
+//    unsigned int exportType = [[expTypePopUpButton selectedItem] tag];
+//    [expResultsTextField setStringValue:@"Start exporting"];
+//    NSString *user=nil;
+//    NSString *password=nil;
+//    Database *db = [databasesArrayController dbInfo:conn name:mongoCollection.databaseName];
+//    if (db) {
+//        user = db.user;
+//        password = db.password;
+//    }
+//    NSString *critical = [expCriticalTextField stringValue];
+//    NSString *fields = [expFieldsTextField stringValue];
+//    NSString *sort = [expSortTextField stringValue];
+//    NSNumber *skip = [NSNumber numberWithInt:[expSkipTextField intValue]];
+//    NSNumber *limit = [NSNumber numberWithInt:[expLimitTextField intValue]];
+//    MODQuery *query = [mongoCollection countWithCriteria:critical];
+//    [query waitUntilFinished];
+//    long long int total = [[query.parameters objectForKey:@"count"] longLongValue];
+//    if (total == 0) {
+//        [expResultsTextField setStringValue:@"No data to export!"];
+//        return;
+//    }
+//    
+//    if ( exportType == 1 ) {
+//        out << [fields UTF8String] << std::endl;
+//    }else if (_jsonArray) {
+//        out << '[';
+//    }
+//
+//    
+//    [expProgressIndicator setUsesThreadedAnimation:YES];
+//    [expProgressIndicator startAnimation: self];
+//    [expProgressIndicator setDoubleValue:0];
+//    std::auto_ptr<mongo::DBClientCursor> cursor = [mongoCollection findCursorInDB:mongoCollection.databaseName 
+//                                                               collection:mongoCollection.collectionName 
+//                                                                     user:user 
+//                                                                 password:password 
+//                                                                 critical:critical 
+//                                                                   fields:fields 
+//                                                                     skip:skip 
+//                                                                    limit:limit
+//                                                                     sort:sort];
+//    unsigned int i = 1;
+//    while( cursor->more() )
+//    {
+//        mongo::BSONObj obj = cursor->next();
+//        if ( exportType == 1 ) {
+//            NSArray *keys = [[NSArray alloc] initWithArray:[fields componentsSeparatedByString:@","]];
+//            unsigned int fieldIndex = 0;
+//            for (NSString *str in keys) {
+//                if (fieldIndex > 0) {
+//                    out << ",";
+//                }
+//                const mongo::BSONElement & e = obj.getFieldDotted([str UTF8String]);
+//                if ( ! e.eoo() ) {
+//                    out << e.jsonString( mongo::TenGen , false );
+//                }
+//                fieldIndex ++;
+//            }
+//            [keys release];
+//            out << std::endl;
+//        }else {
+//            if (_jsonArray && i != 1)
+//                out << ',';
+//            out << obj.jsonString();
+//            if (!_jsonArray)
+//            {
+//                out << std::endl;
+//            }
+//        }
+//        [expProgressIndicator setDoubleValue:(double)i/total*100];
+//        i ++;
+//    }
+//    if ( exportType == 1 && _jsonArray) 
+//        out << ']' << std::endl;
+//    [expProgressIndicator stopAnimation: self];
+//    [expResultsTextField setStringValue:[NSString stringWithFormat:@"Exported %d records.", total]];
+//    [pool drain];
+//    [NSThread exit];
 }
 
 - (IBAction) import:(id)sender
@@ -536,153 +480,153 @@
 
 - (void)doImport
 {
-    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-    [impProgressIndicator setUsesThreadedAnimation:YES];
-    [impProgressIndicator startAnimation: self];
-    [impProgressIndicator setDoubleValue:0];
-    
-    long long fileSize = 0;
-    std::istream * in = &std::cin;
-    std::ifstream file( [[impPathTextField stringValue] UTF8String] , std::ios_base::in);
-    in = &file;
-    fileSize = boost::filesystem::file_size( [[impPathTextField stringValue] UTF8String] );
-    bool _ignoreBlanks = false;
-    bool _headerLine = false;
-    bool _jsonArray = false;
-    bool _stopOnError = false;
-    if ([impHeaderlineCheckBox state] == 1)
-    {
-        _headerLine = true;
-    }
-    if ([impJsonArrayCheckBox state] == 1) {
-        _jsonArray = true;
-    }
-    if ([impStopOnErrorCheckBox state] == 1) {
-        _stopOnError = true;
-    }
-    unsigned int _type = [[impTypePopUpButton selectedItem] tag];
-    std::string _sep;
-    if (_type == 1)
-    {
-        _sep = ",";
-    }else if(_type == 2){
-        _sep = "\t";
-    }
-    std::vector<std::string> _fields;
-    if (!_headerLine && [[impFieldsTextField stringValue] isPresent])
-    {
-        
-        NSArray *keys = [[NSArray alloc] initWithArray:[[impFieldsTextField stringValue] componentsSeparatedByString:@","]];
-        for (NSString *str in keys) {
-            _fields.push_back([str UTF8String]);
-        }
-        [keys release];
-    }
-    
-    if (_type!=0 && !_headerLine && _fields.empty())
-    {
-        NSRunAlertPanel(@"Error", @"Please check headerline", @"OK", nil, nil);
-        return;
-    }
-    
-    
-    NSString *user=nil;
-    NSString *password=nil;
-    Database *db = [databasesArrayController dbInfo:conn name:mongoCollection.databaseName];
-    if (db) {
-        user = db.user;
-        password = db.password;
-    }
-    
-    if ([impDropCheckBox state] == 1)
-    {
-        [[mongoCollection dropCollectionWithName:mongoCollection.collectionName databaseName:mongoCollection.databaseName userName:user password:password] waitUntilFinished];
-    }
-    
-    if ([impIgnoreBlanksCheckBox state] == 1)
-    {
-        _ignoreBlanks = true;
-    }
-    
-    int errors = 0;
-    int num = 0;
-    const int BUF_SIZE = 1024 * 1024 * 4;
-    boost::scoped_array<char> line(new char[BUF_SIZE+2]);
-    char * buf = line.get();
-    while ( _jsonArray || in->rdstate() == 0 ) {
-        if (_jsonArray) {
-            if (buf == line.get()) { //first pass
-                in->read(buf, BUF_SIZE);
-                if (!(in->rdstate() & std::ios_base::eofbit))
-                {
-                    NSRunAlertPanel(@"Error", @"JSONArray file too large", @"OK", nil, nil);
-                    return;
-                }
-                buf[ in->gcount() ] = '\0';
-            }
-        }else {
-            buf = line.get();
-            in->getline( buf , BUF_SIZE );
-        }
-        if (!((!(in->rdstate() & std::ios_base::badbit)) && (!(in->rdstate() & std::ios_base::failbit) || (in->rdstate() & std::ios_base::eofbit))))
-        {
-            NSRunAlertPanel(@"Error", @"unknown error reading file", @"OK", nil, nil);
-            return;
-        }
-        
-        if (strncmp("\xEF\xBB\xBF", buf, 3) == 0) { // UTF-8 BOM (notepad is stupid)
-            buf += 3;
-        }
-        
-        if (_jsonArray) {
-            while (buf[0] != '{' && buf[0] != '\0') {
-                buf++;
-            }
-            if (buf[0] == '\0')
-                break;
-        }else {
-            while (std::isspace( buf[0] )) {
-                buf++;
-            }
-            if (buf[0] == '\0')
-                continue;
-        }
-        
-        try {
-            mongo::BSONObj o;
-            if (_jsonArray) {
-                int jslen;
-                o = mongo::fromjson(buf, &jslen);
-                buf += jslen;
-            }else {
-                o = [self parseCSVLine:buf type:_type sep:_sep.c_str() headerLine:_headerLine ignoreBlanks:_ignoreBlanks fields:_fields];NSLog(@"%@", [NSString stringWithUTF8String:o.jsonString( mongo::TenGen , false ).c_str()]);
-            }
-            if ( _headerLine ) {
-                _headerLine = false;
-            }else{
-                [mongoCollection insertInDB:mongoCollection.databaseName 
-                             collection:mongoCollection.collectionName 
-                                   user:user 
-                               password:password 
-                             insertData:[NSString stringWithUTF8String:o.jsonString( mongo::TenGen , false ).c_str()]
-                 ];
-            }
-            
-            num++;
-        }catch ( std::exception& e ) {
-            std::cout << "exception:" << e.what() << std::endl;
-            std::cout << buf << std::endl;
-            errors++;
-            
-            if (_stopOnError || _jsonArray)
-                break;
-        }
-    }
-    
-    [impProgressIndicator stopAnimation: self];
-    [impResultsTextField setStringValue:[NSString stringWithFormat:@"Imported %d records, %d failed", num, errors]];
-    [pool drain];
-    [NSThread exit];
+//    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+//    [impProgressIndicator setUsesThreadedAnimation:YES];
+//    [impProgressIndicator startAnimation: self];
+//    [impProgressIndicator setDoubleValue:0];
+//    
+//    long long fileSize = 0;
+//    std::istream * in = &std::cin;
+//    std::ifstream file( [[impPathTextField stringValue] UTF8String] , std::ios_base::in);
+//    in = &file;
+//    fileSize = boost::filesystem::file_size( [[impPathTextField stringValue] UTF8String] );
+//    bool _ignoreBlanks = false;
+//    bool _headerLine = false;
+//    bool _jsonArray = false;
+//    bool _stopOnError = false;
+//    if ([impHeaderlineCheckBox state] == 1)
+//    {
+//        _headerLine = true;
+//    }
+//    if ([impJsonArrayCheckBox state] == 1) {
+//        _jsonArray = true;
+//    }
+//    if ([impStopOnErrorCheckBox state] == 1) {
+//        _stopOnError = true;
+//    }
+//    unsigned int _type = [[impTypePopUpButton selectedItem] tag];
+//    std::string _sep;
+//    if (_type == 1)
+//    {
+//        _sep = ",";
+//    }else if(_type == 2){
+//        _sep = "\t";
+//    }
+//    std::vector<std::string> _fields;
+//    if (!_headerLine && [[impFieldsTextField stringValue] isPresent])
+//    {
+//        
+//        NSArray *keys = [[NSArray alloc] initWithArray:[[impFieldsTextField stringValue] componentsSeparatedByString:@","]];
+//        for (NSString *str in keys) {
+//            _fields.push_back([str UTF8String]);
+//        }
+//        [keys release];
+//    }
+//    
+//    if (_type!=0 && !_headerLine && _fields.empty())
+//    {
+//        NSRunAlertPanel(@"Error", @"Please check headerline", @"OK", nil, nil);
+//        return;
+//    }
+//    
+//    
+//    NSString *user=nil;
+//    NSString *password=nil;
+//    Database *db = [databasesArrayController dbInfo:conn name:mongoCollection.databaseName];
+//    if (db) {
+//        user = db.user;
+//        password = db.password;
+//    }
+//    
+//    if ([impDropCheckBox state] == 1)
+//    {
+//        [[mongoCollection dropCollectionWithName:mongoCollection.collectionName databaseName:mongoCollection.databaseName userName:user password:password] waitUntilFinished];
+//    }
+//    
+//    if ([impIgnoreBlanksCheckBox state] == 1)
+//    {
+//        _ignoreBlanks = true;
+//    }
+//    
+//    int errors = 0;
+//    int num = 0;
+//    const int BUF_SIZE = 1024 * 1024 * 4;
+//    boost::scoped_array<char> line(new char[BUF_SIZE+2]);
+//    char * buf = line.get();
+//    while ( _jsonArray || in->rdstate() == 0 ) {
+//        if (_jsonArray) {
+//            if (buf == line.get()) { //first pass
+//                in->read(buf, BUF_SIZE);
+//                if (!(in->rdstate() & std::ios_base::eofbit))
+//                {
+//                    NSRunAlertPanel(@"Error", @"JSONArray file too large", @"OK", nil, nil);
+//                    return;
+//                }
+//                buf[ in->gcount() ] = '\0';
+//            }
+//        }else {
+//            buf = line.get();
+//            in->getline( buf , BUF_SIZE );
+//        }
+//        if (!((!(in->rdstate() & std::ios_base::badbit)) && (!(in->rdstate() & std::ios_base::failbit) || (in->rdstate() & std::ios_base::eofbit))))
+//        {
+//            NSRunAlertPanel(@"Error", @"unknown error reading file", @"OK", nil, nil);
+//            return;
+//        }
+//        
+//        if (strncmp("\xEF\xBB\xBF", buf, 3) == 0) { // UTF-8 BOM (notepad is stupid)
+//            buf += 3;
+//        }
+//        
+//        if (_jsonArray) {
+//            while (buf[0] != '{' && buf[0] != '\0') {
+//                buf++;
+//            }
+//            if (buf[0] == '\0')
+//                break;
+//        }else {
+//            while (std::isspace( buf[0] )) {
+//                buf++;
+//            }
+//            if (buf[0] == '\0')
+//                continue;
+//        }
+//        
+//        try {
+//            mongo::BSONObj o;
+//            if (_jsonArray) {
+//                int jslen;
+//                o = mongo::fromjson(buf, &jslen);
+//                buf += jslen;
+//            }else {
+//                o = [self parseCSVLine:buf type:_type sep:_sep.c_str() headerLine:_headerLine ignoreBlanks:_ignoreBlanks fields:_fields];NSLog(@"%@", [NSString stringWithUTF8String:o.jsonString( mongo::TenGen , false ).c_str()]);
+//            }
+//            if ( _headerLine ) {
+//                _headerLine = false;
+//            }else{
+//                [mongoCollection insertInDB:mongoCollection.databaseName 
+//                             collection:mongoCollection.collectionName 
+//                                   user:user 
+//                               password:password 
+//                             insertData:[NSString stringWithUTF8String:o.jsonString( mongo::TenGen , false ).c_str()]
+//                 ];
+//            }
+//            
+//            num++;
+//        }catch ( std::exception& e ) {
+//            std::cout << "exception:" << e.what() << std::endl;
+//            std::cout << buf << std::endl;
+//            errors++;
+//            
+//            if (_stopOnError || _jsonArray)
+//                break;
+//        }
+//    }
+//    
+//    [impProgressIndicator stopAnimation: self];
+//    [impResultsTextField setStringValue:[NSString stringWithFormat:@"Imported %d records, %d failed", num, errors]];
+//    [pool drain];
+//    [NSThread exit];
 }
 
 - (IBAction)removeRecord:(id)sender

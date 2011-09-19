@@ -37,6 +37,7 @@
 		02216ECE14128D1200789BD1 /* MODQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = 02216EBA14128CBF00789BD1 /* MODQuery.m */; };
 		02216ECF14128D1200789BD1 /* MODServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 02216EBC14128CBF00789BD1 /* MODServer.m */; };
 		02216F651412D6FE00789BD1 /* json.c in Sources */ = {isa = PBXBuildFile; fileRef = 02216F361412D6C400789BD1 /* json.c */; };
+		024F67901427F3DE00956BF6 /* MODHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 024F678F1427F3DE00956BF6 /* MODHelper.m */; };
 		026B2DE513BB6FB8009BEA7B /* RegexKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 026B2DE413BB6FB8009BEA7B /* RegexKit.framework */; };
 		02FCD3CF13BB9EA400316A9F /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 02FCD3CE13BB9EA400316A9F /* Sparkle.framework */; };
 		02FCD3D813BBA4A300316A9F /* MCPKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 02FCD3D713BBA4A300316A9F /* MCPKit.framework */; };
@@ -338,6 +339,8 @@
 		02216F5E1412D6C500789BD1 /* multiobj.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = multiobj.json; sourceTree = "<group>"; };
 		02216F5F1412D6C500789BD1 /* yaml-comment.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "yaml-comment.json"; sourceTree = "<group>"; };
 		02216F601412D6C500789BD1 /* runtest */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = runtest; sourceTree = "<group>"; };
+		024F678E1427F3DE00956BF6 /* MODHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MODHelper.h; sourceTree = "<group>"; };
+		024F678F1427F3DE00956BF6 /* MODHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MODHelper.m; sourceTree = "<group>"; };
 		026B2DE413BB6FB8009BEA7B /* RegexKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = RegexKit.framework; sourceTree = "<group>"; };
 		02FCD3CE13BB9EA400316A9F /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Sparkle.framework; sourceTree = "<group>"; };
 		02FCD3D713BBA4A300316A9F /* MCPKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = MCPKit.framework; sourceTree = "<group>"; };
@@ -1008,6 +1011,8 @@
 				1D64100112C8E16C0030AA4C /* NSArray+Color.m */,
 				1D64100312C8E1C00030AA4C /* NSScanner+SkipUpToCharset.h */,
 				1D64100412C8E1C00030AA4C /* NSScanner+SkipUpToCharset.m */,
+				024F678E1427F3DE00956BF6 /* MODHelper.h */,
+				024F678F1427F3DE00956BF6 /* MODHelper.m */,
 			);
 			name = Helpers;
 			sourceTree = "<group>";
@@ -1350,6 +1355,7 @@
 				02216F651412D6FE00789BD1 /* json.c in Sources */,
 				021DB3881425819D0033E77C /* MODCursor.m in Sources */,
 				021DB3891425819D0033E77C /* MODServer_utils.m in Sources */,
+				024F67901427F3DE00956BF6 /* MODHelper.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

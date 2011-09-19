@@ -19,6 +19,7 @@
 #import "MODServer.h"
 #import "MODCollection.h"
 #import "MODDatabase.h"
+#import "MODHelper.h"
 
 @implementation QueryWindowController
 
@@ -184,7 +185,7 @@
 
 - (void)windowDidLoad {
     [super windowDidLoad];
-    NSString *title = [[NSString alloc] initWithFormat:@"Query in %@.%@", mongoCollection.databaseName, mongoCollection.collectionName];
+    NSString *title = [[NSString alloc] initWithFormat:@"Query in %@", mongoCollection.absoluteCollectionName];
     [self.window setTitle:title];
     [title release];
 }
@@ -196,20 +197,31 @@
 - (IBAction)findQuery:(id)sender
 {
     int limit = [limitTextField intValue];
-    NSArray *fields;
+    NSMutableArray *fields;
     NSString *criteria;
     
     if (limit <= 0) {
         limit = 30;
     }
     criteria = [self formatedQuery];
-    fields = [[fieldsTextField stringValue] componentsSeparatedByString:@","];
+    fields = [[NSMutableArray alloc] init];
+    for (NSString *field in [[fieldsTextField stringValue] componentsSeparatedByString:@","]) {
+        field = [field stringByTrimmingWhitespace];
+        if ([field length] > 0) {
+            [fields addObject:field];
+        }
+    }
     [findQueryLoaderIndicator start];
     [mongoCollection findWithCriteria:criteria fields:fields skip:[skipTextField intValue] limit:limit sort:[sortTextField stringValue] callback:^(NSArray *documents, MODQuery *mongoQuery) {
+        [findResultsViewController.results removeAllObjects];
+        [findResultsViewController.results addObjectsFromArray:[MODHelper convertForOutlineWithObjects:documents]];
+        [findResultsViewController.myOutlineView reloadData];
         [mongoCollection countWithCriteria:criteria callback:^(int64_t count, MODQuery *) {
+            [findQueryLoaderIndicator stop];
             [totalResultsTextField setStringValue:[NSString stringWithFormat:@"Total Results: %lld (%0.2fs)", count, [[mongoQuery.userInfo objectForKey:@"timequery"] duration]]];
         }];
     }];
+    [fields release];
 }
 
 - (IBAction)expandFindResults:(id)sender
@@ -657,7 +669,6 @@
         }else {
             critical = [NSString stringWithFormat:@"{_id:%@}", [currentItem objectForKey:@"value"]];
         }
-        NSLog(@"%@", critical);
         [mongoCollection removeInDB:mongoCollection.databaseName 
                  collection:mongoCollection.collectionName 
                        user:user 

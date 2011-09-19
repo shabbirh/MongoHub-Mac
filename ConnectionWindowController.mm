@@ -337,12 +337,13 @@
 
 - (void)useCollection:(id)sender
 {
-    NSString *collectionname = [[NSString alloc] initWithFormat:@"%@", [sender caption] ];
-    if ([collectionname isPresent]) {
+    NSString *collectionname = [sender caption];
+    if ([collectionname length] > 0) {
         self.selectedCollection = (SidebarNode *)sender;
+        [mongoCollection release];
+        mongoCollection = [[mongoDatabase collectionForName:collectionname] retain];
         [self showCollStats:nil];
     }
-    [collectionname release];
 }
 
 - (IBAction)showServerStatus:(id)sender 
@@ -393,6 +394,16 @@
     }
     [loaderIndicator start];
     [resultsTitle setStringValue:[NSString stringWithFormat:@"Collection %@.%@ stats", [self.selectedDB caption], [self.selectedCollection caption]]];
+    [mongoCollection fetchDatabaseStatsWithCallback:^(NSDictionary *stats, MODQuery *mongoQuery) {
+        [loaderIndicator stop];
+        [resultsOutlineViewController.results removeAllObjects];
+        if (stats) {
+            [resultsOutlineViewController.results addObjectsFromArray:[[self class] statsArrayWithStats:stats]];
+        } else if (mongoQuery.error) {
+            NSRunAlertPanel(@"Error", [mongoQuery.error localizedDescription], @"OK", nil, nil);
+        }
+        [resultsOutlineViewController.myOutlineView reloadData];
+    }];
 //    [mongoServer fetchCollectionStatsWithCollectionName:[self.selectedCollection caption] databaseName:[self.selectedDB caption] userName:db.user password:db.password];
 }
 

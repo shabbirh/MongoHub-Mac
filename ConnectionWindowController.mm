@@ -29,6 +29,7 @@
 
 @interface ConnectionWindowController()
 - (void)closeMongoDB;
++ (NSArray *)statsArrayWithStats:(NSDictionary *)stats;
 @end
 
 @implementation ConnectionWindowController
@@ -350,10 +351,10 @@
     [resultsTitle setStringValue:[NSString stringWithFormat:@"Server %@:%@ stats", conn.host, conn.hostport]];
     [mongoServer fetchServerStatusWithCallback:^(NSDictionary *serverStatus, MODQuery *mongoQuery) {
         [loaderIndicator stop];
-        if ([[self.selectedDB caption] isEqualToString:[mongoQuery.parameters objectForKey:@"databasename"]]) {
+        if (mongoServer == [mongoQuery.parameters objectForKey:@"mongoserver"]) {
             [resultsOutlineViewController.results removeAllObjects];
             if (serverStatus) {
-                [resultsOutlineViewController.results addObjectsFromArray:[NSArray arrayWithObjects:serverStatus, nil]];
+                [resultsOutlineViewController.results addObjectsFromArray:[[self class] statsArrayWithStats:serverStatus]];
             } else if (mongoQuery.error) {
                 NSRunAlertPanel(@"Error", [mongoQuery.error localizedDescription], @"OK", nil, nil);
             }
@@ -376,7 +377,7 @@
         [loaderIndicator stop];
         [resultsOutlineViewController.results removeAllObjects];
         if (databaseStats) {
-            [resultsOutlineViewController.results addObjectsFromArray:[NSArray arrayWithObjects:databaseStats, nil]];
+            [resultsOutlineViewController.results addObjectsFromArray:[[self class] statsArrayWithStats:databaseStats]];
         } else if (mongoQuery.error) {
             NSRunAlertPanel(@"Error", [mongoQuery.error localizedDescription], @"OK", nil, nil);
         }
@@ -625,30 +626,63 @@
     _serverMonitorTimer = nil;
 }
 
-@end
-
-@implementation ConnectionWindowController(MongoDBDelegate)
-
-//- (void)mongoDB:(MongoDB *)mongoDB collectionStatsFetched:(NSArray *)collectionStats withMongoQuery:(MongoQuery *)mongoQuery errorMessage:(NSString *)errorMessage
-//{
-//    NSAssert(mongoDB == mongoServer, @"wrong database");
-//    [loaderIndicator stop];
-//    if ([[self.selectedDB caption] isEqualToString:[mongoQuery.parameters objectForKey:@"databasename"]] && [[self.selectedCollection caption] isEqualToString:[mongoQuery.parameters objectForKey:@"collectionname"]]) {
-//        [resultsOutlineViewController.results removeAllObjects];
-//        if (collectionStats) {
-//            [resultsOutlineViewController.results addObjectsFromArray:collectionStats];
-//        } else if (errorMessage) {
-//            NSRunAlertPanel(@"Error", errorMessage, @"OK", nil, nil);
-//        }
-//        [resultsOutlineViewController.myOutlineView reloadData];
-//    }
-//}
-
-//- (void)mongoDB:(MongoDB *)mongoDB serverStatusDeltaFetched:(NSDictionary *)serverStatusDelta withMongoQuery:(MongoQuery *)mongoQuery errorMessage:(NSString *)errorMessage
-//{
-//    if (serverStatusDelta) {
-//        [statMonitorTableController addObject:serverStatusDelta];
-//    }
-//}
++ (NSArray *)statsArrayWithStats:(NSDictionary *)stats
+{
+    NSMutableArray *result;
+    
+    result = [NSMutableArray array];
+    for (NSString *dataKey in [[stats allKeys] sortedArrayUsingSelector:@selector(compare:)]) {
+        id dataValue = [stats objectForKey:dataKey];
+        NSArray *child = nil;
+        NSString *value = nil;
+        NSString *type;
+        
+        if ([dataValue isKindOfClass:[NSNumber class]]) {
+            if (strcmp([dataValue objCType], @encode(double)) == 0 || strcmp([dataValue objCType], @encode(float)) == 0) {
+                type = @"Double";
+                value = [dataValue description];
+            } else if (strcmp([dataValue objCType], @encode(int)) == 0 || strcmp([dataValue objCType], @encode(long long)) == 0) {
+                type = @"Integer";
+                value = [dataValue description];
+            } else if (strcmp([dataValue objCType], @encode(BOOL)) == 0) {
+                type = @"Boolean";
+                if ([dataValue boolValue]) {
+                    value = @"YES";
+                } else {
+                    value = @"NO";
+                }
+            } else {
+                NSLog(@"%s %@ %@", [dataValue objCType], dataValue, dataKey);
+            }
+        } else if ([dataValue isKindOfClass:[NSDate class]]) {
+            type = @"Date";
+            value = [dataValue description];
+        } else if ([dataValue isKindOfClass:[NSString class]]) {
+            type = @"String";
+            value = dataValue;
+        } else if ([dataValue isKindOfClass:[NSNull class]]) {
+            type = @"NULL";
+            value = [dataValue description];
+        } else if ([dataValue isKindOfClass:[NSDictionary class]]) {
+            value = @"";
+            type = @"Object";
+            child = [self statsArrayWithStats:dataValue];
+        } else {
+            NSLog(@"type %@ value %@", [dataValue class], dataValue);
+        }
+        if (value) {
+            NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
+            [dict setValue:value forKey:@"value"];
+            [dict setValue:dataKey forKey:@"name"];
+            [dict setValue:type forKey:@"type"];
+            if (child) {
+                [dict setValue:child forKey:@"child"];
+            }
+            [result addObject:dict];
+            [dict release];
+        }
+    }
+    return result;
+}
 
 @end

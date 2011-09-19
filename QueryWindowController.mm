@@ -718,7 +718,7 @@
     
     NSString *sort;
     if ([[sortTextField stringValue] isPresent]) {
-        sort = [[NSString alloc] initWithFormat:@".sort(%@)"];
+        sort = [[NSString alloc] initWithFormat:@".sort(%@)", [sortTextField stringValue]];
     }else {
         sort = [[NSString alloc] initWithString:@""];
     }

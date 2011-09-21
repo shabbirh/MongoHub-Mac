@@ -295,20 +295,8 @@
     }];
 }
 
-- (void)useDB:(id)sender {
-    NSString *dbname = [sender caption];
-    Database *db = [databaseArrayController dbInfo:conn name:dbname];
-    
-    [mongoDatabase release];
-    mongoDatabase = [[mongoServer databaseForName:dbname] retain];
-    mongoDatabase.userName = db.user;
-    mongoDatabase.password = db.password;
-    [mongoCollection release];
-    mongoCollection = nil;
-    if (![[self.selectedDB caption] isEqualToString:dbname]) {
-        self.selectedDB = (SidebarNode *)sender;
-    }
-    self.selectedCollection = nil;
+- (void)getCollectionList
+{
     [loaderIndicator start];
     [mongoDatabase fetchCollectionListWithCallback:^(NSArray *collectionList, MODQuery *mongoQuery) {
         [loaderIndicator stop];
@@ -333,6 +321,23 @@
             [self showDBStats:nil];
         }
     }];
+}
+
+- (void)useDB:(id)sender {
+    NSString *dbname = [sender caption];
+    Database *db = [databaseArrayController dbInfo:conn name:dbname];
+    
+    [mongoDatabase release];
+    mongoDatabase = [[mongoServer databaseForName:dbname] retain];
+    mongoDatabase.userName = db.user;
+    mongoDatabase.password = db.password;
+    [mongoCollection release];
+    mongoCollection = nil;
+    if (![[self.selectedDB caption] isEqualToString:dbname]) {
+        self.selectedDB = (SidebarNode *)sender;
+    }
+    self.selectedCollection = nil;
+    [self getCollectionList];
 }
 
 - (void)useCollection:(id)sender
@@ -407,12 +412,22 @@
 //    [mongoServer fetchCollectionStatsWithCollectionName:[self.selectedCollection caption] databaseName:[self.selectedDB caption] userName:db.user password:db.password];
 }
 
-- (IBAction)createDBorCollection:(id)sender
+- (void)menuWillOpen:(NSMenu *)menu
 {
-    if (self.selectedCollection) {
+    if (menu == createCollectionOrDatabaseMenu) {
+        [[menu itemWithTag:2] setEnabled:self.selectedDB != nil];
+    }
+}
+
+- (IBAction)createDatabase:(id)sender
+{
+    [self createDB];
+}
+
+- (IBAction)createCollection:(id)sender
+{
+    if (self.selectedDB) {
         [self createCollectionForDB:[self.selectedDB caption]];
-    }else {
-        [self createDB];
     }
 }
 
@@ -465,6 +480,7 @@
         if (mongoQuery.error) {
             NSRunAlertPanel(@"Error", [mongoQuery.error localizedDescription], @"OK", nil, nil);
         }
+        [self getCollectionList];
     }];
 }
 
@@ -484,9 +500,8 @@
         [loaderIndicator stop];
         if (mongoQuery.error) {
             NSRunAlertPanel(@"Error", [mongoQuery.error localizedDescription], @"OK", nil, nil);
-        }
-        if ([[self.selectedDB caption] isEqualToString:[mongoQuery.parameters objectForKey:@"databasemame"]]) {
-            [sidebar selectItem:[self.selectedDB nodeKey]];
+        } else {
+            [self getCollectionList];
         }
     }];
 }

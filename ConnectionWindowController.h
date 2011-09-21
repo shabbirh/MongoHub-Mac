@@ -25,6 +25,7 @@
 @class MODCollection;
 
 @interface ConnectionWindowController : NSWindowController {
+    IBOutlet NSMenu *createCollectionOrDatabaseMenu;
     NSManagedObjectContext *managedObjectContext;
     IBOutlet DatabasesArrayController *databaseArrayController;
     IBOutlet ResultsOutlineViewController *resultsOutlineViewController;
@@ -86,7 +87,8 @@
 - (IBAction)showServerStatus:(id)sender;
 - (IBAction)showDBStats:(id)sender;
 - (IBAction)showCollStats:(id)sender;
-- (IBAction)createDBorCollection:(id)sender;
+- (IBAction)createDatabase:(id)sender;
+- (IBAction)createCollection:(id)sender;
 - (IBAction)importFromMySQL:(id)sender;
 - (IBAction)exportToMySQL:(id)sender;
 - (void)dropCollection:(NSString *)collectionname 

@@ -7,6 +7,7 @@
 //
 
 #import "MODHelper.h"
+#import "MODObjectId.h"
 
 @interface MODHelper()
 + (NSMutableDictionary *)convertForOutlineWithValue:(id)dataValue dataKey:(NSString *)dataKey;
@@ -23,6 +24,9 @@
         NSMutableDictionary *dict;
         
         dict = [self convertForOutlineWithValue:[object objectForKey:@"_id"] dataKey:@"_id"];
+        if (dict == nil) {
+            dict = [NSMutableDictionary dictionary];
+        }
         [dict setObject:[self convertForOutlineWithObject:object] forKey:@"child"];
         [result addObject:dict];
     }
@@ -72,12 +76,15 @@
     } else if ([dataValue isKindOfClass:[NSDate class]]) {
         type = @"Date";
         value = [dataValue description];
+    } else if ([dataValue isKindOfClass:[MODObjectId class]]) {
+        type = @"Object id";
+        value = [dataValue description];
     } else if ([dataValue isKindOfClass:[NSString class]]) {
         type = @"String";
         value = dataValue;
     } else if ([dataValue isKindOfClass:[NSNull class]]) {
         type = @"NULL";
-        value = [dataValue description];
+        value = @"NULL";
     } else if ([dataValue isKindOfClass:[NSDictionary class]]) {
         value = @"";
         type = @"Object";

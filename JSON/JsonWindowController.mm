@@ -12,6 +12,7 @@
 #import "DatabasesArrayController.h"
 #import "Connection.h"
 #import "NSString+Extras.h"
+#import "MODCollection.h"
 
 @implementation JsonWindowController
 @synthesize managedObjectContext;
@@ -53,7 +54,7 @@
 
 - (void)windowDidLoad {
     [super windowDidLoad];
-    NSString *title = [[NSString alloc] initWithFormat:@"%@.%@ _id:%@", dbname, collectionname, [jsonDict objectForKey:@"value"]];
+    NSString *title = [[NSString alloc] initWithFormat:@"%@ _id:%@", mongoCollection.absoluteCollectionName, [jsonDict objectForKey:@"value"]];
     [self.window setTitle:title];
     [title release];
     [myTextView setString:[jsonDict objectForKey:@"beautified"]];

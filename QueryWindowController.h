@@ -23,6 +23,9 @@
     MODCollection *mongoCollection;
     Connection *conn;
     
+    IBOutlet NSTabView *tabView;
+    IBOutlet NSSegmentedControl *segmentedControl;
+    
     IBOutlet NSTextField *criticalTextField;
     IBOutlet NSTokenField *fieldsTextField;
     IBOutlet NSTextField *skipTextField;
@@ -149,6 +152,7 @@
 @property (nonatomic, retain) NSButton *impStopOnErrorCheckBox;
 @property (nonatomic, retain) NSProgressIndicator *impProgressIndicator;
 
+- (IBAction)segmentedControlAction:(id)sender;
 - (IBAction)findQuery:(id)sender;
 - (IBAction)expandFindResults:(id)sender;
 - (IBAction)collapseFindResults:(id)sender;

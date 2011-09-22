@@ -1008,5 +1008,13 @@
     }
 }
 
+- (IBAction)segmentedControlAction:(id)sender
+{
+    NSString *identifier;
+    
+    identifier = [[NSString alloc] initWithFormat:@"%ld", [segmentedControl selectedSegment]];
+    [tabView selectTabViewItemWithIdentifier:identifier];
+    [identifier release];
+}
 
 @end

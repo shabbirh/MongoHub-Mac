@@ -54,6 +54,6 @@
 	<key>SUPublicDSAKeyFile</key>
 	<string>dsa_pub.pem</string>
 	<key>SUFeedURL</key>
-	<string>http://mongohub.todayclose.com/appcast.xml</string>
+	<string>https://github.com/fotonauts/MongoHub-Mac/raw/master/Resourses/su_feed.xml</string>
 </dict>
 </plist>

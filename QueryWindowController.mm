@@ -643,12 +643,6 @@
 
 - (IBAction)removeRecord:(id)sender
 {
-    [NSThread detachNewThreadSelector:@selector(doRemoveRecord) toTarget:self withObject:nil];
-}
-
-- (void)doRemoveRecord
-{
-    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
     if ([findResultsViewController.myOutlineView selectedRow] != -1)
     {
         id currentItem = [findResultsViewController.myOutlineView itemAtRow:[findResultsViewController.myOutlineView selectedRow]];
@@ -663,22 +657,17 @@
         }
         NSString *critical;
         if ([[currentItem objectForKey:@"type"] isEqualToString:@"ObjectId"]) {
-            critical = [NSString stringWithFormat:@"{_id:ObjectId(\"%@\")}", [currentItem objectForKey:@"value"]];
+            critical = [NSString stringWithFormat:@"{\"_id\":ObjectId(\"%@\")}", [currentItem objectForKey:@"value"]];
         }else if ([[currentItem objectForKey:@"type"] isEqualToString:@"String"]) {
-            critical = [NSString stringWithFormat:@"{_id:\"%@\"}", [currentItem objectForKey:@"value"]];
+            critical = [NSString stringWithFormat:@"{\"_id\":\"%@\"}", [currentItem objectForKey:@"value"]];
         }else {
-            critical = [NSString stringWithFormat:@"{_id:%@}", [currentItem objectForKey:@"value"]];
+            critical = [NSString stringWithFormat:@"{\"_id\":%@}", [currentItem objectForKey:@"value"]];
         }
-        [mongoCollection removeInDB:mongoCollection.databaseName 
-                 collection:mongoCollection.collectionName 
-                       user:user 
-                   password:password 
-                   critical:critical];
-        [removeQueryLoaderIndicator stop];
-        [self findQuery:nil];
+        [mongoCollection removeWithCriteria:critical callback:^(MODQuery *mongoQuery) {
+            [removeQueryLoaderIndicator stop];
+            [self findQuery:nil];
+        }];
     }
-    [pool drain];
-    [NSThread exit];
 }
 
 - (void)controlTextDidChange:(NSNotification *)nd
@@ -967,6 +956,15 @@
 //    return b.obj();
 //}
 
+- (IBAction)segmentedControlAction:(id)sender
+{
+    NSString *identifier;
+    
+    identifier = [[NSString alloc] initWithFormat:@"%ld", [segmentedControl selectedSegment]];
+    [tabView selectTabViewItemWithIdentifier:identifier];
+    [identifier release];
+}
+
 @end
 
 @implementation QueryWindowController(MODCollectionDelegate)
@@ -1006,15 +1004,6 @@
             NSRunAlertPanel(@"Error", errorMessage, @"OK", nil, nil);
         }
     }
-}
-
-- (IBAction)segmentedControlAction:(id)sender
-{
-    NSString *identifier;
-    
-    identifier = [[NSString alloc] initWithFormat:@"%ld", [segmentedControl selectedSegment]];
-    [tabView selectTabViewItemWithIdentifier:identifier];
-    [identifier release];
 }
 
 @end

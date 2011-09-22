@@ -118,7 +118,6 @@
 
 -(IBAction) save:(id)sender
 {
-    MODQuery *query;
     NSString *recordId = nil;
     
     [status setStringValue: @"Saving..."];
@@ -130,14 +129,13 @@
     }else {
         recordId = [[NSString alloc] initWithFormat:@"\"%@\"", [jsonDict objectForKey:@"value"]];
     }
-    query = [mongoCollection saveJsonString:[myTextView string] withRecordId:recordId];
-    [query addCallbackWithTarget:self];
-    [progress stopAnimation: self];
-    [recordId release];
-	[progress display];
-    [status setStringValue: @"Saved"];
-    [status display];
-    [[NSNotificationCenter defaultCenter] postNotificationName:kJsonWindowSaved object:nil];
+    [mongoCollection saveWithDocument:[myTextView string] callback:^(MODQuery *mongoQuery) {
+        [progress stopAnimation: self];
+        [progress display];
+        [status setStringValue: @"Saved"];
+        [status display];
+        [[NSNotificationCenter defaultCenter] postNotificationName:kJsonWindowSaved object:nil];
+    }];
 }
 
 - (void)mongoQueryDidFinish:(MODQuery *)mongoQuery

@@ -54,6 +54,6 @@
 	<key>SUPublicDSAKeyFile</key>
 	<string>dsa_pub.pem</string>
 	<key>SUFeedURL</key>
-	<string>https://raw.github.com/fotonauts/MongoHub-Mac/objc_driver/Resourses/su_feed.xml</string>
+	<string>https://raw.github.com/fotonauts/MongoHub-Mac/objc_driver/Resourses/objc_driver_branch_su_feed.xml</string>
 </dict>
 </plist>

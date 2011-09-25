@@ -8,6 +8,7 @@
 
 #import "MODHelper.h"
 #import "MODObjectId.h"
+#import "MODDataRegex.h"
 #import "NSString+Extras.h"
 
 @interface MODHelper()
@@ -106,6 +107,8 @@ static void convertValueToJson(NSMutableString *result, int indent, id value, NS
         }
     } else if ([value isKindOfClass:[MODObjectId class]]) {
         [result appendString:[value jsonValue]];
+    } else if ([value isKindOfClass:[MODDataRegex class]]) {
+        [result appendString:[value jsonValue]];
     }
 }
 
@@ -184,6 +187,9 @@ static void convertValueToJson(NSMutableString *result, int indent, id value, NS
         value = [dataValue description];
     } else if ([dataValue isKindOfClass:[MODObjectId class]]) {
         type = @"Object id";
+        value = [dataValue description];
+    } else if ([dataValue isKindOfClass:[MODDataRegex class]]) {
+        type = @"Regex";
         value = [dataValue description];
     } else if ([dataValue isKindOfClass:[NSString class]]) {
         type = @"String";

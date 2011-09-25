@@ -31,7 +31,7 @@
     NSManagedObjectID *oid = [[self persistentStoreCoordinator] managedObjectIDForURIRepresentation:objectURI];
 
     if (!oid) {
-        NSLog(@"%@:%s to find object id from path %@", [self class], _cmd, filePath);
+        NSLog(@"%@:%@ to find object id from path %@", [self class], NSStringFromSelector(_cmd), filePath);
         return NO;
     }
 
@@ -99,7 +99,7 @@ static NSDate				*cachedModelModificationDate =nil;
 		managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:modelURL];
 
 		if (!managedObjectModel) {
-			NSLog(@"%@:%s unable to load model at URL %@", [self class], _cmd, modelURL);
+			NSLog(@"%@:%@ unable to load model at URL %@", [self class], NSStringFromSelector(_cmd), modelURL);
 			return nil;
 		}
 
@@ -139,7 +139,7 @@ static NSDate				*cachedModelModificationDate =nil;
 										URL:storeURL 
 										options:nil 
 										error:&error]){
-        NSLog(@"%@:%s unable to add persistent store coordinator - %@", [self class], _cmd, error);
+        NSLog(@"%@:%@ unable to add persistent store coordinator - %@", [self class], NSStringFromSelector(_cmd), error);
     }    
 
     return persistentStoreCoordinator;
@@ -156,7 +156,7 @@ static NSDate				*cachedModelModificationDate =nil;
 
     NSPersistentStoreCoordinator *coordinator = [self persistentStoreCoordinator];
 	if (!coordinator) {
-        NSLog(@"%@:%s unable to get persistent store coordinator", [self class], _cmd);
+        NSLog(@"%@:%@ unable to get persistent store coordinator", [self class], NSStringFromSelector(_cmd));
 		return nil;
 	}
 

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle"  xmlns:dc="http://purl.org/dc/elements/1.1/">
+   <channel>
+      <title>Sparkle Test App Changelog</title>
+      <link>http://andymatuschak.org/files/sparkletestcast.xml</link>
+      <description>Most recent changes with links to updates.</description>
+      <language>en</language>      
+         <item>
+            <title>Version 2.0 (2 bugs fixed; 3 new features)</title>
+						<sparkle:releaseNotesLink>
+							http://opensword.org/Pixen/Help/pgs/rnotes.html
+						</sparkle:releaseNotesLink>
+            <pubDate>Wed, 09 Jan 2006 19:20:11 +0000</pubDate>
+            <enclosure url="https://github.com/downloads/fotonauts/MongoHub-Mac/MongoHub-objc.zip" sparkle:version="2.4" length="2998408" type="application/octet-stream" />
+         </item>
+   </channel>

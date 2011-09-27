@@ -30,6 +30,7 @@
 
 @interface ConnectionWindowController()
 - (void)closeMongoDB;
+- (void)fetchServerStatusDelta;
 @end
 
 @implementation ConnectionWindowController
@@ -367,7 +368,6 @@
             [resultsOutlineViewController.myOutlineView reloadData];
         }
     }];
-    
 }
 
 - (IBAction)showDBStats:(id)sender 
@@ -409,7 +409,6 @@
         }
         [resultsOutlineViewController.myOutlineView reloadData];
     }];
-//    [mongoServer fetchCollectionStatsWithCollectionName:[self.selectedCollection caption] databaseName:[self.selectedDB caption] userName:db.user password:db.password];
 }
 
 - (void)menuWillOpen:(NSMenu *)menu
@@ -632,8 +631,8 @@
 
 - (IBAction)startMonitor:(id)sender {
     if (!_serverMonitorTimer) {
-        //[mongoServer fetchServerStatusDelta];
-        _serverMonitorTimer = [[NSTimer scheduledTimerWithTimeInterval:1 target:mongoServer selector:@selector(fetchServerStatusDelta) userInfo:nil repeats:YES] retain];
+        _serverMonitorTimer = [[NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(fetchServerStatusDelta) userInfo:nil repeats:YES] retain];
+        [self fetchServerStatusDelta];
     }
     [NSApp beginSheet:monitorPanel modalForWindow:self.window modalDelegate:self didEndSelector:@selector(monitorPanelDidEnd:returnCode:contextInfo:) contextInfo:nil];
     NSLog(@"startMonitor");
@@ -650,6 +649,62 @@
     [_serverMonitorTimer invalidate];
     [_serverMonitorTimer release];
     _serverMonitorTimer = nil;
+}
+
+static int percentage(NSNumber *previousValue, NSNumber *previousOutOfValue, NSNumber *value, NSNumber *outOfValue)
+{
+    double valueDiff = [value doubleValue] - [previousValue doubleValue];
+    double outOfValueDiff = [outOfValue doubleValue] - [previousOutOfValue doubleValue];
+    return (outOfValueDiff == 0) ? 0.0 : (valueDiff * 100.0 / outOfValueDiff);
+}
+
+- (void)fetchServerStatusDelta
+{
+    [resultsTitle setStringValue:[NSString stringWithFormat:@"Server %@:%@ stats", conn.host, conn.hostport]];
+    [mongoServer fetchServerStatusWithCallback:^(NSDictionary *serverStatus, MODQuery *mongoQuery) {
+        [loaderIndicator stop];
+        if (mongoServer == [mongoQuery.parameters objectForKey:@"mongoserver"]) {
+            NSMutableDictionary *diff = [[NSMutableDictionary alloc] init];
+            
+            if (previousServerStatusForDelta) {
+                NSNumber *number;
+                NSDate *date;
+                
+                for (NSString *key in [[serverStatus objectForKey:@"opcounters"] allKeys]) {
+                    number = [[NSNumber alloc] initWithInteger:[[[serverStatus objectForKey:@"opcounters"] objectForKey:key] integerValue] - [[[previousServerStatusForDelta objectForKey:@"opcounters"] objectForKey:key] integerValue]];
+                    [diff setObject:number forKey:key];
+                    [number release];
+                }
+                [diff setObject:[[serverStatus objectForKey:@"mem"] objectForKey:@"mapped"] forKey:@"mapped"];
+                [diff setObject:[[serverStatus objectForKey:@"mem"] objectForKey:@"virtual"] forKey:@"vsize"];
+                [diff setObject:[[serverStatus objectForKey:@"mem"] objectForKey:@"resident"] forKey:@"res"];
+                number = [[NSNumber alloc] initWithInteger:[[[serverStatus objectForKey:@"extra_info"] objectForKey:@"page_faults"] integerValue] - [[[previousServerStatusForDelta objectForKey:@"extra_info"] objectForKey:@"page_faults"] integerValue]];
+                [diff setObject:number forKey:@"faults"];
+                [number release];
+                number = [[NSNumber alloc] initWithInteger:percentage([[previousServerStatusForDelta objectForKey:@"globalLock"] objectForKey:@"lockTime"],
+                                                                      [[previousServerStatusForDelta objectForKey:@"globalLock"] objectForKey:@"totalTime"],
+                                                                      [[serverStatus objectForKey:@"globalLock"] objectForKey:@"lockTime"],
+                                                                      [[serverStatus objectForKey:@"globalLock"] objectForKey:@"totalTime"])];
+                [diff setObject:number forKey:@"locked"];
+                [number release];
+                number = [[NSNumber alloc] initWithInteger:percentage([[[previousServerStatusForDelta objectForKey:@"indexCounters"] objectForKey:@"btree"] objectForKey:@"misses"],
+                                                                      [[[previousServerStatusForDelta objectForKey:@"indexCounters"] objectForKey:@"btree"] objectForKey:@"accesses"],
+                                                                      [[[serverStatus objectForKey:@"indexCounters"] objectForKey:@"btree"] objectForKey:@"misses"],
+                                                                      [[[serverStatus objectForKey:@"indexCounters"] objectForKey:@"btree"] objectForKey:@"accesses"])];
+                [diff setObject:number forKey:@"misses"];
+                [number release];
+                date = [[NSDate alloc] init];
+                [diff setObject:[[serverStatus objectForKey:@"connections"] objectForKey:@"current"] forKey:@"conn"];
+                [diff setObject:date forKey:@"time"];
+                [date release];
+                [statMonitorTableController addObject:diff];
+            }
+            if (previousServerStatusForDelta) {
+                [previousServerStatusForDelta release];
+            }
+            previousServerStatusForDelta = [serverStatus retain];
+        }
+    }];
 }
 
 @end

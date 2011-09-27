@@ -54,6 +54,8 @@
     IBOutlet NSTextField *bundleVersion;
     BOOL exitThread;
     BOOL monitorStopped;
+    
+    NSDictionary *previousServerStatusForDelta;
 }
 
 @property (nonatomic, retain) NSManagedObjectContext *managedObjectContext;

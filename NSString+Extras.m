@@ -110,11 +110,6 @@
     return [self stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
 }
 
-+ (NSNull *)nullValue
-{
-    return [NSNull null];
-}
-
 + (NSString*)UUIDString
 {
     CFUUIDRef theUUID = CFUUIDCreate(NULL);

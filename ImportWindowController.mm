@@ -13,6 +13,8 @@
 #import "Connection.h"
 #import "NSString+Extras.h"
 #import "MODServer.h"
+#import "MODDatabase.h"
+#import "MODCollection.h"
 #import <MCPKit/MCPKit.h>
 
 @implementation ImportWindowController
@@ -76,9 +78,9 @@
     [progressIndicator setUsesThreadedAnimation:YES];
     [progressIndicator startAnimation: self];
     [progressIndicator setDoubleValue:0];
-    NSString *collection = [NSString stringWithString:[collectionTextField stringValue]];
+    NSString *collection = [collectionTextField stringValue];
     int chunkSize = [chunkSizeTextField intValue];
-    if (![collection isPresent]) {
+    if ([collection length] == 0) {
         NSRunAlertPanel(@"Error", @"Collection name can not be empty!", @"OK", nil, nil);
         return;
     }
@@ -86,18 +88,7 @@
         NSRunAlertPanel(@"Error", @"Chunk Size can not be 0!", @"OK", nil, nil);
         return;
     }
-    NSString *tablename = [[NSString alloc] initWithString:[tablesPopUpButton titleOfSelectedItem]];
-    int total = [self importCount:tablename];
-    NSString *user=nil;
-    NSString *password=nil;
-    Database *mongodb = [databasesArrayController dbInfo:conn name:dbname];
-    if (mongodb) {
-        user = mongodb.user;
-        password = mongodb.password;
-    }
-    [self doImportFromTable:tablename toCollection:collection withChunkSize:chunkSize fromId:0 totalResults:total user:user password:password];
-    [progressIndicator stopAnimation: self];
-    [tablename release];
+    [self doImportFromTable:[tablesPopUpButton titleOfSelectedItem] toCollection:collection withChundSize:chunkSize];
 }
 
 - (long long int)importCount:(NSString *)tableName
@@ -110,34 +101,60 @@
     return [[row objectAtIndex:0] intValue];
 }
 
-- (void)doImportFromTable:(NSString *)tableName toCollection:(NSString *)collection withChunkSize:(int)chunkSize fromId:(int)fromId totalResults:(int)total user:(NSString *)user password:(NSString *)password
+- (void)updateProgressIndicatorWithNumber:(NSNumber *)number
 {
-    if (total == 0) return;
-    NSString *query = [[NSString alloc] initWithFormat:@"select * from %@ limit %d, %d", tableName, fromId, chunkSize];
-    NSLog(@"query: %@", query);
-    MCPResult *theResult = [db queryString:query];
-    [query release];
-    if ([theResult numOfRows] == 0) {
-        return;
-    }
-    NSArray *theFields = [theResult fetchFieldNames];
-    NSDictionary *fieldTypes = [theResult fetchTypesAsDictionary];
-    int i = 1;
-    while (NSDictionary *row = [theResult fetchRowAsDictionary]) {
-        [progressIndicator setDoubleValue:(double)(fromId+i)/total];
-        [mongoServer insertInDB:dbname 
-                 collection:collection
-                       user:user 
-                   password:password 
-                       data:row 
-                     fields:theFields 
-                 fieldTypes:(NSDictionary *)fieldTypes];
-        i++;
-    }
-    if ([theResult numOfRows] < chunkSize) {
-        return;
-    }
-    [self doImportFromTable:tableName toCollection:collection withChunkSize:chunkSize fromId:(fromId + chunkSize) totalResults:total user:user password:password];
+    [progressIndicator setDoubleValue:[number doubleValue]];
+}
+
+- (void)importDone:(id)unused
+{
+    [progressIndicator setDoubleValue:1.0];
+    [progressIndicator stopAnimation:nil];
+}
+
+- (void)doImportFromTable:(NSString *)tableName toCollection:(NSString *)collectionName withChundSize:(int)chunkSize
+{
+    [mongoServer copyWithCallback:^(MODServer *copyServer, MODQuery *mongoQuery) {
+        MODCollection *copyCollection;
+        
+        copyCollection = [[copyServer databaseForName:dbname] collectionForName:collectionName];
+        if (!copyServer) {
+            NSRunAlertPanel(@"Error", @"Can not create a second connection to the mongo server.", @"OK", nil, nil);
+            return;
+        }
+        dispatch_queue_t myQueue = dispatch_queue_create("com.mongohub.mysql", 0);
+        
+        dispatch_async(myQueue, ^() {
+            long long total = [self importCount:tableName];
+            long long ii = 0;
+            
+            while (ii < total) {
+                NSString *query = [[NSString alloc] initWithFormat:@"select * from %@ limit %lld, %lld", tableName, ii, chunkSize];
+                MCPResult *theResult = [db queryString:query];
+                 
+                [query release];
+                if ([theResult numOfRows] == 0) {
+                     return;
+                }
+                while (NSDictionary *row = [theResult fetchRowAsDictionary]) {
+                    NSMutableArray *documents;
+                    
+                    if (ii % 10 == 0) {
+                        NSNumber *value;
+                        
+                        value = [[NSNumber alloc] initWithDouble:(double)ii/(double)total];
+                        [self performSelectorOnMainThread:@selector(updateProgressIndicatorWithNumber:) withObject:value waitUntilDone:NO];
+                        [value release];
+                    }
+                    documents = [[NSMutableArray alloc] initWithObjects:row, nil];
+                    [copyCollection insertWithDocuments:documents callback:nil];
+                    [documents release];
+                    ii++;
+                }
+            }
+            [self performSelectorOnMainThread:@selector(importDone:) withObject:nil waitUntilDone:NO];
+        });
+    }];
 }
 
 - (IBAction)connect:(id)sender {

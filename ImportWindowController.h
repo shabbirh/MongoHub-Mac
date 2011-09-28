@@ -52,7 +52,7 @@
 - (IBAction)import:(id)sender;
 - (IBAction)showTables:(id)sender;
 - (long long int)importCount:(NSString *)tableName;
-- (void)doImportFromTable:(NSString *)tableName toCollection:(NSString *)collection withChunkSize:(int)chunkSize fromId:(int)fromId totalResults:(int)total user:(NSString *)user password:(NSString *)password;
+- (void)doImportFromTable:(NSString *)tableName toCollection:(NSString *)collection withChundSize:(int)chunkSize;
 
 
 @end

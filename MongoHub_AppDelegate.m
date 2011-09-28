@@ -93,7 +93,7 @@
     
     if ( ![fileManager fileExistsAtPath:applicationSupportDirectory isDirectory:NULL] ) {
 		if (![fileManager createDirectoryAtPath:applicationSupportDirectory withIntermediateDirectories:NO attributes:nil error:&error]) {
-            NSAssert(NO, @"Failed to create App Support directory %@ : %@", applicationSupportDirectory, error);
+            NSAssert2(NO, @"Failed to create App Support directory %@ : %@", applicationSupportDirectory, error);
             NSLog(@"Error creating application support directory at %@ : %@",applicationSupportDirectory,error);
             return nil;
 		}
@@ -103,7 +103,7 @@
     if ( ![fileManager fileExistsAtPath:externalRecordsDirectory isDirectory:NULL] ) {
         if (![fileManager createDirectoryAtPath:externalRecordsDirectory withIntermediateDirectories:YES attributes:nil error:&error]) {
             NSLog(@"Error creating external records directory at %@ : %@",externalRecordsDirectory,error);
-            NSAssert(NO, @"Failed to create external records directory %@ : %@", externalRecordsDirectory, error);
+            NSAssert2(NO, @"Failed to create external records directory %@ : %@", externalRecordsDirectory, error);
             NSLog(@"Error creating external records directory at %@ : %@",externalRecordsDirectory,error);
             return nil;
         };

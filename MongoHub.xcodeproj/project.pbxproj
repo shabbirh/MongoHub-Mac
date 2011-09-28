@@ -1466,18 +1466,11 @@
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
 				);
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
-				GCC_MODEL_TUNING = G5;
 				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = MongoHub_Prefix.pch;
 				INFOPLIST_FILE = "MongoHub-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
-				OTHER_LDFLAGS = "-licucore";
 				PRODUCT_NAME = MongoHub;
-				STANDARD_C_PLUS_PLUS_LIBRARY_TYPE = dynamic;
-				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
 		};
@@ -1489,16 +1482,10 @@
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
 				);
-				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
-				GCC_MODEL_TUNING = G5;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = MongoHub_Prefix.pch;
 				INFOPLIST_FILE = "MongoHub-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
-				OTHER_LDFLAGS = "-licucore";
 				PRODUCT_NAME = MongoHub;
-				STANDARD_C_PLUS_PLUS_LIBRARY_TYPE = dynamic;
-				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
 		};
@@ -1507,10 +1494,10 @@
 			buildSettings = {
 				ARCHS = "$(NATIVE_ARCH_ACTUAL)";
 				COPY_PHASE_STRIP = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
-				OTHER_LDFLAGS = "-licucore";
 				SDKROOT = macosx;
 			};
 			name = Debug;
@@ -1520,10 +1507,10 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				COPY_PHASE_STRIP = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
-				OTHER_LDFLAGS = "-licucore";
 				SDKROOT = macosx;
 			};
 			name = Release;

@@ -272,22 +272,11 @@
 
 - (IBAction) indexQuery:(id)sender
 {
-//    [indexLoaderIndicator start];
-//    NSString *user=nil;
-//    NSString *password=nil;
-//    Database *db = [databasesArrayController dbInfo:conn name:mongoCollection.databaseName];
-//    if (db) {
-//        user = db.user;
-//        password = db.password;
-//    }
-//    NSMutableArray *results = [[NSMutableArray alloc] initWithArray:[mongoCollection indexInDB:mongoCollection.databaseName 
-//                                                                            collection:mongoCollection.collectionName 
-//                                                                                  user:user 
-//                                                                              password:password]];
-//    indexesOutlineViewController.results = results;
-//    [indexesOutlineViewController.myOutlineView reloadData];
-//    [results release];
-//    [indexLoaderIndicator stop];
+    [mongoCollection indexListWithcallback:^(NSArray *indexes, MODQuery *mongoQuery) {
+        [indexesOutlineViewController.results removeAllObjects];
+        [indexesOutlineViewController.results addObjectsFromArray:[MODHelper convertForOutlineWithObjects:indexes]];
+        [indexesOutlineViewController.myOutlineView reloadData];
+    }];
 }
 
 - (IBAction) ensureIndex:(id)sender

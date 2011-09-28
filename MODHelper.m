@@ -129,9 +129,17 @@ static void convertValueToJson(NSMutableString *result, int indent, id value, NS
     
     result = [NSMutableArray arrayWithCapacity:[mongoObjects count]];
     for (NSDictionary *object in mongoObjects) {
+        id idValue;
+        NSString *idValueName;
         NSMutableDictionary *dict;
         
-        dict = [self convertForOutlineWithValue:[object objectForKey:@"_id"] dataKey:@"_id"];
+        idValue = [object objectForKey:@"_id"];
+        idValueName = @"_id";
+        if (!idValue) {
+            idValue = [object objectForKey:@"name"];
+            idValueName = @"name";
+        }
+        dict = [self convertForOutlineWithValue:idValue dataKey:idValueName];
         if (dict == nil) {
             dict = [NSMutableDictionary dictionary];
         }

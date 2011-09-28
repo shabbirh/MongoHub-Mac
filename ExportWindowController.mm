@@ -82,7 +82,7 @@
 //    [progressIndicator startAnimation: self];
 //    [progressIndicator setDoubleValue:0];
 //    NSString *collection = [NSString stringWithString:[collectionTextField stringValue]];
-//    if (![collection isPresent]) {
+//    if ([collection length] == 0) {
 //        NSRunAlertPanel(@"Error", @"Collection name can not be empty!", @"OK", nil, nil);
 //        return;
 //    }
@@ -248,7 +248,7 @@
         NSPopUpButton *pb = sender;
         dbn = [NSString stringWithString:[pb titleOfSelectedItem]];
     }
-    if (![dbn isPresent]) {
+    if ([dbn length] == 0) {
         return;
     }
     [db selectDB:dbn];

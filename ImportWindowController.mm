@@ -197,7 +197,7 @@
         NSPopUpButton *pb = sender;
         dbn = [NSString stringWithString:[pb titleOfSelectedItem]];
     }
-    if (![dbn isPresent]) {
+    if ([dbn length] == 0) {
         return;
     }
     [db selectDB:dbn];

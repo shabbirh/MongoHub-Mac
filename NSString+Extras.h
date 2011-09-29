@@ -12,7 +12,6 @@
 @interface NSString (Extras)
 
 + (NSString*)stringFromResource:(NSString*)resourceName;
-- (NSString *)escapeQuotes;
 - (BOOL)startsWithString:(NSString*)otherString;
 - (BOOL)endsWithString:(NSString*)otherString;
 - (BOOL)isPresent;

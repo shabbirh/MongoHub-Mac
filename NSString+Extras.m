@@ -19,38 +19,6 @@
 
 # pragma Comparing
 
-- (NSString *)escapeQuotes
-{
-    NSMutableString *result;
-    NSUInteger ii = 0, count = [self length];
-    
-    result = [self mutableCopy];
-    while (ii < count) {
-        if ([result characterAtIndex:ii] == '"' || [result characterAtIndex:ii] == '\\') {
-            [result insertString:@"\\" atIndex:ii];
-            ii++;
-            count++;
-        } else if ([result characterAtIndex:ii] == '\n') {
-            [result deleteCharactersInRange:NSMakeRange(ii, 1)];
-            [result insertString:@"\\n" atIndex:ii];
-            ii++;
-            count++;
-        } else if ([result characterAtIndex:ii] == '\r') {
-            [result deleteCharactersInRange:NSMakeRange(ii, 1)];
-            [result insertString:@"\\r" atIndex:ii];
-            ii++;
-            count++;
-        } else if ([result characterAtIndex:ii] == '\t') {
-            [result deleteCharactersInRange:NSMakeRange(ii, 1)];
-            [result insertString:@"\\t" atIndex:ii];
-            ii++;
-            count++;
-        }
-        ii++;
-    }
-    return [result autorelease];
-}
-
 - (BOOL)startsWithString:(NSString*)otherString
 {
     return [self rangeOfString:otherString].location == 0;

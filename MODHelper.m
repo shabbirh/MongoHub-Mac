@@ -14,119 +14,7 @@
 + (NSMutableDictionary *)convertForOutlineWithValue:(id)dataValue dataKey:(NSString *)dataKey;
 @end
 
-static void convertValueToJson(NSMutableString *result, int indent, id value, NSString *key, BOOL pretty);
-
-static void addIdent(NSMutableString *result, int indent)
-{
-    int ii = 0;
-    
-    while (ii < indent) {
-        [result appendString:@"  "];
-        ii++;
-    }
-}
-
-static void convertDictionaryToJson(NSMutableString *result, int indent, NSDictionary *value, BOOL pretty)
-{
-    BOOL first = YES;
-    
-    [result appendString:@"{"];
-    if (pretty) {
-        [result appendString:@"\n"];
-    }
-    for (NSString *key in [[value allKeys] sortedArrayUsingSelector:@selector(compare:)]) {
-        if (first) {
-            first = NO;
-        } else {
-            [result appendString:@",\n"];
-        }
-        convertValueToJson(result, indent + 1, [value objectForKey:key], key, pretty);
-    }
-    if (pretty) {
-        [result appendString:@"\n"];
-        addIdent(result, indent);
-    }
-    [result appendString:@"}"];
-}
-
-static void convertArrayToJson(NSMutableString *result, int indent, NSArray *value, BOOL pretty)
-{
-    BOOL first = YES;
-    
-    [result appendString:@"["];
-    if (pretty) {
-        [result appendString:@"\n"];
-    }
-    for (id arrayValue in value) {
-        if (first) {
-            first = NO;
-        } else {
-            [result appendString:@",\n"];
-        }
-        convertValueToJson(result, indent + 1, arrayValue, nil, pretty);
-    }
-    if (pretty) {
-        [result appendString:@"\n"];
-        addIdent(result, indent);
-    }
-    [result appendString:@"]"];
-}
-
-static void convertValueToJson(NSMutableString *result, int indent, id value, NSString *key, BOOL pretty)
-{
-    if (pretty) {
-        addIdent(result, indent);
-    }
-    if (key) {
-        [result appendString:@"\""];
-        [result appendString:[key escapeQuotes]];
-        [result appendString:@"\": "];
-    }
-    if ([value isKindOfClass:[NSString class]]) {
-        [result appendString:@"\""];
-        [result appendString:[value escapeQuotes]];
-        [result appendString:@"\""];
-    } else if ([value isKindOfClass:[NSDate class]]) {
-        [result appendFormat:@"%f", [value timeIntervalSince1970] * 1000];
-    } else if ([value isKindOfClass:[NSNull class]]) {
-        [result appendString:@"null"];
-    } else if ([value isKindOfClass:[NSDictionary class]]) {
-        convertDictionaryToJson(result, indent, value, pretty);
-    } else if ([value isKindOfClass:[NSArray class]]) {
-        convertArrayToJson(result, indent, value, pretty);
-    } else if ([value isKindOfClass:[NSNumber class]]) {
-        if (strcmp([value objCType], @encode(BOOL)) == 0) {
-            if ([value boolValue]) {
-                [result appendString:@"true"];
-            } else {
-                [result appendString:@"false"];
-            }
-        } else {
-            [result appendString:[value description]];
-        }
-    } else if ([value isKindOfClass:[MODObjectId class]]) {
-        [result appendString:[value jsonValue]];
-    } else if ([value isKindOfClass:[MODRegex class]]) {
-        [result appendString:[value jsonValue]];
-    } else if ([value isKindOfClass:[MODTimestamp class]]) {
-        [result appendString:[value jsonValue]];
-    } else if ([value isKindOfClass:[MODBinary class]]) {
-        [result appendString:[value jsonValue]];
-    } else if ([value isKindOfClass:[MODDBRef class]]) {
-        [result appendString:[value jsonValue]];
-    }
-}
-
 @implementation MODHelper
-
-+ (NSString *)convertObjectToJson:(NSDictionary *)object pretty:(BOOL)pretty
-{
-    NSMutableString *result;
-    
-    result = [NSMutableString string];
-    convertDictionaryToJson(result, 0, object, pretty);
-    return result;
-}
 
 + (NSArray *)convertForOutlineWithObjects:(NSArray *)mongoObjects
 {
@@ -149,7 +37,7 @@ static void convertValueToJson(NSMutableString *result, int indent, id value, NS
             dict = [NSMutableDictionary dictionary];
         }
         [dict setObject:[self convertForOutlineWithObject:object] forKey:@"child"];
-        [dict setObject:[self convertObjectToJson:object pretty:YES] forKey:@"beautified"];
+        [dict setObject:[MODServer convertObjectToJson:object pretty:YES] forKey:@"beautified"];
         [result addObject:dict];
     }
     return result;

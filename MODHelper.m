@@ -7,8 +7,7 @@
 //
 
 #import "MODHelper.h"
-#import "MODObjectId.h"
-#import "MODDataRegex.h"
+#import "MOD_public.h"
 #import "NSString+Extras.h"
 
 @interface MODHelper()
@@ -109,6 +108,12 @@ static void convertValueToJson(NSMutableString *result, int indent, id value, NS
         [result appendString:[value jsonValue]];
     } else if ([value isKindOfClass:[MODDataRegex class]]) {
         [result appendString:[value jsonValue]];
+    } else if ([value isKindOfClass:[MODTimestamp class]]) {
+        [result appendString:[value jsonValue]];
+    } else if ([value isKindOfClass:[MODDataBinary class]]) {
+        [result appendString:[value jsonValue]];
+    } else if ([value isKindOfClass:[MODDataRef class]]) {
+        [result appendString:[value jsonValue]];
     }
 }
 
@@ -195,10 +200,19 @@ static void convertValueToJson(NSMutableString *result, int indent, id value, NS
         value = [dataValue description];
     } else if ([dataValue isKindOfClass:[MODObjectId class]]) {
         type = @"Object id";
-        value = [dataValue description];
+        value = [dataValue tengenString];
     } else if ([dataValue isKindOfClass:[MODDataRegex class]]) {
         type = @"Regex";
-        value = [dataValue description];
+        value = [dataValue tengenString];
+    } else if ([dataValue isKindOfClass:[MODTimestamp class]]) {
+        type = @"Timestamp";
+        value = [dataValue tengenString];
+    } else if ([dataValue isKindOfClass:[MODDataBinary class]]) {
+        type = @"Binary";
+        value = [dataValue tengenString];
+    } else if ([dataValue isKindOfClass:[MODDataRef class]]) {
+        type = @"Ref";
+        value = [dataValue tengenString];
     } else if ([dataValue isKindOfClass:[NSString class]]) {
         type = @"String";
         value = dataValue;

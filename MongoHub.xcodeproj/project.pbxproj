@@ -42,6 +42,7 @@
 		02411ABF1432D55A00A5FFCA /* MODDataBinary.m in Sources */ = {isa = PBXBuildFile; fileRef = 02411ABE1432D55A00A5FFCA /* MODDataBinary.m */; };
 		024F67901427F3DE00956BF6 /* MODHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 024F678F1427F3DE00956BF6 /* MODHelper.m */; };
 		026B2DE513BB6FB8009BEA7B /* RegexKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 026B2DE413BB6FB8009BEA7B /* RegexKit.framework */; };
+		028C742D1433D67F0034BAB5 /* MODDataRef.m in Sources */ = {isa = PBXBuildFile; fileRef = 028C742C1433D67F0034BAB5 /* MODDataRef.m */; };
 		02AB057C142971CE00B7CD19 /* MODObjectId.m in Sources */ = {isa = PBXBuildFile; fileRef = 02AB057A142971CE00B7CD19 /* MODObjectId.m */; };
 		02CF87E4142F7316000C4C7F /* MODJsonParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 02CF87E1142F7316000C4C7F /* MODJsonParser.m */; };
 		02CF87E5142F7316000C4C7F /* MODTimestamp.m in Sources */ = {isa = PBXBuildFile; fileRef = 02CF87E3142F7316000C4C7F /* MODTimestamp.m */; };
@@ -353,6 +354,8 @@
 		024F678E1427F3DE00956BF6 /* MODHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MODHelper.h; sourceTree = "<group>"; };
 		024F678F1427F3DE00956BF6 /* MODHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MODHelper.m; sourceTree = "<group>"; };
 		026B2DE413BB6FB8009BEA7B /* RegexKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = RegexKit.framework; sourceTree = "<group>"; };
+		028C742B1433D67F0034BAB5 /* MODDataRef.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MODDataRef.h; sourceTree = "<group>"; };
+		028C742C1433D67F0034BAB5 /* MODDataRef.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MODDataRef.m; sourceTree = "<group>"; };
 		02AB057A142971CE00B7CD19 /* MODObjectId.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MODObjectId.m; sourceTree = "<group>"; };
 		02AB057B142971CE00B7CD19 /* MODObjectId.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MODObjectId.h; sourceTree = "<group>"; };
 		02CF87E0142F7316000C4C7F /* MODJsonParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MODJsonParser.h; sourceTree = "<group>"; };
@@ -746,6 +749,8 @@
 				02CF87EE142FA300000C4C7F /* MODDataRegex.m */,
 				02411ABD1432D55900A5FFCA /* MODDataBinary.h */,
 				02411ABE1432D55A00A5FFCA /* MODDataBinary.m */,
+				028C742B1433D67F0034BAB5 /* MODDataRef.h */,
+				028C742C1433D67F0034BAB5 /* MODDataRef.m */,
 				02CF87E0142F7316000C4C7F /* MODJsonParser.h */,
 				02CF87E1142F7316000C4C7F /* MODJsonParser.m */,
 				02216EB214128CBF00789BD1 /* InfoPlist.strings */,
@@ -1394,6 +1399,7 @@
 				02CF87E5142F7316000C4C7F /* MODTimestamp.m in Sources */,
 				02CF87EF142FA300000C4C7F /* MODDataRegex.m in Sources */,
 				02411ABF1432D55A00A5FFCA /* MODDataBinary.m in Sources */,
+				028C742D1433D67F0034BAB5 /* MODDataRef.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

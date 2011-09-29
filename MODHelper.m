@@ -106,13 +106,13 @@ static void convertValueToJson(NSMutableString *result, int indent, id value, NS
         }
     } else if ([value isKindOfClass:[MODObjectId class]]) {
         [result appendString:[value jsonValue]];
-    } else if ([value isKindOfClass:[MODDataRegex class]]) {
+    } else if ([value isKindOfClass:[MODRegex class]]) {
         [result appendString:[value jsonValue]];
     } else if ([value isKindOfClass:[MODTimestamp class]]) {
         [result appendString:[value jsonValue]];
-    } else if ([value isKindOfClass:[MODDataBinary class]]) {
+    } else if ([value isKindOfClass:[MODBinary class]]) {
         [result appendString:[value jsonValue]];
-    } else if ([value isKindOfClass:[MODDataRef class]]) {
+    } else if ([value isKindOfClass:[MODDBRef class]]) {
         [result appendString:[value jsonValue]];
     }
 }
@@ -201,16 +201,16 @@ static void convertValueToJson(NSMutableString *result, int indent, id value, NS
     } else if ([dataValue isKindOfClass:[MODObjectId class]]) {
         type = @"Object id";
         value = [dataValue tengenString];
-    } else if ([dataValue isKindOfClass:[MODDataRegex class]]) {
+    } else if ([dataValue isKindOfClass:[MODRegex class]]) {
         type = @"Regex";
         value = [dataValue tengenString];
     } else if ([dataValue isKindOfClass:[MODTimestamp class]]) {
         type = @"Timestamp";
         value = [dataValue tengenString];
-    } else if ([dataValue isKindOfClass:[MODDataBinary class]]) {
+    } else if ([dataValue isKindOfClass:[MODBinary class]]) {
         type = @"Binary";
         value = [dataValue tengenString];
-    } else if ([dataValue isKindOfClass:[MODDataRef class]]) {
+    } else if ([dataValue isKindOfClass:[MODDBRef class]]) {
         type = @"Ref";
         value = [dataValue tengenString];
     } else if ([dataValue isKindOfClass:[NSString class]]) {

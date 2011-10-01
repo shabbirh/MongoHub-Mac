@@ -237,6 +237,7 @@
 - (void)checkTunnel {
     NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
     while(!exitThread){
+		[NSThread sleepForTimeInterval:3];
 		@synchronized(self){
             if ([sshTunnel running] == NO){
                 [sshTunnel start];
@@ -247,7 +248,6 @@
             }
             [sshTunnel readStatus];
 		}
-		[NSThread sleepForTimeInterval:3];
 	}
     [pool drain];
     [NSThread exit];

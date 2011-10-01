@@ -157,7 +157,7 @@
         [sshTunnel setAliveInterval:30];
         [sshTunnel setTcpKeepAlive:YES];
         [sshTunnel setCompression:YES];
-        //[sshTunnel start];
+        [sshTunnel start];
         [portForwardings release];
         [pool drain];
         return;

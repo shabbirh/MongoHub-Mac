@@ -12,9 +12,7 @@
 #import "Database.h"
 #import "Connection.h"
 #import "NSString+Extras.h"
-#import "MODServer.h"
-#import "MODCollection.h"
-#import "MODQuery.h"
+#import "MOD_public.h"
 #import <MCPKit/MCPKit.h>
 #import "FieldMapTableController.h"
 #import "FieldMapDataObject.h"
@@ -24,8 +22,7 @@
 @synthesize dbname;
 @synthesize conn;
 @synthesize db;
-@synthesize mongoServer;
-@synthesize mongoCollection;
+@synthesize mongoDatabase;
 @synthesize databasesArrayController;
 @synthesize managedObjectContext;
 @synthesize dbsArrayController;
@@ -50,8 +47,7 @@
     [databasesArrayController release];
     [conn release];
     [db release];
-    [mongoServer release];
-    [mongoCollection release];
+    [mongoDatabase release];
     [dbsArrayController release];
     [tablesArrayController release];
     [hostTextField release];
@@ -78,135 +74,107 @@
 }
 
 - (IBAction)export:(id)sender {
-//    [progressIndicator setUsesThreadedAnimation:YES];
-//    [progressIndicator startAnimation: self];
-//    [progressIndicator setDoubleValue:0];
-//    NSString *collection = [NSString stringWithString:[collectionTextField stringValue]];
-//    if ([collection length] == 0) {
-//        NSRunAlertPanel(@"Error", @"Collection name can not be empty!", @"OK", nil, nil);
-//        return;
-//    }
-//    NSString *tablename = [NSString stringWithString:[tablesPopUpButton titleOfSelectedItem]];
-//    
-//    NSString *user=nil;
-//    NSString *password=nil;
-//    Database *mongodb = [databasesArrayController dbInfo:conn name:dbname];
-//    if (mongodb) {
-//        user = mongodb.user;
-//        password = mongodb.password;
-//    }
-//    int64_t total = [self exportCount:collection user:user password:password];
-//    if (total == 0) {
-//        return;
-//    }
-//    NSString *query = [[NSString alloc] initWithFormat:@"select * from %@ limit 1", tablename];
-//    MCPResult *theResult = [db queryString:query];
-//    [query release];
-//    NSDictionary *fieldTypes = [theResult fetchTypesAsDictionary];
-//    
-//    mongo::BSONObjBuilder fieldsBSONBuilder;
-//    for(FieldMapDataObject *field in fieldMapTableController.nsMutaryDataObj) {
-//        fieldsBSONBuilder.append([field.mongoKey UTF8String], 1);
-//    }
-//    mongo::BSONObj fieldsBSONObj = fieldsBSONBuilder.obj();
-//    std::auto_ptr<mongo::DBClientCursor> cursor = [mongoServer findAllCursorInDB:dbname collection:collection user:user password:password fields:fieldsBSONObj];
-//    int i = 1;
-//    while( cursor->more() )
-//    {
-//        mongo::BSONObj b = cursor->next();
-//        [self doExportToTable:tablename data:b fieldTypes:fieldTypes];
-//        [progressIndicator setDoubleValue:(double)i/total];
-//        i ++;
-//    }
-//    [progressIndicator stopAnimation: self];
+    [mongoDatabase.mongoServer copyWithCallback:^(MODServer *copyServer, MODQuery *mongoQuery) {
+        MODCollection *mongoCollection;
+        
+        [progressIndicator setUsesThreadedAnimation:YES];
+        [progressIndicator startAnimation: self];
+        [progressIndicator setDoubleValue:0];
+        NSString *collection = [collectionTextField stringValue];
+        if ([collection length] == 0) {
+            NSRunAlertPanel(@"Error", @"Collection name can not be empty!", @"OK", nil, nil);
+            return;
+        }
+        mongoCollection = [[copyServer databaseForName:mongoDatabase.databaseName] collectionForName:collection];
+        NSString *tablename = [tablesPopUpButton titleOfSelectedItem];
+        
+        int64_t total = [self exportCount:mongoCollection];
+        if (total == 0) {
+            return;
+        }
+        NSString *query = [[NSString alloc] initWithFormat:@"select * from %@ limit 1", tablename];
+        MCPResult *theResult = [db queryString:query];
+        NSDictionary *fieldTypes = [theResult fetchTypesAsDictionary];
+        NSArray *fieldMapping = [fieldMapTableController.nsMutaryDataObj copy];
+        
+        MODCursor *cursor;
+        cursor = [mongoCollection cursorWithCriteria:nil fields:nil skip:0 limit:10 sort:@"{ \"$natural\" : 1 }"];
+//        cursor.tailable = YES;
+        [cursor forEachDocumentWithCallbackDocumentCallback:^(uint64_t index, NSDictionary *document) {
+            [self doExportToTable:tablename data:document fieldTypes:fieldTypes fieldMapping:fieldMapping];
+            [progressIndicator setDoubleValue:(double)index/total];
+            NSLog(@"%lld %lld", index, total);
+            return YES;
+        } endCallback:^(uint64_t documentCounts, BOOL cursorStopped, MODQuery *mongoQuery) {
+            [progressIndicator stopAnimation: self];
+        }];
+        [query release];
+        [fieldMapping release];
+    }];
 }
 
-- (int64_t)exportCount:(NSString *)collection user:(NSString *)user password:(NSString *)password
+- (int64_t)exportCount:(MODCollection *)collection
 {
     MODQuery *query;
     
-    query = [mongoCollection countWithCriteria:nil callback:nil];
+    query = [collection countWithCriteria:nil callback:nil];
     [query waitUntilFinished];
     return [[query.parameters objectForKey:@"count"] longLongValue];
 }
 
-- (void)doExportToTable:(NSString *)tableName data:(id) bsonObj fieldTypes:(NSDictionary *)fieldTypes
+- (void)doExportToTable:(NSString *)tableName data:(id)mongoDocument fieldTypes:(NSDictionary *)fieldTypes fieldMapping:(NSArray *)fieldMapping
 {
-//    int fieldsCount = [fieldMapTableController.nsMutaryDataObj count];
-//    NSMutableArray *fields = [[NSMutableArray alloc] initWithCapacity:fieldsCount];
-//    NSMutableArray *values = [[NSMutableArray alloc] initWithCapacity:fieldsCount];
-//    for(FieldMapDataObject *field in fieldMapTableController.nsMutaryDataObj)
-//    {
-//        id value;
-//        mongo::BSONElement e = bsonObj.getFieldDotted([field.mongoKey UTF8String]);
-//        if (e.eoo() == true) {
-//            continue;
-//        }
-//        if (e.type() == mongo::jstNULL) {
-//            continue;
-//        }else if (e.type() == mongo::Array) {
-//            continue;
-//        }else if (e.type() == mongo::Object) {
-//            continue;
-//        }else if (e.type() == mongo::Bool)  {
-//            if (e.boolean()) {
-//                value = [[NSString alloc] initWithString:@"1" ];
-//            }else {
-//                value = [[NSString alloc] initWithString:@"0"];
-//            }
-//        }else if (e.type() == mongo::NumberDouble) {
-//            value = [[NSNumber alloc] initWithDouble: e.numberDouble()];
-//        }else if (e.type() == mongo::NumberInt) {
-//            NSString *ft = [fieldTypes objectForKey:field.sqlKey];
-//            if ([ft isEqualToString:@"date"] || [ft isEqualToString:@"datetime"]) {
-//                value = [[NSDate alloc] initWithTimeIntervalSince1970:e.numberInt()];
-//            }else {
-//                value = [[NSNumber alloc] initWithInt: e.numberInt()];
-//            }
-//        }else if (e.type() == mongo::Date) {
-//            mongo::Date_t dt = (time_t)e.date();
-//            time_t timestamp = dt / 1000;
-//            value = [[NSDate alloc] initWithTimeIntervalSince1970:timestamp];
-//        }else if (e.type() == mongo::Timestamp) {
-//            time_t timestamp = (time_t)e.timestampTime();
-//            value = [[NSDate alloc] initWithTimeIntervalSince1970:timestamp];
-//        }else if (e.type() == mongo::BinData) {
-//            int binlen;
-//            const char* data = e.binData(binlen);
-//            value = [[NSData alloc] initWithBytes:data length:binlen];
-//        }else if (e.type() == mongo::NumberLong) {
-//            NSString *ft = [fieldTypes objectForKey:field.sqlKey];
-//            if ([ft isEqualToString:@"date"] || [ft isEqualToString:@"datetime"]) {
-//                value = [[NSDate alloc] initWithTimeIntervalSince1970:e.numberLong()];
-//            }else {
-//                value = [[NSNumber alloc] initWithLong: e.numberLong()];
-//            }
-//        }else if ([field.mongoKey isEqualToString:@"_id" ]) {
-//            if (e.type() == mongo::jstOID)
-//            {
-//                value = [[NSString alloc] initWithUTF8String: e.__oid().str().c_str()];
-//            }else {
-//                value = [[NSString alloc] initWithUTF8String: e.str().c_str()];
-//            }
-//        }else {
-//            value = [[NSString alloc] initWithUTF8String:e.str().c_str()];
-//        }
-//        NSString *sqlKey = [[NSString alloc] initWithString:field.sqlKey];
-//        NSString *quotedValue = [[NSString alloc] initWithString:[db quoteObject:value]];
-//        [value release];
-//        [fields addObject:sqlKey];
-//        [values addObject:quotedValue];
-//        [quotedValue release];
-//        [sqlKey release];
-//    }
-//    if ([fields count] > 0) {
-//        NSString *query = [[NSString alloc] initWithFormat:@"INSERT INTO %@ (%@) values (%@)", tableName, [fields componentsJoinedByString:@","], [values componentsJoinedByString:@","]];
-//        //NSLog(@"query: %@", query);
-//        [db queryString:query];
-//        [query release];
-//    }
-//    [fields release];
-//    [values release];
+    int fieldsCount = [fieldMapping count];
+    NSMutableArray *fields = [[NSMutableArray alloc] initWithCapacity:fieldsCount];
+    NSMutableArray *values = [[NSMutableArray alloc] initWithCapacity:fieldsCount];
+    for(FieldMapDataObject *field in fieldMapping)
+    {
+        id value;
+        id mongoValue = [mongoDocument valueForKeyPath:field.mongoKey];
+        if (mongoValue == nil) {
+            continue;
+        } else if ([mongoValue isKindOfClass:[NSArray class]]) {
+            continue;
+        } else if ([mongoValue isKindOfClass:[NSDictionary class]]) {
+            continue;
+        } else if ([mongoValue isKindOfClass:[NSNumber class]] && strcmp([mongoValue objCType], @encode(BOOL)) == 0)  {
+            if ([mongoValue boolValue]) {
+                value = [[NSString alloc] initWithString:@"1" ];
+            }else {
+                value = [[NSString alloc] initWithString:@"0"];
+            }
+        } else if ([mongoValue isKindOfClass:[NSNumber class]]) {
+            NSString *ft = [fieldTypes objectForKey:field.sqlKey];
+            if ([ft isEqualToString:@"date"] || [ft isEqualToString:@"datetime"]) {
+                value = [[NSDate alloc] initWithTimeIntervalSince1970:[mongoValue doubleValue]];
+            }else {
+                value = [mongoValue retain];
+            }
+        } else if ([mongoValue isKindOfClass:[MODTimestamp class]]) {
+            value = [[mongoValue dateValue] retain];
+        } else if ([mongoValue isKindOfClass:[MODBinary class]]) {
+            value = [[mongoValue data] retain];
+        } else if ([mongoValue isKindOfClass:[MODObjectId class]]) {
+            value = [[mongoValue stringValue] retain];
+        } else if ([mongoValue isKindOfClass:[NSString class]] || [mongoValue isKindOfClass:[NSData class]] || [mongoValue isKindOfClass:[NSDate class]]) {
+            value = [mongoValue retain];
+        } else {
+            value = [[mongoValue description] retain];
+        }
+        NSString *sqlKey = field.sqlKey;
+        NSString *quotedValue = [db quoteObject:value];
+        [value release];
+        [fields addObject:sqlKey];
+        [values addObject:quotedValue];
+    }
+    if ([fields count] > 0) {
+        NSString *query = [[NSString alloc] initWithFormat:@"INSERT INTO %@ (%@) values (%@)", tableName, [fields componentsJoinedByString:@","], [values componentsJoinedByString:@","]];
+        //NSLog(@"query: %@", query);
+        [db queryString:query];
+        [query release];
+    }
+    [fields release];
+    [values release];
 }
 
 - (IBAction)connect:(id)sender {

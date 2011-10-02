@@ -596,7 +596,7 @@
     }
     exportWindowController.managedObjectContext = self.managedObjectContext;
     exportWindowController.conn = self.conn;
-    exportWindowController.mongoServer = mongoServer;
+    exportWindowController.mongoDatabase = mongoDatabase;
     exportWindowController.dbname = [self.selectedDB caption];
     if (self.selectedCollection) {
         [exportWindowController.collectionTextField setStringValue:[self.selectedCollection caption]];

@@ -138,21 +138,25 @@
                 }
                 while (NSDictionary *row = [theResult fetchRowAsDictionary]) {
                     NSMutableArray *documents;
+                    void (^callback)(MODQuery *mongoQuery);
                     
-                    if (ii % 10 == 0) {
-                        NSNumber *value;
-                        
-                        value = [[NSNumber alloc] initWithDouble:(double)ii/(double)total];
-                        [self performSelectorOnMainThread:@selector(updateProgressIndicatorWithNumber:) withObject:value waitUntilDone:NO];
-                        [value release];
-                    }
-                    documents = [[NSMutableArray alloc] initWithObjects:row, nil];
-                    [copyCollection insertWithDocuments:documents callback:nil];
-                    [documents release];
                     ii++;
+                    documents = [[NSMutableArray alloc] initWithObjects:row, nil];
+                    if (ii == total) {
+                        callback = ^(MODQuery *mongoQuery) {
+                            [self importDone:nil];
+                        };
+                    } else if (ii % 10 == 0) {
+                        callback = ^(MODQuery *mongoQuery) {
+                            [progressIndicator setDoubleValue:(double)ii/(double)total];
+                        };
+                    } else {
+                        callback = nil;
+                    }
+                    [copyCollection insertWithDocuments:documents callback:callback];
+                    [documents release];
                 }
             }
-            [self performSelectorOnMainThread:@selector(importDone:) withObject:nil waitUntilDone:NO];
         });
     }];
 }

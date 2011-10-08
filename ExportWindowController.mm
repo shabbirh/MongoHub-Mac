@@ -98,8 +98,7 @@
         NSArray *fieldMapping = [fieldMapTableController.nsMutaryDataObj copy];
         
         MODCursor *cursor;
-        cursor = [mongoCollection cursorWithCriteria:nil fields:nil skip:0 limit:10 sort:@"{ \"$natural\" : 1 }"];
-//        cursor.tailable = YES;
+        cursor = [mongoCollection cursorWithCriteria:nil fields:nil skip:0 limit:0 sort:nil];
         [cursor forEachDocumentWithCallbackDocumentCallback:^(uint64_t index, NSDictionary *document) {
             [self doExportToTable:tablename data:document fieldTypes:fieldTypes fieldMapping:fieldMapping];
             [progressIndicator setDoubleValue:(double)index/total];

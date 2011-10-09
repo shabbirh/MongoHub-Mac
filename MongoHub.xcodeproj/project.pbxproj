@@ -364,6 +364,7 @@
 		02CF87E1142F7316000C4C7F /* MODJsonParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MODJsonParser.m; sourceTree = "<group>"; };
 		02CF87E2142F7316000C4C7F /* MODTimestamp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MODTimestamp.h; sourceTree = "<group>"; };
 		02CF87E3142F7316000C4C7F /* MODTimestamp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MODTimestamp.m; sourceTree = "<group>"; };
+		02D5A7F21441FBB300C7768C /* next_software_update.txt */ = {isa = PBXFileReference; lastKnownFileType = text; name = next_software_update.txt; path = Resourses/next_software_update.txt; sourceTree = "<group>"; };
 		02FCD3CE13BB9EA400316A9F /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Sparkle.framework; sourceTree = "<group>"; };
 		02FCD3D713BBA4A300316A9F /* MCPKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = MCPKit.framework; sourceTree = "<group>"; };
 		089C165DFE840E0CC02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -1111,6 +1112,7 @@
 				1D601B5511C8F24300C86274 /* Import.xib */,
 				1D26615111CFC5BE0092C6B5 /* Export.xib */,
 				1D64100E12C8E6BE0030AA4C /* JsonWindow.xib */,
+				02D5A7F21441FBB300C7768C /* next_software_update.txt */,
 			);
 			name = Resources;
 			sourceTree = "<group>";

@@ -166,6 +166,7 @@
         mongoServer = [[MODServer alloc] init];
         mongoServer.userName = conn.adminuser;
         mongoServer.password = conn.adminpass;
+        mongoServer.authDatabase = conn.defaultdb;
         if ([conn.userepl intValue] == 1) {
             NSArray *tmp = [conn.servers componentsSeparatedByString:@","];
             NSMutableArray *hosts = [[NSMutableArray alloc] initWithCapacity:[tmp count]];

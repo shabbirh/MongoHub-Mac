@@ -684,8 +684,8 @@ static BOOL			sSyntaxColoredTextDocPrefsInited = NO;
 	[[self undoManager] registerUndoWithTarget: self selector: @selector(restoreText:) object: prevText];
 	
 	// Unselect any trailing returns so we don't comment the next line after a full-line selection.
-	while( [str characterAtIndex: selRange.location +selRange.length -1] == '\n' ||
-          [str characterAtIndex: selRange.location +selRange.length -1] == '\r'
+	while( ([str characterAtIndex: selRange.location +selRange.length -1] == '\n' ||
+          [str characterAtIndex: selRange.location +selRange.length -1] == '\r')
           && selRange.length > 0 )
 	{
 		selRange.length--;

@@ -1126,8 +1126,9 @@ static BOOL			sSyntaxColoredTextDocPrefsInited = NO;
             
 			// Look for associated end-of-comment marker:
 			[vScanner scanUpToString: endCh intoString: nil];
-			if( ![vScanner scanString: endCh intoString: nil] )
+			if( ![vScanner scanString: endCh intoString: nil] ) {
             /*return*/;  // Don't exit. If user forgot trailing marker, indicate this by "bleeding" until end of string.
+            }
 			vEndOffs = [vScanner scanLocation];
 			
 			// Now mess with the string's styles:
@@ -1176,8 +1177,9 @@ static BOOL			sSyntaxColoredTextDocPrefsInited = NO;
 				return;
             
 			// Look for associated line break:
-			if( ![vScanner skipUpToCharactersFromSet:[NSCharacterSet characterSetWithCharactersInString: @"\n\r"]] )
+			if( ![vScanner skipUpToCharactersFromSet:[NSCharacterSet characterSetWithCharactersInString: @"\n\r"]] ) {
 				;
+            }
 			
 			vEndOffs = [vScanner scanLocation];
 			
@@ -1307,7 +1309,7 @@ static BOOL			sSyntaxColoredTextDocPrefsInited = NO;
 			while( ![vScanner isAtEnd] )
 			{
 				// Scan up to the next occurence of the terminating sequence:
-				(BOOL) [vScanner scanUpToString: endCh intoString:nil];
+                [vScanner scanUpToString: endCh intoString:nil];
 				
 				// Now, if the mode of the end marker is not the mode we were told to ignore,
 				//  we're finished now and we can exit the inner loop:

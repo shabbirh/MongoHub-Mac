@@ -158,17 +158,11 @@
 - (IBAction)collapseFindResults:(id)sender;
 - (IBAction)updateQuery:(id)sender;
 - (IBAction)removeQuery:(id)sender;
-- (void)doRemoveQuery;
 - (IBAction)insertQuery:(id)sender;
-- (void)doInsertQuery;
 - (IBAction)indexQuery:(id)sender;
-- (void)doIndexQuery;
 - (IBAction)ensureIndex:(id)sender;
-- (void)doEnsureIndex;
 - (IBAction)reIndex:(id)sender;
-- (void)doReIndex;
 - (IBAction)dropIndex:(id)sender;
-- (void)doDropIndex;
 - (IBAction) mapReduce:(id)sender;
 - (void)doMapReduce;
 - (IBAction) export:(id)sender;
@@ -176,7 +170,6 @@
 - (IBAction) import:(id)sender;
 - (void)doImport;
 - (IBAction)removeRecord:(id)sender;
-- (void)doRemoveRecord;
 
 - (IBAction)findQueryComposer:(id)sender;
 - (IBAction)updateQueryComposer:(id)sender;

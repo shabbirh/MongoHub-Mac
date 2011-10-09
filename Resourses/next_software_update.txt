@@ -1,1 +1,9 @@
+
+    Known bugs
+* canot modify index
+    
+    current
 * Crash fixed when using an authenticated database
+
+    2.4.1(75):
+* Can do export and import (mysql)

@@ -2,12 +2,16 @@
 <rss version="2.0" xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle"  xmlns:dc="http://purl.org/dc/elements/1.1/">
    <channel>
       <title>MongoHub</title>
-      <link>http://cloud.github.com/downloads/fotonauts/MongoHub-Mac/objc_driver_branch_su_feed.xml</link>
+      <link>http://cloud.github.com/downloads/fotonauts/MongoHub-Mac/su_feed.xml</link>
       <description>Most recent changes with links to updates.</description>
       <language>en</language>      
          <item>
-            <title>Version 2.4</title>
-            <enclosure url="https://github.com/downloads/fotonauts/MongoHub-Mac/MongoHub-objc.zip" sparkle:version="74" sparkle:shortVersionString="2.4" length="2923600" sparkle:dsaSignature="MC4CFQCT8ZuMOTTolXoe67RpMa+V+wAfGwIVAMWEcNdZhjK+0d1asL2rJ2k6ADK8" type="application/octet-stream" />
+            <title>Version 2.4.1</title>
+            <enclosure url="http://cloud.github.com/downloads/fotonauts/MongoHub-Mac/MongoHub.zip" sparkle:version="75" sparkle:shortVersionString="2.4.1" length="2818330" sparkle:dsaSignature="MC0CFC4kmlaFj97Xv2Mhz8jgMpHCPC+qAhUAhcbL0bj7vZxxTaNqPC/UQp8DXQk=" type="application/octet-stream" />
+            <description><![CDATA[
+            Import and exports (mysql) should work. Indexes view stil doesn't work yet.
+            ]]>
+            </description>
          </item>
    </channel>
 </rss>

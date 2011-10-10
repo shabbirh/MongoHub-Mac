@@ -867,9 +867,6 @@
 		1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				02FCD3D713BBA4A300316A9F /* MCPKit.framework */,
-				02FCD3CE13BB9EA400316A9F /* Sparkle.framework */,
-				026B2DE413BB6FB8009BEA7B /* RegexKit.framework */,
 				1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */,
 			);
 			name = "Linked Frameworks";
@@ -1113,10 +1110,13 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				02FCD3D713BBA4A300316A9F /* MCPKit.framework */,
+				02FCD3CE13BB9EA400316A9F /* Sparkle.framework */,
+				026B2DE413BB6FB8009BEA7B /* RegexKit.framework */,
 				1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */,
 				1058C7A2FEA54F0111CA2CBB /* Other Frameworks */,
 			);
-			name = Frameworks;
+			path = Frameworks;
 			sourceTree = "<group>";
 		};
 		7756732906782D8800D1FEB8 /* Models */ = {

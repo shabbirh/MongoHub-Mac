@@ -250,6 +250,7 @@
 		025C562F14350DEF0064B010 /* MODDBRef.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MODDBRef.h; sourceTree = "<group>"; };
 		025C563014350DEF0064B010 /* MODBinary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MODBinary.m; sourceTree = "<group>"; };
 		025C563114350DEF0064B010 /* MODBinary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MODBinary.h; sourceTree = "<group>"; };
+		02683D5D1442759100467EBE /* README.markdown */ = {isa = PBXFileReference; lastKnownFileType = text; path = README.markdown; sourceTree = "<group>"; };
 		026B2DE413BB6FB8009BEA7B /* RegexKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = RegexKit.framework; sourceTree = "<group>"; };
 		02AB057A142971CE00B7CD19 /* MODObjectId.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MODObjectId.m; sourceTree = "<group>"; };
 		02AB057B142971CE00B7CD19 /* MODObjectId.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MODObjectId.h; sourceTree = "<group>"; };
@@ -1084,6 +1085,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				02683D5D1442759100467EBE /* README.markdown */,
 				0213CAF31431FEF50027795D /* su_feed.xml */,
 				1DD1CA8512C8F004007F2909 /* Syntax Definitions */,
 				1DD1CA8112C8EFD4007F2909 /* SyntaxDefinition.plist */,

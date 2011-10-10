@@ -13,7 +13,7 @@ or clone the source code and compile it on your own system.
 
 ## Build
 
-Just build it, it should work.
+Just build it, it should work (but let me know if you have an errors or warnings).
 
 ## Current Status
 

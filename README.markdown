@@ -37,9 +37,25 @@ Thanks [HybridDBA](https://github.com/HybridDBA) add this build guide.
 
 This project is very new. Any issues or bug reports are welcome. And I still don't have time to write a **usage guide**.
 
+** Known bugs **
+    - Canot modify index in the "Index" tab
+    - Don't trust the grey default value in textfields
+    - Most of errors are not handled correctly
+
+** To do list **
+    - Should manage a list of database/user/password for each connections
+    - Should save the password into the keychain
+    
+** Current **
+    - Crash fixed when using an authenticated database
+    - Show all the databases when using authentication
+
 ## History
 
-** [Last Update 2.3.2] **
+** [Update 2.4.1(75)] **
+    - Can do export and import (mysql)
+
+** [Update 2.3.2] **
 	
 	- Fixed a bug in jsoneditor related to Date() object;
 	- Add import/export to JSON/CSV functions;
@@ -47,7 +63,7 @@ This project is very new. Any issues or bug reports are welcome. And I still don
 	- Add a function to remove single record in find query window;
 	- Fixed a bug to create collection in a database which doesn't have collection;
 	
-** [Last Update 2.3.1] **
+** [Update 2.3.1] **
 	
 	- Fixed a bug in jsoneditor related to Date() object;
 	- Add execution time in find panel;

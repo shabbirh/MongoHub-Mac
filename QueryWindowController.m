@@ -14,8 +14,6 @@
 #import "Connection.h"
 #import "NSString+Extras.h"
 #import "JsonWindowController.h"
-#import <fstream>
-#import <iostream>
 #import "MODServer.h"
 #import "MODCollection.h"
 #import "MODDatabase.h"
@@ -216,7 +214,7 @@
         [findResultsViewController.results removeAllObjects];
         [findResultsViewController.results addObjectsFromArray:[MODHelper convertForOutlineWithObjects:documents]];
         [findResultsViewController.myOutlineView reloadData];
-        [mongoCollection countWithCriteria:criteria callback:^(int64_t count, MODQuery *) {
+        [mongoCollection countWithCriteria:criteria callback:^(int64_t count, MODQuery *mongoQuery) {
             [findQueryLoaderIndicator stop];
             [totalResultsTextField setStringValue:[NSString stringWithFormat:@"Total Results: %lld (%0.2fs)", count, [[mongoQuery.userInfo objectForKey:@"timequery"] duration]]];
         }];
@@ -239,7 +237,7 @@
     NSString *criteria = [updateCriticalTextField stringValue];
     
     [updateQueryLoaderIndicator start];
-    [mongoCollection countWithCriteria:criteria callback:^(int64_t count, MODQuery *) {
+    [mongoCollection countWithCriteria:criteria callback:^(int64_t count, MODQuery *mongoQuery) {
         [updateResultsTextField setStringValue:[NSString stringWithFormat:@"Affected Rows: %lld", count]];
     }];
     [mongoCollection updateWithCriteria:criteria update:[updateSetTextField stringValue] upsert:[upsetCheckBox state] multiUpdate:YES callback:^(MODQuery *mongoQuery) {
@@ -252,7 +250,7 @@
     [removeQueryLoaderIndicator start];
     NSString *criteria = [removeCriticalTextField stringValue];
     
-    [mongoCollection countWithCriteria:criteria callback:^(int64_t count, MODQuery *) {
+    [mongoCollection countWithCriteria:criteria callback:^(int64_t count, MODQuery *mongoQuery) {
         [updateResultsTextField setStringValue:[NSString stringWithFormat:@"Affected Rows: %lld", count]];
     }];
     [mongoCollection removeWithCriteria:criteria callback:^(MODQuery *mongoQuery) {

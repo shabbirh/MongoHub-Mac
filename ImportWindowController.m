@@ -131,12 +131,13 @@
             while (ii < total) {
                 NSString *query = [[NSString alloc] initWithFormat:@"select * from %@ limit %lld, %lld", tableName, ii, chunkSize];
                 MCPResult *theResult = [db queryString:query];
+                NSDictionary *row;
                  
                 [query release];
                 if ([theResult numOfRows] == 0) {
                      return;
                 }
-                while (NSDictionary *row = [theResult fetchRowAsDictionary]) {
+                while ((row = [theResult fetchRowAsDictionary])) {
                     NSMutableArray *documents;
                     void (^callback)(MODQuery *mongoQuery);
                     

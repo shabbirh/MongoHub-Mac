@@ -110,12 +110,6 @@ This project is very new. Any issues or bug reports are welcome. And I still don
 
 ## Contribute
 
-I'd love to include your contributions, friend. Make sure your methods are
-[TomDoc](http://tomdoc.org)'d properly, that existing tests pass, and
-that any new functionality includes appropriate tests.
+I'd love to include your contributions, friend.
 
-Then [send me a pull request](https://github.com/bububa/MongoHub-Mac/pull/new/master)!
-
-## Contact Me
-
-[Syd](mailto:prof.syd.xu@gmail.com) made this. Ping me on Twitter —[@bububa](http://twitter.com/bububa) — or [email](mailto:prof.syd.xu@gmail.com) me if you're having issues, or want me to merge in your pull request.
+Then [send me a pull request](https://github.com/fotonauts/MongoHub-Mac/pull/new/master)!

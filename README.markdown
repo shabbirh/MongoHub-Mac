@@ -52,6 +52,7 @@ This project is very new. Any issues or bug reports are welcome. And I still don
     
     - Crash fixed when using an authenticated database
     - Show all the databases when using authentication
+    - Use "admin" database when there is no database set for the authentication
 
 ## History
 

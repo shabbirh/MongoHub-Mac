@@ -1,37 +1,19 @@
-# MongoHub [![stillmaintained](http://stillmaintained.com/bububa/MongoHub-Mac.png)](http://stillmaintained.com/bububa/MongoHub-Mac)
-
 ## What is MongoHub
 **[MongoHub](http://mongohub.todayclose.com/)** is a **[mongodb](http://mongodb.org)** GUI application.
-This repository is a mac native version of MongoHub. If you are using windows or linux please download use the source from [http://github.com/bububa/MongoHub](http://github.com/bububa/MongoHub) which is made by Titanium Desktop.
-
-![mongohub splash](https://github.com/downloads/bububa/MongoHub-Mac/MongoHubWall.png)
+This repository is a mac native version of MongoHub.
 
 ## System Requirements
 
-Mac OS X(10.6.x), intel(64bit) based.
+Mac OS X(10.6.x or 10.7.x), intel(64bit/32bit) based.
 
 ## Installation
 
-You can either download the compiled executable file from [here](https://github.com/downloads/bububa/MongoHub-Mac/MongoHub.zip) 
+You can either download the compiled executable file from [here](https://github.com/downloads/fotonauts/MongoHub-Mac/MongoHub.zip) 
 or clone the source code and compile it on your own system.
 
 ## Build
 
-Before builing ensure the following frameworks are present:
-	/Library/PrivateFrameworks
-		BWToolkitFramework.framework
-		Sparkle.framework
-		MCPKit_bundled.framework
-		RegexKit.framework
-
-The project also expects Boost libraries and the MongoDB client libraries.
-
-The following Xcode project settings were changed from the master project:
-	Header Search Paths: /usr/local/include/
-	Library Search Paths: /opt/local/lib ~/source/mongo (path to mongo source)
-	User Header Search Paths: /opt/local/include ~/source (path to source projects)
-
-Thanks [HybridDBA](https://github.com/HybridDBA) add this build guide.
+Just build it, it should work.
 
 ## Current Status
 

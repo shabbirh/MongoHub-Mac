@@ -161,9 +161,15 @@
     }else {
         [self closeMongoDB];
         mongoServer = [[MODServer alloc] init];
-        mongoServer.userName = conn.adminuser;
-        mongoServer.password = conn.adminpass;
-        mongoServer.authDatabase = conn.defaultdb;
+        if ([conn.adminuser length] > 0 && [conn.adminpass length] > 0) {
+            mongoServer.userName = conn.adminuser;
+            mongoServer.password = conn.adminpass;
+            if ([conn.defaultdb length] > 0) {
+                mongoServer.authDatabase = conn.defaultdb;
+            } else {
+                mongoServer.authDatabase = @"admin";
+            }
+        }
         if ([conn.userepl intValue] == 1) {
             NSArray *tmp = [conn.servers componentsSeparatedByString:@","];
             NSMutableArray *hosts = [[NSMutableArray alloc] initWithCapacity:[tmp count]];

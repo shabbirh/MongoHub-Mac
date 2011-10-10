@@ -1482,7 +1482,7 @@
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)\"",
+					"\"$(SRCROOT)\"/Frameworks",
 				);
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREFIX_HEADER = MongoHub_Prefix.pch;
@@ -1498,7 +1498,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)\"",
+					"\"$(SRCROOT)\"/Frameworks",
 				);
 				GCC_PREFIX_HEADER = MongoHub_Prefix.pch;
 				INFOPLIST_FILE = "MongoHub-Info.plist";

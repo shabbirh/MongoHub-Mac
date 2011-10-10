@@ -118,10 +118,7 @@
 {
     [loaderIndicator stop];
     
-    if (![conn.defaultdb isPresent]) {
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(addDB:) name:kNewDBWindowWillClose object:nil];
-    }
-    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(addDB:) name:kNewDBWindowWillClose object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(addCollection:) name:kNewCollectionWindowWillClose object:nil];
     [reconnectButton setEnabled:YES];
     [monitorButton setEnabled:YES];
@@ -274,9 +271,7 @@
         self.selectedCollection = nil;
         [self.collections removeAllObjects];
         [self.databases removeAllObjects];
-        if ([conn.defaultdb isPresent]) {
-            [self.databases addObject:conn.defaultdb];
-        } else if (list != nil) {
+        if (list != nil) {
             [self.databases addObjectsFromArray:list];
         } else if (mongoQuery.error) {
             NSRunAlertPanel(@"Error", [mongoQuery.error localizedDescription], @"OK", nil, nil);
@@ -442,10 +437,6 @@
 
 - (void)createDB
 {
-    if ([conn.defaultdb isPresent]) {
-        NSRunAlertPanel(@"Error", @"Could not create database!", @"OK", nil, nil);
-        return;
-    }
     if (!addDBController)
     {
         addDBController = [[AddDBController alloc] init];
@@ -508,10 +499,6 @@
 
 - (void)dropDB
 {
-    if ([conn.defaultdb isPresent]) {
-        NSRunAlertPanel(@"Error", @"Could not drop database!", @"OK", nil, nil);
-        return;
-    }
     [loaderIndicator start];
     [mongoServer dropDatabaseWithName:[self.selectedDB caption] callback:^(MODQuery *mongoQuery) {
         [loaderIndicator stop];
@@ -537,11 +524,6 @@
 
 - (IBAction)showAuth:(id)sender
 {
-    if ([conn.defaultdb isPresent]) {
-        NSRunAlertPanel(@"Error", @"Could not auth for database!", @"OK", nil, nil);
-        return;
-    }
-    
     if (!self.selectedDB) 
     {
         NSRunAlertPanel(@"Error", @"Please choose a database!", @"OK", nil, nil);

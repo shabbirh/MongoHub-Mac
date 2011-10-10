@@ -21,7 +21,7 @@ This project is very new. Any issues or bug reports are welcome. And I still don
 
 ** Known bugs **
     
-    - Canot modify index in the "Index" tab
+    - Canot modify indexes in the "Index" tab
     - Don't trust the grey default value in textfields
     - Most of errors are not handled correctly
 
@@ -29,6 +29,8 @@ This project is very new. Any issues or bug reports are welcome. And I still don
     
     - Should manage a list of database/user/password for each connections
     - Should save the password into the keychain
+    - Create a document editor to edit using an outline view (like the plist editor in Xcode)
+    - Need a better UI to replace the tabs in a collection window
     
 ** Current **
     

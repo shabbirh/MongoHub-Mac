@@ -1,6 +1,6 @@
 ## What is MongoHub
 **[MongoHub](http://mongohub.todayclose.com/)** is a **[mongodb](http://mongodb.org)** GUI application.
-This repository is a mac native version of MongoHub.
+This repository is a fork of [MongoHub](https://github.com/bububa/MongoHub-Mac).
 
 ## System Requirements
 

@@ -37,6 +37,13 @@ This project is very new. Any issues or bug reports are welcome. And I still don
     - Crash fixed when using an authenticated database
     - Show all the databases when using authentication
     - Use "admin" database when there is no database set for the authentication
+    - Crash fixed when searching for mongo document with "{ "$oid" : "4E40C5111F85DD1BE9FAF825" }"
+    - Adding the error message when the search criteria is invalid
+    - Trying to be nice to complete your criteria. To search for an id, you can either type: 
+            * 123
+            * "abc"
+            * "$oid" : "123"
+            * {"$oid" : "123"}
 
 ## History
 

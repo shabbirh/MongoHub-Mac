@@ -163,20 +163,30 @@
     [super dealloc];
 }
 
-- (NSString *)formatedQuery
+- (NSString *)formatedQueryWithReplace:(BOOL)replace
 {
     NSString *query = @"";
     NSString *value;
     
     value = [[criticalTextField stringValue] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-    if ([value isPresent]) {
+    if ([value length] > 0) {
         if ([value hasPrefix:@"{"]) {
-            query = value;
-        }else if ([value hasPrefix:@"\""] || [value hasPrefix:@"'"]) {
-            query = [NSString stringWithFormat:@"{%@}",value];
-        }else {
-            query = [NSString stringWithFormat:@"{\"_id\":\"%@\"}",value];
+            NSString *innerValue;
+            
+            innerValue = [[value substringFromIndex:1] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+            if ([innerValue hasPrefix:@"\"$oid\""] || [innerValue hasPrefix:@"'$iod'"]) {
+                query = [NSString stringWithFormat:@"{\"_id\": %@ }",value];
+            } else {
+                query = value;
+            }
+        } else if ([value hasPrefix:@"\"$oid\""] || [value hasPrefix:@"'$iod'"]) {
+            query = [NSString stringWithFormat:@"{\"_id\": {%@}}",value];
+        } else {
+            query = [NSString stringWithFormat:@"{\"_id\": %@}",value];
         }
+    }
+    if (replace) {
+        [criticalTextField setStringValue:query];
     }
     return query;
 }
@@ -201,7 +211,7 @@
     if (limit <= 0) {
         limit = 30;
     }
-    criteria = [self formatedQuery];
+    criteria = [self formatedQueryWithReplace:YES];
     fields = [[NSMutableArray alloc] init];
     for (NSString *field in [[fieldsTextField stringValue] componentsSeparatedByString:@","]) {
         field = [field stringByTrimmingWhitespace];
@@ -211,13 +221,18 @@
     }
     [findQueryLoaderIndicator start];
     [mongoCollection findWithCriteria:criteria fields:fields skip:[skipTextField intValue] limit:limit sort:[sortTextField stringValue] callback:^(NSArray *documents, MODQuery *mongoQuery) {
-        [findResultsViewController.results removeAllObjects];
-        [findResultsViewController.results addObjectsFromArray:[MODHelper convertForOutlineWithObjects:documents]];
-        [findResultsViewController.myOutlineView reloadData];
-        [mongoCollection countWithCriteria:criteria callback:^(int64_t count, MODQuery *mongoQuery) {
+        if (mongoQuery.error) {
             [findQueryLoaderIndicator stop];
-            [totalResultsTextField setStringValue:[NSString stringWithFormat:@"Total Results: %lld (%0.2fs)", count, [[mongoQuery.userInfo objectForKey:@"timequery"] duration]]];
-        }];
+            NSRunAlertPanel(@"Error", [mongoQuery.error localizedDescription], @"OK", nil, nil);
+        } else {
+            [findResultsViewController.results removeAllObjects];
+            [findResultsViewController.results addObjectsFromArray:[MODHelper convertForOutlineWithObjects:documents]];
+            [findResultsViewController.myOutlineView reloadData];
+            [mongoCollection countWithCriteria:criteria callback:^(int64_t count, MODQuery *mongoQuery) {
+                [findQueryLoaderIndicator stop];
+                [totalResultsTextField setStringValue:[NSString stringWithFormat:@"Total Results: %lld (%0.2fs)", count, [[mongoQuery.userInfo objectForKey:@"timequery"] duration]]];
+            }];
+        }
     }];
     [fields release];
 }
@@ -355,11 +370,11 @@
 
 - (IBAction) export:(id)sender
 {
-    if (![[expPathTextField stringValue] isPresent]) {
+    if ([[expPathTextField stringValue] length] == 0) {
         NSRunAlertPanel(@"Error", @"Please choose export path", @"OK", nil, nil);
         return;
     }
-    if (![[expFieldsTextField stringValue] isPresent] && [[expTypePopUpButton selectedItem] tag]==1)
+    if ([[expFieldsTextField stringValue] length] == 0 && [[expTypePopUpButton selectedItem] tag]==1)
     {
         NSRunAlertPanel(@"Error", @"You need to specify fields", @"OK", nil, nil);
         return;
@@ -465,11 +480,11 @@
 
 - (IBAction) import:(id)sender
 {
-    if (![[impPathTextField stringValue] isPresent]) {
+    if ([[impPathTextField stringValue] length] == 0) {
         NSRunAlertPanel(@"Error", @"Please choose import file", @"OK", nil, nil);
         return;
     }
-    if (![[expFieldsTextField stringValue] isPresent] && [[expTypePopUpButton selectedItem] tag]==1)
+    if ([[expFieldsTextField stringValue] length] == 0 && [[expTypePopUpButton selectedItem] tag]==1)
     {
         NSRunAlertPanel(@"Error", @"You need to specify fields", @"OK", nil, nil);
         return;
@@ -512,7 +527,7 @@
 //        _sep = "\t";
 //    }
 //    std::vector<std::string> _fields;
-//    if (!_headerLine && [[impFieldsTextField stringValue] isPresent])
+//    if (!_headerLine && [[impFieldsTextField stringValue] length] > 0)
 //    {
 //        
 //        NSArray *keys = [[NSArray alloc] initWithArray:[[impFieldsTextField stringValue] componentsSeparatedByString:@","]];
@@ -676,10 +691,10 @@
 - (IBAction) findQueryComposer:(id)sender
 {
     NSString *critical;
-    critical = [self formatedQuery];
+    critical = [self formatedQueryWithReplace:NO];
     
     NSString *jsFields;
-    if ([[fieldsTextField stringValue] isPresent]) {
+    if ([[fieldsTextField stringValue] length] > 0) {
         NSArray *keys = [[NSArray alloc] initWithArray:[[fieldsTextField stringValue] componentsSeparatedByString:@","]];
         NSMutableArray *tmpstr = [[NSMutableArray alloc] initWithCapacity:[keys count]];
         for (NSString *str in keys) {
@@ -693,7 +708,7 @@
     }
     
     NSString *sort;
-    if ([[sortTextField stringValue] isPresent]) {
+    if ([[sortTextField stringValue] length] > 0) {
         sort = [[NSString alloc] initWithFormat:@".sort(%@)", [sortTextField stringValue]];
     }else {
         sort = [[NSString alloc] initWithString:@""];
@@ -715,13 +730,13 @@
 {
     NSString *col = [NSString stringWithFormat:@"%@.%@", mongoCollection.databaseName, mongoCollection.collectionName];
     NSString *critical;
-    if ([[updateCriticalTextField stringValue] isPresent]) {
+    if ([[updateCriticalTextField stringValue] length] > 0) {
         critical = [[NSString alloc] initWithString:[updateCriticalTextField stringValue]];
     }else {
         critical = [[NSString alloc] initWithString:@""];
     }
     NSString *sets;
-    if ([[updateSetTextField stringValue] isPresent]) {
+    if ([[updateSetTextField stringValue] length] > 0) {
         //sets = [[NSString alloc] initWithFormat:@", {$set:%@}", [updateSetTextField stringValue]];
         sets = [[NSString alloc] initWithFormat:@", %@", [updateSetTextField stringValue]];
     }else {
@@ -745,7 +760,7 @@
 {
     NSString *col = [NSString stringWithFormat:@"%@.%@", mongoCollection.databaseName, mongoCollection.collectionName];
     NSString *critical;
-    if ([[removeCriticalTextField stringValue] isPresent]) {
+    if ([[removeCriticalTextField stringValue] length] > 0) {
         critical = [[NSString alloc] initWithString:[removeCriticalTextField stringValue]];
     }else {
         critical = [[NSString alloc] initWithString:@""];
@@ -758,14 +773,14 @@
 - (IBAction) exportQueryComposer:(id)sender
 {
     NSString *critical;
-    if ([[expCriticalTextField stringValue] isPresent]) {
+    if ([[expCriticalTextField stringValue] length] > 0) {
         critical = [[NSString alloc] initWithString:[expCriticalTextField stringValue]];
     }else {
         critical = [[NSString alloc] initWithString:@""];
     }
     
     NSString *jsFields;
-    if ([[expFieldsTextField stringValue] isPresent]) {
+    if ([[expFieldsTextField stringValue] length] > 0) {
         NSArray *keys = [[NSArray alloc] initWithArray:[[expFieldsTextField stringValue] componentsSeparatedByString:@","]];
         NSMutableArray *tmpstr = [[NSMutableArray alloc] initWithCapacity:[keys count]];
         for (NSString *str in keys) {
@@ -779,7 +794,7 @@
     }
     
     NSString *sort;
-    if ([[expSortTextField stringValue] isPresent]) {
+    if ([[expSortTextField stringValue] length] > 0) {
         sort = [[NSString alloc] initWithFormat:@".sort(%@)"];
     }else {
         sort = [[NSString alloc] initWithString:@""];

@@ -44,6 +44,7 @@ This project is very new. Any issues or bug reports are welcome. And I still don
             * "abc"
             * "$oid" : "123"
             * {"$oid" : "123"}
+    - Adding Command-R in the index view to reload the index list
 
 ## History
 

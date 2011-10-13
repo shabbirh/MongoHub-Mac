@@ -16,6 +16,7 @@
 
 @property (nonatomic, retain) NSOutlineView  *myOutlineView;
 @property (nonatomic, retain) NSMutableArray *results;
+@property (nonatomic, readonly, assign) id selectedItem;
 
 - (id)rootForItem:(id)item;
 

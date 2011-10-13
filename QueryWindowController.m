@@ -320,6 +320,7 @@
 
 - (IBAction) dropIndex:(id)sender
 {
+    NSLog(@"%@", indexesOutlineViewController.selectedItem);
 //    [indexLoaderIndicator start];
 //    NSString *user=nil;
 //    NSString *password=nil;

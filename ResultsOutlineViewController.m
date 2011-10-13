@@ -115,6 +115,17 @@ objectValueForTableColumn:(NSTableColumn *)tableColumn
 	return nil;
 }
 
+- (id)selectedItem
+{
+    NSInteger index = [myOutlineView selectedRow];
+    id item = nil;
+  
+    if (index != NSNotFound) {
+        item = [myOutlineView itemAtRow:index];
+    }
+    return item;
+}
+
 #pragma mark -
 #pragma mark NSOutlineView delegate methods
 - (void)outlineViewSelectionDidChange:(NSNotification *)notification

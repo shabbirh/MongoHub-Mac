@@ -831,6 +831,7 @@
             jsonWindowController.mongoCollection = mongoCollection;
             jsonWindowController.jsonDict = [findResultsViewController rootForItem:currentItem];
             [jsonWindowController showWindow:sender];
+            [jsonWindowController release];
 			break;
         }
 	}

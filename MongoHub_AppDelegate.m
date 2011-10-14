@@ -376,6 +376,7 @@
     connectionWindowController.managedObjectContext = self.managedObjectContext;
     connectionWindowController.conn = sender;
     [connectionWindowController showWindow:sender];
+    [connectionWindowController release];
 }
 
 - (BOOL)isOpenedConnection:(Connection *)aConnection {

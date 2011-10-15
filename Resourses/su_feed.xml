@@ -9,18 +9,22 @@
             <title>Version 2.4.1</title>
             <enclosure url="http://cloud.github.com/downloads/fotonauts/MongoHub-Mac/MongoHub.zip" sparkle:version="76" sparkle:shortVersionString="2.4.2" length="3033440" sparkle:dsaSignature="MC0CFQDDleV5CUBUhiimG7iqqFO+337amgIUXyqz+SjcoOckNZtyF+ebAhNZTAc=" type="application/octet-stream" />
             <description><![CDATA[
-- 32bit and 64bit</br>
-- Crash fixed when using an authenticated database</br>
-- Show all the databases when using authentication</br>
-- Use "admin" database when there is no database set for the authentication</br>
-- Crash fixed when searching for mongo document with "{ "$oid" : "4E40C5111F85DD1BE9FAF825" }"</br>
-- Adding the error message when the search criteria is invalid</br>
-- Trying to be nice to complete your criteria. To search for an id, you can either type: </br>
-    * 123</br>
-    * "abc"</br>
-    * "$oid" : "123"</br>
-    * {"$oid" : "123"}</br>
-- Adding Command-R in the index view to reload the index list</br>
+<ul>
+<li>32bit and 64bit</li>
+<li>Crash fixed when using an authenticated database</li>
+<li>Show all the databases when using authentication</li>
+<li>Use "admin" database when there is no database set for the authentication</li>
+<li>Crash fixed when searching for mongo document with "{ "$oid" : "4E40C5111F85DD1BE9FAF825" }"</li>
+<li>Adding the error message when the search criteria is invalid</li>
+<li>Trying to be nice to complete your criteria. To search for an id, you can either type:
+    <ul>
+    <li>123</li>
+    <li>"abc"</li>
+    <li>"$oid" : "123"</li>
+    <li>{"$oid" : "123"}</li>
+</ul></li>
+<li>Adding Command-R in the index view to reload the index list</li>
+</ul>
             ]]>
             </description>
          </item>

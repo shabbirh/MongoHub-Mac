@@ -7,9 +7,19 @@
       <language>en</language>      
          <item>
             <title>Version 2.4.1</title>
-            <enclosure url="http://cloud.github.com/downloads/fotonauts/MongoHub-Mac/MongoHub.zip" sparkle:version="75" sparkle:shortVersionString="2.4.1" length="2818330" sparkle:dsaSignature="MC0CFC4kmlaFj97Xv2Mhz8jgMpHCPC+qAhUAhcbL0bj7vZxxTaNqPC/UQp8DXQk=" type="application/octet-stream" />
+            <enclosure url="http://cloud.github.com/downloads/fotonauts/MongoHub-Mac/MongoHub.zip" sparkle:version="76" sparkle:shortVersionString="2.4.2" length="3033440" sparkle:dsaSignature="MC0CFQDDleV5CUBUhiimG7iqqFO+337amgIUXyqz+SjcoOckNZtyF+ebAhNZTAc=" type="application/octet-stream" />
             <description><![CDATA[
-            Import and exports (mysql) should work. Indexes view stil doesn't work yet.
+- Crash fixed when using an authenticated database
+- Show all the databases when using authentication
+- Use "admin" database when there is no database set for the authentication
+- Crash fixed when searching for mongo document with "{ "$oid" : "4E40C5111F85DD1BE9FAF825" }"
+- Adding the error message when the search criteria is invalid
+- Trying to be nice to complete your criteria. To search for an id, you can either type: 
+    * 123
+    * "abc"
+    * "$oid" : "123"
+    * {"$oid" : "123"}
+- Adding Command-R in the index view to reload the index list
             ]]>
             </description>
          </item>

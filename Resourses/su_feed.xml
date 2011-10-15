@@ -9,6 +9,7 @@
             <title>Version 2.4.1</title>
             <enclosure url="http://cloud.github.com/downloads/fotonauts/MongoHub-Mac/MongoHub.zip" sparkle:version="76" sparkle:shortVersionString="2.4.2" length="3033440" sparkle:dsaSignature="MC0CFQDDleV5CUBUhiimG7iqqFO+337amgIUXyqz+SjcoOckNZtyF+ebAhNZTAc=" type="application/octet-stream" />
             <description><![CDATA[
+- 32bit and 64bit
 - Crash fixed when using an authenticated database
 - Show all the databases when using authentication
 - Use "admin" database when there is no database set for the authentication

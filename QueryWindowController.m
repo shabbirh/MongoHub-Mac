@@ -876,7 +876,7 @@
      	NSLog(@"doOpen we have a Cancel button");
      	return;
     } else {
-     	NSLog(@"doOpen tvarInt not equal 1 or zero = %3d",(int)tvarNSInteger);
+     	NSLog(@"doOpen tvarInt not equal 1 or zero = %ld",tvarNSInteger);
      	return;
     } // end if
 }

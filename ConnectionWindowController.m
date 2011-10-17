@@ -526,7 +526,6 @@
     queryWindowController.managedObjectContext = self.managedObjectContext;
     queryWindowController.conn = conn;
     [queryWindowController showWindow:sender];
-    [queryWindowController release];
 }
 
 - (IBAction)showAuth:(id)sender

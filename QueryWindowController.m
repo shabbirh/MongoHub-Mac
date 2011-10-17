@@ -325,18 +325,14 @@
 
 - (IBAction) dropIndex:(id)sender
 {
-    NSLog(@"%@", indexesOutlineViewController.selectedItem);
-//    [indexLoaderIndicator start];
-//    NSString *user=nil;
-//    NSString *password=nil;
-//    NSString *indexName = [indexTextField stringValue];
-//    [mongoCollection dropIndexInDB:mongoCollection.databaseName 
-//                collection:mongoCollection.collectionName 
-//                      user:user 
-//                  password:password 
-//                 indexName:indexName];
-//    [self indexQuery:nil];
-//    [indexLoaderIndicator stop];
+    [indexLoaderIndicator start];
+    [mongoCollection dropIndex:[[indexesOutlineViewController.selectedDocument objectForKey:@"objectvalue"] objectForKey:@"key"] callback:^(MODQuery *mongoQuery) {
+        if (mongoQuery.error) {
+            NSRunAlertPanel(@"Error", [mongoQuery.error localizedDescription], @"OK", nil, nil);
+        }
+        [indexLoaderIndicator stop];
+        [self indexQuery:nil];
+    }];
 }
 
 - (IBAction) mapReduce:(id)sender

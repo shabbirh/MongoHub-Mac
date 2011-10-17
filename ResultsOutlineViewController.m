@@ -126,6 +126,11 @@ objectValueForTableColumn:(NSTableColumn *)tableColumn
     return item;
 }
 
+- (id)selectedDocument
+{
+    return [self rootForItem:[self selectedItem]];
+}
+
 #pragma mark -
 #pragma mark NSOutlineView delegate methods
 - (void)outlineViewSelectionDidChange:(NSNotification *)notification

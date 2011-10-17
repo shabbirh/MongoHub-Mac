@@ -278,8 +278,13 @@
     [insertLoaderIndicator start];
     NSString *insertData = [insertDataTextView string];
     [mongoCollection insertWithDocuments:[NSArray arrayWithObjects:insertData, nil] callback:^(MODQuery *mongoQuery) {
-        [insertResultsTextField setStringValue:@"Completed!"];
         [insertLoaderIndicator stop];
+        if (mongoQuery.error) {
+            NSRunAlertPanel(@"Error", [mongoQuery.error localizedDescription], @"OK", nil, nil);
+            [insertResultsTextField setStringValue:@"Error!"];
+        } else {
+            [insertResultsTextField setStringValue:@"Completed!"];
+        }
     }];
 }
 

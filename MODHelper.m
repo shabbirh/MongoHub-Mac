@@ -38,6 +38,7 @@
         }
         [dict setObject:[self convertForOutlineWithObject:object] forKey:@"child"];
         [dict setObject:[MODServer convertObjectToJson:object pretty:YES] forKey:@"beautified"];
+        [dict setObject:object forKey:@"objectvalue"];
         [result addObject:dict];
     }
     return result;
@@ -135,7 +136,7 @@
         [result setObject:value forKey:@"value"];
         [result setObject:dataKey forKey:@"name"];
         [result setObject:type forKey:@"type"];
-        [result setObject:dataValue forKey:@"objectvalue"];
+        [result setObject:dataValue forKey:@"objectvalueid"];
         //[result setObject:jsonString forKey:@"raw"];
         //[result setObject:jsonStringb forKey:@"beautified"];
         if (child) {

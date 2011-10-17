@@ -658,7 +658,7 @@
         //NSLog(@"%@", [findResultsViewController rootForItem:currentItem]);
         [removeQueryLoaderIndicator start];
         
-        criteria = [[NSDictionary alloc] initWithObjectsAndKeys:[currentItem objectForKey:@"objectvalue"], @"_id", nil];
+        criteria = [[NSDictionary alloc] initWithObjectsAndKeys:[currentItem objectForKey:@"objectvalueid"], @"_id", nil];
         [mongoCollection removeWithCriteria:criteria callback:^(MODQuery *mongoQuery) {
             if (mongoQuery.error) {
                 NSRunAlertPanel(@"Error", [mongoQuery.error localizedDescription], @"OK", nil, nil);

@@ -12,6 +12,7 @@
 @class Connection;
 @class AddConnectionController;
 @class EditConnectionController;
+@class SUUpdater;
 
 @interface MongoHub_AppDelegate : NSObject <NSApplicationDelegate, NSCollectionViewDelegate>
 {
@@ -28,6 +29,7 @@
     IBOutlet NSTextField *bundleVersion;
   
     IBOutlet NSPanel *supportPanel;
+    IBOutlet SUUpdater *updater;
 }
 
 @property (nonatomic, retain) IBOutlet NSWindow *window;

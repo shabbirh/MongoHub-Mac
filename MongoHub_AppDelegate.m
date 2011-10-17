@@ -14,6 +14,7 @@
 #import "ConnectionsCollectionView.h"
 #import "ConnectionWindowController.h"
 #import "Connection.h"
+#import <Sparkle/Sparkle.h>
 
 #define YOUR_EXTERNAL_RECORD_EXTENSION @"mgo"
 #define YOUR_STORE_TYPE NSXMLStoreType
@@ -294,6 +295,7 @@
     NSString *appVersion = [[NSString alloc] initWithFormat:@"version(%@[%@])", [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"], [[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString*)kCFBundleVersionKey] ];
     [bundleVersion setStringValue: appVersion];
     [appVersion release];
+    [updater checkForUpdatesInBackground];
 }
 
 #pragma mark connections related method

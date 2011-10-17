@@ -299,7 +299,7 @@
 
 - (IBAction) ensureIndex:(id)sender
 {
-//    [indexLoaderIndicator start];
+    [indexLoaderIndicator start];
 //    NSString *indexData = [indexTextField stringValue];
 //    [mongoCollection ensureIndexInDB:mongoCollection.databaseName 
 //                  collection:mongoCollection.collectionName 
@@ -307,7 +307,7 @@
 //                    password:password 
 //                   indexData:indexData];
 //    [self indexQuery:nil];
-//    [indexLoaderIndicator stop];
+    [indexLoaderIndicator stop];
 }
 
 

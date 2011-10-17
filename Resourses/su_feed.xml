@@ -14,6 +14,7 @@
 <li>Display errors (if any) when inserting a document</li>
 <li>Display errors (if any) when removing a document</li>
 <li>Fix to remove a document</li>
+<li>Search for updates at each launch</li>
 </ul>
             ]]>
             </description>

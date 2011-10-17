@@ -44,6 +44,7 @@ This project is very new. Any issues or bug reports are welcome. And I still don
     - Display errors (if any) when inserting a document
     - Display errors (if any) when removing a document
     - Fix to remove a document
+    - Search for updates at each launch
 
 ** 2.4.2(76) - oct 15, 2011 **
 

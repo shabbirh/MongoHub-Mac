@@ -35,15 +35,17 @@ This project is very new. Any issues or bug reports are welcome. And I still don
     - Need a better UI to replace the tabs in a collection window
     
 ** Current **
+    
+## History
+
+** 2.4.3(75) - oct 17, 2011 **
 
     - Fix to parse { "toto" : [ { "1" : 2 }, { "2" : 3 } ] }
     - Display errors (if any) when inserting a document
     - Display errors (if any) when removing a document
     - Fix to remove a document
-    
-## History
 
-** 2.4.2(76) - 15/10/11 **
+** 2.4.2(76) - oct 15, 2011 **
 
     - Crash fixed when using an authenticated database
     - Show all the databases when using authentication

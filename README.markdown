@@ -24,6 +24,8 @@ This project is very new. Any issues or bug reports are welcome. And I still don
     - Canot modify indexes in the "Index" tab
     - Don't trust the grey default value in textfields
     - Most of errors are not handled correctly
+    - Simple quote is not supported yet for json
+    - Key should always be with double quotes
 
 ** To do list **
     
@@ -33,6 +35,11 @@ This project is very new. Any issues or bug reports are welcome. And I still don
     - Need a better UI to replace the tabs in a collection window
     
 ** Current **
+
+    - Fix to parse { "toto" : [ { "1" : 2 }, { "2" : 3 } ] }
+    - Display errors (if any) when inserting a document
+    - Display errors (if any) when removing a document
+    - Fix to remove a document
     
 ## History
 

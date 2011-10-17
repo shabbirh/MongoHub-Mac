@@ -653,28 +653,20 @@
 {
     if ([findResultsViewController.myOutlineView selectedRow] != -1)
     {
+        NSDictionary *criteria;
         id currentItem = [findResultsViewController.myOutlineView itemAtRow:[findResultsViewController.myOutlineView selectedRow]];
         //NSLog(@"%@", [findResultsViewController rootForItem:currentItem]);
         [removeQueryLoaderIndicator start];
-        NSString *user=nil;
-        NSString *password=nil;
-        Database *db = [databasesArrayController dbInfo:conn name:mongoCollection.databaseName];
-        if (db) {
-            user = db.user;
-            password = db.password;
-        }
-        NSString *critical;
-        if ([[currentItem objectForKey:@"type"] isEqualToString:@"ObjectId"]) {
-            critical = [NSString stringWithFormat:@"{\"_id\":ObjectId(\"%@\")}", [currentItem objectForKey:@"value"]];
-        }else if ([[currentItem objectForKey:@"type"] isEqualToString:@"String"]) {
-            critical = [NSString stringWithFormat:@"{\"_id\":\"%@\"}", [currentItem objectForKey:@"value"]];
-        }else {
-            critical = [NSString stringWithFormat:@"{\"_id\":%@}", [currentItem objectForKey:@"value"]];
-        }
-        [mongoCollection removeWithCriteria:critical callback:^(MODQuery *mongoQuery) {
+        
+        criteria = [[NSDictionary alloc] initWithObjectsAndKeys:[currentItem objectForKey:@"objectvalue"], @"_id", nil];
+        [mongoCollection removeWithCriteria:criteria callback:^(MODQuery *mongoQuery) {
+            if (mongoQuery.error) {
+                NSRunAlertPanel(@"Error", [mongoQuery.error localizedDescription], @"OK", nil, nil);
+            }
             [removeQueryLoaderIndicator stop];
             [self findQuery:nil];
         }];
+        [criteria release];
     }
 }
 

@@ -118,25 +118,20 @@
 
 -(IBAction) save:(id)sender
 {
-    NSString *recordId = nil;
-    
     [status setStringValue: @"Saving..."];
     [status display];
     [progress startAnimation: self];
 	[progress display];
-    if ([[jsonDict objectForKey:@"type"] isEqualToString:@"ObjectId"]) {
-        recordId = [[NSString alloc] initWithFormat:@"ObjectId(\"%@\")", [jsonDict objectForKey:@"value"]];
-    }else {
-        recordId = [[NSString alloc] initWithFormat:@"\"%@\"", [jsonDict objectForKey:@"value"]];
-    }
     [mongoCollection saveWithDocument:[myTextView string] callback:^(MODQuery *mongoQuery) {
+        if (mongoQuery.error) {
+            NSRunAlertPanel(@"Error", [mongoQuery.error localizedDescription], @"OK", nil, nil);
+        }
         [progress stopAnimation: self];
         [progress display];
         [status setStringValue: @"Saved"];
         [status display];
         [[NSNotificationCenter defaultCenter] postNotificationName:kJsonWindowSaved object:nil];
     }];
-    [recordId release];
 }
 
 - (void)mongoQueryDidFinish:(MODQuery *)mongoQuery

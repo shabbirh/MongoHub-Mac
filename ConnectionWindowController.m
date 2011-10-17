@@ -526,6 +526,7 @@
     queryWindowController.managedObjectContext = self.managedObjectContext;
     queryWindowController.conn = conn;
     [queryWindowController showWindow:sender];
+    [queryWindowController release];
 }
 
 - (IBAction)showAuth:(id)sender
@@ -692,6 +693,7 @@ static int percentage(NSNumber *previousValue, NSNumber *previousOutOfValue, NSN
                 [previousServerStatusForDelta release];
             }
             previousServerStatusForDelta = [serverStatus retain];
+            [diff release];
         }
     }];
 }

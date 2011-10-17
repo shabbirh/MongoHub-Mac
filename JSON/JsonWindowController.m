@@ -125,9 +125,9 @@
     [progress startAnimation: self];
 	[progress display];
     if ([[jsonDict objectForKey:@"type"] isEqualToString:@"ObjectId"]) {
-        recordId = [[NSString alloc] initWithFormat:@"ObjectId(\"%@\")", [jsonDict objectForKey:@"value"]];
+        recordId = [NSString stringWithFormat:@"ObjectId(\"%@\")", [jsonDict objectForKey:@"value"]];
     }else {
-        recordId = [[NSString alloc] initWithFormat:@"\"%@\"", [jsonDict objectForKey:@"value"]];
+        recordId = [NSString stringWithFormat:@"\"%@\"", [jsonDict objectForKey:@"value"]];
     }
     [mongoCollection saveWithDocument:[myTextView string] callback:^(MODQuery *mongoQuery) {
         [progress stopAnimation: self];

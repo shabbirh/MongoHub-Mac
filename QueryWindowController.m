@@ -291,6 +291,9 @@
 - (IBAction) indexQuery:(id)sender
 {
     [mongoCollection indexListWithcallback:^(NSArray *indexes, MODQuery *mongoQuery) {
+        if (mongoQuery.error) {
+            NSRunAlertPanel(@"Error", [mongoQuery.error localizedDescription], @"OK", nil, nil);
+        }
         [indexesOutlineViewController.results removeAllObjects];
         [indexesOutlineViewController.results addObjectsFromArray:[MODHelper convertForOutlineWithObjects:indexes]];
         [indexesOutlineViewController.myOutlineView reloadData];
@@ -300,7 +303,7 @@
 - (IBAction) ensureIndex:(id)sender
 {
     [indexLoaderIndicator start];
-    [mongoCollection ensureIndex:[indexTextField stringValue] name:nil options:0 callback:^(MODQuery *mongoQuery) {
+    [mongoCollection createIndex:[indexTextField stringValue] name:nil options:0 callback:^(MODQuery *mongoQuery) {
         if (mongoQuery.error) {
             NSRunAlertPanel(@"Error", [mongoQuery.error localizedDescription], @"OK", nil, nil);
         } else {
@@ -309,13 +312,6 @@
         [indexLoaderIndicator stop];
         [self indexQuery:nil];
     }];
-//    NSString *indexData = [indexTextField stringValue];
-//    [mongoCollection ensureIndexInDB:mongoCollection.databaseName 
-//                  collection:mongoCollection.collectionName 
-//                        user:user 
-//                    password:password 
-//                   indexData:indexData];
-//    [self indexQuery:nil];
 }
 
 

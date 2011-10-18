@@ -35,6 +35,9 @@ This project is very new. Any issues or bug reports are welcome. And I still don
     - Need a better UI to replace the tabs in a collection window
     
 ** Current **
+
+    - Can create indexes with the UI
+    - Can remove indexes with the UI
     
 ## History
 

@@ -35,13 +35,17 @@ This project is very new. Any issues or bug reports are welcome. And I still don
     - Need a better UI to replace the tabs in a collection window
     
 ** Current **
-
-    - Can create indexes with the UI
-    - Can remove indexes with the UI
     
 ## History
 
-** 2.4.3(75) - oct 17, 2011 **
+** 2.4.4(78) - oct 20, 2011 **
+
+    - Can create indexes with the UI
+    - Can remove indexes with the UI
+    - Fix to parse { "_id": { "$oid" : "4E9807F88157F608B4000002" }, "_type": "Activity" }
+    - Fix to edit a document when "_id" is an objectid
+
+** 2.4.3(77) - oct 17, 2011 **
 
     - Fix to parse { "toto" : [ { "1" : 2 }, { "2" : 3 } ] }
     - Display errors (if any) when inserting a document

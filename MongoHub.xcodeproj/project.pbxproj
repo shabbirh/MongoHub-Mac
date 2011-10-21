@@ -223,8 +223,6 @@
 		021DB3851425819D0033E77C /* MODCursor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MODCursor.h; sourceTree = "<group>"; };
 		021DB3861425819D0033E77C /* MODCursor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MODCursor.m; sourceTree = "<group>"; };
 		021DB3871425819D0033E77C /* MODServer_utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MODServer_utils.m; sourceTree = "<group>"; };
-		02216EA514128CBF00789BD1 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
-		02216EA614128CBF00789BD1 /* .gitmodules */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitmodules; sourceTree = "<group>"; };
 		02216EAD14128CBF00789BD1 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		02216EAE14128CBF00789BD1 /* mongo-test-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "mongo-test-Prefix.pch"; sourceTree = "<group>"; };
 		02216EAF14128CBF00789BD1 /* mongo_test.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = mongo_test.1; sourceTree = "<group>"; };
@@ -258,8 +256,6 @@
 		02CF87E1142F7316000C4C7F /* MODJsonParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MODJsonParser.m; sourceTree = "<group>"; };
 		02CF87E2142F7316000C4C7F /* MODTimestamp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MODTimestamp.h; sourceTree = "<group>"; };
 		02CF87E3142F7316000C4C7F /* MODTimestamp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MODTimestamp.m; sourceTree = "<group>"; };
-		02D5A868144207CF00C7768C /* .astylerc */ = {isa = PBXFileReference; lastKnownFileType = text; path = .astylerc; sourceTree = "<group>"; };
-		02D5A869144207CF00C7768C /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		02D5A86A144207CF00C7768C /* APACHE-2.0.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = "APACHE-2.0.txt"; sourceTree = "<group>"; };
 		02D5A86D144207CF00C7768C /* __init__.py */ = {isa = PBXFileReference; lastKnownFileType = text.script.python; path = __init__.py; sourceTree = "<group>"; };
 		02D5A86E144207CF00C7768C /* docs.py */ = {isa = PBXFileReference; lastKnownFileType = text.script.python; path = docs.py; sourceTree = "<group>"; };
@@ -539,12 +535,10 @@
 		02216EA414128CBF00789BD1 /* mongo-objc-driver */ = {
 			isa = PBXGroup;
 			children = (
-				02216EA514128CBF00789BD1 /* .gitignore */,
-				02216EA614128CBF00789BD1 /* .gitmodules */,
+				02216EB114128CBF00789BD1 /* Sources */,
 				02216EA714128CBF00789BD1 /* Libraries */,
 				02216EAC14128CBF00789BD1 /* mongo-test */,
 				02216EB014128CBF00789BD1 /* README */,
-				02216EB114128CBF00789BD1 /* Sources */,
 			);
 			path = "mongo-objc-driver";
 			sourceTree = "<group>";
@@ -593,9 +587,9 @@
 				025C562E14350DEF0064B010 /* MODDBRef.m */,
 				025C562F14350DEF0064B010 /* MODDBRef.h */,
 				025C563014350DEF0064B010 /* MODBinary.m */,
-				02CF87E0142F7316000C4C7F /* MODJsonParser.h */,
 				025C563114350DEF0064B010 /* MODBinary.h */,
 				02CF87E1142F7316000C4C7F /* MODJsonParser.m */,
+				02CF87E0142F7316000C4C7F /* MODJsonParser.h */,
 				02216EB214128CBF00789BD1 /* InfoPlist.strings */,
 				02216EBD14128CBF00789BD1 /* mongo-objc-driver-Info.plist */,
 				02216EBE14128CBF00789BD1 /* mongo-objc-driver-Prefix.pch */,
@@ -606,15 +600,13 @@
 		02D5A867144207CF00C7768C /* mongo-c-driver */ = {
 			isa = PBXGroup;
 			children = (
-				02D5A868144207CF00C7768C /* .astylerc */,
-				02D5A869144207CF00C7768C /* .gitignore */,
+				02D5A87E144207CF00C7768C /* src */,
 				02D5A86A144207CF00C7768C /* APACHE-2.0.txt */,
 				02D5A86B144207CF00C7768C /* docs */,
 				02D5A87A144207CF00C7768C /* doxygenConfig */,
 				02D5A87B144207CF00C7768C /* HISTORY.md */,
 				02D5A87C144207CF00C7768C /* README.md */,
 				02D5A87D144207CF00C7768C /* SConstruct */,
-				02D5A87E144207CF00C7768C /* src */,
 				02D5A891144207CF00C7768C /* test */,
 			);
 			path = "mongo-c-driver";
@@ -685,8 +677,8 @@
 				02D5A889144207CF00C7768C /* net.c */,
 				02D5A88A144207CF00C7768C /* net.h */,
 				02D5A88B144207CF00C7768C /* numbers.c */,
-				02D5A88C144207CF00C7768C /* platform */,
 				02D5A890144207CF00C7768C /* platform.h */,
+				02D5A88C144207CF00C7768C /* platform */,
 			);
 			path = src;
 			sourceTree = "<group>";
@@ -757,12 +749,12 @@
 		02D5A8AB144207CF00C7768C /* libjson */ = {
 			isa = PBXGroup;
 			children = (
-				02D5A8AC144207CF00C7768C /* debian */,
-				02D5A8B8144207CF00C7768C /* documentation */,
 				02D5A8B9144207CF00C7768C /* json.c */,
 				02D5A8BA144207CF00C7768C /* json.h */,
 				02D5A8BB144207CF00C7768C /* jsonlint.c */,
 				02D5A8BC144207CF00C7768C /* libjson.pc.in */,
+				02D5A8B8144207CF00C7768C /* documentation */,
+				02D5A8AC144207CF00C7768C /* debian */,
 				02D5A8BD144207CF00C7768C /* Makefile */,
 				02D5A8BE144207CF00C7768C /* README */,
 				02D5A8BF144207CF00C7768C /* tests */,

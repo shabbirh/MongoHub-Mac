@@ -317,13 +317,15 @@
 
 - (IBAction) reIndex:(id)sender
 {
-//    [indexLoaderIndicator start];
-//    [mongoCollection reIndexInDB:mongoCollection.databaseName 
-//              collection:mongoCollection.collectionName 
-//                    user:user 
-//                password:password];
-//    [self indexQuery:nil];
-//    [indexLoaderIndicator stop];
+    [indexLoaderIndicator start];
+    [mongoCollection reIndexWithCallback:^(MODQuery *mongoQuery) {
+        if (mongoQuery.error) {
+            NSRunAlertPanel(@"Error", [mongoQuery.error localizedDescription], @"OK", nil, nil);
+        } else {
+            [indexTextField setStringValue:@""];
+        }
+        [indexLoaderIndicator stop];
+    }];
 }
 
 

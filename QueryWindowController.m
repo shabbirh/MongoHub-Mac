@@ -18,6 +18,7 @@
 #import "MODCollection.h"
 #import "MODDatabase.h"
 #import "MODHelper.h"
+#import "MODJsonParser.h"
 
 @implementation QueryWindowController
 
@@ -275,17 +276,27 @@
 
 - (IBAction) insertQuery:(id)sender
 {
+    id objects;
+    NSError *error;
+    
     [insertLoaderIndicator start];
-    NSString *insertData = [insertDataTextView string];
-    [mongoCollection insertWithDocuments:[NSArray arrayWithObjects:insertData, nil] callback:^(MODQuery *mongoQuery) {
-        [insertLoaderIndicator stop];
-        if (mongoQuery.error) {
-            NSRunAlertPanel(@"Error", [mongoQuery.error localizedDescription], @"OK", nil, nil);
-            [insertResultsTextField setStringValue:@"Error!"];
-        } else {
-            [insertResultsTextField setStringValue:@"Completed!"];
+    objects = [MODJsonToObjectParser objectsFromJson:[insertDataTextView string] error:&error];
+    if (error) {
+        NSRunAlertPanel(@"Error", [error localizedDescription], @"OK", nil, nil);
+    } else {
+        if ([objects isKindOfClass:[NSDictionary class]]) {
+            objects = [NSArray arrayWithObject:objects];
         }
-    }];
+        [mongoCollection insertWithDocuments:objects callback:^(MODQuery *mongoQuery) {
+            [insertLoaderIndicator stop];
+            if (mongoQuery.error) {
+                NSRunAlertPanel(@"Error", [mongoQuery.error localizedDescription], @"OK", nil, nil);
+                [insertResultsTextField setStringValue:@"Error!"];
+            } else {
+                [insertResultsTextField setStringValue:@"Completed!"];
+            }
+        }];
+    }
 }
 
 - (IBAction) indexQuery:(id)sender

@@ -35,11 +35,14 @@ This project is very new. Any issues or bug reports are welcome. And I still don
     - Need a better UI to replace the tabs in a collection window
     
 ** Current **
+    
+## History
+
+** 2.4.5(79) - oct 22, 2011 **
+
     - Fix to parse { "empty_array": [], "zob": 1}
     - Fix to parse { "empty_hash": {}, "zob": 1}
     - Implementing reIndex
-    
-## History
 
 ** 2.4.4(78) - oct 20, 2011 **
 

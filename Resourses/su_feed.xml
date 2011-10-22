@@ -7,13 +7,12 @@
       <language>en</language>      
          <item>
             <title>Version 2.4.3</title>
-            <enclosure url="http://cloud.github.com/downloads/fotonauts/MongoHub-Mac/MongoHub.zip" sparkle:version="78" sparkle:shortVersionString="2.4.4" length="3040407" sparkle:dsaSignature="MC0CFQCBC8hjX4QOh5Sr5R7WnQUBb7dJJwIUTkVNky400PgV+u2UgCA8rpVrnGY=" type="application/octet-stream" />
+            <enclosure url="http://cloud.github.com/downloads/fotonauts/MongoHub-Mac/MongoHub.zip" sparkle:version="79" sparkle:shortVersionString="2.4.5" length="3043921" sparkle:dsaSignature="MC0CFQCKQek3h5aQEZMtx8+SAqN2LbDtzQIUIlMph8RuuJIM35iL+phSUhzMHRA=" type="application/octet-stream" />
             <description><![CDATA[
 <ul>
-<li>Can create indexes with the UI</li>
-<li>Can remove indexes with the UI</li>
-<li>Fix to parse { "_id": { "$oid" : "4E9807F88157F608B4000002" }, "_type": "Activity" }</li>
-<li>Fix to edit a document when "_id" is an objectid</li>
+<li>Fix to parse { "empty_array": [], "zob": 1}</li>
+<li>Fix to parse { "empty_hash": {}, "zob": 1}</li>
+<li>Implementing reIndex</li>
 </ul>
             ]]>
             </description>

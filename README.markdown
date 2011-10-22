@@ -36,6 +36,8 @@ This project is very new. Any issues or bug reports are welcome. And I still don
     
 ** Current **
     
+    - Can insert an array of documents
+    
 ## History
 
 ** 2.4.5(79) - oct 22, 2011 **

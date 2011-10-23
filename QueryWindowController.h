@@ -164,10 +164,6 @@
 - (IBAction)reIndex:(id)sender;
 - (IBAction)dropIndex:(id)sender;
 - (IBAction) mapReduce:(id)sender;
-- (IBAction) export:(id)sender;
-- (void)doExport;
-- (IBAction) import:(id)sender;
-- (void)doImport;
 - (IBAction)removeRecord:(id)sender;
 
 - (IBAction)findQueryComposer:(id)sender;

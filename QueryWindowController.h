@@ -164,7 +164,6 @@
 - (IBAction)reIndex:(id)sender;
 - (IBAction)dropIndex:(id)sender;
 - (IBAction) mapReduce:(id)sender;
-- (void)doMapReduce;
 - (IBAction) export:(id)sender;
 - (void)doExport;
 - (IBAction) import:(id)sender;

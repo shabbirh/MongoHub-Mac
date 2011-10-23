@@ -354,37 +354,7 @@
 
 - (IBAction) mapReduce:(id)sender
 {
-    [NSThread detachNewThreadSelector:@selector(doMapReduce) toTarget:self withObject:nil];
-}
-
-- (void)doMapReduce {
-//    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-//    [mrLoaderIndicator start];
-//    NSString *user=nil;
-//    NSString *password=nil;
-//    Database *db = [databasesArrayController dbInfo:conn name:mongoCollection.databaseName];
-//    if (db) {
-//        user = db.user;
-//        password = db.password;
-//    }
-//    NSString *mapFunction = [mapFunctionTextView string];
-//    NSString *reduceFunction = [reduceFunctionTextView string];
-//    NSString *critical = [mrcriticalTextField stringValue];
-//    NSString *output = [mroutputTextField stringValue];
-//    NSMutableArray *results = [[NSMutableArray alloc] initWithArray:[mongoCollection mapReduceInDB:mongoCollection.databaseName 
-//                                                                                collection:mongoCollection.collectionName 
-//                                                                                      user:user 
-//                                                                                  password:password 
-//                                                                                     mapJs:mapFunction 
-//                                                                                  reduceJs:reduceFunction 
-//                                                                                  critical:critical 
-//                                                                                    output:output]];
-//    mrOutlineViewController.results = results;
-//    [mrOutlineViewController.myOutlineView reloadData];
-//    [results release];
-//    [mrLoaderIndicator stop];
-//    [pool drain];
-//    [NSThread exit];
+    [mongoCollection mapReduceWithMapFunction:[mapFunctionTextView string] reduceFunction:[reduceFunctionTextView string] query:[mrcriticalTextField stringValue] sort:nil limit:-1 output:[mroutputTextField stringValue] keepTemp:NO finalizeFunction:nil scope:nil jsmode:NO verbose:NO];
 }
 
 - (IBAction) export:(id)sender

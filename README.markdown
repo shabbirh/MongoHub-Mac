@@ -21,7 +21,6 @@ This project is very new. Any issues or bug reports are welcome. And I still don
 
 ** Known bugs **
     
-    - Canot modify indexes in the "Index" tab
     - Don't trust the grey default value in textfields
     - Most of errors are not handled correctly
     - Simple quote is not supported yet for json

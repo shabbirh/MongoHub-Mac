@@ -24,7 +24,7 @@
 @class MODDatabase;
 @class MODCollection;
 
-@interface ConnectionWindowController : NSWindowController {
+@interface ConnectionWindowController : NSWindowController<NSOutlineViewDataSource> {
     IBOutlet NSMenu *createCollectionOrDatabaseMenu;
     NSManagedObjectContext *managedObjectContext;
     IBOutlet DatabasesArrayController *databaseArrayController;
@@ -34,15 +34,14 @@
     MODDatabase *mongoDatabase;
     MODCollection *mongoCollection;
     NSTimer *_serverMonitorTimer;
-    IBOutlet Sidebar *sidebar;
+    IBOutlet NSOutlineView *_databaseCollectionOutlineView;
     IBOutlet NSTextField *resultsTitle;
     IBOutlet NSProgressIndicator *loaderIndicator;
     IBOutlet NSButton *reconnectButton;
     IBOutlet NSButton *monitorButton;
     IBOutlet NSPanel *monitorPanel;
     IBOutlet StatMonitorTableController *statMonitorTableController;
-    NSMutableArray *databases;
-    NSMutableArray *collections;
+    NSMutableArray *_databases;
     SidebarNode *selectedDB;
     SidebarNode *selectedCollection;
     Tunnel *sshTunnel;
@@ -64,9 +63,7 @@
 @property (nonatomic, retain) Connection *conn;
 @property (nonatomic, retain) MODServer *mongoServer;
 @property (nonatomic, retain) MODDatabase *mongoDatabase;
-@property (nonatomic, retain) Sidebar *sidebar;
 @property (nonatomic, retain) NSMutableArray *databases;
-@property (nonatomic, retain) NSMutableArray *collections;
 @property (nonatomic, retain) SidebarNode *selectedDB;
 @property (nonatomic, retain) SidebarNode *selectedCollection;
 @property (nonatomic, retain) Tunnel *sshTunnel;
@@ -82,7 +79,6 @@
 @property (nonatomic, retain) ImportWindowController *importWindowController;
 @property (nonatomic, retain) ExportWindowController *exportWindowController;
 
-- (void)reloadSidebar;
 - (void)useDB:(id)sender;
 - (void)useCollection:(id)sender;
 - (IBAction)reconnect:(id)sender;

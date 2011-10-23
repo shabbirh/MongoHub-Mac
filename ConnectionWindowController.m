@@ -20,7 +20,6 @@
 #import "DatabasesArrayController.h"
 #import "StatMonitorTableController.h"
 #import "Connection.h"
-#import "Sidebar.h"
 #import "SidebarNode.h"
 #import "Tunnel.h"
 #import "MODServer.h"
@@ -31,6 +30,10 @@
 @interface ConnectionWindowController()
 - (void)closeMongoDB;
 - (void)fetchServerStatusDelta;
+- (void)getDatabaseList;
+- (NSMutableDictionary *)databaseInfoForDatabaseName:(NSString *)databaseName;
+- (void)removeDatabaseInfoWithDatabaseName:(NSString *)databaseName;
+- (void)sortDatabaseInfo;
 @end
 
 @implementation ConnectionWindowController
@@ -41,13 +44,11 @@
 @synthesize conn;
 @synthesize mongoServer;
 @synthesize mongoDatabase;
-@synthesize sidebar;
 @synthesize loaderIndicator;
 @synthesize monitorButton;
 @synthesize reconnectButton;
 @synthesize statMonitorTableController;
-@synthesize databases;
-@synthesize collections;
+@synthesize databases = _databases;
 @synthesize selectedDB;
 @synthesize selectedCollection;
 @synthesize sshTunnel;
@@ -63,7 +64,7 @@
 - (id)init
 {
     if (self = [super initWithWindowNibName:@"ConnectionWindow"]) {
-        
+        _databases = [[NSMutableArray alloc] init];
     }
     return self;
 }
@@ -75,9 +76,7 @@
     [databaseArrayController release];
     [resultsOutlineViewController release];
     [conn release];
-    [sidebar release];
-    [databases release];
-    [collections release];
+    [_databases release];
     [selectedDB release];
     [selectedCollection release];
     [sshTunnel release];
@@ -122,7 +121,7 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(addCollection:) name:kNewCollectionWindowWillClose object:nil];
     [reconnectButton setEnabled:YES];
     [monitorButton setEnabled:YES];
-    [self reloadSidebar];
+    [self getDatabaseList];
     [self showServerStatus:nil];
 }
 
@@ -212,8 +211,6 @@
 - (void)windowDidLoad
 {
     [super windowDidLoad];
-    self.collections = [NSMutableArray array];
-    self.databases = [NSMutableArray array];
     exitThread = NO;
     NSString *appVersion = [[NSString alloc] initWithFormat:@"version(%@[%@])", [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"], [[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString*)kCFBundleVersionKey] ];
     [bundleVersion setStringValue: appVersion];
@@ -222,7 +219,7 @@
     if ([conn.usessh intValue]==1) {
         [NSThread detachNewThreadSelector: @selector(checkTunnel) toTarget:self withObject:nil ];
     }
-    [sidebar setDoubleAction:@selector(sidebarDoubleAction:)];
+    [_databaseCollectionOutlineView setDoubleAction:@selector(sidebarDoubleAction:)];
 }
 
 - (void)sidebarDoubleAction:(id)sender
@@ -268,33 +265,37 @@
     [super release];
 }
 
-- (void)reloadSidebar
+- (void)getDatabaseList
 {
     [loaderIndicator start];
     [mongoServer fetchDatabaseListWithCallback:^(NSArray *list, MODQuery *mongoQuery) {
         [loaderIndicator stop];
         self.selectedDB = nil;
         self.selectedCollection = nil;
-        [self.collections removeAllObjects];
-        [self.databases removeAllObjects];
         if (list != nil) {
-            [self.databases addObjectsFromArray:list];
+            NSArray *oldDatabases;
+            
+            oldDatabases = [_databases copy];
+            for (NSString *databaseName in list) {
+                NSMutableDictionary *databaseInfo;
+                
+                databaseInfo = [self databaseInfoForDatabaseName:databaseName];
+                if (!databaseInfo) {
+                    databaseInfo = [[NSMutableDictionary alloc] initWithObjectsAndKeys:databaseName, @"databasename", nil];
+                    [_databases addObject:databaseInfo];
+                    [databaseInfo release];
+                }
+            }
+            for (NSMutableDictionary *info in oldDatabases) {
+                [self removeDatabaseInfoWithDatabaseName:[info objectForKey:@"name"]];
+            }
+            [self sortDatabaseInfo];
         } else if (mongoQuery.error) {
             NSRunAlertPanel(@"Error", [mongoQuery.error localizedDescription], @"OK", nil, nil);
         }
-        [databases sortUsingSelector:@selector(compare:)];
         
-        [databaseArrayController clean:conn databases:databases];
-        [sidebar removeItem:@"1"];
-        [sidebar removeItem:@"2"];
-        [sidebar addSection:@"1" caption:@"DATABASES"];
-        unsigned int i=1;
-        for (NSString *db in databases) {
-            [sidebar addChild:@"1" key:[NSString stringWithFormat:@"1.%d", i] caption:db icon:[NSImage imageNamed:@"dbicon.png"] action:@selector(useDB:) target:self];
-            i++;
-        }
-        [sidebar reloadData];
-        [sidebar expandItem:@"1"];
+        [databaseArrayController clean:conn databases:_databases];
+        [_databaseCollectionOutlineView reloadData];
     }];
 }
 
@@ -302,27 +303,21 @@
 {
     [loaderIndicator start];
     [mongoDatabase fetchCollectionListWithCallback:^(NSArray *collectionList, MODQuery *mongoQuery) {
+        NSMutableDictionary *databaseInfo;
+        
         [loaderIndicator stop];
-        if ([self mongoDatabase] == [mongoQuery.parameters objectForKey:@"mongodatabase"]) {
-            [self.collections removeAllObjects];
-            if (collectionList) {
-                [self.collections addObjectsFromArray:collectionList];
-            } else if (mongoQuery.error) {
-                NSRunAlertPanel(@"Error", [mongoQuery.error localizedDescription], @"OK", nil, nil);
-            }
-            [sidebar removeItem:@"2"];
-            [sidebar addSection:@"2" caption:[[self.selectedDB caption] uppercaseString]];
-            [self.collections sortUsingSelector:@selector(compare:)];
-            unsigned int i = 1;
-            for (NSString *collection in self.collections) {
-                [sidebar addChild:@"2" key:[NSString stringWithFormat:@"2.%d", i] caption:collection icon:[NSImage imageNamed:@"collectionicon.png"] action:@selector(useCollection:) target:self];
-                i ++ ;
-            }
-            [sidebar reloadData];
-            [sidebar setBadge:[self.selectedDB nodeKey] count:[self.collections count]];
-            [sidebar expandItem:@"2"];
-            [self showDBStats:nil];
+        databaseInfo = [self databaseInfoForDatabaseName:mongoDatabase.databaseName];
+        if (collectionList && databaseInfo) {
+            NSMutableArray *collections;
+            
+            collections = [collectionList mutableCopy];
+            [collections sortUsingSelector:@selector(compare:)];
+            [databaseInfo setObject:collections forKey:@"collections"];
+            [collections release];
+        } else if (mongoQuery.error) {
+            NSRunAlertPanel(@"Error", [mongoQuery.error localizedDescription], @"OK", nil, nil);
         }
+        [_databaseCollectionOutlineView reloadData];
     }];
 }
 
@@ -462,7 +457,7 @@
     mongoDatabase.userName = [[sender object] objectForKey:@"user"];
     mongoDatabase.password = [[sender object] objectForKey:@"password"];
     [mongoDatabase fetchDatabaseStatsWithCallback:nil];
-    [self reloadSidebar];
+    [self getDatabaseList];
 }
 
 - (void)addCollection:(id)sender
@@ -508,7 +503,7 @@
     [loaderIndicator start];
     [mongoServer dropDatabaseWithName:[self.selectedDB caption] callback:^(MODQuery *mongoQuery) {
         [loaderIndicator stop];
-        [self reloadSidebar];
+        [self getDatabaseList];
         if (mongoQuery.error) {
             NSRunAlertPanel(@"Error", [mongoQuery.error localizedDescription], @"OK", nil, nil);
         }
@@ -695,6 +690,85 @@ static int percentage(NSNumber *previousValue, NSNumber *previousOutOfValue, NSN
             [diff release];
         }
     }];
+}
+
+- (NSInteger)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(id)item
+{
+    if (!item) {
+        return [_databases count];
+    } else if ([item isKindOfClass:[NSString class]]) {
+        return 0;
+    } else {
+        return [[item objectForKey:@"collections"] count];
+    }
+}
+
+- (id)outlineView:(NSOutlineView *)outlineView child:(NSInteger)index ofItem:(id)item
+{
+    if (!item) {
+        return [_databases objectAtIndex:index];
+    } else {
+        return [[item objectForKey:@"collections"] objectAtIndex:index];
+    }
+}
+
+- (BOOL)outlineView:(NSOutlineView *)outlineView isItemExpandable:(id)item
+{
+    if (!item) {
+        return YES;
+    } else {
+        return [item isKindOfClass:[NSDictionary class]];
+    }
+}
+
+- (id)outlineView:(NSOutlineView *)outlineView objectValueForTableColumn:(NSTableColumn *)tableColumn byItem:(id)item;
+{
+    if ([item isKindOfClass:[NSDictionary class]]) {
+        return [item objectForKey:@"databasename"];
+    } else {
+        return item;
+    }
+}
+
+- (void)outlineViewItemWillExpand:(NSNotification *)notification
+{
+    [self getCollectionList];
+}
+
+- (NSMutableDictionary *)databaseInfoForDatabaseName:(NSString *)databaseName
+{
+    NSMutableDictionary *result = nil;
+    
+    for (NSMutableDictionary *info in _databases) {
+        if ([[info objectForKey:@"name"] isEqualToString:databaseName]) {
+            result = info;
+            break;
+        }
+    }
+    return result;
+}
+
+- (void)removeDatabaseInfoWithDatabaseName:(NSString *)databaseName
+{
+    NSInteger ii;
+    
+    for (NSMutableDictionary *info in _databases) {
+        if ([[info objectForKey:@"name"] isEqualToString:databaseName]) {
+            [_databases removeObjectAtIndex:ii];
+            break;
+        }
+        ii++;
+    }
+}
+
+static NSInteger databaseInfoSortFunction(id element1, id element2, void *context)
+{
+    return [[element1 objectForKey:@"name"] compare:[element2 objectForKey:@"name"] options:0];
+}
+
+- (void)sortDatabaseInfo
+{
+    [_databases sortUsingFunction:databaseInfoSortFunction context:NULL];
 }
 
 @end

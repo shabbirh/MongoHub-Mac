@@ -170,7 +170,10 @@
     NSString *value;
     
     value = [[criticalTextField stringValue] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-    if ([value length] > 0) {
+    if ([value length] == 24 && [[value stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"1234567890abcdefABCDEF"]] length] == 0) {
+        // 24 char length and only hex char... it must be an objectid
+        query = [NSString stringWithFormat:@"{\"_id\": { \"$oid\": \"%@\" }}",value];
+    } else if ([value length] > 0) {
         if ([value hasPrefix:@"{"]) {
             NSString *innerValue;
             

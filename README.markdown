@@ -17,8 +17,6 @@ Just build it, it should work (but let me know if you have an errors or warnings
 
 ## Current Status
 
-    - Fix for parsing: "$oid":"4E9321AF3768CF514A00000C"}
-
 This project is very new. Any issues or bug reports are welcome. And I still don't have time to write a **usage guide**.
 
 ** Known bugs **
@@ -40,6 +38,7 @@ This project is very new. Any issues or bug reports are welcome. And I still don
     
     - Can insert an array of documents
     - MapReduce feature working
+    - Fix for parsing: "$oid":"4E9321AF3768CF514A00000C"}
     
 ## History
 

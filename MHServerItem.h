@@ -1,0 +1,36 @@
+//
+//  MHServerItem.h
+//  MongoHub
+//
+//  Created by Jérôme Lebel on 24/10/11.
+//  Copyright (c) 2011 ThePeppersStudio.COM. All rights reserved.
+//
+
+#import <Foundation/Foundation.h>
+
+@class MODServer;
+@class MHDatabaseItem;
+@class MHCollectionItem;
+
+@protocol MHServerItemDelegate <NSObject>
+- (id)mongoDatabaseForDatabaseItem:(MHDatabaseItem *)databaseItem;
+- (id)mongoCollectForCollectItem:(MHCollectionItem *)collectionItem;
+@end
+
+@interface MHServerItem : NSObject
+{
+    MODServer *_mongoServer;
+    NSMutableArray *_databaseItems;
+    id<MHServerItemDelegate> _delegate;
+}
+
+@property (nonatomic, readonly, retain) MODServer *mongoServer;
+@property (nonatomic, readonly, retain) NSArray *databaseItems;
+@property (nonatomic, readonly, assign) id<MHServerItemDelegate> delegate;
+
+- (id)initWithMongoServer:(MODServer *)mongoServer delegate:(id)delegate;
+- (MHDatabaseItem *)databaseItemWithName:(NSString *)databaseName;
+- (void)updateDatabaseItemsWithList:(NSArray *)list;
+- (void)removeDatabaseItemWithName:(NSString *)databaseName;
+
+@end

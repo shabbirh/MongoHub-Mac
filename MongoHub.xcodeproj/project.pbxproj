@@ -37,6 +37,9 @@
 		025C563414350DEF0064B010 /* MODDBRef.m in Sources */ = {isa = PBXBuildFile; fileRef = 025C562E14350DEF0064B010 /* MODDBRef.m */; };
 		025C563514350DEF0064B010 /* MODBinary.m in Sources */ = {isa = PBXBuildFile; fileRef = 025C563014350DEF0064B010 /* MODBinary.m */; };
 		026B2DE513BB6FB8009BEA7B /* RegexKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 026B2DE413BB6FB8009BEA7B /* RegexKit.framework */; };
+		029D30A5145613420021B9C9 /* MHDatabaseItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 029D30A4145613420021B9C9 /* MHDatabaseItem.m */; };
+		029D30A9145613580021B9C9 /* MHCollectionItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 029D30A8145613580021B9C9 /* MHCollectionItem.m */; };
+		029D30AC145613C30021B9C9 /* MHServerItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 029D30AB145613C30021B9C9 /* MHServerItem.m */; };
 		02AB057C142971CE00B7CD19 /* MODObjectId.m in Sources */ = {isa = PBXBuildFile; fileRef = 02AB057A142971CE00B7CD19 /* MODObjectId.m */; };
 		02CF87E4142F7316000C4C7F /* MODJsonParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 02CF87E1142F7316000C4C7F /* MODJsonParser.m */; };
 		02CF87E5142F7316000C4C7F /* MODTimestamp.m in Sources */ = {isa = PBXBuildFile; fileRef = 02CF87E3142F7316000C4C7F /* MODTimestamp.m */; };
@@ -250,6 +253,12 @@
 		025C563114350DEF0064B010 /* MODBinary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MODBinary.h; sourceTree = "<group>"; };
 		02683D5D1442759100467EBE /* README.markdown */ = {isa = PBXFileReference; lastKnownFileType = text; path = README.markdown; sourceTree = "<group>"; };
 		026B2DE413BB6FB8009BEA7B /* RegexKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = RegexKit.framework; sourceTree = "<group>"; };
+		029D30A3145613420021B9C9 /* MHDatabaseItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MHDatabaseItem.h; sourceTree = "<group>"; };
+		029D30A4145613420021B9C9 /* MHDatabaseItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MHDatabaseItem.m; sourceTree = "<group>"; };
+		029D30A7145613580021B9C9 /* MHCollectionItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MHCollectionItem.h; sourceTree = "<group>"; };
+		029D30A8145613580021B9C9 /* MHCollectionItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MHCollectionItem.m; sourceTree = "<group>"; };
+		029D30AA145613C30021B9C9 /* MHServerItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MHServerItem.h; sourceTree = "<group>"; };
+		029D30AB145613C30021B9C9 /* MHServerItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MHServerItem.m; sourceTree = "<group>"; };
 		02AB057A142971CE00B7CD19 /* MODObjectId.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MODObjectId.m; sourceTree = "<group>"; };
 		02AB057B142971CE00B7CD19 /* MODObjectId.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MODObjectId.h; sourceTree = "<group>"; };
 		02CF87E0142F7316000C4C7F /* MODJsonParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MODJsonParser.h; sourceTree = "<group>"; };
@@ -978,6 +987,12 @@
 			children = (
 				1D93C3CD11836863003216F7 /* ConnectionWindowController.h */,
 				1D93C3CE11836863003216F7 /* ConnectionWindowController.m */,
+				029D30AA145613C30021B9C9 /* MHServerItem.h */,
+				029D30AB145613C30021B9C9 /* MHServerItem.m */,
+				029D30A3145613420021B9C9 /* MHDatabaseItem.h */,
+				029D30A4145613420021B9C9 /* MHDatabaseItem.m */,
+				029D30A7145613580021B9C9 /* MHCollectionItem.h */,
+				029D30A8145613580021B9C9 /* MHCollectionItem.m */,
 				1D93CB5A1184C243003216F7 /* ResultsOutlineViewController.h */,
 				1D93CB5B1184C243003216F7 /* ResultsOutlineViewController.m */,
 				1DF96F9011883B3800C35AB8 /* QueryWindowController.h */,
@@ -1404,6 +1419,9 @@
 				025C563214350DEF0064B010 /* MODRegex.m in Sources */,
 				025C563414350DEF0064B010 /* MODDBRef.m in Sources */,
 				025C563514350DEF0064B010 /* MODBinary.m in Sources */,
+				029D30A5145613420021B9C9 /* MHDatabaseItem.m in Sources */,
+				029D30A9145613580021B9C9 /* MHCollectionItem.m in Sources */,
+				029D30AC145613C30021B9C9 /* MHServerItem.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -8,6 +8,8 @@
 
 #import <Cocoa/Cocoa.h>
 #import "Tunnel.h"
+#import "MHServerItem.h"
+
 @class BWSheetController;
 @class DatabasesArrayController;
 @class StatMonitorTableController;
@@ -29,9 +31,9 @@
     NSManagedObjectContext *managedObjectContext;
     IBOutlet DatabasesArrayController *databaseArrayController;
     IBOutlet ResultsOutlineViewController *resultsOutlineViewController;
+    MHServerItem *_serverItem;
     Connection *conn;
-    MODServer *mongoServer;
-    MODDatabase *mongoDatabase;
+    MODServer *_mongoServer;
     MODCollection *mongoCollection;
     NSTimer *_serverMonitorTimer;
     IBOutlet NSOutlineView *_databaseCollectionOutlineView;
@@ -62,7 +64,6 @@
 @property (nonatomic, retain) ResultsOutlineViewController *resultsOutlineViewController;
 @property (nonatomic, retain) Connection *conn;
 @property (nonatomic, retain) MODServer *mongoServer;
-@property (nonatomic, retain) MODDatabase *mongoDatabase;
 @property (nonatomic, retain) NSMutableArray *databases;
 @property (nonatomic, retain) SidebarNode *selectedDB;
 @property (nonatomic, retain) SidebarNode *selectedCollection;
@@ -79,11 +80,8 @@
 @property (nonatomic, retain) ImportWindowController *importWindowController;
 @property (nonatomic, retain) ExportWindowController *exportWindowController;
 
-- (void)useDB:(id)sender;
-- (void)useCollection:(id)sender;
 - (IBAction)reconnect:(id)sender;
 - (IBAction)showServerStatus:(id)sender;
-- (IBAction)showDBStats:(id)sender;
 - (IBAction)showCollStats:(id)sender;
 - (IBAction)createDatabase:(id)sender;
 - (IBAction)createCollection:(id)sender;
@@ -104,4 +102,7 @@
 
 - (IBAction)startMonitor:(id)sender;
 - (IBAction)stopMonitor:(id)sender;
+@end
+
+@interface ConnectionWindowController(MHServerItemDelegateCategory)<MHServerItemDelegate>
 @end

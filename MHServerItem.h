@@ -30,7 +30,7 @@
 
 - (id)initWithMongoServer:(MODServer *)mongoServer delegate:(id)delegate;
 - (MHDatabaseItem *)databaseItemWithName:(NSString *)databaseName;
-- (void)updateDatabaseItemsWithList:(NSArray *)list;
+- (BOOL)updateChildrenWithList:(NSArray *)list;
 - (void)removeDatabaseItemWithName:(NSString *)databaseName;
 
 @end

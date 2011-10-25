@@ -70,8 +70,9 @@ static NSInteger collectionItemSortFunction(id element1, id element2, void *cont
     return [[element1 name] compare:[element2 name] options:0];
 }
 
-- (void)updateCollectionItemsWithList:(NSArray *)list
+- (BOOL)updateChildrenWithList:(NSArray *)list
 {
+    BOOL result = NO;
     NSArray *oldCollectionList;
     
     oldCollectionList = [_collectionItems copy];
@@ -83,15 +84,18 @@ static NSInteger collectionItemSortFunction(id element1, id element2, void *cont
             collectionItem = [[MHCollectionItem alloc] initWithDatabaseItem:self name:name];
             [_collectionItems addObject:collectionItem];
             [collectionItem release];
+            result = YES;
         }
     }
     for (MHCollectionItem *oldCollectionItem in oldCollectionList) {
         if ([list indexOfObject:oldCollectionItem.name] == NSNotFound) {
             [self removeCollectionItemWithName:oldCollectionItem.name];
+            result = YES;
         }
     }
     [_collectionItems sortUsingFunction:collectionItemSortFunction context:NULL];
     [oldCollectionList release];
+    return result;
 }
 
 @end

@@ -35,8 +35,8 @@
 - (void)fetchServerStatusDelta;
 - (void)getDatabaseList;
 - (void)getCollectionListForDatabaseItem:(MHDatabaseItem *)databaseItem;
-- (MHDatabaseItem *)databaseItemForSelectedItem;
-- (MHCollectionItem *)collectionItemForSelectedItem;
+- (MHDatabaseItem *)selectedDatabaseItem;
+- (MHCollectionItem *)selectedCollectionItem;
 @end
 
 @implementation ConnectionWindowController
@@ -105,6 +105,11 @@
     _mongoServer = nil;
     [_serverItem release];
     _serverItem = nil;
+}
+
+- (void)awakeFromNib
+{
+    [_databaseCollectionOutlineView setDoubleAction:@selector(outlineViewDoubleClickAction:)];
 }
 
 - (void) tunnelStatusChanged: (Tunnel*) tunnel status: (NSString*) status {
@@ -274,13 +279,14 @@
     [_mongoServer fetchDatabaseListWithCallback:^(NSArray *list, MODQuery *mongoQuery) {
         [loaderIndicator stop];
         if (list != nil) {
-            [_serverItem updateDatabaseItemsWithList:list];
+            if ([_serverItem updateChildrenWithList:list]) {
+                [_databaseCollectionOutlineView reloadData];
+            }
         } else if (mongoQuery.error) {
             NSRunAlertPanel(@"Error", [mongoQuery.error localizedDescription], @"OK", nil, nil);
         }
         
         [databaseArrayController clean:conn databases:_databases];
-        [_databaseCollectionOutlineView reloadData];
     }];
 }
 
@@ -306,12 +312,11 @@
         [loaderIndicator stop];
         databaseItem = [_serverItem databaseItemWithName:mongoDatabase.databaseName];
         if (collectionList && databaseItem) {
-            [databaseItem updateCollectionItemsWithList:collectionList];
+            if ([databaseItem updateChildrenWithList:collectionList] && [_databaseCollectionOutlineView isItemExpanded:databaseItem]) {
+                [_databaseCollectionOutlineView reloadData];
+            }
         } else if (mongoQuery.error) {
             NSRunAlertPanel(@"Error", [mongoQuery.error localizedDescription], @"OK", nil, nil);
-        }
-        if ([_databaseCollectionOutlineView isItemExpanded:databaseItem]) {
-            [_databaseCollectionOutlineView reloadData];
         }
     }];
 }
@@ -338,7 +343,7 @@
 {
     MHDatabaseItem *databaseItem;
     
-    databaseItem = [self databaseItemForSelectedItem];
+    databaseItem = [self selectedDatabaseItem];
     if (databaseItem) {
         [loaderIndicator start];
         [resultsTitle setStringValue:[NSString stringWithFormat:@"Database %@ stats", [self.selectedDB caption]]];
@@ -374,6 +379,11 @@
         }
         [resultsOutlineViewController.myOutlineView reloadData];
     }];
+}
+
+- (void)outlineViewDoubleClickAction:(id)sender
+{
+    NSLog(@"test");
 }
 
 - (void)menuWillOpen:(NSMenu *)menu
@@ -432,7 +442,7 @@
     NSString *collectionName = [[sender object] objectForKey:@"name"];
     MODDatabase *mongoDatabase;
     
-    mongoDatabase = [[self databaseItemForSelectedItem] mongoDatabase];
+    mongoDatabase = [[self selectedDatabaseItem] mongoDatabase];
     [loaderIndicator start];
     [mongoDatabase createCollectionWithName:collectionName callback:^(MODQuery *mongoQuery) {
         [loaderIndicator stop];
@@ -456,7 +466,7 @@
 {
     MHDatabaseItem *databaseItem;
     
-    databaseItem = [self databaseItemForSelectedItem];
+    databaseItem = [self selectedDatabaseItem];
     if (databaseItem) {
         [loaderIndicator start];
         [databaseItem.mongoDatabase dropCollectionWithName:collectionName callback:^(MODQuery *mongoQuery) {
@@ -542,7 +552,7 @@
 
 - (IBAction)exportToMySQL:(id)sender
 {
-    if ([self collectionItemForSelectedItem] == nil) {
+    if ([self selectedCollectionItem] == nil) {
         NSRunAlertPanel(@"Error", @"Please specify a database!", @"OK", nil, nil);
         return;
     }
@@ -552,7 +562,7 @@
     }
     exportWindowController.managedObjectContext = self.managedObjectContext;
     exportWindowController.conn = self.conn;
-    exportWindowController.mongoDatabase = [[self databaseItemForSelectedItem] mongoDatabase];
+    exportWindowController.mongoDatabase = [[self selectedDatabaseItem] mongoDatabase];
     exportWindowController.dbname = [self.selectedDB caption];
     if (self.selectedCollection) {
         [exportWindowController.collectionTextField setStringValue:[self.selectedCollection caption]];
@@ -664,6 +674,46 @@ static int percentage(NSNumber *previousValue, NSNumber *previousOutOfValue, NSN
     }];
 }
 
+- (MHDatabaseItem *)selectedDatabaseItem
+{
+    MHDatabaseItem *result = nil;
+    NSInteger index;
+    
+    index = [_databaseCollectionOutlineView selectedRow];
+    if (index != NSNotFound) {
+        id item;
+        
+        item = [_databaseCollectionOutlineView itemAtRow:index];
+        if ([item isKindOfClass:[MHDatabaseItem class]]) {
+            result = item;
+        } else if ([item isKindOfClass:[MHCollectionItem class]]) {
+            result = [item databaseItem];
+        }
+    }
+    return result;
+}
+
+- (MHCollectionItem *)selectedCollectionItem
+{
+    MHCollectionItem *result = nil;
+    NSInteger index;
+    
+    index = [_databaseCollectionOutlineView selectedRow];
+    if (index != NSNotFound) {
+        id item;
+        
+        item = [_databaseCollectionOutlineView itemAtRow:index];
+        if ([item isKindOfClass:[MHCollectionItem class]]) {
+            result = item;
+        }
+    }
+    return result;
+}
+
+@end
+
+@implementation ConnectionWindowController(NSOutlineViewDataSource)
+
 - (NSInteger)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(id)item
 {
     if (!item) {
@@ -701,43 +751,8 @@ static int percentage(NSNumber *previousValue, NSNumber *previousOutOfValue, NSN
     [self getCollectionListForDatabaseItem:[[notification userInfo] objectForKey:@"NSObject"]];
 }
 
-- (MHDatabaseItem *)databaseItemForSelectedItem
-{
-    MHDatabaseItem *result = nil;
-    NSInteger index;
-    
-    index = [_databaseCollectionOutlineView selectedRow];
-    if (index != NSNotFound) {
-        id item;
-        
-        item = [_databaseCollectionOutlineView itemAtRow:index];
-        if ([item isKindOfClass:[MHDatabaseItem class]]) {
-            result = item;
-        } else if ([item isKindOfClass:[MHCollectionItem class]]) {
-            result = [item databaseItem];
-        }
-    }
-    return result;
-}
-
-- (MHCollectionItem *)collectionItemForSelectedItem
-{
-    MHCollectionItem *result = nil;
-    NSInteger index;
-    
-    index = [_databaseCollectionOutlineView selectedRow];
-    if (index != NSNotFound) {
-        id item;
-        
-        item = [_databaseCollectionOutlineView itemAtRow:index];
-        if ([item isKindOfClass:[MHCollectionItem class]]) {
-            result = item;
-        }
-    }
-    return result;
-}
-
 @end
+
 
 @implementation ConnectionWindowController (MHServerItemDelegateCategory)
 

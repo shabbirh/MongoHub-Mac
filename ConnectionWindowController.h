@@ -26,7 +26,7 @@
 @class MODDatabase;
 @class MODCollection;
 
-@interface ConnectionWindowController : NSWindowController<NSOutlineViewDataSource> {
+@interface ConnectionWindowController : NSWindowController {
     IBOutlet NSMenu *createCollectionOrDatabaseMenu;
     NSManagedObjectContext *managedObjectContext;
     IBOutlet DatabasesArrayController *databaseArrayController;
@@ -102,6 +102,9 @@
 
 - (IBAction)startMonitor:(id)sender;
 - (IBAction)stopMonitor:(id)sender;
+@end
+
+@interface ConnectionWindowController(NSOutlineViewDataSource) <NSOutlineViewDataSource>
 @end
 
 @interface ConnectionWindowController(MHServerItemDelegateCategory)<MHServerItemDelegate>

@@ -61,9 +61,10 @@ static NSInteger databaseItemSortFunction(id element1, id element2, void *contex
     return [[element1 name] compare:[element2 name] options:0];
 }
 
-- (void)updateDatabaseItemsWithList:(NSArray *)list
+- (BOOL)updateChildrenWithList:(NSArray *)list
 {
     NSArray *oldDatabases;
+    BOOL result = NO;
     
     oldDatabases = [_databaseItems copy];
     for (NSString *databaseName in list) {
@@ -74,15 +75,18 @@ static NSInteger databaseItemSortFunction(id element1, id element2, void *contex
             databaseItem = [[MHDatabaseItem alloc] initWithServerItem:self name:databaseName];
             [_databaseItems addObject:databaseItem];
             [databaseItem release];
+            result = YES;
         }
     }
     for (MHDatabaseItem *databaseItem in oldDatabases) {
         if ([list indexOfObject:databaseItem.name] == NSNotFound) {
             [self removeDatabaseItemWithName:databaseItem.name];
+            result = YES;
         }
     }
     [_databaseItems sortUsingFunction:databaseItemSortFunction context:NULL];
     [oldDatabases release];
+    return result;
 }
 
 @end

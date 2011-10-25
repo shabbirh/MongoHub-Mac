@@ -630,7 +630,6 @@
 																	</object>
 																	<int key="NSResizingMask">3</int>
 																	<bool key="NSIsResizeable">YES</bool>
-																	<bool key="NSIsEditable">YES</bool>
 																	<reference key="NSTableView" ref="753034752"/>
 																</object>
 															</object>
@@ -849,7 +848,7 @@
 															<string key="NSFrameSize">{447, 331}</string>
 															<reference key="NSSuperview" ref="99471935"/>
 															<reference key="NSWindow"/>
-															<reference key="NSNextKeyView" ref="281002724"/>
+															<reference key="NSNextKeyView" ref="361755619"/>
 															<int key="NSViewLayerContentsRedrawPolicy">2</int>
 															<bool key="NSEnabled">YES</bool>
 															<object class="NSTableHeaderView" key="NSHeaderView" id="312011680">
@@ -1010,6 +1009,7 @@
 													<string key="NSFrame">{{431, 17}, {15, 341}}</string>
 													<reference key="NSSuperview" ref="848137174"/>
 													<reference key="NSWindow"/>
+													<reference key="NSNextKeyView"/>
 													<int key="NSViewLayerContentsRedrawPolicy">2</int>
 													<reference key="NSTarget" ref="848137174"/>
 													<string key="NSAction">_doScroller:</string>
@@ -1049,7 +1049,7 @@
 											<string key="NSFrameSize">{447, 348}</string>
 											<reference key="NSSuperview" ref="282820595"/>
 											<reference key="NSWindow"/>
-											<reference key="NSNextKeyView" ref="99471935"/>
+											<reference key="NSNextKeyView" ref="281002724"/>
 											<int key="NSViewLayerContentsRedrawPolicy">2</int>
 											<int key="NSsFlags">133680</int>
 											<reference key="NSVScroller" ref="225477757"/>
@@ -2337,14 +2337,6 @@
 						<reference key="destination" ref="838176927"/>
 					</object>
 					<int key="connectionID">147</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">showDBStats:</string>
-						<reference key="source" ref="1001"/>
-						<reference key="destination" ref="963579168"/>
-					</object>
-					<int key="connectionID">148</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
@@ -3791,14 +3783,12 @@
 							<string>reconnect:</string>
 							<string>showAuth:</string>
 							<string>showCollStats:</string>
-							<string>showDBStats:</string>
 							<string>showServerStatus:</string>
 							<string>startMonitor:</string>
 							<string>stopMonitor:</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>id</string>
 							<string>id</string>
 							<string>id</string>
 							<string>id</string>
@@ -3826,7 +3816,6 @@
 							<string>reconnect:</string>
 							<string>showAuth:</string>
 							<string>showCollStats:</string>
-							<string>showDBStats:</string>
 							<string>showServerStatus:</string>
 							<string>startMonitor:</string>
 							<string>stopMonitor:</string>
@@ -3867,10 +3856,6 @@
 							</object>
 							<object class="IBActionInfo">
 								<string key="name">showCollStats:</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBActionInfo">
-								<string key="name">showDBStats:</string>
 								<string key="candidateClassName">id</string>
 							</object>
 							<object class="IBActionInfo">

@@ -25,7 +25,7 @@
 @property (nonatomic, readonly, retain) id mongoDatabase;
 
 - (id)initWithServerItem:(MHServerItem *)serverItem name:(NSString *)name;
-- (void)updateCollectionItemsWithList:(NSArray *)list;
+- (BOOL)updateChildrenWithList:(NSArray *)list;
 - (MHCollectionItem *)collectionItemWithName:(NSString *)databaseName;
 - (void)removeCollectionItemWithName:(NSString *)name;
 

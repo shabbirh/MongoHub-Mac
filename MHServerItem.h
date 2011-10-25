@@ -13,8 +13,8 @@
 @class MHCollectionItem;
 
 @protocol MHServerItemDelegate <NSObject>
-- (id)mongoDatabaseForDatabaseItem:(MHDatabaseItem *)databaseItem;
-- (id)mongoCollectForCollectItem:(MHCollectionItem *)collectionItem;
+- (id)mongoDatabaseWithDatabaseItem:(MHDatabaseItem *)databaseItem;
+- (id)mongoCollectionWithCollectionItem:(MHCollectionItem *)collectionItem;
 @end
 
 @interface MHServerItem : NSObject

@@ -321,7 +321,7 @@
     }];
 }
 
-- (IBAction)showServerStatus:(id)sender 
+- (void)showServerStatus
 {
     [loaderIndicator start];
     [resultsTitle setStringValue:[NSString stringWithFormat:@"Server %@:%@ stats", conn.host, conn.hostport]];
@@ -339,14 +339,11 @@
     }];
 }
 
-- (IBAction)showDatabaseStatus:(id)sender 
+- (void)showDatabaseStatusWithDatabaseItem:(MHDatabaseItem *)databaseItem
 {
-    MHDatabaseItem *databaseItem;
-    
-    databaseItem = [self selectedDatabaseItem];
     if (databaseItem) {
         [loaderIndicator start];
-        [resultsTitle setStringValue:[NSString stringWithFormat:@"Database %@ stats", [self.selectedDB caption]]];
+        [resultsTitle setStringValue:[NSString stringWithFormat:@"Database %@ stats", databaseItem.name]];
         
         [databaseItem.mongoDatabase fetchDatabaseStatsWithCallback:^(NSDictionary *databaseStats, MODQuery *mongoQuery) {
             [loaderIndicator stop];
@@ -361,24 +358,37 @@
     }
 }
 
+- (void)showCollectionStatusWithCollectionItem:(MHCollectionItem *)collectionItem
+{
+    if (collectionItem) {
+        [loaderIndicator start];
+        [resultsTitle setStringValue:[NSString stringWithFormat:@"Collection %@.%@ stats", collectionItem.databaseItem.name, collectionItem.name]];
+        [collectionItem.mongoCollection fetchDatabaseStatsWithCallback:^(NSDictionary *stats, MODQuery *mongoQuery) {
+            [loaderIndicator stop];
+            [resultsOutlineViewController.results removeAllObjects];
+            if (stats) {
+                [resultsOutlineViewController.results addObjectsFromArray:[MODHelper convertForOutlineWithObject:stats]];
+            } else if (mongoQuery.error) {
+                NSRunAlertPanel(@"Error", [mongoQuery.error localizedDescription], @"OK", nil, nil);
+            }
+            [resultsOutlineViewController.myOutlineView reloadData];
+        }];
+    }
+}
+
+- (IBAction)showServerStatus:(id)sender 
+{
+    [self showServerStatus];
+}
+
+- (IBAction)showDatabaseStatus:(id)sender 
+{
+    [self showDatabaseStatusWithDatabaseItem:[self selectedDatabaseItem]];
+}
+
 - (IBAction)showCollStats:(id)sender 
 {
-    if (self.selectedDB == nil || self.selectedCollection == nil) {
-        NSRunAlertPanel(@"Error", @"Please specify a collection!", @"OK", nil, nil);
-        return;
-    }
-    [loaderIndicator start];
-    [resultsTitle setStringValue:[NSString stringWithFormat:@"Collection %@.%@ stats", [self.selectedDB caption], [self.selectedCollection caption]]];
-    [mongoCollection fetchDatabaseStatsWithCallback:^(NSDictionary *stats, MODQuery *mongoQuery) {
-        [loaderIndicator stop];
-        [resultsOutlineViewController.results removeAllObjects];
-        if (stats) {
-            [resultsOutlineViewController.results addObjectsFromArray:[MODHelper convertForOutlineWithObject:stats]];
-        } else if (mongoQuery.error) {
-            NSRunAlertPanel(@"Error", [mongoQuery.error localizedDescription], @"OK", nil, nil);
-        }
-        [resultsOutlineViewController.myOutlineView reloadData];
-    }];
+    [self showCollectionStatusWithCollectionItem:[self selectedCollectionItem]];
 }
 
 - (void)outlineViewDoubleClickAction:(id)sender
@@ -746,6 +756,22 @@ static int percentage(NSNumber *previousValue, NSNumber *previousOutOfValue, NSN
     return [item name];
 }
 
+- (void)outlineViewSelectionDidChange:(NSNotification *)notification
+{
+    if ([self selectedCollectionItem]) {
+        MHCollectionItem *collectionItem = [self selectedCollectionItem];
+        
+        [self getCollectionListForDatabaseItem:collectionItem.databaseItem];
+        [self showCollectionStatusWithCollectionItem:collectionItem];
+    } else if ([self selectedDatabaseItem]) {
+        MHDatabaseItem *databaseItem = [self selectedDatabaseItem];
+        
+        [self getCollectionListForDatabaseItem:databaseItem];
+        [self showDatabaseStatusWithDatabaseItem:databaseItem];
+    }
+    [self getDatabaseList];
+}
+
 - (void)outlineViewItemWillExpand:(NSNotification *)notification
 {
     [self getCollectionListForDatabaseItem:[[notification userInfo] objectForKey:@"NSObject"]];
@@ -756,14 +782,14 @@ static int percentage(NSNumber *previousValue, NSNumber *previousOutOfValue, NSN
 
 @implementation ConnectionWindowController (MHServerItemDelegateCategory)
 
-- (id)mongoDatabaseForDatabaseItem:(MHDatabaseItem *)item
+- (id)mongoDatabaseWithDatabaseItem:(MHDatabaseItem *)item
 {
     return [_mongoServer databaseForName:item.name];
 }
 
-- (id)mongoCollectForCollectItem:(MHCollectionItem *)item
+- (id)mongoCollectionWithCollectionItem:(MHCollectionItem *)item
 {
-    return [[self mongoDatabaseForDatabaseItem:item.databaseItem] collectionForName:item.name];
+    return [[self mongoDatabaseWithDatabaseItem:item.databaseItem] collectionForName:item.name];
 }
 
 @end

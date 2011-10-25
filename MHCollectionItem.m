@@ -7,6 +7,8 @@
 //
 
 #import "MHCollectionItem.h"
+#import "MHDatabaseItem.h"
+#import "MHServerItem.h"
 
 @implementation MHCollectionItem
 
@@ -24,7 +26,16 @@
 - (void)dealloc
 {
     [_name release];
+    [_mongoCollection release];
     [super dealloc];
+}
+
+- (id)mongoCollection
+{
+    if (!_mongoCollection) {
+        _mongoCollection = [[_databaseItem.serverItem.delegate mongoCollectionWithCollectionItem:self] retain];
+    }
+    return _mongoCollection;
 }
 
 @end

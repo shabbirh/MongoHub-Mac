@@ -14,10 +14,12 @@
 {
     NSString *_name;
     MHDatabaseItem *_databaseItem;
+    id _mongoCollection;
 }
 
 @property (nonatomic, readonly, retain) NSString *name;
 @property (nonatomic, readonly, assign) MHDatabaseItem *databaseItem;
+@property (nonatomic, readonly, retain) id mongoCollection;
 
 - (id)initWithDatabaseItem:(MHDatabaseItem *)databaseItem name:(NSString *)name;
 

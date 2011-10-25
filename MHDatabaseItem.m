@@ -35,7 +35,7 @@
 - (id)mongoDatabase
 {
     if (!_mongoDatabase) {
-        _mongoDatabase = [[_serverItem.delegate mongoDatabaseForDatabaseItem:self] retain];
+        _mongoDatabase = [[_serverItem.delegate mongoDatabaseWithDatabaseItem:self] retain];
     }
     return _mongoDatabase;
 }

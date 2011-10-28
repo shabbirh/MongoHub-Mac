@@ -20,8 +20,6 @@
 @class ExportWindowController;
 @class ResultsOutlineViewController;
 @class Connection;
-@class Sidebar;
-@class SidebarNode;
 @class MODServer;
 @class MODDatabase;
 @class MODCollection;
@@ -43,7 +41,6 @@
     IBOutlet NSPanel *monitorPanel;
     IBOutlet StatMonitorTableController *statMonitorTableController;
     NSMutableArray *_databases;
-    SidebarNode *selectedDB;
     Tunnel *sshTunnel;
     AddDBController *addDBController;
     AddCollectionController *addCollectionController;
@@ -63,7 +60,6 @@
 @property (nonatomic, retain) Connection *conn;
 @property (nonatomic, retain) MODServer *mongoServer;
 @property (nonatomic, retain) NSMutableArray *databases;
-@property (nonatomic, retain) SidebarNode *selectedDB;
 @property (nonatomic, retain) Tunnel *sshTunnel;
 @property (nonatomic, retain) NSTextField *resultsTitle;
 @property (nonatomic, retain) NSProgressIndicator *loaderIndicator;

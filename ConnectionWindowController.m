@@ -53,7 +53,6 @@
 @synthesize reconnectButton;
 @synthesize statMonitorTableController;
 @synthesize databases = _databases;
-@synthesize selectedDB;
 @synthesize sshTunnel;
 @synthesize addDBController;
 @synthesize addCollectionController;
@@ -80,7 +79,6 @@
     [resultsOutlineViewController release];
     [conn release];
     [_databases release];
-    [selectedDB release];
     [sshTunnel release];
     [addDBController release];
     [addCollectionController release];
@@ -268,7 +266,6 @@
     }
     //exitThread = YES;
     resultsOutlineViewController = nil;
-    self.selectedDB = nil;
     [super release];
 }
 
@@ -398,7 +395,7 @@
 - (void)menuWillOpen:(NSMenu *)menu
 {
     if (menu == createCollectionOrDatabaseMenu) {
-        [[menu itemWithTag:2] setEnabled:self.selectedDB != nil];
+        [[menu itemWithTag:2] setEnabled:[self selectedDatabaseItem] != nil];
     }
 }
 
@@ -409,8 +406,8 @@
 
 - (IBAction)createCollection:(id)sender
 {
-    if (self.selectedDB) {
-        [self createCollectionForDB:[self.selectedDB caption]];
+    if ([self selectedDatabaseItem]) {
+        [self createCollectionForDB:[[self selectedDatabaseItem].mongoDatabase databaseName]];
     }
 }
 
@@ -448,7 +445,7 @@
     if (![sender object]) {
         return;
     }
-    NSString *collectionName = [[sender object] objectForKey:@"name"];
+    NSString *collectionName = [[sender object] objectForKey:@"collectionname"];
     MODDatabase *mongoDatabase;
     
     mongoDatabase = [[self selectedDatabaseItem] mongoDatabase];
@@ -467,7 +464,7 @@
     if ([self selectedCollectionItem]) {
         [self dropWarning:[NSString stringWithFormat:@"COLLECTION:%@", [[[self selectedCollectionItem] mongoCollection] collectionName]]];
     }else {
-        [self dropWarning:[NSString stringWithFormat:@"DB:%@", [self.selectedDB caption]]];
+        [self dropWarning:[NSString stringWithFormat:@"DB:%@", [[self selectedDatabaseItem].mongoDatabase databaseName]]];
     }
 }
 
@@ -492,7 +489,7 @@
 - (void)dropDB
 {
     [loaderIndicator start];
-    [_mongoServer dropDatabaseWithName:[self.selectedDB caption] callback:^(MODQuery *mongoQuery) {
+    [_mongoServer dropDatabaseWithName:[[self selectedDatabaseItem].mongoDatabase databaseName] callback:^(MODQuery *mongoQuery) {
         [loaderIndicator stop];
         [self getDatabaseList];
         if (mongoQuery.error) {
@@ -515,7 +512,7 @@
 
 - (IBAction)showAuth:(id)sender
 {
-    if (!self.selectedDB) 
+    if (![self selectedDatabaseItem]) 
     {
         NSRunAlertPanel(@"Error", @"Please choose a database!", @"OK", nil, nil);
         return;
@@ -524,7 +521,7 @@
     {
         authWindowController = [[AuthWindowController alloc] init];
     }
-    Database *db = [databaseArrayController dbInfo:conn name:[self.selectedDB caption]];
+    Database *db = [databaseArrayController dbInfo:conn name:[[self selectedDatabaseItem].mongoDatabase databaseName]];
     if (db) {
         [authWindowController.userTextField setStringValue:db.user];
         [authWindowController.passwordTextField setStringValue:db.password];
@@ -534,13 +531,13 @@
     }
     authWindowController.managedObjectContext = self.managedObjectContext;
     authWindowController.conn = self.conn;
-    authWindowController.dbname = [self.selectedDB caption];
+    authWindowController.dbname = [[self selectedDatabaseItem].mongoDatabase databaseName];
     [authWindowController showWindow:self];
 }
 
 - (IBAction)importFromMySQL:(id)sender
 {
-    if (self.selectedDB == nil) {
+    if ([self selectedDatabaseItem] == nil) {
         NSRunAlertPanel(@"Error", @"Please specify a database!", @"OK", nil, nil);
         return;
     }
@@ -550,9 +547,9 @@
     }
     importWindowController.managedObjectContext = self.managedObjectContext;
     importWindowController.mongoServer = _mongoServer;
-    importWindowController.dbname = [self.selectedDB caption];
+    importWindowController.dbname = [[self selectedDatabaseItem].mongoDatabase databaseName];
     if ([self selectedCollectionItem]) {
-        [exportWindowController.collectionTextField setStringValue:[[self selectedCollectionItem].mongoCollection caption]];
+        [exportWindowController.collectionTextField setStringValue:[[self selectedCollectionItem].mongoCollection collectionName]];
     }
     [importWindowController showWindow:self];
 }
@@ -569,9 +566,9 @@
     }
     exportWindowController.managedObjectContext = self.managedObjectContext;
     exportWindowController.mongoDatabase = [[self selectedDatabaseItem] mongoDatabase];
-    exportWindowController.dbname = [self.selectedDB caption];
+    exportWindowController.dbname = [[self selectedDatabaseItem].mongoDatabase databaseName];
     if ([self selectedCollectionItem]) {
-        [exportWindowController.collectionTextField setStringValue:[[self selectedCollectionItem].mongoCollection caption]];
+        [exportWindowController.collectionTextField setStringValue:[[self selectedCollectionItem].mongoCollection collectionName]];
     }
     [exportWindowController showWindow:self];
 }
@@ -581,7 +578,7 @@
     if (returnCode == NSAlertFirstButtonReturn)
     {
         if ([self selectedCollectionItem]) {
-            [self dropCollection:[[self selectedCollectionItem].mongoCollection collectionName] ForDB:[self.selectedDB caption]];
+            [self dropCollection:[[self selectedCollectionItem].mongoCollection collectionName] ForDB:[[self selectedDatabaseItem].mongoDatabase databaseName]];
         }else {
             [self dropDB];
         }

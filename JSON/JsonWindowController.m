@@ -10,7 +10,6 @@
 #import "Configure.h"
 #import "NSProgressIndicator+Extras.h"
 #import "DatabasesArrayController.h"
-#import "Connection.h"
 #import "NSString+Extras.h"
 #import "MODCollection.h"
 
@@ -19,7 +18,6 @@
 @synthesize databasesArrayController;
 @synthesize mongoServer;
 @synthesize mongoCollection;
-@synthesize conn;
 @synthesize dbname;
 @synthesize collectionname;
 @synthesize jsonDict;
@@ -33,7 +31,6 @@
 - (void)dealloc {
     [managedObjectContext release];
     [databasesArrayController release];
-    [conn release];
     [mongoServer release];
     [mongoCollection release];
     [dbname release];

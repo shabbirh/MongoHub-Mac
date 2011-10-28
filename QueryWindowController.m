@@ -11,7 +11,6 @@
 #import "QueryWindowController.h"
 #import "DatabasesArrayController.h"
 #import "ResultsOutlineViewController.h"
-#import "Connection.h"
 #import "NSString+Extras.h"
 #import "JsonWindowController.h"
 #import "MODServer.h"
@@ -26,7 +25,6 @@
 @synthesize databasesArrayController;
 @synthesize findResultsViewController;
 @synthesize mongoCollection;
-@synthesize conn;
 
 @synthesize criticalTextField;
 @synthesize fieldsTextField;
@@ -98,7 +96,6 @@
     [managedObjectContext release];
     [databasesArrayController release];
     [findResultsViewController release];
-    [conn release];
     [mongoCollection release];
     
     [criticalTextField release];
@@ -538,7 +535,6 @@
             //NSLog(@"%@", [findResultsViewController rootForItem:currentItem]);
             JsonWindowController *jsonWindowController = [[JsonWindowController alloc] init];
             jsonWindowController.managedObjectContext = self.managedObjectContext;
-            jsonWindowController.conn = conn;
             jsonWindowController.mongoCollection = mongoCollection;
             jsonWindowController.jsonDict = [findResultsViewController rootForItem:currentItem];
             [jsonWindowController showWindow:sender];

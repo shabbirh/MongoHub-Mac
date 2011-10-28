@@ -10,7 +10,6 @@
 
 @class DatabasesArrayController;
 @class ResultsOutlineViewController;
-@class Connection;
 @class MODServer;
 @class MODCollection;
 
@@ -21,7 +20,6 @@
     IBOutlet ResultsOutlineViewController *findResultsViewController;
     IBOutlet NSOutlineView *findResultsOutlineView;
     MODCollection *mongoCollection;
-    Connection *conn;
     
     IBOutlet NSTabView *tabView;
     IBOutlet NSSegmentedControl *segmentedControl;
@@ -90,7 +88,6 @@
 @property (nonatomic, retain) DatabasesArrayController *databasesArrayController;
 @property (nonatomic, retain) ResultsOutlineViewController *findResultsViewController;
 @property (nonatomic, retain, readwrite) MODCollection *mongoCollection;
-@property (nonatomic, retain) Connection *conn;
 
 @property (nonatomic, retain) NSTextField *criticalTextField;
 @property (nonatomic, retain) NSTokenField *fieldsTextField;

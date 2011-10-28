@@ -24,6 +24,7 @@
 #import "Tunnel.h"
 #import "MODServer.h"
 #import "MODDatabase.h"
+#import "MODCollection.h"
 #import "MODQuery.h"
 #import "MODHelper.h"
 #import "MHServerItem.h"
@@ -53,7 +54,6 @@
 @synthesize statMonitorTableController;
 @synthesize databases = _databases;
 @synthesize selectedDB;
-@synthesize selectedCollection;
 @synthesize sshTunnel;
 @synthesize addDBController;
 @synthesize addCollectionController;
@@ -81,7 +81,6 @@
     [conn release];
     [_databases release];
     [selectedDB release];
-    [selectedCollection release];
     [sshTunnel release];
     [addDBController release];
     [addCollectionController release];
@@ -270,7 +269,6 @@
     //exitThread = YES;
     resultsOutlineViewController = nil;
     self.selectedDB = nil;
-    self.selectedCollection = nil;
     [super release];
 }
 
@@ -466,8 +464,8 @@
 
 - (IBAction)dropDBorCollection:(id)sender
 {
-    if (self.selectedCollection) {
-        [self dropWarning:[NSString stringWithFormat:@"COLLECTION:%@", [self.selectedCollection caption]]];
+    if ([self selectedCollectionItem]) {
+        [self dropWarning:[NSString stringWithFormat:@"COLLECTION:%@", [[[self selectedCollectionItem] mongoCollection] collectionName]]];
     }else {
         [self dropWarning:[NSString stringWithFormat:@"DB:%@", [self.selectedDB caption]]];
     }
@@ -505,14 +503,13 @@
 
 - (IBAction)query:(id)sender
 {
-    if (!self.selectedCollection) {
+    if (![self selectedCollectionItem]) {
         NSRunAlertPanel(@"Error", @"Please choose a collection!", @"OK", nil, nil);
         return;
     }
     QueryWindowController *queryWindowController = [[QueryWindowController alloc] init];
-    queryWindowController.mongoCollection = mongoCollection;
+    queryWindowController.mongoCollection = [self selectedCollectionItem].mongoCollection;
     queryWindowController.managedObjectContext = self.managedObjectContext;
-    queryWindowController.conn = conn;
     [queryWindowController showWindow:sender];
 }
 
@@ -555,8 +552,8 @@
     importWindowController.conn = self.conn;
     importWindowController.mongoServer = _mongoServer;
     importWindowController.dbname = [self.selectedDB caption];
-    if (self.selectedCollection) {
-        [exportWindowController.collectionTextField setStringValue:[self.selectedCollection caption]];
+    if ([self selectedCollectionItem]) {
+        [exportWindowController.collectionTextField setStringValue:[[self selectedCollectionItem].mongoCollection caption]];
     }
     [importWindowController showWindow:self];
 }
@@ -575,8 +572,8 @@
     exportWindowController.conn = self.conn;
     exportWindowController.mongoDatabase = [[self selectedDatabaseItem] mongoDatabase];
     exportWindowController.dbname = [self.selectedDB caption];
-    if (self.selectedCollection) {
-        [exportWindowController.collectionTextField setStringValue:[self.selectedCollection caption]];
+    if ([self selectedCollectionItem]) {
+        [exportWindowController.collectionTextField setStringValue:[[self selectedCollectionItem].mongoCollection caption]];
     }
     [exportWindowController showWindow:self];
 }
@@ -585,8 +582,8 @@
 {
     if (returnCode == NSAlertFirstButtonReturn)
     {
-        if (self.selectedCollection) {
-            [self dropCollection:[self.selectedCollection caption] ForDB:[self.selectedDB caption]];
+        if ([self selectedCollectionItem]) {
+            [self dropCollection:[[self selectedCollectionItem].mongoCollection collectionName] ForDB:[self.selectedDB caption]];
         }else {
             [self dropDB];
         }

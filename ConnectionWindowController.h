@@ -34,7 +34,6 @@
     MHServerItem *_serverItem;
     Connection *conn;
     MODServer *_mongoServer;
-    MODCollection *mongoCollection;
     NSTimer *_serverMonitorTimer;
     IBOutlet NSOutlineView *_databaseCollectionOutlineView;
     IBOutlet NSTextField *resultsTitle;
@@ -45,7 +44,6 @@
     IBOutlet StatMonitorTableController *statMonitorTableController;
     NSMutableArray *_databases;
     SidebarNode *selectedDB;
-    SidebarNode *selectedCollection;
     Tunnel *sshTunnel;
     AddDBController *addDBController;
     AddCollectionController *addCollectionController;
@@ -66,7 +64,6 @@
 @property (nonatomic, retain) MODServer *mongoServer;
 @property (nonatomic, retain) NSMutableArray *databases;
 @property (nonatomic, retain) SidebarNode *selectedDB;
-@property (nonatomic, retain) SidebarNode *selectedCollection;
 @property (nonatomic, retain) Tunnel *sshTunnel;
 @property (nonatomic, retain) NSTextField *resultsTitle;
 @property (nonatomic, retain) NSProgressIndicator *loaderIndicator;

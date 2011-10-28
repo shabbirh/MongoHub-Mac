@@ -11,7 +11,6 @@
 #import "MODQuery.h"
 
 @class DatabasesArrayController;
-@class Connection;
 @class MODServer;
 @class MODCollection;
 
@@ -23,7 +22,6 @@
 {
     NSManagedObjectContext *managedObjectContext;
     DatabasesArrayController *databasesArrayController;
-    Connection *conn;
     MODServer *mongoServer;
     MODCollection *mongoCollection;
     NSString *dbname;
@@ -40,7 +38,6 @@
 @property (nonatomic, retain) MODServer *mongoServer;
 @property (nonatomic, retain) NSString *dbname;
 @property (nonatomic, retain) NSString *collectionname;
-@property (nonatomic, retain) Connection *conn;
 @property (nonatomic, retain) NSDictionary *jsonDict;
 @property (nonatomic, retain) NSTextView *myTextView;
 @property (nonatomic, readwrite, retain) MODCollection *mongoCollection;

@@ -20,7 +20,6 @@
 #import "DatabasesArrayController.h"
 #import "StatMonitorTableController.h"
 #import "Connection.h"
-#import "SidebarNode.h"
 #import "Tunnel.h"
 #import "MODServer.h"
 #import "MODDatabase.h"

@@ -220,7 +220,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		0213CAF31431FEF50027795D /* su_feed.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = su_feed.xml; path = Resourses/su_feed.xml; sourceTree = "<group>"; };
+		0213CAF31431FEF50027795D /* su_feed.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = su_feed.xml; sourceTree = "<group>"; };
 		021DB3851425819D0033E77C /* MODCursor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MODCursor.h; sourceTree = "<group>"; };
 		021DB3861425819D0033E77C /* MODCursor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MODCursor.m; sourceTree = "<group>"; };
 		021DB3871425819D0033E77C /* MODServer_utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MODServer_utils.m; sourceTree = "<group>"; };
@@ -249,7 +249,7 @@
 		025C562F14350DEF0064B010 /* MODDBRef.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MODDBRef.h; sourceTree = "<group>"; };
 		025C563014350DEF0064B010 /* MODBinary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MODBinary.m; sourceTree = "<group>"; };
 		025C563114350DEF0064B010 /* MODBinary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MODBinary.h; sourceTree = "<group>"; };
-		02683D5D1442759100467EBE /* README.markdown */ = {isa = PBXFileReference; lastKnownFileType = text; path = README.markdown; sourceTree = "<group>"; };
+		02683D5D1442759100467EBE /* README.markdown */ = {isa = PBXFileReference; lastKnownFileType = text; name = README.markdown; path = ../README.markdown; sourceTree = "<group>"; };
 		026B2DE413BB6FB8009BEA7B /* RegexKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = RegexKit.framework; sourceTree = "<group>"; };
 		029D30A3145613420021B9C9 /* MHDatabaseItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MHDatabaseItem.h; sourceTree = "<group>"; };
 		029D30A4145613420021B9C9 /* MHDatabaseItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MHDatabaseItem.m; sourceTree = "<group>"; };
@@ -488,13 +488,13 @@
 		77C8280C06725ACE000B614F /* MongoHub_AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MongoHub_AppDelegate.m; sourceTree = "<group>"; };
 		797A78390DDCFADE0050D0C2 /* MongoHub.mdimporter */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MongoHub.mdimporter; sourceTree = BUILT_PRODUCTS_DIR; };
 		797A783F0DDCFB3E0050D0C2 /* GetMetadataForFile.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.objc; fileEncoding = 4; path = GetMetadataForFile.c; sourceTree = "<group>"; };
-		797A78410DDCFB3E0050D0C2 /* Importer-Info.plist */ = {isa = PBXFileReference; explicitFileType = text.plist.xml; fileEncoding = 4; name = "Importer-Info.plist"; path = "Importer/Importer-Info.plist"; sourceTree = "<group>"; };
+		797A78410DDCFB3E0050D0C2 /* Importer-Info.plist */ = {isa = PBXFileReference; explicitFileType = text.plist.xml; fileEncoding = 4; path = "Importer-Info.plist"; sourceTree = "<group>"; };
 		797A78420DDCFB3E0050D0C2 /* main.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
 		797A78430DDCFB3E0050D0C2 /* MySpotlightImporter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MySpotlightImporter.h; sourceTree = "<group>"; };
 		797A78440DDCFB3E0050D0C2 /* MySpotlightImporter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MySpotlightImporter.m; sourceTree = "<group>"; };
 		797A7AE10DDCFCE80050D0C2 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = ../../../../../../../../../../../../System/Library/Frameworks/CoreFoundation.framework; sourceTree = "<group>"; };
 		797A7AE30DDCFCF40050D0C2 /* CoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreServices.framework; path = ../../../../../../../../../../../../System/Library/Frameworks/CoreServices.framework; sourceTree = "<group>"; };
-		797A7AE70DDCFD2A0050D0C2 /* Importer Read Me.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "Importer Read Me.txt"; path = "Importer/Importer Read Me.txt"; sourceTree = "<group>"; };
+		797A7AE70DDCFD2A0050D0C2 /* Importer Read Me.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "Importer Read Me.txt"; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* MongoHub-Info.plist */ = {isa = PBXFileReference; explicitFileType = text.plist.xml; fileEncoding = 4; path = "MongoHub-Info.plist"; sourceTree = "<group>"; };
 		8D1107320486CEB800E47090 /* MongoHub.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MongoHub.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -598,6 +598,19 @@
 				02216EBE14128CBF00789BD1 /* mongo-objc-driver-Prefix.pch */,
 			);
 			path = Sources;
+			sourceTree = "<group>";
+		};
+		0233716E145B640D0084D0F7 /* Spotlight Importer */ = {
+			isa = PBXGroup;
+			children = (
+				797A78420DDCFB3E0050D0C2 /* main.c */,
+				797A783F0DDCFB3E0050D0C2 /* GetMetadataForFile.c */,
+				797A78430DDCFB3E0050D0C2 /* MySpotlightImporter.h */,
+				797A78440DDCFB3E0050D0C2 /* MySpotlightImporter.m */,
+				797A78410DDCFB3E0050D0C2 /* Importer-Info.plist */,
+				797A7AE70DDCFD2A0050D0C2 /* Importer Read Me.txt */,
+			);
+			path = "Spotlight Importer";
 			sourceTree = "<group>";
 		};
 		02D5A867144207CF00C7768C /* mongo-c-driver */ = {
@@ -853,7 +866,6 @@
 				1D93C1DD11833342003216F7 /* ConnectionsCollectionView */,
 				77C8280B06725ACE000B614F /* MongoHub_AppDelegate.h */,
 				77C8280C06725ACE000B614F /* MongoHub_AppDelegate.m */,
-				797A783E0DDCFB3E0050D0C2 /* Importer */,
 				1D93C27411833C2A003216F7 /* Configure.h */,
 			);
 			name = Classes;
@@ -1057,11 +1069,11 @@
 				7756732906782D8800D1FEB8 /* Models */,
 				080E96DDFE201D6D7F000001 /* Classes */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
+				0233716E145B640D0084D0F7 /* Spotlight Importer */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
 				02216E5F14128CBF00789BD1 /* Libraries */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
-				797A7AE70DDCFD2A0050D0C2 /* Importer Read Me.txt */,
 			);
 			name = MongoHub;
 			sourceTree = "<group>";
@@ -1089,7 +1101,6 @@
 				8D1107310486CEB800E47090 /* MongoHub-Info.plist */,
 				089C165CFE840E0CC02AAC07 /* InfoPlist.strings */,
 				2F7446970DB6B7EA00F9684A /* MainMenu.xib */,
-				797A78410DDCFB3E0050D0C2 /* Importer-Info.plist */,
 				1D93C29F118343EF003216F7 /* NewConnection.xib */,
 				1D93C38911835FB8003216F7 /* EditConnection.xib */,
 				1D93C3D01183690E003216F7 /* ConnectionWindow.xib */,
@@ -1102,6 +1113,7 @@
 				1D64100E12C8E6BE0030AA4C /* JsonWindow.xib */,
 			);
 			name = Resources;
+			path = Resourses;
 			sourceTree = "<group>";
 		};
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
@@ -1126,17 +1138,6 @@
 				1D93C29911833F26003216F7 /* Database.m */,
 			);
 			name = Models;
-			sourceTree = "<group>";
-		};
-		797A783E0DDCFB3E0050D0C2 /* Importer */ = {
-			isa = PBXGroup;
-			children = (
-				797A78420DDCFB3E0050D0C2 /* main.c */,
-				797A783F0DDCFB3E0050D0C2 /* GetMetadataForFile.c */,
-				797A78430DDCFB3E0050D0C2 /* MySpotlightImporter.h */,
-				797A78440DDCFB3E0050D0C2 /* MySpotlightImporter.m */,
-			);
-			path = Importer;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1484,7 +1485,7 @@
 				);
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREFIX_HEADER = MongoHub_Prefix.pch;
-				INFOPLIST_FILE = "MongoHub-Info.plist";
+				INFOPLIST_FILE = "Resourses/MongoHub-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
 				PRODUCT_NAME = MongoHub;
 			};
@@ -1499,7 +1500,7 @@
 					"\"$(SRCROOT)\"/Frameworks",
 				);
 				GCC_PREFIX_HEADER = MongoHub_Prefix.pch;
-				INFOPLIST_FILE = "MongoHub-Info.plist";
+				INFOPLIST_FILE = "Resourses/MongoHub-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
 				PRODUCT_NAME = MongoHub;
 			};
@@ -1544,7 +1545,7 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				GCC_PREFIX_HEADER = "";
-				INFOPLIST_FILE = "Importer/Importer-Info.plist";
+				INFOPLIST_FILE = "Spotlight Importer/Importer-Info.plist";
 				INSTALL_PATH = "@executable_path/../Contents/Library/Spotlight";
 				LIBRARY_STYLE = BUNDLE;
 				OTHER_LDFLAGS = "";
@@ -1566,7 +1567,7 @@
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				GCC_PREFIX_HEADER = "";
-				INFOPLIST_FILE = "Importer/Importer-Info.plist";
+				INFOPLIST_FILE = "Spotlight Importer/Importer-Info.plist";
 				INSTALL_PATH = "@executable_path/../Contents/Library/Spotlight";
 				LIBRARY_STYLE = BUNDLE;
 				OTHER_LDFLAGS = "";

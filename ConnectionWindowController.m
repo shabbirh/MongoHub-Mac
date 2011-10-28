@@ -29,6 +29,7 @@
 #import "MHServerItem.h"
 #import "MHDatabaseItem.h"
 #import "MHCollectionItem.h"
+#import "SidebarBadgeCell.h"
 
 @interface ConnectionWindowController()
 - (void)closeMongoDB;
@@ -312,7 +313,7 @@
         [loaderIndicator stop];
         databaseItem = [_serverItem databaseItemWithName:mongoDatabase.databaseName];
         if (collectionList && databaseItem) {
-            if ([databaseItem updateChildrenWithList:collectionList] && [_databaseCollectionOutlineView isItemExpanded:databaseItem]) {
+            if ([databaseItem updateChildrenWithList:collectionList]) {
                 [_databaseCollectionOutlineView reloadData];
             }
         } else if (mongoQuery.error) {
@@ -770,6 +771,19 @@ static int percentage(NSNumber *previousValue, NSNumber *previousOutOfValue, NSN
         [self showDatabaseStatusWithDatabaseItem:databaseItem];
     }
     [self getDatabaseList];
+}
+
+- (void)outlineView:(NSOutlineView *)outlineView willDisplayCell:(id)cell forTableColumn:(NSTableColumn *)tableColumn item:(id)item
+{
+    [cell setHasBadge:NO];
+    [cell setIcon:nil];
+    if ([item isKindOfClass:[MHCollectionItem class]]) {
+        [cell setIcon:[NSImage imageNamed:@"collectionicon"]];
+    } else if ([item isKindOfClass:[MHDatabaseItem class]]) {
+        [cell setIcon:[NSImage imageNamed:@"dbicon"]];
+        [cell setHasBadge:[[item collectionItems] count] > 0];
+        [cell setBadgeCount:[[item collectionItems] count]];
+    }
 }
 
 - (void)outlineViewItemWillExpand:(NSNotification *)notification

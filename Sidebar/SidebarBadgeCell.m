@@ -42,7 +42,6 @@
 }
 
 - (void)awakeFromNib {
-	[self setFont:[NSFont systemFontOfSize:[NSFont smallSystemFontSize]]];
 	_badgeCount = 0;
 	_hasBadge = NO;
 	_icon = nil;
@@ -70,7 +69,7 @@
 	if (_icon != nil) {
 		// Draw Icon
 		NSRect iconRect = cellFrame;
-		iconRect.origin.y += TSBADGECELL_ICON_HEIGHT_OFFSET;
+		iconRect.origin.y += (cellFrame.size.height - TSBADGECELL_ICON_SIZE) / 2.0;
 		iconRect.size.height = TSBADGECELL_ICON_SIZE;
 		iconRect.size.width = TSBADGECELL_ICON_SIZE;
 		[_icon drawInRect:iconRect fromRect:NSZeroRect
@@ -99,7 +98,7 @@
 	if (badgeNumSize.width < TSBADGECELL_TEXT_MINI)
 		badgeWidth = TSBADGECELL_TEXT_SMALL;
 
-	CGFloat badgeY = cellFrame.origin.y + TSBADGECELL_BUFFER_TOP;
+	CGFloat badgeY = cellFrame.origin.y + ((cellFrame.size.height - TSBADGECELL_TEXT_HEIGHT) / 2.0);
 	CGFloat badgeX = cellFrame.origin.x + cellFrame.size.width - 
 					 TSBADGECELL_CIRCLE_BUFFER_RIGHT - badgeWidth;
 	CGFloat badgeNumX = badgeX + TSBADGECELL_BUFFER_LEFT;

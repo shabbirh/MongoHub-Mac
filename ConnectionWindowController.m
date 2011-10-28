@@ -34,10 +34,16 @@
 @interface ConnectionWindowController()
 - (void)closeMongoDB;
 - (void)fetchServerStatusDelta;
-- (void)getDatabaseList;
-- (void)getCollectionListForDatabaseItem:(MHDatabaseItem *)databaseItem;
+
 - (MHDatabaseItem *)selectedDatabaseItem;
 - (MHCollectionItem *)selectedCollectionItem;
+
+- (MODQuery *)getDatabaseList;
+- (MODQuery *)getCollectionListForDatabaseItem:(MHDatabaseItem *)databaseItem;
+
+- (MODQuery *)showServerStatus;
+- (MODQuery *)showDatabaseStatusWithDatabaseItem:(MHDatabaseItem *)databaseItem;
+- (MODQuery *)showCollectionStatusWithCollectionItem:(MHCollectionItem *)collectionItem;
 @end
 
 @implementation ConnectionWindowController
@@ -268,10 +274,12 @@
     [super release];
 }
 
-- (void)getDatabaseList
+- (MODQuery *)getDatabaseList
 {
+    MODQuery *result;
+    
     [loaderIndicator start];
-    [_mongoServer fetchDatabaseListWithCallback:^(NSArray *list, MODQuery *mongoQuery) {
+    result = [_mongoServer fetchDatabaseListWithCallback:^(NSArray *list, MODQuery *mongoQuery) {
         [loaderIndicator stop];
         if (list != nil) {
             if ([_serverItem updateChildrenWithList:list]) {
@@ -283,6 +291,7 @@
         
         [databaseArrayController clean:conn databases:_databases];
     }];
+    return result;
 }
 
 - (void)getCollectionListForDatabaseName:(NSString *)databaseName
@@ -295,13 +304,14 @@
     }
 }
 
-- (void)getCollectionListForDatabaseItem:(MHDatabaseItem *)databaseItem
+- (MODQuery *)getCollectionListForDatabaseItem:(MHDatabaseItem *)databaseItem
 {
     MODDatabase *mongoDatabase;
+    MODQuery *result;
     
     mongoDatabase = databaseItem.mongoDatabase;
     [loaderIndicator start];
-    [mongoDatabase fetchCollectionListWithCallback:^(NSArray *collectionList, MODQuery *mongoQuery) {
+    result = [mongoDatabase fetchCollectionListWithCallback:^(NSArray *collectionList, MODQuery *mongoQuery) {
         MHDatabaseItem *databaseItem;
         
         [loaderIndicator stop];
@@ -314,13 +324,16 @@
             NSRunAlertPanel(@"Error", [mongoQuery.error localizedDescription], @"OK", nil, nil);
         }
     }];
+    return result;
 }
 
-- (void)showServerStatus
+- (MODQuery *)showServerStatus
 {
+    MODQuery *result;
+    
     [loaderIndicator start];
     [resultsTitle setStringValue:[NSString stringWithFormat:@"Server %@:%@ stats", conn.host, conn.hostport]];
-    [_mongoServer fetchServerStatusWithCallback:^(NSDictionary *serverStatus, MODQuery *mongoQuery) {
+    result = [_mongoServer fetchServerStatusWithCallback:^(NSDictionary *serverStatus, MODQuery *mongoQuery) {
         [loaderIndicator stop];
         if (_mongoServer == [mongoQuery.parameters objectForKey:@"mongoserver"]) {
             [resultsOutlineViewController.results removeAllObjects];
@@ -332,15 +345,18 @@
             [resultsOutlineViewController.myOutlineView reloadData];
         }
     }];
+    return result;
 }
 
-- (void)showDatabaseStatusWithDatabaseItem:(MHDatabaseItem *)databaseItem
+- (MODQuery *)showDatabaseStatusWithDatabaseItem:(MHDatabaseItem *)databaseItem
 {
+    MODQuery *result;
+    
     if (databaseItem) {
         [loaderIndicator start];
         [resultsTitle setStringValue:[NSString stringWithFormat:@"Database %@ stats", databaseItem.name]];
         
-        [databaseItem.mongoDatabase fetchDatabaseStatsWithCallback:^(NSDictionary *databaseStats, MODQuery *mongoQuery) {
+        result = [databaseItem.mongoDatabase fetchDatabaseStatsWithCallback:^(NSDictionary *databaseStats, MODQuery *mongoQuery) {
             [loaderIndicator stop];
             [resultsOutlineViewController.results removeAllObjects];
             if (databaseStats) {
@@ -351,14 +367,17 @@
             [resultsOutlineViewController.myOutlineView reloadData];
         }];
     }
+    return result;
 }
 
-- (void)showCollectionStatusWithCollectionItem:(MHCollectionItem *)collectionItem
+- (MODQuery *)showCollectionStatusWithCollectionItem:(MHCollectionItem *)collectionItem
 {
+    MODQuery *result = nil;
+    
     if (collectionItem) {
         [loaderIndicator start];
         [resultsTitle setStringValue:[NSString stringWithFormat:@"Collection %@.%@ stats", collectionItem.databaseItem.name, collectionItem.name]];
-        [collectionItem.mongoCollection fetchDatabaseStatsWithCallback:^(NSDictionary *stats, MODQuery *mongoQuery) {
+        result = [collectionItem.mongoCollection fetchDatabaseStatsWithCallback:^(NSDictionary *stats, MODQuery *mongoQuery) {
             [loaderIndicator stop];
             [resultsOutlineViewController.results removeAllObjects];
             if (stats) {
@@ -369,6 +388,7 @@
             [resultsOutlineViewController.myOutlineView reloadData];
         }];
     }
+    return result;
 }
 
 - (IBAction)showServerStatus:(id)sender 

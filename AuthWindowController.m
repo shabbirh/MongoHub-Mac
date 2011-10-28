@@ -10,7 +10,6 @@
 #import "AuthWindowController.h"
 #import "DatabasesArrayController.h"
 #import "Database.h"
-#import "Connection.h"
 
 @implementation AuthWindowController
 

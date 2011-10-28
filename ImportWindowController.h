@@ -7,7 +7,6 @@
 //
 
 #import <Cocoa/Cocoa.h>
-@class Connection;
 @class DatabasesArrayController;
 @class MCPConnection;
 @class MODServer;
@@ -16,7 +15,6 @@
     NSManagedObjectContext *managedObjectContext;
     DatabasesArrayController *databasesArrayController;
     NSString *dbname;
-    Connection *conn;
     MODServer *mongoServer;
     MCPConnection *db;
     IBOutlet NSArrayController *dbsArrayController;
@@ -31,7 +29,6 @@
     IBOutlet NSPopUpButton *tablesPopUpButton;
 }
 
-@property (nonatomic, retain) Connection *conn;
 @property (nonatomic, retain) MCPConnection *db;
 @property (nonatomic, retain) MODServer *mongoServer;
 @property (nonatomic, retain) DatabasesArrayController *databasesArrayController;

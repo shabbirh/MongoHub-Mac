@@ -10,7 +10,6 @@
 #import "AddDBController.h"
 #import "DatabasesArrayController.h"
 #import "Database.h"
-#import "Connection.h"
 #import "NSString+Extras.h"
 
 @implementation AddDBController

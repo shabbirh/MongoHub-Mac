@@ -549,7 +549,6 @@
         importWindowController = [[ImportWindowController alloc] init];
     }
     importWindowController.managedObjectContext = self.managedObjectContext;
-    importWindowController.conn = self.conn;
     importWindowController.mongoServer = _mongoServer;
     importWindowController.dbname = [self.selectedDB caption];
     if ([self selectedCollectionItem]) {
@@ -569,7 +568,6 @@
         exportWindowController = [[ExportWindowController alloc] init];
     }
     exportWindowController.managedObjectContext = self.managedObjectContext;
-    exportWindowController.conn = self.conn;
     exportWindowController.mongoDatabase = [[self selectedDatabaseItem] mongoDatabase];
     exportWindowController.dbname = [self.selectedDB caption];
     if ([self selectedCollectionItem]) {

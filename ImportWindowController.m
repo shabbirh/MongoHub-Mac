@@ -10,7 +10,6 @@
 #import "Configure.h"
 #import "DatabasesArrayController.h"
 #import "Database.h"
-#import "Connection.h"
 #import "NSString+Extras.h"
 #import "MODServer.h"
 #import "MODDatabase.h"
@@ -19,7 +18,6 @@
 
 @implementation ImportWindowController
 @synthesize dbname;
-@synthesize conn;
 @synthesize db;
 @synthesize mongoServer;
 @synthesize databasesArrayController;
@@ -44,7 +42,6 @@
     [dbname release];
     [managedObjectContext release];
     [databasesArrayController release];
-    [conn release];
     [db release];
     [mongoServer release];
     [dbsArrayController release];

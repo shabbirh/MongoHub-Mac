@@ -35,12 +35,15 @@ This project is very new. Any issues or bug reports are welcome. And I still don
     
 ** Current **
     
+## History
+
+** 2.4.6(80) - oct 28, 2011 **
+    
     - Can insert an array of documents
     - MapReduce feature working
     - Fix for parsing: "$oid":"4E9321AF3768CF514A00000C"}
     - Crash when getting stats for some servers
-    
-## History
+    - New outline view for the databases and collections
 
 ** 2.4.5(79) - oct 22, 2011 **
 

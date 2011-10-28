@@ -6,13 +6,15 @@
       <description>Most recent changes with links to updates.</description>
       <language>en</language>      
          <item>
-            <title>Version 2.4.3</title>
-            <enclosure url="http://cloud.github.com/downloads/fotonauts/MongoHub-Mac/MongoHub.zip" sparkle:version="79" sparkle:shortVersionString="2.4.5" length="3043921" sparkle:dsaSignature="MC0CFQCKQek3h5aQEZMtx8+SAqN2LbDtzQIUIlMph8RuuJIM35iL+phSUhzMHRA=" type="application/octet-stream" />
+            <title>Version 2.4.6</title>
+            <enclosure url="http://cloud.github.com/downloads/fotonauts/MongoHub-Mac/MongoHub.zip" sparkle:version="80" sparkle:shortVersionString="2.4.6" length="3036463" sparkle:dsaSignature="MCwCFCjN2FtQxX9aMYxtr5c1Qe7+quMzAhQ5pK+36cOAS8CznBkra4bCq+AGjw==" type="application/octet-stream" />
             <description><![CDATA[
 <ul>
-<li>Fix to parse { "empty_array": [], "zob": 1}</li>
-<li>Fix to parse { "empty_hash": {}, "zob": 1}</li>
-<li>Implementing reIndex</li>
+<li>Can insert an array of documents</li>
+<li>MapReduce feature working</li>
+<li>Fix for parsing: "$oid":"4E9321AF3768CF514A00000C"}</li>
+<li>Crash when getting stats for some servers</li>
+<li>New outline view for the databases and collections</li>
 </ul>
             ]]>
             </description>

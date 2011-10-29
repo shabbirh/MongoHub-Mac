@@ -28,6 +28,11 @@
 @synthesize editConnectionController;
 @synthesize bundleVersion;
 
+- (void)awakeFromNib
+{
+    [connectionsArrayController setSortDescriptors:[NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"alias" ascending:YES selector:@selector(caseInsensitiveCompare:)]]];
+}
+
 /**
     Returns the support directory for the application, used to store the Core Data
     store file.  This code uses a directory named "MongoHub" for

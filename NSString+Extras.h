@@ -12,9 +12,6 @@
 @interface NSString (Extras)
 
 + (NSString*)stringFromResource:(NSString*)resourceName;
-- (BOOL)startsWithString:(NSString*)otherString;
-- (BOOL)endsWithString:(NSString*)otherString;
-- (BOOL)isPresent;
 - (NSComparisonResult)compareCaseInsensitive:(NSString*)other;
 - (NSString*)stringByPercentEscapingCharacters:(NSString*)characters;
 - (NSString*)stringByEscapingURL;

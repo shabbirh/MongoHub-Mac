@@ -19,21 +19,6 @@
 
 # pragma Comparing
 
-- (BOOL)startsWithString:(NSString*)otherString
-{
-    return [self rangeOfString:otherString].location == 0;
-}
-
-- (BOOL)endsWithString:(NSString*)otherString
-{
-    return [self rangeOfString:otherString].location == [self length]-[otherString length];
-}
-
-- (BOOL)isPresent
-{
-    return ![self isEqualToString:@""];
-}
-
 - (NSComparisonResult)compareCaseInsensitive:(NSString*)other
 {
     NSString *selfString = [self lowercaseString];

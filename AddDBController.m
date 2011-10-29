@@ -67,7 +67,7 @@
     dbInfo = [NSMutableDictionary dictionaryWithObjects:objs forKeys:keys];
     [objs release];
     [keys release];
-    if ([[dbInfo objectForKey:@"user"] isPresent] || [[dbInfo objectForKey:@"password"] isPresent]) {
+    if (([[dbInfo objectForKey:@"user"] length] > 0) || ([[dbInfo objectForKey:@"password"] length] > 0)) {
         Database *dbobj = [databasesArrayController dbInfo:conn name:[dbname stringValue]];
         if (dbobj==nil) {
             //[dbobj release];

@@ -35,6 +35,8 @@ This project is very new. Any issues or bug reports are welcome. And I still don
     
 ** Current **
     
+    - Connections are sorted after being loaded (still not sorted after being updated)
+    
 ## History
 
 ** 2.4.6(80) - oct 28, 2011 **

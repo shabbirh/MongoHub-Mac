@@ -373,13 +373,13 @@
 		02FCD3D713BBA4A300316A9F /* MCPKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = MCPKit.framework; sourceTree = "<group>"; };
 		089C165DFE840E0CC02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
-		1D1D65501189C5E000582917 /* collectionmenu.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = collectionmenu.png; path = Resourses/images/collectionmenu.png; sourceTree = SOURCE_ROOT; };
-		1D1D65511189C5E000582917 /* dbmenu.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = dbmenu.png; path = Resourses/images/dbmenu.png; sourceTree = SOURCE_ROOT; };
-		1D1D65521189C5E000582917 /* querymenu.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = querymenu.png; path = Resourses/images/querymenu.png; sourceTree = SOURCE_ROOT; };
-		1D1D65531189C5E000582917 /* servermenu.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = servermenu.png; path = Resourses/images/servermenu.png; sourceTree = SOURCE_ROOT; };
-		1D1D65641189C93400582917 /* supportmenu.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = supportmenu.png; path = Resourses/images/supportmenu.png; sourceTree = SOURCE_ROOT; };
-		1D1D65A21189F05600582917 /* Icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = Icon.icns; path = Resourses/images/Icon.icns; sourceTree = SOURCE_ROOT; };
-		1D210BFA1192FF06000EF41C /* key.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = key.png; path = Resourses/images/key.png; sourceTree = SOURCE_ROOT; };
+		1D1D65501189C5E000582917 /* collectionmenu.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = collectionmenu.png; path = Resources/images/collectionmenu.png; sourceTree = SOURCE_ROOT; };
+		1D1D65511189C5E000582917 /* dbmenu.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = dbmenu.png; path = Resources/images/dbmenu.png; sourceTree = SOURCE_ROOT; };
+		1D1D65521189C5E000582917 /* querymenu.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = querymenu.png; path = Resources/images/querymenu.png; sourceTree = SOURCE_ROOT; };
+		1D1D65531189C5E000582917 /* servermenu.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = servermenu.png; path = Resources/images/servermenu.png; sourceTree = SOURCE_ROOT; };
+		1D1D65641189C93400582917 /* supportmenu.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = supportmenu.png; path = Resources/images/supportmenu.png; sourceTree = SOURCE_ROOT; };
+		1D1D65A21189F05600582917 /* Icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = Icon.icns; path = Resources/images/Icon.icns; sourceTree = SOURCE_ROOT; };
+		1D210BFA1192FF06000EF41C /* key.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = key.png; path = Resources/images/key.png; sourceTree = SOURCE_ROOT; };
 		1D210BFC119301BA000EF41C /* AuthWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AuthWindowController.h; sourceTree = "<group>"; };
 		1D210BFD119301BA000EF41C /* AuthWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AuthWindowController.m; sourceTree = "<group>"; };
 		1D210BFF11930E18000EF41C /* Auth.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = Auth.xib; sourceTree = "<group>"; };
@@ -390,11 +390,11 @@
 		1D26619011CFD1640092C6B5 /* FieldMapDataObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FieldMapDataObject.m; sourceTree = "<group>"; };
 		1D26619211CFD2560092C6B5 /* FieldMapTableController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FieldMapTableController.h; sourceTree = "<group>"; };
 		1D26619311CFD2560092C6B5 /* FieldMapTableController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FieldMapTableController.m; sourceTree = "<group>"; };
-		1D58BE0A118ED8D20045A044 /* mapreducemenu.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = mapreducemenu.png; path = Resourses/images/mapreducemenu.png; sourceTree = SOURCE_ROOT; };
+		1D58BE0A118ED8D20045A044 /* mapreducemenu.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = mapreducemenu.png; path = Resources/images/mapreducemenu.png; sourceTree = SOURCE_ROOT; };
 		1D601B3611C8E13000C86274 /* importmenu.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = importmenu.png; sourceTree = "<group>"; };
 		1D601B3711C8E13000C86274 /* exportmenu.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = exportmenu.png; sourceTree = "<group>"; };
-		1D601B3B11C8E7F900C86274 /* exportbox.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = exportbox.png; path = Resourses/images/exportbox.png; sourceTree = SOURCE_ROOT; };
-		1D601B3C11C8E7F900C86274 /* importbox.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = importbox.png; path = Resourses/images/importbox.png; sourceTree = SOURCE_ROOT; };
+		1D601B3B11C8E7F900C86274 /* exportbox.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = exportbox.png; path = Resources/images/exportbox.png; sourceTree = SOURCE_ROOT; };
+		1D601B3C11C8E7F900C86274 /* importbox.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = importbox.png; path = Resources/images/importbox.png; sourceTree = SOURCE_ROOT; };
 		1D601B5011C8F08C00C86274 /* ImportWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImportWindowController.h; sourceTree = "<group>"; };
 		1D601B5111C8F08C00C86274 /* ImportWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImportWindowController.m; sourceTree = "<group>"; };
 		1D601B5511C8F24300C86274 /* Import.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = Import.xib; sourceTree = "<group>"; };
@@ -410,7 +410,7 @@
 		1D799453118755EE009C187F /* AddDBController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddDBController.h; sourceTree = "<group>"; };
 		1D799454118755EE009C187F /* AddDBController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddDBController.m; sourceTree = "<group>"; };
 		1D79945611875E7A009C187F /* NewDB.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NewDB.xib; sourceTree = "<group>"; };
-		1D8A624D11897C6800D55937 /* indexmenu.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = indexmenu.png; path = Resourses/images/indexmenu.png; sourceTree = SOURCE_ROOT; };
+		1D8A624D11897C6800D55937 /* indexmenu.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = indexmenu.png; path = Resources/images/indexmenu.png; sourceTree = SOURCE_ROOT; };
 		1D93C1D811832C1D003216F7 /* Connection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Connection.h; sourceTree = "<group>"; };
 		1D93C1D911832C1D003216F7 /* Connection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Connection.m; sourceTree = "<group>"; };
 		1D93C1DE11833342003216F7 /* ConnectionsCollectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConnectionsCollectionView.h; sourceTree = "<group>"; };
@@ -421,7 +421,7 @@
 		1D93C1E311833342003216F7 /* IconViewBox.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IconViewBox.m; sourceTree = "<group>"; };
 		1D93C24D11833599003216F7 /* ConnectionsArrayController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConnectionsArrayController.h; sourceTree = "<group>"; };
 		1D93C24E11833599003216F7 /* ConnectionsArrayController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConnectionsArrayController.m; sourceTree = "<group>"; };
-		1D93C27111833A19003216F7 /* database.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = database.png; path = Resourses/images/database.png; sourceTree = SOURCE_ROOT; };
+		1D93C27111833A19003216F7 /* database.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = database.png; path = Resources/images/database.png; sourceTree = SOURCE_ROOT; };
 		1D93C27411833C2A003216F7 /* Configure.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Configure.h; sourceTree = "<group>"; };
 		1D93C29811833F26003216F7 /* Database.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Database.h; sourceTree = "<group>"; };
 		1D93C29911833F26003216F7 /* Database.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Database.m; sourceTree = "<group>"; };
@@ -432,26 +432,26 @@
 		1D93C38511835D2A003216F7 /* EditConnectionController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditConnectionController.h; sourceTree = "<group>"; };
 		1D93C38611835D2A003216F7 /* EditConnectionController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditConnectionController.m; sourceTree = "<group>"; };
 		1D93C38911835FB8003216F7 /* EditConnection.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EditConnection.xib; sourceTree = "<group>"; };
-		1D93C3AF11836510003216F7 /* connecticon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = connecticon.png; path = Resourses/images/connecticon.png; sourceTree = SOURCE_ROOT; };
-		1D93C3B011836510003216F7 /* editicon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = editicon.png; path = Resourses/images/editicon.png; sourceTree = SOURCE_ROOT; };
+		1D93C3AF11836510003216F7 /* connecticon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = connecticon.png; path = Resources/images/connecticon.png; sourceTree = SOURCE_ROOT; };
+		1D93C3B011836510003216F7 /* editicon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = editicon.png; path = Resources/images/editicon.png; sourceTree = SOURCE_ROOT; };
 		1D93C3CD11836863003216F7 /* ConnectionWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConnectionWindowController.h; sourceTree = "<group>"; };
 		1D93C3CE11836863003216F7 /* ConnectionWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConnectionWindowController.m; sourceTree = "<group>"; };
 		1D93C3D01183690E003216F7 /* ConnectionWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ConnectionWindow.xib; sourceTree = "<group>"; };
 		1D93C40011836DC2003216F7 /* ConnectionWindowTitleTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConnectionWindowTitleTransformer.h; sourceTree = "<group>"; };
 		1D93C40111836DC2003216F7 /* ConnectionWindowTitleTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConnectionWindowTitleTransformer.m; sourceTree = "<group>"; };
-		1D93C42A1183744D003216F7 /* collectionicon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = collectionicon.png; path = Resourses/images/collectionicon.png; sourceTree = SOURCE_ROOT; };
-		1D93C42B1183744D003216F7 /* dbicon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = dbicon.png; path = Resourses/images/dbicon.png; sourceTree = SOURCE_ROOT; };
+		1D93C42A1183744D003216F7 /* collectionicon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = collectionicon.png; path = Resources/images/collectionicon.png; sourceTree = SOURCE_ROOT; };
+		1D93C42B1183744D003216F7 /* dbicon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = dbicon.png; path = Resources/images/dbicon.png; sourceTree = SOURCE_ROOT; };
 		1D93C44F11837668003216F7 /* SidebarBadgeCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SidebarBadgeCell.h; path = Sidebar/SidebarBadgeCell.h; sourceTree = SOURCE_ROOT; };
 		1D93C45011837668003216F7 /* SidebarBadgeCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SidebarBadgeCell.m; path = Sidebar/SidebarBadgeCell.m; sourceTree = SOURCE_ROOT; };
 		1D93C7471184369D003216F7 /* DatabasesArrayController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DatabasesArrayController.h; sourceTree = "<group>"; };
 		1D93C7481184369D003216F7 /* DatabasesArrayController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DatabasesArrayController.m; sourceTree = "<group>"; };
 		1D93CB5A1184C243003216F7 /* ResultsOutlineViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ResultsOutlineViewController.h; sourceTree = "<group>"; };
 		1D93CB5B1184C243003216F7 /* ResultsOutlineViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ResultsOutlineViewController.m; sourceTree = "<group>"; };
-		1DA68042118875B300DFDD29 /* findmenu.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = findmenu.png; path = Resourses/images/findmenu.png; sourceTree = SOURCE_ROOT; };
-		1DA68043118875B300DFDD29 /* insertmenu.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = insertmenu.png; path = Resourses/images/insertmenu.png; sourceTree = SOURCE_ROOT; };
-		1DA68044118875B300DFDD29 /* removemenu.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = removemenu.png; path = Resourses/images/removemenu.png; sourceTree = SOURCE_ROOT; };
-		1DA68045118875B300DFDD29 /* runmenu.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = runmenu.png; path = Resourses/images/runmenu.png; sourceTree = SOURCE_ROOT; };
-		1DA68046118875B300DFDD29 /* updatemenu.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = updatemenu.png; path = Resourses/images/updatemenu.png; sourceTree = SOURCE_ROOT; };
+		1DA68042118875B300DFDD29 /* findmenu.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = findmenu.png; path = Resources/images/findmenu.png; sourceTree = SOURCE_ROOT; };
+		1DA68043118875B300DFDD29 /* insertmenu.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = insertmenu.png; path = Resources/images/insertmenu.png; sourceTree = SOURCE_ROOT; };
+		1DA68044118875B300DFDD29 /* removemenu.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = removemenu.png; path = Resources/images/removemenu.png; sourceTree = SOURCE_ROOT; };
+		1DA68045118875B300DFDD29 /* runmenu.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = runmenu.png; path = Resources/images/runmenu.png; sourceTree = SOURCE_ROOT; };
+		1DA68046118875B300DFDD29 /* updatemenu.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = updatemenu.png; path = Resources/images/updatemenu.png; sourceTree = SOURCE_ROOT; };
 		1DA6806A11888BDD00DFDD29 /* NSString+Extras.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Extras.h"; sourceTree = "<group>"; };
 		1DA6806B11888BDD00DFDD29 /* NSString+Extras.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Extras.m"; sourceTree = "<group>"; };
 		1DBFFAF312C1FDF200B643CA /* NSProgressIndicator+Extras.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSProgressIndicator+Extras.h"; sourceTree = "<group>"; };
@@ -476,7 +476,7 @@
 		1DF96F9011883B3800C35AB8 /* QueryWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QueryWindowController.h; sourceTree = "<group>"; };
 		1DF96F9111883B3800C35AB8 /* QueryWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QueryWindowController.m; sourceTree = "<group>"; };
 		1DF96F9311883D5E00C35AB8 /* QueryWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QueryWindow.xib; sourceTree = "<group>"; };
-		1DFC2A8C11970BD0006AA167 /* dsa_pub.pem */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = dsa_pub.pem; path = Resourses/dsa_pub.pem; sourceTree = SOURCE_ROOT; };
+		1DFC2A8C11970BD0006AA167 /* dsa_pub.pem */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = dsa_pub.pem; path = Resources/dsa_pub.pem; sourceTree = SOURCE_ROOT; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
@@ -970,7 +970,7 @@
 				1D93C27111833A19003216F7 /* database.png */,
 			);
 			name = images;
-			path = Resourses/images;
+			path = Resources/images;
 			sourceTree = SOURCE_ROOT;
 		};
 		1D93C29B118341BD003216F7 /* ConnectionControllers */ = {
@@ -1112,8 +1112,7 @@
 				1D26615111CFC5BE0092C6B5 /* Export.xib */,
 				1D64100E12C8E6BE0030AA4C /* JsonWindow.xib */,
 			);
-			name = Resources;
-			path = Resourses;
+			path = Resources;
 			sourceTree = "<group>";
 		};
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
@@ -1485,7 +1484,7 @@
 				);
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREFIX_HEADER = MongoHub_Prefix.pch;
-				INFOPLIST_FILE = "Resourses/MongoHub-Info.plist";
+				INFOPLIST_FILE = "Resources/MongoHub-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
 				PRODUCT_NAME = MongoHub;
 			};
@@ -1500,7 +1499,7 @@
 					"\"$(SRCROOT)\"/Frameworks",
 				);
 				GCC_PREFIX_HEADER = MongoHub_Prefix.pch;
-				INFOPLIST_FILE = "Resourses/MongoHub-Info.plist";
+				INFOPLIST_FILE = "Resources/MongoHub-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
 				PRODUCT_NAME = MongoHub;
 			};

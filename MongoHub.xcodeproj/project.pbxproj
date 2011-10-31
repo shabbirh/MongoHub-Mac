@@ -334,7 +334,6 @@
 		02D5A8BB144207CF00C7768C /* jsonlint.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = jsonlint.c; sourceTree = "<group>"; };
 		02D5A8BC144207CF00C7768C /* libjson.pc.in */ = {isa = PBXFileReference; lastKnownFileType = text; path = libjson.pc.in; sourceTree = "<group>"; };
 		02D5A8BD144207CF00C7768C /* Makefile */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
-		02D5A8BE144207CF00C7768C /* README */ = {isa = PBXFileReference; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
 		02D5A8C1144207CF00C7768C /* empty.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = empty.json; sourceTree = "<group>"; };
 		02D5A8C2144207CF00C7768C /* esc0.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = esc0.json; sourceTree = "<group>"; };
 		02D5A8C3144207CF00C7768C /* esc1.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = esc1.json; sourceTree = "<group>"; };
@@ -772,7 +771,6 @@
 				02D5A8B8144207CF00C7768C /* documentation */,
 				02D5A8AC144207CF00C7768C /* debian */,
 				02D5A8BD144207CF00C7768C /* Makefile */,
-				02D5A8BE144207CF00C7768C /* README */,
 				02D5A8BF144207CF00C7768C /* tests */,
 			);
 			path = libjson;

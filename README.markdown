@@ -38,6 +38,7 @@ This project is very new. Any issues or bug reports are welcome. And I still don
     - Connections are sorted after being loaded (still not sorted after being updated)
     - Adding short cuts to delete a document or an index (Command+delete)
     - Adding tooltips for the buttons with short cuts
+    - Queries are sorted by default
     
 ## History
 

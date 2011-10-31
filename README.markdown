@@ -39,6 +39,7 @@ This project is very new. Any issues or bug reports are welcome. And I still don
     - Adding short cuts to delete a document or an index (Command+delete)
     - Adding tooltips for the buttons with short cuts
     - Queries are sorted by default
+    - Problem to display regex and timestamp values in documents
     
 ## History
 

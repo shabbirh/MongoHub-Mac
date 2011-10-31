@@ -377,7 +377,7 @@
     if (collectionItem) {
         [loaderIndicator start];
         [resultsTitle setStringValue:[NSString stringWithFormat:@"Collection %@.%@ stats", collectionItem.databaseItem.name, collectionItem.name]];
-        result = [collectionItem.mongoCollection fetchDatabaseStatsWithCallback:^(NSDictionary *stats, MODQuery *mongoQuery) {
+        result = [collectionItem.mongoCollection fetchCollectionStatsWithCallback:^(NSDictionary *stats, MODQuery *mongoQuery) {
             [loaderIndicator stop];
             [resultsOutlineViewController.results removeAllObjects];
             if (stats) {

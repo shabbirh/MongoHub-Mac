@@ -28,7 +28,7 @@
     IBOutlet NSTokenField *fieldsTextField;
     IBOutlet NSTextField *skipTextField;
     IBOutlet NSTextField *limitTextField;
-    IBOutlet NSTextField *sortTextField;
+    IBOutlet NSTextField *_sortTextField;
     IBOutlet NSTextField *totalResultsTextField;
     IBOutlet NSTextField *findQueryTextField;
     IBOutlet NSProgressIndicator *findQueryLoaderIndicator;
@@ -92,7 +92,6 @@
 @property (nonatomic, retain) NSTokenField *fieldsTextField;
 @property (nonatomic, retain) NSTextField *skipTextField;
 @property (nonatomic, retain) NSTextField *limitTextField;
-@property (nonatomic, retain) NSTextField *sortTextField;
 @property (nonatomic, retain) NSTextField *totalResultsTextField;
 @property (nonatomic, retain) NSTextField *findQueryTextField;
 @property (nonatomic, retain) NSOutlineView *findResultsOutlineView;

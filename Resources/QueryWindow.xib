@@ -1783,7 +1783,7 @@
 															<reference key="NSTextColor" ref="521152556"/>
 														</object>
 													</object>
-													<object class="NSComboBox" id="969186459">
+													<object class="NSComboBox" id="664907156">
 														<reference key="NSNextResponder" ref="976459818"/>
 														<int key="NSvFlags">266</int>
 														<string key="NSFrame">{{83, 27}, {304, 26}}</string>
@@ -1791,20 +1791,20 @@
 														<reference key="NSWindow"/>
 														<string key="NSReuseIdentifierKey">_NS:708</string>
 														<bool key="NSEnabled">YES</bool>
-														<object class="NSComboBoxCell" key="NSCell" id="532577192">
+														<object class="NSComboBoxCell" key="NSCell" id="57474178">
 															<int key="NSCellFlags">343014976</int>
 															<int key="NSCellFlags2">272761856</int>
 															<string key="NSContents"/>
 															<reference key="NSSupport" ref="26"/>
 															<string key="NSCellIdentifier">_NS:708</string>
-															<reference key="NSControlView" ref="969186459"/>
+															<reference key="NSControlView" ref="664907156"/>
 															<bool key="NSDrawsBackground">YES</bool>
 															<reference key="NSBackgroundColor" ref="335946382"/>
 															<reference key="NSTextColor" ref="1065178334"/>
 															<int key="NSVisibleItemCount">5</int>
 															<bool key="NSHasVerticalScroller">YES</bool>
-															<reference key="NSDelegate" ref="969186459"/>
-															<object class="NSComboTableView" key="NSTableView" id="879525820">
+															<reference key="NSDelegate" ref="664907156"/>
+															<object class="NSComboTableView" key="NSTableView" id="582791860">
 																<reference key="NSNextResponder"/>
 																<int key="NSvFlags">274</int>
 																<string key="NSFrameSize">{15, 0}</string>
@@ -1822,7 +1822,7 @@
 																			<int key="NSCellFlags">75628032</int>
 																			<int key="NSCellFlags2">0</int>
 																			<string key="NSContents"/>
-																			<object class="NSFont" key="NSSupport" id="609261302">
+																			<object class="NSFont" key="NSSupport" id="279317969">
 																				<string key="NSName">LucidaGrande</string>
 																				<double key="NSSize">12</double>
 																				<int key="NSfFlags">16</int>
@@ -1837,14 +1837,14 @@
 																			<int key="NSCellFlags">338820672</int>
 																			<int key="NSCellFlags2">1024</int>
 																			<reference key="NSSupport" ref="26"/>
-																			<reference key="NSControlView" ref="879525820"/>
+																			<reference key="NSControlView" ref="582791860"/>
 																			<bool key="NSDrawsBackground">YES</bool>
 																			<reference key="NSBackgroundColor" ref="108772989"/>
 																			<reference key="NSTextColor" ref="1065178334"/>
 																		</object>
 																		<int key="NSResizingMask">3</int>
 																		<bool key="NSIsResizeable">YES</bool>
-																		<reference key="NSTableView" ref="879525820"/>
+																		<reference key="NSTableView" ref="582791860"/>
 																	</object>
 																</object>
 																<double key="NSIntercellSpacingWidth">3</double>
@@ -1854,9 +1854,9 @@
 																<double key="NSRowHeight">16</double>
 																<string key="NSAction">tableViewAction:</string>
 																<int key="NSTvFlags">-767524864</int>
-																<reference key="NSDelegate" ref="532577192"/>
-																<reference key="NSDataSource" ref="532577192"/>
-																<reference key="NSTarget" ref="532577192"/>
+																<reference key="NSDelegate" ref="57474178"/>
+																<reference key="NSDataSource" ref="57474178"/>
+																<reference key="NSTarget" ref="57474178"/>
 																<int key="NSColumnAutoresizingStyle">1</int>
 																<int key="NSDraggingSourceMaskForLocal">15</int>
 																<int key="NSDraggingSourceMaskForNonLocal">0</int>
@@ -3259,7 +3259,7 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 																					<int key="NSCellFlags">337772096</int>
 																					<int key="NSCellFlags2">2048</int>
 																					<string key="NSContents">Text Cell</string>
-																					<reference key="NSSupport" ref="609261302"/>
+																					<reference key="NSSupport" ref="279317969"/>
 																					<reference key="NSControlView" ref="113277051"/>
 																					<reference key="NSBackgroundColor" ref="108772989"/>
 																					<reference key="NSTextColor" ref="1065178334"/>
@@ -3702,14 +3702,6 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 					<int key="connectionID">485</int>
 				</object>
 				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">sortTextField</string>
-						<reference key="source" ref="1001"/>
-						<reference key="destination" ref="150022905"/>
-					</object>
-					<int key="connectionID">125</int>
-				</object>
-				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
 						<string key="label">findQuery:</string>
 						<reference key="source" ref="1001"/>
@@ -4049,9 +4041,17 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 					<object class="IBOutletConnection" key="connection">
 						<string key="label">_criteriaComboBox</string>
 						<reference key="source" ref="1001"/>
-						<reference key="destination" ref="969186459"/>
+						<reference key="destination" ref="664907156"/>
 					</object>
 					<int key="connectionID">1382</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">_sortTextField</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="150022905"/>
+					</object>
+					<int key="connectionID">1384</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
@@ -4317,14 +4317,14 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 					<object class="IBOutletConnection" key="connection">
 						<string key="label">initialFirstResponder</string>
 						<reference key="source" ref="481843278"/>
-						<reference key="destination" ref="969186459"/>
+						<reference key="destination" ref="664907156"/>
 					</object>
 					<int key="connectionID">1383</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
 						<string key="label">delegate</string>
-						<reference key="source" ref="969186459"/>
+						<reference key="source" ref="664907156"/>
 						<reference key="destination" ref="1001"/>
 					</object>
 					<int key="connectionID">1381</int>
@@ -5120,7 +5120,7 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 							<reference ref="757914550"/>
 							<reference ref="150022905"/>
 							<reference ref="966765335"/>
-							<reference ref="969186459"/>
+							<reference ref="664907156"/>
 						</object>
 						<reference key="parent" ref="222084738"/>
 					</object>
@@ -6247,17 +6247,17 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">1379</int>
-						<reference key="object" ref="969186459"/>
+						<reference key="object" ref="664907156"/>
 						<object class="NSMutableArray" key="children">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<reference ref="532577192"/>
+							<reference ref="57474178"/>
 						</object>
 						<reference key="parent" ref="976459818"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">1380</int>
-						<reference key="object" ref="532577192"/>
-						<reference key="parent" ref="969186459"/>
+						<reference key="object" ref="57474178"/>
+						<reference key="parent" ref="664907156"/>
 					</object>
 				</object>
 			</object>
@@ -6875,7 +6875,7 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 				<reference key="dict.values" ref="0"/>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">1383</int>
+			<int key="maxID">1384</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -7039,7 +7039,7 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>_criteriaComboBox</string>
-							<string>criticalTextField</string>
+							<string>_sortTextField</string>
 							<string>expCriticalTextField</string>
 							<string>expFieldsTextField</string>
 							<string>expJsonArrayCheckBox</string>
@@ -7085,7 +7085,6 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 							<string>removeResultsTextField</string>
 							<string>segmentedControl</string>
 							<string>skipTextField</string>
-							<string>sortTextField</string>
 							<string>tabView</string>
 							<string>totalResultsTextField</string>
 							<string>updateCriticalTextField</string>
@@ -7144,7 +7143,6 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 							<string>NSTextField</string>
 							<string>NSSegmentedControl</string>
 							<string>NSTextField</string>
-							<string>NSTextField</string>
 							<string>NSTabView</string>
 							<string>NSTextField</string>
 							<string>NSTextField</string>
@@ -7160,7 +7158,7 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>_criteriaComboBox</string>
-							<string>criticalTextField</string>
+							<string>_sortTextField</string>
 							<string>expCriticalTextField</string>
 							<string>expFieldsTextField</string>
 							<string>expJsonArrayCheckBox</string>
@@ -7206,7 +7204,6 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 							<string>removeResultsTextField</string>
 							<string>segmentedControl</string>
 							<string>skipTextField</string>
-							<string>sortTextField</string>
 							<string>tabView</string>
 							<string>totalResultsTextField</string>
 							<string>updateCriticalTextField</string>
@@ -7223,7 +7220,7 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 								<string key="candidateClassName">NSComboBox</string>
 							</object>
 							<object class="IBToOneOutletInfo">
-								<string key="name">criticalTextField</string>
+								<string key="name">_sortTextField</string>
 								<string key="candidateClassName">NSTextField</string>
 							</object>
 							<object class="IBToOneOutletInfo">
@@ -7404,10 +7401,6 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">skipTextField</string>
-								<string key="candidateClassName">NSTextField</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">sortTextField</string>
 								<string key="candidateClassName">NSTextField</string>
 							</object>
 							<object class="IBToOneOutletInfo">

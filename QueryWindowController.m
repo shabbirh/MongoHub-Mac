@@ -29,7 +29,6 @@
 @synthesize fieldsTextField;
 @synthesize skipTextField;
 @synthesize limitTextField;
-@synthesize sortTextField;
 @synthesize totalResultsTextField;
 @synthesize findQueryTextField;
 @synthesize findResultsOutlineView;
@@ -100,7 +99,6 @@
     [fieldsTextField release];
     [skipTextField release];
     [limitTextField release];
-    [sortTextField release];
     [totalResultsTextField release];
     [findQueryTextField release];
     [findResultsOutlineView release];
@@ -159,6 +157,17 @@
     [super dealloc];
 }
 
+- (NSString *)formatedQuerySort
+{
+    NSString *result;
+    
+    result = [[_sortTextField stringValue] stringByTrimmingWhitespace];
+    if ([result length] == 0) {
+        result = @"{ \"_id\": 1}";
+    }
+    return result;
+}
+
 - (NSString *)formatedQueryWithReplace:(BOOL)replace
 {
     NSString *query = @"";
@@ -206,7 +215,9 @@
     int limit = [limitTextField intValue];
     NSMutableArray *fields;
     NSString *criteria;
+    NSString *sort = [self formatedQuerySort];
     
+    [self findQueryComposer:nil];
     if (limit <= 0) {
         limit = 30;
     }
@@ -219,7 +230,7 @@
         }
     }
     [findQueryLoaderIndicator start];
-    [mongoCollection findWithCriteria:criteria fields:fields skip:[skipTextField intValue] limit:limit sort:[sortTextField stringValue] callback:^(NSArray *documents, MODQuery *mongoQuery) {
+    [mongoCollection findWithCriteria:criteria fields:fields skip:[skipTextField intValue] limit:limit sort:sort callback:^(NSArray *documents, MODQuery *mongoQuery) {
         if (mongoQuery.error) {
             [findQueryLoaderIndicator stop];
             NSRunAlertPanel(@"Error", [mongoQuery.error localizedDescription], @"OK", nil, nil);
@@ -383,7 +394,7 @@
 {
 	NSTextField *ed = [nd object];
     
-	if (ed == _criteriaComboBox || ed == fieldsTextField || ed == sortTextField || ed == skipTextField || ed == limitTextField) {
+	if (ed == _criteriaComboBox || ed == fieldsTextField || ed == _sortTextField || ed == skipTextField || ed == limitTextField) {
         [self findQueryComposer:nil];
     } else if (ed == updateCriticalTextField || ed == updateSetTextField) {
         [self updateQueryComposer:nil];
@@ -397,10 +408,11 @@
 
 - (IBAction) findQueryComposer:(id)sender
 {
-    NSString *critical;
-    critical = [self formatedQueryWithReplace:NO];
-    
+    NSString *criteria = [self formatedQueryWithReplace:NO];
     NSString *jsFields;
+    NSString *sortValue = [self formatedQuerySort];
+    NSString *sort;
+    
     if ([[fieldsTextField stringValue] length] > 0) {
         NSArray *keys = [[NSArray alloc] initWithArray:[[fieldsTextField stringValue] componentsSeparatedByString:@","]];
         NSMutableArray *tmpstr = [[NSMutableArray alloc] initWithCapacity:[keys count]];
@@ -414,9 +426,8 @@
         jsFields = [[NSString alloc] initWithString:@""];
     }
     
-    NSString *sort;
-    if ([[sortTextField stringValue] length] > 0) {
-        sort = [[NSString alloc] initWithFormat:@".sort(%@)", [sortTextField stringValue]];
+    if ([sortValue length] > 0) {
+        sort = [[NSString alloc] initWithFormat:@".sort(%@)", sortValue];
     }else {
         sort = [[NSString alloc] initWithString:@""];
     }
@@ -425,7 +436,7 @@
     NSString *limit = [[NSString alloc] initWithFormat:@".limit(%d)", [limitTextField intValue]];
     NSString *col = [NSString stringWithFormat:@"%@.%@", mongoCollection.databaseName, mongoCollection.collectionName];
     
-    NSString *query = [NSString stringWithFormat:@"db.%@.find(%@%@)%@%@%@", col, critical, jsFields, sort, skip, limit];
+    NSString *query = [NSString stringWithFormat:@"db.%@.find(%@%@)%@%@%@", col, criteria, jsFields, sort, skip, limit];
     [jsFields release];
     [sort release];
     [skip release];

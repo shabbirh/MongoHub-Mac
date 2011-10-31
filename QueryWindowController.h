@@ -24,7 +24,7 @@
     IBOutlet NSTabView *tabView;
     IBOutlet NSSegmentedControl *segmentedControl;
     
-    IBOutlet NSTextField *criticalTextField;
+    IBOutlet NSComboBox *_criteriaComboBox;
     IBOutlet NSTokenField *fieldsTextField;
     IBOutlet NSTextField *skipTextField;
     IBOutlet NSTextField *limitTextField;
@@ -89,7 +89,6 @@
 @property (nonatomic, retain) ResultsOutlineViewController *findResultsViewController;
 @property (nonatomic, retain, readwrite) MODCollection *mongoCollection;
 
-@property (nonatomic, retain) NSTextField *criticalTextField;
 @property (nonatomic, retain) NSTokenField *fieldsTextField;
 @property (nonatomic, retain) NSTextField *skipTextField;
 @property (nonatomic, retain) NSTextField *limitTextField;

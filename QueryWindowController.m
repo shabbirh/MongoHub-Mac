@@ -26,7 +26,6 @@
 @synthesize findResultsViewController;
 @synthesize mongoCollection;
 
-@synthesize criticalTextField;
 @synthesize fieldsTextField;
 @synthesize skipTextField;
 @synthesize limitTextField;
@@ -98,7 +97,6 @@
     [findResultsViewController release];
     [mongoCollection release];
     
-    [criticalTextField release];
     [fieldsTextField release];
     [skipTextField release];
     [limitTextField release];
@@ -166,7 +164,7 @@
     NSString *query = @"";
     NSString *value;
     
-    value = [[criticalTextField stringValue] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    value = [[_criteriaComboBox stringValue] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     if ([value length] == 24 && [[value stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"1234567890abcdefABCDEF"]] length] == 0) {
         // 24 char length and only hex char... it must be an objectid
         query = [NSString stringWithFormat:@"{\"_id\": { \"$oid\": \"%@\" }}",value];
@@ -187,7 +185,7 @@
         }
     }
     if (replace) {
-        [criticalTextField setStringValue:query];
+        [_criteriaComboBox setStringValue:query];
     }
     return query;
 }
@@ -385,7 +383,7 @@
 {
 	NSTextField *ed = [nd object];
     
-	if (ed == criticalTextField || ed == fieldsTextField || ed == sortTextField || ed == skipTextField || ed == limitTextField) {
+	if (ed == _criteriaComboBox || ed == fieldsTextField || ed == sortTextField || ed == skipTextField || ed == limitTextField) {
         [self findQueryComposer:nil];
     } else if (ed == updateCriticalTextField || ed == updateSetTextField) {
         [self updateQueryComposer:nil];

@@ -6,15 +6,15 @@
       <description>Most recent changes with links to updates.</description>
       <language>en</language>      
          <item>
-            <title>Version 2.4.6</title>
-            <enclosure url="http://cloud.github.com/downloads/fotonauts/MongoHub-Mac/MongoHub.zip" sparkle:version="80" sparkle:shortVersionString="2.4.6" length="3036463" sparkle:dsaSignature="MCwCFCjN2FtQxX9aMYxtr5c1Qe7+quMzAhQ5pK+36cOAS8CznBkra4bCq+AGjw==" type="application/octet-stream" />
+            <title>Version 2.4.7</title>
+            <enclosure url="http://cloud.github.com/downloads/fotonauts/MongoHub-Mac/MongoHub.zip" sparkle:version="81" sparkle:shortVersionString="2.4.7" length="3040746" sparkle:dsaSignature="MC0CFCjaTmK0qE5AGj/0UAVq9sWaX6nVAhUA2m7SlAGLkoEjIuYrfIRdLmb2X28=" type="application/octet-stream" />
             <description><![CDATA[
 <ul>
-<li>Can insert an array of documents</li>
-<li>MapReduce feature working</li>
-<li>Fix for parsing: "$oid":"4E9321AF3768CF514A00000C"}</li>
-<li>Crash when getting stats for some servers</li>
-<li>New outline view for the databases and collections</li>
+<li>Connections are sorted after being loaded (still not sorted after being updated)</li>
+<li>Adding short cuts to delete a document or an index (Command+delete)</li>
+<li>Adding tooltips for the buttons with short cuts</li>
+<li>Queries are sorted by default</li>
+<li>Problem to display regex and timestamp values in documents</li>
 </ul>
             ]]>
             </description>

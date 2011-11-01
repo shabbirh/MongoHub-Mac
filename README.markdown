@@ -35,13 +35,15 @@ This project is very new. Any issues or bug reports are welcome. And I still don
     
 ** Current **
     
+## History
+
+** 2.4.7(81) - nov 1, 2011 **
+    
     - Connections are sorted after being loaded (still not sorted after being updated)
     - Adding short cuts to delete a document or an index (Command+delete)
     - Adding tooltips for the buttons with short cuts
     - Queries are sorted by default
     - Problem to display regex and timestamp values in documents
-    
-## History
 
 ** 2.4.6(80) - oct 28, 2011 **
     

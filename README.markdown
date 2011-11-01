@@ -35,6 +35,8 @@ This project is very new. Any issues or bug reports are welcome. And I still don
     
 ** Current **
     
+    - Problem to display and parse date types
+    
 ## History
 
 ** 2.4.7(81) - nov 1, 2011 **

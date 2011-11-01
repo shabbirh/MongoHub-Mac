@@ -35,10 +35,12 @@ This project is very new. Any issues or bug reports are welcome. And I still don
     
 ** Current **
     
-    - Problem to display and parse date types
-    
 ## History
 
+** 2.4.8(82) - nov 1, 2011 **
+
+    - Problem to display and parse date types
+    
 ** 2.4.7(81) - nov 1, 2011 **
     
     - Connections are sorted after being loaded (still not sorted after being updated)

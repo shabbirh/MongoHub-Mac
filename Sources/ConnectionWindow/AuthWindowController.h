@@ -23,6 +23,7 @@
 @property (nonatomic, retain) MHConnectionStore *conn;
 @property (nonatomic, retain) NSString *dbname;
 @property (nonatomic, retain) DatabasesArrayController *databasesArrayController;
+@property (nonatomic, assign, readonly) NSManagedObjectContext *managedObjectContext;
 
 - (IBAction)save:(id)sender;
 - (IBAction)cancel:(id)sender;

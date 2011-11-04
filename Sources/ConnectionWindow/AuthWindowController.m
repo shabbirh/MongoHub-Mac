@@ -75,4 +75,9 @@
     }
 }
 
+- (NSManagedObjectContext *)managedObjectContext
+{
+    return [conn managedObjectContext];
+}
+
 @end

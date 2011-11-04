@@ -404,8 +404,8 @@
 		1D64100112C8E16C0030AA4C /* NSArray+Color.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+Color.m"; sourceTree = "<group>"; };
 		1D64100312C8E1C00030AA4C /* NSScanner+SkipUpToCharset.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSScanner+SkipUpToCharset.h"; sourceTree = "<group>"; };
 		1D64100412C8E1C00030AA4C /* NSScanner+SkipUpToCharset.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSScanner+SkipUpToCharset.m"; sourceTree = "<group>"; };
-		1D64100612C8E21C0030AA4C /* UKSyntaxColoredTextViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UKSyntaxColoredTextViewController.h; path = ../UKSyntaxColoredTextViewController.h; sourceTree = "<group>"; };
-		1D64100712C8E21C0030AA4C /* UKSyntaxColoredTextViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UKSyntaxColoredTextViewController.m; path = ../UKSyntaxColoredTextViewController.m; sourceTree = "<group>"; };
+		1D64100612C8E21C0030AA4C /* UKSyntaxColoredTextViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UKSyntaxColoredTextViewController.h; sourceTree = "<group>"; };
+		1D64100712C8E21C0030AA4C /* UKSyntaxColoredTextViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UKSyntaxColoredTextViewController.m; sourceTree = "<group>"; };
 		1D64100B12C8E3D90030AA4C /* JsonWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JsonWindowController.h; sourceTree = "<group>"; };
 		1D64100C12C8E3D90030AA4C /* JsonWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JsonWindowController.m; sourceTree = "<group>"; };
 		1D64100E12C8E6BE0030AA4C /* JsonWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = JsonWindow.xib; sourceTree = "<group>"; };
@@ -443,8 +443,8 @@
 		1D93C40111836DC2003216F7 /* ConnectionWindowTitleTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConnectionWindowTitleTransformer.m; sourceTree = "<group>"; };
 		1D93C42A1183744D003216F7 /* collectionicon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = collectionicon.png; path = Resources/images/collectionicon.png; sourceTree = SOURCE_ROOT; };
 		1D93C42B1183744D003216F7 /* dbicon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = dbicon.png; path = Resources/images/dbicon.png; sourceTree = SOURCE_ROOT; };
-		1D93C44F11837668003216F7 /* SidebarBadgeCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SidebarBadgeCell.h; path = Sidebar/SidebarBadgeCell.h; sourceTree = SOURCE_ROOT; };
-		1D93C45011837668003216F7 /* SidebarBadgeCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SidebarBadgeCell.m; path = Sidebar/SidebarBadgeCell.m; sourceTree = SOURCE_ROOT; };
+		1D93C44F11837668003216F7 /* SidebarBadgeCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SidebarBadgeCell.h; sourceTree = "<group>"; };
+		1D93C45011837668003216F7 /* SidebarBadgeCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SidebarBadgeCell.m; sourceTree = "<group>"; };
 		1D93C7471184369D003216F7 /* DatabasesArrayController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DatabasesArrayController.h; sourceTree = "<group>"; };
 		1D93C7481184369D003216F7 /* DatabasesArrayController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DatabasesArrayController.m; sourceTree = "<group>"; };
 		1D93CB5A1184C243003216F7 /* ResultsOutlineViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ResultsOutlineViewController.h; sourceTree = "<group>"; };
@@ -637,13 +637,32 @@
 			path = ConnectionWindow;
 			sourceTree = "<group>";
 		};
+		02CC22671464895800A38AC9 /* JSONEditor */ = {
+			isa = PBXGroup;
+			children = (
+				1D64100612C8E21C0030AA4C /* UKSyntaxColoredTextViewController.h */,
+				1D64100712C8E21C0030AA4C /* UKSyntaxColoredTextViewController.m */,
+				1D64100B12C8E3D90030AA4C /* JsonWindowController.h */,
+				1D64100C12C8E3D90030AA4C /* JsonWindowController.m */,
+			);
+			path = JSONEditor;
+			sourceTree = "<group>";
+		};
 		02D1872F14636F1300D49ED1 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				02CC22671464895800A38AC9 /* JSONEditor */,
+				1D93C608118417D5003216F7 /* Helpers */,
+				1D93C44C11837668003216F7 /* Sidebar */,
+				1D93C3FF11836D98003216F7 /* Transformers */,
+				1D93C29B118341BD003216F7 /* ConnectionControllers */,
 				02CC2266146485D500A38AC9 /* ConnectionWindow */,
+				1D93C24C1183357D003216F7 /* ArrayControllers */,
+				1D93C1DD11833342003216F7 /* ConnectionsCollectionView */,
+				02D1873014636F2D00D49ED1 /* Model */,
 				77C8280B06725ACE000B614F /* MHApplicationDelegate.h */,
 				77C8280C06725ACE000B614F /* MHApplicationDelegate.m */,
-				02D1873014636F2D00D49ED1 /* Model */,
+				1D93C27411833C2A003216F7 /* Configure.h */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -899,21 +918,6 @@
 			path = good;
 			sourceTree = "<group>";
 		};
-		080E96DDFE201D6D7F000001 /* Classes */ = {
-			isa = PBXGroup;
-			children = (
-				1D64100A12C8E39F0030AA4C /* JSONEditor */,
-				1D93C608118417D5003216F7 /* Helpers */,
-				1D93C44C11837668003216F7 /* Sidebar */,
-				1D93C3FF11836D98003216F7 /* Transformers */,
-				1D93C29B118341BD003216F7 /* ConnectionControllers */,
-				1D93C24C1183357D003216F7 /* ArrayControllers */,
-				1D93C1DD11833342003216F7 /* ConnectionsCollectionView */,
-				1D93C27411833C2A003216F7 /* Configure.h */,
-			);
-			name = Classes;
-			sourceTree = "<group>";
-		};
 		1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -945,18 +949,6 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		1D64100A12C8E39F0030AA4C /* JSONEditor */ = {
-			isa = PBXGroup;
-			children = (
-				1D64100612C8E21C0030AA4C /* UKSyntaxColoredTextViewController.h */,
-				1D64100712C8E21C0030AA4C /* UKSyntaxColoredTextViewController.m */,
-				1D64100B12C8E3D90030AA4C /* JsonWindowController.h */,
-				1D64100C12C8E3D90030AA4C /* JsonWindowController.m */,
-			);
-			name = JSONEditor;
-			path = JSON;
-			sourceTree = "<group>";
-		};
 		1D93C1DD11833342003216F7 /* ConnectionsCollectionView */ = {
 			isa = PBXGroup;
 			children = (
@@ -982,7 +974,7 @@
 				1DCC562712C264600025F181 /* StatMonitorTableController.h */,
 				1DCC562812C264600025F181 /* StatMonitorTableController.m */,
 			);
-			name = ArrayControllers;
+			path = ArrayControllers;
 			sourceTree = "<group>";
 		};
 		1D93C27011833A19003216F7 /* images */ = {
@@ -1028,7 +1020,7 @@
 				1DF96E3911881AED00C35AB8 /* AddCollectionController.h */,
 				1DF96E3A11881AED00C35AB8 /* AddCollectionController.m */,
 			);
-			name = ConnectionControllers;
+			path = ConnectionControllers;
 			sourceTree = "<group>";
 		};
 		1D93C3FF11836D98003216F7 /* Transformers */ = {
@@ -1037,7 +1029,7 @@
 				1D93C40011836DC2003216F7 /* ConnectionWindowTitleTransformer.h */,
 				1D93C40111836DC2003216F7 /* ConnectionWindowTitleTransformer.m */,
 			);
-			name = Transformers;
+			path = Transformers;
 			sourceTree = "<group>";
 		};
 		1D93C44C11837668003216F7 /* Sidebar */ = {
@@ -1046,7 +1038,8 @@
 				1D93C44F11837668003216F7 /* SidebarBadgeCell.h */,
 				1D93C45011837668003216F7 /* SidebarBadgeCell.m */,
 			);
-			path = Sidebar;
+			name = Sidebar;
+			path = Sources/Sidebar;
 			sourceTree = SOURCE_ROOT;
 		};
 		1D93C608118417D5003216F7 /* Helpers */ = {
@@ -1067,7 +1060,7 @@
 				024F678E1427F3DE00956BF6 /* MODHelper.h */,
 				024F678F1427F3DE00956BF6 /* MODHelper.m */,
 			);
-			name = Helpers;
+			path = Helpers;
 			sourceTree = "<group>";
 		};
 		1DD1CA8512C8F004007F2909 /* Syntax Definitions */ = {
@@ -1085,7 +1078,6 @@
 			isa = PBXGroup;
 			children = (
 				02D1872F14636F1300D49ED1 /* Sources */,
-				080E96DDFE201D6D7F000001 /* Classes */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
 				0233716E145B640D0084D0F7 /* Spotlight Importer */,
 				29B97317FDCFA39411CA2CEA /* Resources */,

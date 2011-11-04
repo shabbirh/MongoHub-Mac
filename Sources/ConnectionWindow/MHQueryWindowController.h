@@ -12,14 +12,15 @@
 @class ResultsOutlineViewController;
 @class MODServer;
 @class MODCollection;
+@class MHDatabaseStore;
 
 @interface MHQueryWindowController : NSWindowController
 {
-    NSManagedObjectContext *managedObjectContext;
     DatabasesArrayController *databasesArrayController;
     IBOutlet ResultsOutlineViewController *findResultsViewController;
     IBOutlet NSOutlineView *findResultsOutlineView;
-    MODCollection *mongoCollection;
+    MODCollection *_mongoCollection;
+    MHDatabaseStore *_databaseStore;
     
     IBOutlet NSTabView *tabView;
     IBOutlet NSSegmentedControl *segmentedControl;
@@ -84,10 +85,10 @@
     IBOutlet NSProgressIndicator *impProgressIndicator;
 }
 
-@property (nonatomic, retain) NSManagedObjectContext *managedObjectContext;
 @property (nonatomic, retain) DatabasesArrayController *databasesArrayController;
 @property (nonatomic, retain) ResultsOutlineViewController *findResultsViewController;
 @property (nonatomic, retain, readwrite) MODCollection *mongoCollection;
+@property (nonatomic, retain, readwrite) MHDatabaseStore *databaseStore;
 
 @property (nonatomic, retain) NSTokenField *fieldsTextField;
 @property (nonatomic, retain) NSTextField *skipTextField;

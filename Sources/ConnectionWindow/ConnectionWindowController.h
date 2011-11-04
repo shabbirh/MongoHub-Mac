@@ -24,9 +24,10 @@
 @class MODDatabase;
 @class MODCollection;
 
-@interface ConnectionWindowController : NSWindowController {
+@interface ConnectionWindowController : NSWindowController
+{
     IBOutlet NSMenu *createCollectionOrDatabaseMenu;
-    IBOutlet DatabasesArrayController *databaseArrayController;
+    IBOutlet DatabasesArrayController *_databaseStoreArrayController;
     IBOutlet ResultsOutlineViewController *resultsOutlineViewController;
     MHServerItem *_serverItem;
     MHConnectionStore *conn;
@@ -53,7 +54,6 @@
     NSDictionary *previousServerStatusForDelta;
 }
 
-@property (nonatomic, retain) DatabasesArrayController *databaseArrayController;
 @property (nonatomic, retain) ResultsOutlineViewController *resultsOutlineViewController;
 @property (nonatomic, retain) MHConnectionStore *conn;
 @property (nonatomic, retain) MODServer *mongoServer;

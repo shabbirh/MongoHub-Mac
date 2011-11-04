@@ -2466,6 +2466,14 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
+						<string key="label">_databaseStoreArrayController</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="348695705"/>
+					</object>
+					<int key="connectionID">316</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
 						<string key="label">delegate</string>
 						<reference key="source" ref="1005"/>
 						<reference key="destination" ref="1001"/>
@@ -3760,7 +3768,7 @@
 				<reference key="dict.values" ref="0"/>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">315</int>
+			<int key="maxID">316</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -3875,9 +3883,9 @@
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>_databaseCollectionOutlineView</string>
+							<string>_databaseStoreArrayController</string>
 							<string>bundleVersion</string>
 							<string>createCollectionOrDatabaseMenu</string>
-							<string>databaseArrayController</string>
 							<string>loaderIndicator</string>
 							<string>monitorButton</string>
 							<string>monitorPanel</string>
@@ -3889,9 +3897,9 @@
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>NSOutlineView</string>
+							<string>DatabasesArrayController</string>
 							<string>NSTextField</string>
 							<string>NSMenu</string>
-							<string>DatabasesArrayController</string>
 							<string>NSProgressIndicator</string>
 							<string>NSButton</string>
 							<string>NSPanel</string>
@@ -3906,9 +3914,9 @@
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>_databaseCollectionOutlineView</string>
+							<string>_databaseStoreArrayController</string>
 							<string>bundleVersion</string>
 							<string>createCollectionOrDatabaseMenu</string>
-							<string>databaseArrayController</string>
 							<string>loaderIndicator</string>
 							<string>monitorButton</string>
 							<string>monitorPanel</string>
@@ -3924,16 +3932,16 @@
 								<string key="candidateClassName">NSOutlineView</string>
 							</object>
 							<object class="IBToOneOutletInfo">
+								<string key="name">_databaseStoreArrayController</string>
+								<string key="candidateClassName">DatabasesArrayController</string>
+							</object>
+							<object class="IBToOneOutletInfo">
 								<string key="name">bundleVersion</string>
 								<string key="candidateClassName">NSTextField</string>
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">createCollectionOrDatabaseMenu</string>
 								<string key="candidateClassName">NSMenu</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">databaseArrayController</string>
-								<string key="candidateClassName">DatabasesArrayController</string>
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">loaderIndicator</string>

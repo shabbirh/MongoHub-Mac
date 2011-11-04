@@ -49,7 +49,6 @@
 
 @implementation ConnectionWindowController
 
-@synthesize databaseArrayController;
 @synthesize resultsOutlineViewController;
 @synthesize conn;
 @synthesize mongoServer = _mongoServer;
@@ -79,7 +78,7 @@
 - (void)dealloc
 {
     [self closeMongoDB];
-    [databaseArrayController release];
+    [_databaseStoreArrayController release];
     [resultsOutlineViewController release];
     [conn release];
     [_databases release];
@@ -288,7 +287,7 @@
             NSRunAlertPanel(@"Error", [mongoQuery.error localizedDescription], @"OK", nil, nil);
         }
         
-        [databaseArrayController clean:conn databases:_databases];
+        [_databaseStoreArrayController clean:conn databases:_databases];
     }];
     return result;
 }
@@ -523,7 +522,7 @@
     }
     MHQueryWindowController *queryWindowController = [[MHQueryWindowController alloc] init];
     queryWindowController.mongoCollection = [self selectedCollectionItem].mongoCollection;
-    queryWindowController.managedObjectContext = [conn managedObjectContext];
+    queryWindowController.databaseStore = [_databaseStoreArrayController dbInfo:conn name:[[self selectedDatabaseItem].mongoDatabase databaseName]];
     [queryWindowController showWindow:sender];
 }
 
@@ -538,7 +537,7 @@
     {
         authWindowController = [[AuthWindowController alloc] init];
     }
-    MHDatabaseStore *db = [databaseArrayController dbInfo:conn name:[[self selectedDatabaseItem].mongoDatabase databaseName]];
+    MHDatabaseStore *db = [_databaseStoreArrayController dbInfo:conn name:[[self selectedDatabaseItem].mongoDatabase databaseName]];
     if (db) {
         [authWindowController.userTextField setStringValue:db.user];
         [authWindowController.passwordTextField setStringValue:db.password];

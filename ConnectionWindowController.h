@@ -70,6 +70,7 @@
 @property (nonatomic, retain) AuthWindowController *authWindowController;
 @property (nonatomic, retain) ImportWindowController *importWindowController;
 @property (nonatomic, retain) ExportWindowController *exportWindowController;
+@property (nonatomic, readonly, assign) NSManagedObjectContext *managedObjectContext;
 
 - (IBAction)reconnect:(id)sender;
 - (IBAction)showServerStatus:(id)sender;

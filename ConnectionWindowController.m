@@ -729,6 +729,11 @@ static int percentage(NSNumber *previousValue, NSNumber *previousOutOfValue, NSN
     return result;
 }
 
+- (NSManagedObjectContext *)managedObjectContext
+{
+    return [conn managedObjectContext];
+}
+
 @end
 
 @implementation ConnectionWindowController(NSOutlineViewDataSource)

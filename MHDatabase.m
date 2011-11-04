@@ -1,15 +1,15 @@
 //
-//  Database.m
+//  MHDatabase.m
 //  MongoHub
 //
 //  Created by Syd on 10-4-24.
 //  Copyright 2010 MusicPeace.ORG. All rights reserved.
 //
 
-#import "Database.h"
+#import "MHDatabase.h"
 
 
-@implementation Database
+@implementation MHDatabase
 
 @dynamic name;
 @dynamic user;

@@ -13,7 +13,7 @@
 #import "ConnectionsArrayController.h"
 #import "ConnectionsCollectionView.h"
 #import "ConnectionWindowController.h"
-#import "Connection.h"
+#import "MHConnection.h"
 #import <Sparkle/Sparkle.h>
 
 #define YOUR_EXTERNAL_RECORD_EXTENSION @"mgo"
@@ -316,7 +316,7 @@
     if (![sender object]) {
         return;
     }
-    Connection *newObj = [[connectionsArrayController newObject] autorelease];
+    MHConnection *newObj = [[connectionsArrayController newObject] autorelease];
     [newObj setValue:[[sender object] objectForKey:@"host"] forKey:@"host"];
     [newObj setValue:[[sender object] objectForKey:@"hostport"] forKey:@"hostport"];
     [newObj setValue:[[sender object] objectForKey:@"alias"] forKey:@"alias"];
@@ -344,7 +344,7 @@
     if (![connectionsArrayController selectedObjects]) {
         return;
     }
-    Connection *connection = [[connectionsArrayController selectedObjects] objectAtIndex:0];
+    MHConnection *connection = [[connectionsArrayController selectedObjects] objectAtIndex:0];
     if (!editConnectionController) {
         editConnectionController = [[EditConnectionController alloc] init];
     }
@@ -373,7 +373,7 @@
 }
 
 - (void)doubleClick:(id)sender {
-    if (![sender isKindOfClass:[Connection class]]) {
+    if (![sender isKindOfClass:[MHConnection class]]) {
         sender = [[connectionsArrayController selectedObjects] objectAtIndex:0];
     }
     if ([self isOpenedConnection:sender]) {
@@ -385,7 +385,7 @@
     [connectionWindowController showWindow:sender];
 }
 
-- (BOOL)isOpenedConnection:(Connection *)aConnection {
+- (BOOL)isOpenedConnection:(MHConnection *)aConnection {
     NSWindow *aWindow;
     for (aWindow in [[NSApplication sharedApplication] windows])
     {

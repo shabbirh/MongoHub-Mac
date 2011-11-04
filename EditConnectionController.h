@@ -8,7 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 @class ConnectionsArrayController;
-@class Connection;
+@class MHConnection;
 
 @interface EditConnectionController : NSWindowController {
     IBOutlet NSTextField *hostTextField;
@@ -29,7 +29,7 @@
     IBOutlet NSSecureTextField *sshpasswordTextField;
     IBOutlet NSTextField *sshkeyfileTextField;
     IBOutlet ConnectionsArrayController *connectionsArrayController;
-    Connection *connection;
+    MHConnection *connection;
     NSManagedObjectContext *managedObjectContext;
 }
 
@@ -50,7 +50,7 @@
 @property (nonatomic, retain) NSTextField *sshuserTextField;
 @property (nonatomic, retain) NSSecureTextField *sshpasswordTextField;
 @property (nonatomic, retain) NSTextField *sshkeyfileTextField;
-@property (nonatomic, retain) Connection *connection;
+@property (nonatomic, retain) MHConnection *connection;
 @property (nonatomic, retain) ConnectionsArrayController *connectionsArrayController;
 @property (nonatomic, retain) NSManagedObjectContext *managedObjectContext;
 

@@ -9,7 +9,7 @@
 #import <Cocoa/Cocoa.h>
 @class ConnectionsCollectionView;
 @class ConnectionsArrayController;
-@class Connection;
+@class MHConnection;
 @class AddConnectionController;
 @class EditConnectionController;
 @class SUUpdater;
@@ -52,7 +52,7 @@
 - (IBAction)deleteConnection:(id)sender;
 - (IBAction)resizeConnectionItemView:(id)sender;
 - (IBAction)showConnectionWindow:(id)sender;
-- (BOOL)isOpenedConnection:(Connection *)aConnection;
+- (BOOL)isOpenedConnection:(MHConnection *)aConnection;
 - (void)doubleClick:(id)sender;
 
 - (IBAction)openSupportPanel:(id)sender;

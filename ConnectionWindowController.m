@@ -19,7 +19,7 @@
 #import "ResultsOutlineViewController.h"
 #import "DatabasesArrayController.h"
 #import "StatMonitorTableController.h"
-#import "Connection.h"
+#import "MHConnection.h"
 #import "Tunnel.h"
 #import "MODServer.h"
 #import "MODDatabase.h"
@@ -30,6 +30,7 @@
 #import "MHDatabaseItem.h"
 #import "MHCollectionItem.h"
 #import "SidebarBadgeCell.h"
+#import "MHDatabase.h"
 
 @interface ConnectionWindowController()
 - (void)closeMongoDB;
@@ -540,7 +541,7 @@
     {
         authWindowController = [[AuthWindowController alloc] init];
     }
-    Database *db = [databaseArrayController dbInfo:conn name:[[self selectedDatabaseItem].mongoDatabase databaseName]];
+    MHDatabase *db = [databaseArrayController dbInfo:conn name:[[self selectedDatabaseItem].mongoDatabase databaseName]];
     if (db) {
         [authWindowController.userTextField setStringValue:db.user];
         [authWindowController.passwordTextField setStringValue:db.password];

@@ -9,7 +9,7 @@
 #import "ExportWindowController.h"
 #import "Configure.h"
 #import "DatabasesArrayController.h"
-#import "Database.h"
+#import "MHDatabase.h"
 #import "NSString+Extras.h"
 #import "MOD_public.h"
 #import <MCPKit/MCPKit.h>

@@ -9,7 +9,7 @@
 #import "Configure.h"
 #import "EditConnectionController.h"
 #import "ConnectionsArrayController.h"
-#import "Connection.h"
+#import "MHConnection.h"
 
 
 @implementation EditConnectionController

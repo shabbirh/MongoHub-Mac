@@ -7,7 +7,7 @@
 //
 
 #import "ConnectionWindowTitleTransformer.h"
-#import "Connection.h"
+#import "MHConnection.h"
 
 @implementation ConnectionWindowTitleTransformer
 

@@ -9,7 +9,7 @@
 #import "Configure.h"
 #import "AuthWindowController.h"
 #import "DatabasesArrayController.h"
-#import "Database.h"
+#import "MHDatabase.h"
 
 @implementation AuthWindowController
 
@@ -51,7 +51,7 @@
 }
 
 - (IBAction)save:(id)sender {
-    Database *db = [databasesArrayController dbInfo:conn name:dbname];
+    MHDatabase *db = [databasesArrayController dbInfo:conn name:dbname];
     if (db) {
         db.user = [userTextField stringValue];
         db.password = [passwordTextField stringValue];

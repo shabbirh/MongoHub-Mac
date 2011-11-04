@@ -84,13 +84,13 @@
 		1D799455118755EE009C187F /* AddDBController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D799454118755EE009C187F /* AddDBController.m */; };
 		1D79945711875E7A009C187F /* NewDB.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1D79945611875E7A009C187F /* NewDB.xib */; };
 		1D8A624E11897C6800D55937 /* indexmenu.png in Resources */ = {isa = PBXBuildFile; fileRef = 1D8A624D11897C6800D55937 /* indexmenu.png */; };
-		1D93C1DA11832C1D003216F7 /* Connection.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D93C1D911832C1D003216F7 /* Connection.m */; };
+		1D93C1DA11832C1D003216F7 /* MHConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D93C1D911832C1D003216F7 /* MHConnection.m */; };
 		1D93C1E411833342003216F7 /* ConnectionsCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D93C1DF11833342003216F7 /* ConnectionsCollectionView.m */; };
 		1D93C1E511833342003216F7 /* IconCollectionItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D93C1E111833342003216F7 /* IconCollectionItem.m */; };
 		1D93C1E611833342003216F7 /* IconViewBox.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D93C1E311833342003216F7 /* IconViewBox.m */; };
 		1D93C24F11833599003216F7 /* ConnectionsArrayController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D93C24E11833599003216F7 /* ConnectionsArrayController.m */; };
 		1D93C27211833A19003216F7 /* database.png in Resources */ = {isa = PBXBuildFile; fileRef = 1D93C27111833A19003216F7 /* database.png */; };
-		1D93C29A11833F26003216F7 /* Database.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D93C29911833F26003216F7 /* Database.m */; };
+		1D93C29A11833F26003216F7 /* MHDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D93C29911833F26003216F7 /* MHDatabase.m */; };
 		1D93C29E118341D4003216F7 /* AddConnectionController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D93C29D118341D4003216F7 /* AddConnectionController.m */; };
 		1D93C2A0118343EF003216F7 /* NewConnection.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1D93C29F118343EF003216F7 /* NewConnection.xib */; };
 		1D93C37C11835BB4003216F7 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D93C37B11835BB4003216F7 /* QuartzCore.framework */; };
@@ -410,8 +410,8 @@
 		1D799454118755EE009C187F /* AddDBController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddDBController.m; sourceTree = "<group>"; };
 		1D79945611875E7A009C187F /* NewDB.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NewDB.xib; sourceTree = "<group>"; };
 		1D8A624D11897C6800D55937 /* indexmenu.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = indexmenu.png; path = Resources/images/indexmenu.png; sourceTree = SOURCE_ROOT; };
-		1D93C1D811832C1D003216F7 /* Connection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Connection.h; sourceTree = "<group>"; };
-		1D93C1D911832C1D003216F7 /* Connection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Connection.m; sourceTree = "<group>"; };
+		1D93C1D811832C1D003216F7 /* MHConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MHConnection.h; sourceTree = "<group>"; };
+		1D93C1D911832C1D003216F7 /* MHConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MHConnection.m; sourceTree = "<group>"; };
 		1D93C1DE11833342003216F7 /* ConnectionsCollectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConnectionsCollectionView.h; sourceTree = "<group>"; };
 		1D93C1DF11833342003216F7 /* ConnectionsCollectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConnectionsCollectionView.m; sourceTree = "<group>"; };
 		1D93C1E011833342003216F7 /* IconCollectionItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IconCollectionItem.h; sourceTree = "<group>"; };
@@ -422,8 +422,8 @@
 		1D93C24E11833599003216F7 /* ConnectionsArrayController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConnectionsArrayController.m; sourceTree = "<group>"; };
 		1D93C27111833A19003216F7 /* database.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = database.png; path = Resources/images/database.png; sourceTree = SOURCE_ROOT; };
 		1D93C27411833C2A003216F7 /* Configure.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Configure.h; sourceTree = "<group>"; };
-		1D93C29811833F26003216F7 /* Database.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Database.h; sourceTree = "<group>"; };
-		1D93C29911833F26003216F7 /* Database.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Database.m; sourceTree = "<group>"; };
+		1D93C29811833F26003216F7 /* MHDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MHDatabase.h; sourceTree = "<group>"; };
+		1D93C29911833F26003216F7 /* MHDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MHDatabase.m; sourceTree = "<group>"; };
 		1D93C29C118341D4003216F7 /* AddConnectionController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddConnectionController.h; sourceTree = "<group>"; };
 		1D93C29D118341D4003216F7 /* AddConnectionController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddConnectionController.m; sourceTree = "<group>"; };
 		1D93C29F118343EF003216F7 /* NewConnection.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NewConnection.xib; sourceTree = "<group>"; };
@@ -1129,10 +1129,10 @@
 			isa = PBXGroup;
 			children = (
 				1DCB3CFE12C63CD400423160 /* MongoHub_DataModel.xcdatamodeld */,
-				1D93C1D811832C1D003216F7 /* Connection.h */,
-				1D93C1D911832C1D003216F7 /* Connection.m */,
-				1D93C29811833F26003216F7 /* Database.h */,
-				1D93C29911833F26003216F7 /* Database.m */,
+				1D93C1D811832C1D003216F7 /* MHConnection.h */,
+				1D93C1D911832C1D003216F7 /* MHConnection.m */,
+				1D93C29811833F26003216F7 /* MHDatabase.h */,
+				1D93C29911833F26003216F7 /* MHDatabase.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -1363,12 +1363,12 @@
 				8D11072D0486CEB800E47090 /* main.m in Sources */,
 				77C8280E06725ACE000B614F /* MongoHub_AppDelegate.m in Sources */,
 				1DCB3CFF12C63CD400423160 /* MongoHub_DataModel.xcdatamodeld in Sources */,
-				1D93C1DA11832C1D003216F7 /* Connection.m in Sources */,
+				1D93C1DA11832C1D003216F7 /* MHConnection.m in Sources */,
 				1D93C1E411833342003216F7 /* ConnectionsCollectionView.m in Sources */,
 				1D93C1E511833342003216F7 /* IconCollectionItem.m in Sources */,
 				1D93C1E611833342003216F7 /* IconViewBox.m in Sources */,
 				1D93C24F11833599003216F7 /* ConnectionsArrayController.m in Sources */,
-				1D93C29A11833F26003216F7 /* Database.m in Sources */,
+				1D93C29A11833F26003216F7 /* MHDatabase.m in Sources */,
 				1D93C29E118341D4003216F7 /* AddConnectionController.m in Sources */,
 				1D93C38711835D2A003216F7 /* EditConnectionController.m in Sources */,
 				1D93C3CF11836863003216F7 /* ConnectionWindowController.m in Sources */,

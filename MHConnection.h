@@ -1,14 +1,14 @@
 //
-//  Database.h
+//  MHConnection.h
 //  MongoHub
 //
 //  Created by Syd on 10-4-24.
 //  Copyright 2010 MusicPeace.ORG. All rights reserved.
 //
 
-#import "Database.h"
+#import <CoreData/CoreData.h>
 
-@interface Connection: NSManagedObject {
+@interface MHConnection: NSManagedObject {
     NSString *host;
     NSNumber *hostport;
     NSString *servers;

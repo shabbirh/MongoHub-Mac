@@ -19,7 +19,7 @@
 @class ImportWindowController;
 @class ExportWindowController;
 @class ResultsOutlineViewController;
-@class Connection;
+@class MHConnection;
 @class MODServer;
 @class MODDatabase;
 @class MODCollection;
@@ -30,7 +30,7 @@
     IBOutlet DatabasesArrayController *databaseArrayController;
     IBOutlet ResultsOutlineViewController *resultsOutlineViewController;
     MHServerItem *_serverItem;
-    Connection *conn;
+    MHConnection *conn;
     MODServer *_mongoServer;
     NSTimer *_serverMonitorTimer;
     IBOutlet NSOutlineView *_databaseCollectionOutlineView;
@@ -57,7 +57,7 @@
 @property (nonatomic, retain) NSManagedObjectContext *managedObjectContext;
 @property (nonatomic, retain) DatabasesArrayController *databaseArrayController;
 @property (nonatomic, retain) ResultsOutlineViewController *resultsOutlineViewController;
-@property (nonatomic, retain) Connection *conn;
+@property (nonatomic, retain) MHConnection *conn;
 @property (nonatomic, retain) MODServer *mongoServer;
 @property (nonatomic, retain) NSMutableArray *databases;
 @property (nonatomic, retain) Tunnel *sshTunnel;

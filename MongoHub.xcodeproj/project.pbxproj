@@ -617,12 +617,6 @@
 			children = (
 				1D93C3CD11836863003216F7 /* ConnectionWindowController.h */,
 				1D93C3CE11836863003216F7 /* ConnectionWindowController.m */,
-				029D30AA145613C30021B9C9 /* MHServerItem.h */,
-				029D30AB145613C30021B9C9 /* MHServerItem.m */,
-				029D30A3145613420021B9C9 /* MHDatabaseItem.h */,
-				029D30A4145613420021B9C9 /* MHDatabaseItem.m */,
-				029D30A7145613580021B9C9 /* MHCollectionItem.h */,
-				029D30A8145613580021B9C9 /* MHCollectionItem.m */,
 				1D93CB5A1184C243003216F7 /* ResultsOutlineViewController.h */,
 				1D93CB5B1184C243003216F7 /* ResultsOutlineViewController.m */,
 				1DF96F9011883B3800C35AB8 /* MHQueryWindowController.h */,
@@ -653,7 +647,7 @@
 			children = (
 				02CC22671464895800A38AC9 /* JSONEditor */,
 				1D93C608118417D5003216F7 /* Helpers */,
-				1D93C44C11837668003216F7 /* Sidebar */,
+				1D93C44C11837668003216F7 /* DatabaseCollectionOutlineView */,
 				1D93C3FF11836D98003216F7 /* Transformers */,
 				1D93C29B118341BD003216F7 /* ConnectionControllers */,
 				02CC2266146485D500A38AC9 /* ConnectionWindow */,
@@ -1032,15 +1026,20 @@
 			path = Transformers;
 			sourceTree = "<group>";
 		};
-		1D93C44C11837668003216F7 /* Sidebar */ = {
+		1D93C44C11837668003216F7 /* DatabaseCollectionOutlineView */ = {
 			isa = PBXGroup;
 			children = (
 				1D93C44F11837668003216F7 /* SidebarBadgeCell.h */,
 				1D93C45011837668003216F7 /* SidebarBadgeCell.m */,
+				029D30AA145613C30021B9C9 /* MHServerItem.h */,
+				029D30AB145613C30021B9C9 /* MHServerItem.m */,
+				029D30A3145613420021B9C9 /* MHDatabaseItem.h */,
+				029D30A4145613420021B9C9 /* MHDatabaseItem.m */,
+				029D30A7145613580021B9C9 /* MHCollectionItem.h */,
+				029D30A8145613580021B9C9 /* MHCollectionItem.m */,
 			);
-			name = Sidebar;
-			path = Sources/Sidebar;
-			sourceTree = SOURCE_ROOT;
+			path = DatabaseCollectionOutlineView;
+			sourceTree = "<group>";
 		};
 		1D93C608118417D5003216F7 /* Helpers */ = {
 			isa = PBXGroup;

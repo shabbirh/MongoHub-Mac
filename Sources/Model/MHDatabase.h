@@ -15,6 +15,10 @@
     NSString *password;
     MHConnection *connection;
 }
+
+- (NSArray *)queryHistoryWithCollection:(NSString *)collectionName;
+- (void)addNewQuery:(NSDictionary *)queyr withCollectionName:(NSString *)collectionName;
+
 @property (nonatomic, retain) NSString *name;
 @property (nonatomic, retain) NSString *user;
 @property (nonatomic, retain) NSString *password;

@@ -34,6 +34,8 @@ This project is very new. Any issues or bug reports are welcome. And I still don
     - Need a better UI to replace the tabs in a collection window
     
 ** Current **
+
+    - changing the NSBundle application id
     
 ## History
 

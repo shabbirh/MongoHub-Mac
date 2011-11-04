@@ -8,19 +8,19 @@
 
 #import <Cocoa/Cocoa.h>
 @class DatabasesArrayController;
-@class MHConnection;
+@class MHConnectionStore;
 
 @interface AuthWindowController : NSWindowController {
     IBOutlet NSTextField *userTextField;
     IBOutlet NSTextField *passwordTextField;
-    MHConnection *conn;
+    MHConnectionStore *conn;
     NSString *dbname;
     IBOutlet DatabasesArrayController *databasesArrayController;
 }
 
 @property (nonatomic, retain) NSTextField *userTextField;
 @property (nonatomic, retain) NSTextField *passwordTextField;
-@property (nonatomic, retain) MHConnection *conn;
+@property (nonatomic, retain) MHConnectionStore *conn;
 @property (nonatomic, retain) NSString *dbname;
 @property (nonatomic, retain) DatabasesArrayController *databasesArrayController;
 

@@ -7,16 +7,17 @@
 //
 
 #import <Cocoa/Cocoa.h>
-@class MHConnection;
-@class MHDatabase;
+
+@class MHConnectionStore;
+@class MHDatabaseStore;
 
 @interface DatabasesArrayController : NSArrayController {
 
 }
 
-- (id)newObjectWithConn:(MHConnection *)conn name:(NSString *)name user:(NSString *)user password:(NSString *)password;
-- (void)clean:(MHConnection *)conn databases:(NSArray *)databases;
-- (BOOL)checkDuplicate:(MHConnection *) conn name:(NSString *)name;
+- (id)newObjectWithConn:(MHConnectionStore *)conn name:(NSString *)name user:(NSString *)user password:(NSString *)password;
+- (void)clean:(MHConnectionStore *)conn databases:(NSArray *)databases;
+- (BOOL)checkDuplicate:(MHConnectionStore *) conn name:(NSString *)name;
 - (NSArray *)itemsUsingFetchPredicate:(NSPredicate *)fetchPredicate;
-- (MHDatabase *)dbInfo:(MHConnection *) conn name:(NSString *)name;
+- (MHDatabaseStore *)dbInfo:(MHConnectionStore *) conn name:(NSString *)name;
 @end

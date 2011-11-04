@@ -1,5 +1,5 @@
 //
-//  MHConnection.h
+//  MHConnectionStore.h
 //  MongoHub
 //
 //  Created by Syd on 10-4-24.
@@ -8,7 +8,7 @@
 
 #import <CoreData/CoreData.h>
 
-@interface MHConnection: NSManagedObject {
+@interface MHConnectionStore : NSManagedObject {
     NSString *host;
     NSNumber *hostport;
     NSString *servers;

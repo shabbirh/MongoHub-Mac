@@ -9,7 +9,7 @@
 #import "ImportWindowController.h"
 #import "Configure.h"
 #import "DatabasesArrayController.h"
-#import "MHDatabase.h"
+#import "MHDatabaseStore.h"
 #import "NSString+Extras.h"
 #import "MODServer.h"
 #import "MODDatabase.h"

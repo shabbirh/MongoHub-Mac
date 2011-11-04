@@ -1,5 +1,5 @@
 //
-//  MHDatabase.h
+//  MHDatabaseStore.h
 //  MongoHub
 //
 //  Created by Syd on 10-4-24.
@@ -7,13 +7,14 @@
 //
 
 #import <CoreData/CoreData.h>
-@class MHConnection;
 
-@interface MHDatabase : NSManagedObject {
+@class MHConnectionStore;
+
+@interface MHDatabaseStore : NSManagedObject {
     NSString *name;
     NSString *user;
     NSString *password;
-    MHConnection *connection;
+    MHConnectionStore *connection;
 }
 
 - (NSArray *)queryHistoryWithCollection:(NSString *)collectionName;
@@ -22,6 +23,6 @@
 @property (nonatomic, retain) NSString *name;
 @property (nonatomic, retain) NSString *user;
 @property (nonatomic, retain) NSString *password;
-@property (nonatomic, retain) MHConnection *connection;
+@property (nonatomic, retain) MHConnectionStore *connection;
 
 @end

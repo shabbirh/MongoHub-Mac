@@ -9,7 +9,7 @@
 #import "Configure.h"
 #import "AddDBController.h"
 #import "DatabasesArrayController.h"
-#import "MHDatabase.h"
+#import "MHDatabaseStore.h"
 #import "NSString+Extras.h"
 
 @implementation AddDBController
@@ -66,7 +66,7 @@
     [objs release];
     [keys release];
     if (([[dbInfo objectForKey:@"user"] length] > 0) || ([[dbInfo objectForKey:@"password"] length] > 0)) {
-        MHDatabase *dbobj = [databasesArrayController dbInfo:conn name:[dbname stringValue]];
+        MHDatabaseStore *dbobj = [databasesArrayController dbInfo:conn name:[dbname stringValue]];
         if (dbobj==nil) {
             //[dbobj release];
             dbobj = [databasesArrayController newObjectWithConn:conn name:[dbname stringValue] user:[dbInfo objectForKey:@"user"] password:[dbInfo objectForKey:@"password"]];

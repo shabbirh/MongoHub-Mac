@@ -7,8 +7,8 @@
 //
 
 #import "DatabasesArrayController.h"
-#import "MHConnection.h"
-#import "MHDatabase.h"
+#import "MHConnectionStore.h"
+#import "MHDatabaseStore.h"
 
 @implementation DatabasesArrayController
 
@@ -21,7 +21,7 @@
 	[self setClearsFilterPredicateOnInsertion:NO];
 }
 
-- (id)newObjectWithConn:(MHConnection *) conn name:(NSString *)name user:(NSString *)user password:(NSString *)password
+- (id)newObjectWithConn:(MHConnectionStore *) conn name:(NSString *)name user:(NSString *)user password:(NSString *)password
 {
     id newObj = [super newObject];
     [newObj setValue:conn forKey:@"connection"];
@@ -31,11 +31,11 @@
     return newObj;
 }
 
-- (void)clean:(MHConnection *)conn databases:(NSArray *)databases
+- (void)clean:(MHConnectionStore *)conn databases:(NSArray *)databases
 {
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"connection=%@", conn];
     NSArray *dblist = [self itemsUsingFetchPredicate:predicate];
-    for (MHDatabase *db in dblist) {
+    for (MHDatabaseStore *db in dblist) {
         bool exist = false;
         for (NSString *d in databases) {
             if (db.name == d) {
@@ -49,7 +49,7 @@
     }
 }
 
-- (MHDatabase *)dbInfo:(MHConnection *) conn name:(NSString *)name
+- (MHDatabaseStore *)dbInfo:(MHConnectionStore *) conn name:(NSString *)name
 {
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"connection=%@ AND name=%@", conn, name];
     if ([[self itemsUsingFetchPredicate:predicate] count]>0) {
@@ -58,7 +58,7 @@
     return nil;
 }
 
-- (BOOL)checkDuplicate:(MHConnection *) conn name:(NSString *)name
+- (BOOL)checkDuplicate:(MHConnectionStore *) conn name:(NSString *)name
 {
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"connection=%@ AND name=%@", conn, name];
     if ([[self itemsUsingFetchPredicate:predicate] count]>0) {

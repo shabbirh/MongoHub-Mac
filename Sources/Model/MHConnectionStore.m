@@ -1,15 +1,15 @@
 //
-//  MHConnection.m
+//  MHConnectionStore.m
 //  MongoHub
 //
 //  Created by Syd on 10-4-24.
 //  Copyright 2010 MusicPeace.ORG. All rights reserved.
 //
 
-#import "MHConnection.h"
+#import "MHConnectionStore.h"
 
 
-@implementation MHConnection
+@implementation MHConnectionStore
 
 @dynamic host;
 @dynamic hostport;

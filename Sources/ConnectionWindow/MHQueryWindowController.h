@@ -12,7 +12,7 @@
 @class ResultsOutlineViewController;
 @class MODServer;
 @class MODCollection;
-@class MHDatabaseStore;
+@class MHConnectionStore;
 
 @interface MHQueryWindowController : NSWindowController
 {
@@ -20,7 +20,7 @@
     IBOutlet ResultsOutlineViewController *findResultsViewController;
     IBOutlet NSOutlineView *findResultsOutlineView;
     MODCollection *_mongoCollection;
-    MHDatabaseStore *_databaseStore;
+    MHConnectionStore *_connectionStore;
     
     IBOutlet NSTabView *tabView;
     IBOutlet NSSegmentedControl *segmentedControl;
@@ -88,7 +88,7 @@
 @property (nonatomic, retain) DatabasesArrayController *databasesArrayController;
 @property (nonatomic, retain) ResultsOutlineViewController *findResultsViewController;
 @property (nonatomic, retain, readwrite) MODCollection *mongoCollection;
-@property (nonatomic, retain, readwrite) MHDatabaseStore *databaseStore;
+@property (nonatomic, retain, readwrite) MHConnectionStore *connectionStore;
 
 @property (nonatomic, retain) NSTokenField *fieldsTextField;
 @property (nonatomic, retain) NSTextField *skipTextField;

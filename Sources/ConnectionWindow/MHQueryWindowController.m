@@ -24,7 +24,7 @@
 @synthesize databasesArrayController;
 @synthesize findResultsViewController;
 @synthesize mongoCollection = _mongoCollection;
-@synthesize databaseStore = _databaseStore;
+@synthesize connectionStore = _connectionStore;
 
 @synthesize fieldsTextField;
 @synthesize skipTextField;
@@ -98,7 +98,7 @@
     [databasesArrayController release];
     [findResultsViewController release];
     [_mongoCollection release];
-    [_databaseStore release];
+    [_connectionStore release];
     
     [fieldsTextField release];
     [skipTextField release];

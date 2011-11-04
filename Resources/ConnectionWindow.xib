@@ -1114,7 +1114,7 @@
 				<nil key="NSViewClass"/>
 				<nil key="NSUserInterfaceItemIdentifier"/>
 				<object class="NSView" key="NSWindowView" id="958987387">
-					<nil key="NSNextResponder"/>
+					<reference key="NSNextResponder"/>
 					<int key="NSvFlags">256</int>
 					<object class="NSMutableArray" key="NSSubviews">
 						<bool key="EncodedWithXMLCoder">YES</bool>
@@ -2274,10 +2274,12 @@
 							<reference key="NSHScroller" ref="535943039"/>
 							<reference key="NSContentView" ref="937201662"/>
 							<reference key="NSHeaderClipView" ref="641446442"/>
+							<reference key="NSCornerView" ref="907643668"/>
 							<bytes key="NSScrollAmts">QSAAAEEgAABBsAAAQbAAAA</bytes>
 						</object>
 					</object>
 					<string key="NSFrameSize">{753, 296}</string>
+					<reference key="NSSuperview"/>
 					<reference key="NSNextKeyView" ref="224845832"/>
 				</object>
 				<string key="NSScreenRect">{{0, 0}, {1440, 878}}</string>
@@ -2482,15 +2484,15 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
-						<string key="label">title: self.conn</string>
+						<string key="label">title: self.connectionStore</string>
 						<reference key="source" ref="1005"/>
 						<reference key="destination" ref="1001"/>
 						<object class="NSNibBindingConnector" key="connector">
 							<reference key="NSSource" ref="1005"/>
 							<reference key="NSDestination" ref="1001"/>
-							<string key="NSLabel">title: self.conn</string>
+							<string key="NSLabel">title: self.connectionStore</string>
 							<string key="NSBinding">title</string>
-							<string key="NSKeyPath">self.conn</string>
+							<string key="NSKeyPath">self.connectionStore</string>
 							<object class="NSDictionary" key="NSOptions">
 								<string key="NS.key.0">NSValueTransformerName</string>
 								<string key="NS.object.0">ConnectionWindowTitleTransformer</string>
@@ -2498,7 +2500,7 @@
 							<int key="NSNibBindingConnectorVersion">2</int>
 						</object>
 					</object>
-					<int key="connectionID">10</int>
+					<int key="connectionID">317</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
@@ -3768,7 +3770,7 @@
 				<reference key="dict.values" ref="0"/>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">316</int>
+			<int key="maxID">317</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">

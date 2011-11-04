@@ -379,7 +379,7 @@
         return;
     }
     ConnectionWindowController *connectionWindowController = [[ConnectionWindowController alloc] init];
-    connectionWindowController.conn = sender;
+    connectionWindowController.connectionStore = sender;
     [connectionWindowController showWindow:sender];
 }
 
@@ -388,7 +388,7 @@
     for (aWindow in [[NSApplication sharedApplication] windows])
     {
         id aDelegate = [aWindow delegate];
-        if ([aDelegate isKindOfClass:[ConnectionWindowController class]] && [aDelegate conn] == aConnection) {
+        if ([aDelegate isKindOfClass:[ConnectionWindowController class]] && [aDelegate connectionStore] == aConnection) {
             [aWindow makeKeyAndOrderFront:nil];
             return YES;
         }

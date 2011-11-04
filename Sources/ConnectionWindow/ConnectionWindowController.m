@@ -50,7 +50,7 @@
 @implementation ConnectionWindowController
 
 @synthesize resultsOutlineViewController;
-@synthesize conn;
+@synthesize connectionStore = _connectionStore;
 @synthesize mongoServer = _mongoServer;
 @synthesize loaderIndicator;
 @synthesize monitorButton;
@@ -80,7 +80,7 @@
     [self closeMongoDB];
     [_databaseStoreArrayController release];
     [resultsOutlineViewController release];
-    [conn release];
+    [_connectionStore release];
     [_databases release];
     [sshTunnel release];
     [addDBController release];
@@ -144,18 +144,18 @@
     [loaderIndicator start];
     [reconnectButton setEnabled:NO];
     [monitorButton setEnabled:NO];
-    if (!haveHostAddress && [conn.usessh intValue] == 1) {
-        NSString *portForward = [[NSString alloc] initWithFormat:@"L:%@:%@:%@:%@", conn.bindaddress, conn.bindport, conn.host, conn.hostport];
+    if (!haveHostAddress && [_connectionStore.usessh intValue] == 1) {
+        NSString *portForward = [[NSString alloc] initWithFormat:@"L:%@:%@:%@:%@", _connectionStore.bindaddress, _connectionStore.bindport, _connectionStore.host, _connectionStore.hostport];
         NSMutableArray *portForwardings = [[NSMutableArray alloc] initWithObjects:portForward, nil];
         [portForward release];
         if (!sshTunnel)
             sshTunnel =[[Tunnel alloc] init];
         [sshTunnel setDelegate:self];
-        [sshTunnel setUser:conn.sshuser];
-        [sshTunnel setHost:conn.sshhost];
-        [sshTunnel setPassword:conn.sshpassword];
-        [sshTunnel setKeyfile:conn.sshkeyfile];
-        [sshTunnel setPort:[conn.sshport intValue]];
+        [sshTunnel setUser:_connectionStore.sshuser];
+        [sshTunnel setHost:_connectionStore.sshhost];
+        [sshTunnel setPassword:_connectionStore.sshpassword];
+        [sshTunnel setKeyfile:_connectionStore.sshkeyfile];
+        [sshTunnel setPort:[_connectionStore.sshport intValue]];
         [sshTunnel setPortForwardings:portForwardings];
         [sshTunnel setAliveCountMax:3];
         [sshTunnel setAliveInterval:30];
@@ -169,17 +169,17 @@
         [self closeMongoDB];
         _mongoServer = [[MODServer alloc] init];
         _serverItem = [[MHServerItem alloc] initWithMongoServer:_mongoServer delegate:self];
-        if ([conn.adminuser length] > 0 && [conn.adminpass length] > 0) {
-            _mongoServer.userName = conn.adminuser;
-            _mongoServer.password = conn.adminpass;
-            if ([conn.defaultdb length] > 0) {
-                _mongoServer.authDatabase = conn.defaultdb;
+        if ([_connectionStore.adminuser length] > 0 && [_connectionStore.adminpass length] > 0) {
+            _mongoServer.userName = _connectionStore.adminuser;
+            _mongoServer.password = _connectionStore.adminpass;
+            if ([_connectionStore.defaultdb length] > 0) {
+                _mongoServer.authDatabase = _connectionStore.defaultdb;
             } else {
                 _mongoServer.authDatabase = @"admin";
             }
         }
-        if ([conn.userepl intValue] == 1) {
-            NSArray *tmp = [conn.servers componentsSeparatedByString:@","];
+        if ([_connectionStore.userepl intValue] == 1) {
+            NSArray *tmp = [_connectionStore.servers componentsSeparatedByString:@","];
             NSMutableArray *hosts = [[NSMutableArray alloc] initWithCapacity:[tmp count]];
             for (NSString *h in tmp) {
                 NSString *host = [h stringByTrimmingWhitespace];
@@ -188,7 +188,7 @@
                 }
                 [hosts addObject:host];
             }
-            [_mongoServer connectWithReplicaName:conn.repl_name hosts:hosts callback:^(BOOL connected, MODQuery *mongoQuery) {
+            [_mongoServer connectWithReplicaName:_connectionStore.repl_name hosts:hosts callback:^(BOOL connected, MODQuery *mongoQuery) {
                 if (connected) {
                     [self didConnect];
                 } else {
@@ -199,10 +199,10 @@
         } else {
             NSString *hostaddress;
             
-            if ([conn.usessh intValue] == 1) {
-                hostaddress = [[NSString alloc] initWithFormat:@"127.0.0.1:%@", conn.bindport];
+            if ([_connectionStore.usessh intValue] == 1) {
+                hostaddress = [[NSString alloc] initWithFormat:@"127.0.0.1:%@", _connectionStore.bindport];
             } else {
-                hostaddress = [[NSString alloc] initWithFormat:@"%@:%@", conn.host, conn.hostport];
+                hostaddress = [[NSString alloc] initWithFormat:@"%@:%@", _connectionStore.host, _connectionStore.hostport];
             }
             [_mongoServer connectWithHostName:hostaddress callback:^(BOOL connected, MODQuery *mongoQuery) {
                 if (connected) {
@@ -225,7 +225,7 @@
     [bundleVersion setStringValue: appVersion];
     [appVersion release];
     [self connect:NO];
-    if ([conn.usessh intValue]==1) {
+    if ([_connectionStore.usessh intValue]==1) {
         [NSThread detachNewThreadSelector: @selector(checkTunnel) toTarget:self withObject:nil ];
     }
     [_databaseCollectionOutlineView setDoubleAction:@selector(sidebarDoubleAction:)];
@@ -239,7 +239,7 @@
 - (IBAction)reconnect:(id)sender
 {
     [self connect:NO];
-    if ([conn.usessh intValue]==1) {
+    if ([_connectionStore.usessh intValue]==1) {
         [NSThread detachNewThreadSelector: @selector(checkTunnel) toTarget:self withObject:nil ];
     }
 }
@@ -287,7 +287,7 @@
             NSRunAlertPanel(@"Error", [mongoQuery.error localizedDescription], @"OK", nil, nil);
         }
         
-        [_databaseStoreArrayController clean:conn databases:_databases];
+        [_databaseStoreArrayController clean:_connectionStore databases:_databases];
     }];
     return result;
 }
@@ -330,7 +330,7 @@
     MODQuery *result;
     
     [loaderIndicator start];
-    [resultsTitle setStringValue:[NSString stringWithFormat:@"Server %@:%@ stats", conn.host, conn.hostport]];
+    [resultsTitle setStringValue:[NSString stringWithFormat:@"Server %@:%@ stats", _connectionStore.host, _connectionStore.hostport]];
     result = [_mongoServer fetchServerStatusWithCallback:^(NSDictionary *serverStatus, MODQuery *mongoQuery) {
         [loaderIndicator stop];
         if (_mongoServer == [mongoQuery.parameters objectForKey:@"mongoserver"]) {
@@ -443,7 +443,7 @@
     {
         addDBController = [[AddDBController alloc] init];
     }
-    addDBController.conn = self.conn;
+    addDBController.conn = _connectionStore;
     [addDBController showWindow:self];
 }
 
@@ -522,7 +522,7 @@
     }
     MHQueryWindowController *queryWindowController = [[MHQueryWindowController alloc] init];
     queryWindowController.mongoCollection = [self selectedCollectionItem].mongoCollection;
-    queryWindowController.databaseStore = [_databaseStoreArrayController dbInfo:conn name:[[self selectedDatabaseItem].mongoDatabase databaseName]];
+    queryWindowController.connectionStore = _connectionStore;
     [queryWindowController showWindow:sender];
 }
 
@@ -537,7 +537,7 @@
     {
         authWindowController = [[AuthWindowController alloc] init];
     }
-    MHDatabaseStore *db = [_databaseStoreArrayController dbInfo:conn name:[[self selectedDatabaseItem].mongoDatabase databaseName]];
+    MHDatabaseStore *db = [_databaseStoreArrayController dbInfo:_connectionStore name:[[self selectedDatabaseItem].mongoDatabase databaseName]];
     if (db) {
         [authWindowController.userTextField setStringValue:db.user];
         [authWindowController.passwordTextField setStringValue:db.password];
@@ -545,7 +545,7 @@
         [authWindowController.userTextField setStringValue:@""];
         [authWindowController.passwordTextField setStringValue:@""];
     }
-    authWindowController.conn = self.conn;
+    authWindowController.conn = _connectionStore;
     authWindowController.dbname = [[self selectedDatabaseItem].mongoDatabase databaseName];
     [authWindowController showWindow:self];
 }
@@ -642,7 +642,7 @@ static int percentage(NSNumber *previousValue, NSNumber *previousOutOfValue, NSN
 
 - (void)fetchServerStatusDelta
 {
-    [resultsTitle setStringValue:[NSString stringWithFormat:@"Server %@:%@ stats", conn.host, conn.hostport]];
+    [resultsTitle setStringValue:[NSString stringWithFormat:@"Server %@:%@ stats", _connectionStore.host, _connectionStore.hostport]];
     [_mongoServer fetchServerStatusWithCallback:^(NSDictionary *serverStatus, MODQuery *mongoQuery) {
         [loaderIndicator stop];
         if (_mongoServer == [mongoQuery.parameters objectForKey:@"mongoserver"]) {
@@ -730,7 +730,7 @@ static int percentage(NSNumber *previousValue, NSNumber *previousOutOfValue, NSN
 
 - (NSManagedObjectContext *)managedObjectContext
 {
-    return [conn managedObjectContext];
+    return [_connectionStore managedObjectContext];
 }
 
 @end

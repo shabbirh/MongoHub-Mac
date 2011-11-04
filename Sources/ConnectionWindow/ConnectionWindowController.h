@@ -30,7 +30,7 @@
     IBOutlet DatabasesArrayController *_databaseStoreArrayController;
     IBOutlet ResultsOutlineViewController *resultsOutlineViewController;
     MHServerItem *_serverItem;
-    MHConnectionStore *conn;
+    MHConnectionStore *_connectionStore;
     MODServer *_mongoServer;
     NSTimer *_serverMonitorTimer;
     IBOutlet NSOutlineView *_databaseCollectionOutlineView;
@@ -55,7 +55,7 @@
 }
 
 @property (nonatomic, retain) ResultsOutlineViewController *resultsOutlineViewController;
-@property (nonatomic, retain) MHConnectionStore *conn;
+@property (nonatomic, retain) MHConnectionStore *connectionStore;
 @property (nonatomic, retain) MODServer *mongoServer;
 @property (nonatomic, retain) NSMutableArray *databases;
 @property (nonatomic, retain) Tunnel *sshTunnel;

@@ -10,7 +10,7 @@
 #import "NSString+Extras.h"
 #import "NSProgressIndicator+Extras.h"
 #import "ConnectionWindowController.h"
-#import "QueryWindowController.h"
+#import "MHQueryWindowController.h"
 #import "AddDBController.h"
 #import "AddCollectionController.h"
 #import "AuthWindowController.h"
@@ -521,7 +521,7 @@
         NSRunAlertPanel(@"Error", @"Please choose a collection!", @"OK", nil, nil);
         return;
     }
-    QueryWindowController *queryWindowController = [[QueryWindowController alloc] init];
+    MHQueryWindowController *queryWindowController = [[MHQueryWindowController alloc] init];
     queryWindowController.mongoCollection = [self selectedCollectionItem].mongoCollection;
     queryWindowController.managedObjectContext = [conn managedObjectContext];
     [queryWindowController showWindow:sender];

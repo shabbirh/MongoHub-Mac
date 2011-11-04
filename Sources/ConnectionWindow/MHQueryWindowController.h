@@ -1,5 +1,5 @@
 //
-//  QueryWindowController.h
+//  MHQueryWindowController.h
 //  MongoHub
 //
 //  Created by Syd on 10-4-28.
@@ -13,7 +13,7 @@
 @class MODServer;
 @class MODCollection;
 
-@interface QueryWindowController : NSWindowController
+@interface MHQueryWindowController : NSWindowController
 {
     NSManagedObjectContext *managedObjectContext;
     DatabasesArrayController *databasesArrayController;

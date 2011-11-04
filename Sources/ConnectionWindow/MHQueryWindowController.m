@@ -1,5 +1,5 @@
 //
-//  QueryWindowController.m
+//  MHQueryWindowController.m
 //  MongoHub
 //
 //  Created by Syd on 10-4-28.
@@ -8,7 +8,7 @@
 
 #import "Configure.h"
 #import "NSProgressIndicator+Extras.h"
-#import "QueryWindowController.h"
+#import "MHQueryWindowController.h"
 #import "DatabasesArrayController.h"
 #import "ResultsOutlineViewController.h"
 #import "NSString+Extras.h"
@@ -19,7 +19,7 @@
 #import "MODHelper.h"
 #import "MODJsonParser.h"
 
-@implementation QueryWindowController
+@implementation MHQueryWindowController
 
 @synthesize managedObjectContext;
 @synthesize databasesArrayController;
@@ -685,7 +685,7 @@
 
 @end
 
-@implementation QueryWindowController(MODCollectionDelegate)
+@implementation MHQueryWindowController(MODCollectionDelegate)
 
 - (void)mongoCollection:(MODCollection *)collection queryResultFetched:(NSArray *)result withMongoQuery:(MODQuery *)mongoQuery errorMessage:(NSString *)errorMessage
 {

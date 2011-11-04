@@ -20,7 +20,6 @@
 
 @interface JsonWindowController : NSWindowController <UKSyntaxColoredTextViewDelegate, MODQueryCallbackTarget>
 {
-    NSManagedObjectContext *managedObjectContext;
     DatabasesArrayController *databasesArrayController;
     MODServer *mongoServer;
     MODCollection *mongoCollection;
@@ -33,7 +32,6 @@
     UKSyntaxColoredTextViewController *syntaxColoringController;
 }
 
-@property (nonatomic, retain) NSManagedObjectContext *managedObjectContext;
 @property (nonatomic, retain) DatabasesArrayController *databasesArrayController;
 @property (nonatomic, retain) MODServer *mongoServer;
 @property (nonatomic, retain) NSString *dbname;

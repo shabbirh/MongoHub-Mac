@@ -21,7 +21,6 @@
 @synthesize db;
 @synthesize mongoServer;
 @synthesize databasesArrayController;
-@synthesize managedObjectContext;
 @synthesize dbsArrayController;
 @synthesize tablesArrayController;
 @synthesize hostTextField;
@@ -40,7 +39,6 @@
 
 - (void)dealloc {
     [dbname release];
-    [managedObjectContext release];
     [databasesArrayController release];
     [db release];
     [mongoServer release];

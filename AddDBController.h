@@ -16,7 +16,6 @@
     IBOutlet NSSecureTextField *password;
     NSMutableDictionary *dbInfo;
     MHConnection *conn;
-    NSManagedObjectContext *managedObjectContext;
     IBOutlet DatabasesArrayController *databasesArrayController;
 }
 
@@ -25,7 +24,6 @@
 @property (nonatomic, retain) NSSecureTextField *password;
 @property (nonatomic, retain) NSMutableDictionary *dbInfo;
 @property (nonatomic, retain) MHConnection *conn;
-@property (nonatomic, retain) NSManagedObjectContext *managedObjectContext;
 @property (nonatomic, retain) DatabasesArrayController *databasesArrayController;
 
 - (IBAction)add:(id)sender;

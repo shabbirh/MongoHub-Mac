@@ -19,7 +19,6 @@
 @synthesize password;
 @synthesize dbInfo;
 @synthesize conn;
-@synthesize managedObjectContext;
 @synthesize databasesArrayController;
 
 - (id)init {
@@ -32,7 +31,6 @@
     [user release];
     [password release];
     [dbInfo release];
-    [managedObjectContext release];
     [databasesArrayController release];
     [conn release];
     [super dealloc];
@@ -84,11 +82,11 @@
     
     NSError *error = nil;
     
-    if (![[self managedObjectContext] commitEditing]) {
+    if (![[conn managedObjectContext] commitEditing]) {
         NSLog(@"%@:%@ unable to commit editing before saving", [self class], NSStringFromSelector(_cmd));
     }
     
-    if (![[self managedObjectContext] save:&error]) {
+    if (![[conn managedObjectContext] save:&error]) {
         [[NSApplication sharedApplication] presentError:error];
     }
 }

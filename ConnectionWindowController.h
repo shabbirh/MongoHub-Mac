@@ -26,7 +26,6 @@
 
 @interface ConnectionWindowController : NSWindowController {
     IBOutlet NSMenu *createCollectionOrDatabaseMenu;
-    NSManagedObjectContext *managedObjectContext;
     IBOutlet DatabasesArrayController *databaseArrayController;
     IBOutlet ResultsOutlineViewController *resultsOutlineViewController;
     MHServerItem *_serverItem;
@@ -54,7 +53,6 @@
     NSDictionary *previousServerStatusForDelta;
 }
 
-@property (nonatomic, retain) NSManagedObjectContext *managedObjectContext;
 @property (nonatomic, retain) DatabasesArrayController *databaseArrayController;
 @property (nonatomic, retain) ResultsOutlineViewController *resultsOutlineViewController;
 @property (nonatomic, retain) MHConnection *conn;

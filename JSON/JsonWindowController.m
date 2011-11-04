@@ -14,7 +14,6 @@
 #import "MODCollection.h"
 
 @implementation JsonWindowController
-@synthesize managedObjectContext;
 @synthesize databasesArrayController;
 @synthesize mongoServer;
 @synthesize mongoCollection;
@@ -29,7 +28,6 @@
 }
 
 - (void)dealloc {
-    [managedObjectContext release];
     [databasesArrayController release];
     [mongoServer release];
     [mongoCollection release];

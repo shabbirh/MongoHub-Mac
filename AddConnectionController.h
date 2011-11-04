@@ -29,7 +29,6 @@
     IBOutlet NSTextField *sshkeyfileTextField;
     IBOutlet ConnectionsArrayController *connectionsArrayController;
     NSDictionary *connectionInfo;
-    NSManagedObjectContext *managedObjectContext;
 }
 
 @property (nonatomic, retain) NSTextField *hostTextField;
@@ -51,7 +50,6 @@
 @property (nonatomic, retain) NSTextField *sshkeyfileTextField;
 @property (nonatomic, retain) NSDictionary *connectionInfo;
 @property (nonatomic, retain) ConnectionsArrayController *connectionsArrayController;
-@property (nonatomic, retain) NSManagedObjectContext *managedObjectContext;
 
 - (IBAction)cancel:(id)sender;
 - (IBAction)add:(id)sender;

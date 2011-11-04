@@ -543,7 +543,6 @@
             id currentItem = [findResultsViewController.myOutlineView itemAtRow:[findResultsViewController.myOutlineView selectedRow]];
             //NSLog(@"%@", [findResultsViewController rootForItem:currentItem]);
             JsonWindowController *jsonWindowController = [[JsonWindowController alloc] init];
-            jsonWindowController.managedObjectContext = self.managedObjectContext;
             jsonWindowController.mongoCollection = mongoCollection;
             jsonWindowController.jsonDict = [findResultsViewController rootForItem:currentItem];
             [jsonWindowController showWindow:sender];

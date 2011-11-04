@@ -308,7 +308,6 @@
     if (!addConnectionController) {
         addConnectionController = [[AddConnectionController alloc] init];
     }
-    addConnectionController.managedObjectContext = self.managedObjectContext;
     [addConnectionController showWindow:self];
 }
 
@@ -380,7 +379,6 @@
         return;
     }
     ConnectionWindowController *connectionWindowController = [[ConnectionWindowController alloc] init];
-    connectionWindowController.managedObjectContext = self.managedObjectContext;
     connectionWindowController.conn = sender;
     [connectionWindowController showWindow:sender];
 }

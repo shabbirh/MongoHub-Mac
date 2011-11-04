@@ -49,7 +49,6 @@
 
 @implementation ConnectionWindowController
 
-@synthesize managedObjectContext;
 @synthesize databaseArrayController;
 @synthesize resultsOutlineViewController;
 @synthesize conn;
@@ -80,7 +79,6 @@
 - (void)dealloc
 {
     [self closeMongoDB];
-    [managedObjectContext release];
     [databaseArrayController release];
     [resultsOutlineViewController release];
     [conn release];
@@ -446,7 +444,6 @@
     {
         addDBController = [[AddDBController alloc] init];
     }
-    addDBController.managedObjectContext = self.managedObjectContext;
     addDBController.conn = self.conn;
     [addDBController showWindow:self];
 }
@@ -526,7 +523,7 @@
     }
     QueryWindowController *queryWindowController = [[QueryWindowController alloc] init];
     queryWindowController.mongoCollection = [self selectedCollectionItem].mongoCollection;
-    queryWindowController.managedObjectContext = self.managedObjectContext;
+    queryWindowController.managedObjectContext = [conn managedObjectContext];
     [queryWindowController showWindow:sender];
 }
 
@@ -549,7 +546,6 @@
         [authWindowController.userTextField setStringValue:@""];
         [authWindowController.passwordTextField setStringValue:@""];
     }
-    authWindowController.managedObjectContext = self.managedObjectContext;
     authWindowController.conn = self.conn;
     authWindowController.dbname = [[self selectedDatabaseItem].mongoDatabase databaseName];
     [authWindowController showWindow:self];
@@ -565,7 +561,6 @@
     {
         importWindowController = [[ImportWindowController alloc] init];
     }
-    importWindowController.managedObjectContext = self.managedObjectContext;
     importWindowController.mongoServer = _mongoServer;
     importWindowController.dbname = [[self selectedDatabaseItem].mongoDatabase databaseName];
     if ([self selectedCollectionItem]) {
@@ -584,7 +579,6 @@
     {
         exportWindowController = [[ExportWindowController alloc] init];
     }
-    exportWindowController.managedObjectContext = self.managedObjectContext;
     exportWindowController.mongoDatabase = [[self selectedDatabaseItem] mongoDatabase];
     exportWindowController.dbname = [[self selectedDatabaseItem].mongoDatabase databaseName];
     if ([self selectedCollectionItem]) {

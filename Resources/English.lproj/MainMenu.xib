@@ -2,10 +2,10 @@
 <archive type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="7.10">
 	<data>
 		<int key="IBDocument.SystemTarget">1070</int>
-		<string key="IBDocument.SystemVersion">11B26</string>
+		<string key="IBDocument.SystemVersion">11C74</string>
 		<string key="IBDocument.InterfaceBuilderVersion">1938</string>
-		<string key="IBDocument.AppKitVersion">1138</string>
-		<string key="IBDocument.HIToolboxVersion">566.00</string>
+		<string key="IBDocument.AppKitVersion">1138.23</string>
+		<string key="IBDocument.HIToolboxVersion">567.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin</string>
 			<string key="NS.object.0">1938</string>
@@ -65,7 +65,7 @@
 				<nil key="NSUserInterfaceItemIdentifier"/>
 				<string key="NSWindowContentMinSize">{213, 107}</string>
 				<object class="NSView" key="NSWindowView" id="823886803">
-					<nil key="NSNextResponder"/>
+					<reference key="NSNextResponder"/>
 					<int key="NSvFlags">256</int>
 					<object class="NSMutableArray" key="NSSubviews">
 						<bool key="EncodedWithXMLCoder">YES</bool>
@@ -84,6 +84,7 @@
 											<int key="NSvFlags">274</int>
 											<string key="NSFrameSize">{600, 250}</string>
 											<reference key="NSSuperview" ref="292120348"/>
+											<reference key="NSWindow"/>
 											<reference key="NSNextKeyView" ref="844816422"/>
 											<string key="NSMinGridSize">{0, 0}</string>
 											<string key="NSMaxGridSize">{0, 0}</string>
@@ -108,6 +109,7 @@
 									</object>
 									<string key="NSFrameSize">{600, 250}</string>
 									<reference key="NSSuperview" ref="150140682"/>
+									<reference key="NSWindow"/>
 									<reference key="NSNextKeyView" ref="355124132"/>
 									<reference key="NSDocView" ref="355124132"/>
 									<object class="NSColor" key="NSBGColor" id="54474128">
@@ -123,6 +125,7 @@
 									<int key="NSvFlags">-2147483392</int>
 									<string key="NSFrame">{{234, 1}, {15, 143}}</string>
 									<reference key="NSSuperview" ref="150140682"/>
+									<reference key="NSWindow"/>
 									<reference key="NSNextKeyView" ref="825446899"/>
 									<reference key="NSTarget" ref="150140682"/>
 									<string key="NSAction">_doScroller:</string>
@@ -134,6 +137,7 @@
 									<int key="NSvFlags">-2147483392</int>
 									<string key="NSFrame">{{1, 144}, {233, 15}}</string>
 									<reference key="NSSuperview" ref="150140682"/>
+									<reference key="NSWindow"/>
 									<reference key="NSNextKeyView" ref="509105330"/>
 									<int key="NSsFlags">1</int>
 									<reference key="NSTarget" ref="150140682"/>
@@ -143,6 +147,7 @@
 							</object>
 							<string key="NSFrame">{{0, 32}, {600, 250}}</string>
 							<reference key="NSSuperview" ref="823886803"/>
+							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="292120348"/>
 							<int key="NSsFlags">133680</int>
 							<reference key="NSVScroller" ref="844816422"/>
@@ -154,6 +159,7 @@
 							<int key="NSvFlags">292</int>
 							<string key="NSFrame">{{20, 3}, {29, 25}}</string>
 							<reference key="NSSuperview" ref="823886803"/>
+							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="377730458"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSButtonCell" key="NSCell" id="722914098">
@@ -183,6 +189,7 @@
 							<int key="NSvFlags">292</int>
 							<string key="NSFrame">{{57, 3}, {29, 25}}</string>
 							<reference key="NSSuperview" ref="823886803"/>
+							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="726254851"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSButtonCell" key="NSCell" id="116170583">
@@ -208,6 +215,7 @@
 							<int key="NSvFlags">292</int>
 							<string key="NSFrame">{{94, 3}, {29, 25}}</string>
 							<reference key="NSSuperview" ref="823886803"/>
+							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="425665274"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSButtonCell" key="NSCell" id="1025754089">
@@ -233,6 +241,7 @@
 							<int key="NSvFlags">292</int>
 							<string key="NSFrame">{{131, 3}, {29, 25}}</string>
 							<reference key="NSSuperview" ref="823886803"/>
+							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="979567804"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSButtonCell" key="NSCell" id="4294407">
@@ -258,6 +267,8 @@
 							<int key="NSvFlags">289</int>
 							<string key="NSFrame">{{417, 5}, {165, 21}}</string>
 							<reference key="NSSuperview" ref="823886803"/>
+							<reference key="NSWindow"/>
+							<reference key="NSNextKeyView"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSSliderCell" key="NSCell" id="163406566">
 								<int key="NSCellFlags">-2080244224</int>
@@ -276,6 +287,8 @@
 						</object>
 					</object>
 					<string key="NSFrameSize">{600, 282}</string>
+					<reference key="NSSuperview"/>
+					<reference key="NSWindow"/>
 					<reference key="NSNextKeyView" ref="150140682"/>
 				</object>
 				<string key="NSScreenRect">{{0, 0}, {1920, 1178}}</string>
@@ -969,14 +982,14 @@
 				<string key="NSClassName">SUUpdater</string>
 			</object>
 			<object class="NSCustomObject" id="612578685">
-				<string key="NSClassName">MongoHub_AppDelegate</string>
+				<string key="NSClassName">MHApplicationDelegate</string>
 			</object>
 			<object class="NSCustomObject" id="39582327">
 				<string key="NSClassName">NSFontManager</string>
 			</object>
 			<object class="NSCollectionViewItem" id="513907462"/>
 			<object class="NSView" id="126490163">
-				<reference key="NSNextResponder"/>
+				<nil key="NSNextResponder"/>
 				<int key="NSvFlags">256</int>
 				<object class="NSMutableArray" key="NSSubviews">
 					<bool key="EncodedWithXMLCoder">YES</bool>
@@ -997,7 +1010,6 @@
 						</object>
 						<string key="NSFrame">{{17, 36}, {142, 105}}</string>
 						<reference key="NSSuperview" ref="126490163"/>
-						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="849556632"/>
 						<object class="NSArray" key="NSViewContentFilters">
 							<bool key="EncodedWithXMLCoder">YES</bool>
@@ -1042,8 +1054,6 @@
 						<int key="NSvFlags">258</int>
 						<string key="NSFrame">{{14, 17}, {145, 17}}</string>
 						<reference key="NSSuperview" ref="126490163"/>
-						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView"/>
 						<int key="NSViewLayerContentsRedrawPolicy">2</int>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="733634740">
@@ -1061,8 +1071,6 @@
 					</object>
 				</object>
 				<string key="NSFrameSize">{179, 157}</string>
-				<reference key="NSSuperview"/>
-				<reference key="NSWindow"/>
 				<reference key="NSNextKeyView" ref="147980012"/>
 				<bool key="NSViewIsLayerTreeHost">YES</bool>
 				<int key="NSViewLayerContentsRedrawPolicy">2</int>
@@ -2076,7 +2084,7 @@ Y2xvc2UuY29tLwpUd2l0dGVyOiBodHRwOi8vdHdpdHRlci5jb20vYnVidWJhLw</string>
 						<int key="objectID">205</int>
 						<reference key="object" ref="612578685"/>
 						<reference key="parent" ref="0"/>
-						<string key="objectName">MongoHub_AppDelegate</string>
+						<string key="objectName">MHApplicationDelegate</string>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">392</int>
@@ -3040,7 +3048,7 @@ Y2xvc2UuY29tLwpUd2l0dGVyOiBodHRwOi8vdHdpdHRlci5jb20vYnVidWJhLw</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
-					<string key="className">MongoHub_AppDelegate</string>
+					<string key="className">MHApplicationDelegate</string>
 					<string key="superclassName">NSObject</string>
 					<object class="NSMutableDictionary" key="actions">
 						<bool key="EncodedWithXMLCoder">YES</bool>
@@ -3192,7 +3200,7 @@ Y2xvc2UuY29tLwpUd2l0dGVyOiBodHRwOi8vdHdpdHRlci5jb20vYnVidWJhLw</string>
 					</object>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/MongoHub_AppDelegate.h</string>
+						<string key="minorKey">./Classes/MHApplicationDelegate.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">

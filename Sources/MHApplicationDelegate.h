@@ -1,5 +1,5 @@
 //
-//  MongoHub_AppDelegate.h
+//  MHApplicationDelegate.h
 //  MongoHub
 //
 //  Created by Syd on 10-4-24.
@@ -14,7 +14,7 @@
 @class EditConnectionController;
 @class SUUpdater;
 
-@interface MongoHub_AppDelegate : NSObject <NSApplicationDelegate, NSCollectionViewDelegate>
+@interface MHApplicationDelegate : NSObject <NSApplicationDelegate, NSCollectionViewDelegate>
 {
     NSWindow *window;
     

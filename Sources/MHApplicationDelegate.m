@@ -1,5 +1,5 @@
 //
-//  MongoHub_AppDelegate.m
+//  MHApplicationDelegate.m
 //  MongoHub
 //
 //  Created by Syd on 10-4-24.
@@ -7,7 +7,7 @@
 //
 
 #import "Configure.h"
-#import "MongoHub_AppDelegate.h"
+#import "MHApplicationDelegate.h"
 #import "AddConnectionController.h"
 #import "EditConnectionController.h"
 #import "ConnectionsArrayController.h"
@@ -19,7 +19,7 @@
 #define YOUR_EXTERNAL_RECORD_EXTENSION @"mgo"
 #define YOUR_STORE_TYPE NSXMLStoreType
 
-@implementation MongoHub_AppDelegate
+@implementation MHApplicationDelegate
 
 @synthesize window;
 @synthesize connectionsCollectionView;

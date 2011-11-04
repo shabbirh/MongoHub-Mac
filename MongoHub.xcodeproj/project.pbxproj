@@ -129,7 +129,7 @@
 		1DF96F9211883B3800C35AB8 /* QueryWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DF96F9111883B3800C35AB8 /* QueryWindowController.m */; };
 		1DF96F9411883D5E00C35AB8 /* QueryWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1DF96F9311883D5E00C35AB8 /* QueryWindow.xib */; };
 		2F7446990DB6B7EA00F9684A /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2F7446970DB6B7EA00F9684A /* MainMenu.xib */; };
-		77C8280E06725ACE000B614F /* MongoHub_AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 77C8280C06725ACE000B614F /* MongoHub_AppDelegate.m */; };
+		77C8280E06725ACE000B614F /* MHApplicationDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 77C8280C06725ACE000B614F /* MHApplicationDelegate.m */; };
 		797A78450DDCFB3E0050D0C2 /* GetMetadataForFile.c in Sources */ = {isa = PBXBuildFile; fileRef = 797A783F0DDCFB3E0050D0C2 /* GetMetadataForFile.c */; };
 		797A78480DDCFB3E0050D0C2 /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = 797A78420DDCFB3E0050D0C2 /* main.c */; };
 		797A78490DDCFB3E0050D0C2 /* MySpotlightImporter.m in Sources */ = {isa = PBXBuildFile; fileRef = 797A78440DDCFB3E0050D0C2 /* MySpotlightImporter.m */; };
@@ -483,8 +483,8 @@
 		2F7446980DB6B7EA00F9684A /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		32CA4F630368D1EE00C91783 /* MongoHub_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MongoHub_Prefix.pch; sourceTree = "<group>"; };
 		77C82804067257F0000B614F /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
-		77C8280B06725ACE000B614F /* MongoHub_AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MongoHub_AppDelegate.h; sourceTree = "<group>"; };
-		77C8280C06725ACE000B614F /* MongoHub_AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MongoHub_AppDelegate.m; sourceTree = "<group>"; };
+		77C8280B06725ACE000B614F /* MHApplicationDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MHApplicationDelegate.h; sourceTree = "<group>"; };
+		77C8280C06725ACE000B614F /* MHApplicationDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MHApplicationDelegate.m; sourceTree = "<group>"; };
 		797A78390DDCFADE0050D0C2 /* MongoHub.mdimporter */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MongoHub.mdimporter; sourceTree = BUILT_PRODUCTS_DIR; };
 		797A783F0DDCFB3E0050D0C2 /* GetMetadataForFile.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.objc; fileEncoding = 4; path = GetMetadataForFile.c; sourceTree = "<group>"; };
 		797A78410DDCFB3E0050D0C2 /* Importer-Info.plist */ = {isa = PBXFileReference; explicitFileType = text.plist.xml; fileEncoding = 4; path = "Importer-Info.plist"; sourceTree = "<group>"; };
@@ -615,6 +615,8 @@
 		02D1872F14636F1300D49ED1 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				77C8280B06725ACE000B614F /* MHApplicationDelegate.h */,
+				77C8280C06725ACE000B614F /* MHApplicationDelegate.m */,
 				02D1873014636F2D00D49ED1 /* Model */,
 			);
 			path = Sources;
@@ -882,8 +884,6 @@
 				1D93C29B118341BD003216F7 /* ConnectionControllers */,
 				1D93C24C1183357D003216F7 /* ArrayControllers */,
 				1D93C1DD11833342003216F7 /* ConnectionsCollectionView */,
-				77C8280B06725ACE000B614F /* MongoHub_AppDelegate.h */,
-				77C8280C06725ACE000B614F /* MongoHub_AppDelegate.m */,
 				1D93C27411833C2A003216F7 /* Configure.h */,
 			);
 			name = Classes;
@@ -1369,7 +1369,7 @@
 				02D5A8E91442087F00C7768C /* net.c in Sources */,
 				02D5A8EA1442087F00C7768C /* numbers.c in Sources */,
 				8D11072D0486CEB800E47090 /* main.m in Sources */,
-				77C8280E06725ACE000B614F /* MongoHub_AppDelegate.m in Sources */,
+				77C8280E06725ACE000B614F /* MHApplicationDelegate.m in Sources */,
 				1D93C1DA11832C1D003216F7 /* MHConnection.m in Sources */,
 				1D93C1E411833342003216F7 /* ConnectionsCollectionView.m in Sources */,
 				1D93C1E511833342003216F7 /* IconCollectionItem.m in Sources */,

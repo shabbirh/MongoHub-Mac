@@ -8,6 +8,8 @@
 
 #import "MHDatabase.h"
 
+#define MAX_QUERY_PER_COLLECTION 20
+#define QUERY_HISTORY_KEY @"query_history"
 
 @implementation MHDatabase
 
@@ -21,7 +23,7 @@
     NSString *absolute;
     
     absolute = [NSString stringWithFormat:@"%@.%@", name, collectionName];
-    return [[[NSUserDefaults standardUserDefaults] dictionaryForKey:@"query_history"] objectForKey:absolute];
+    return [[[NSUserDefaults standardUserDefaults] dictionaryForKey:QUERY_HISTORY_KEY] objectForKey:absolute];
 }
 
 - (void)addNewQuery:(NSDictionary *)query withCollectionName:(NSString *)collectionName
@@ -31,14 +33,17 @@
     NSString *absolute;
     
     absolute = [[NSString alloc] initWithFormat:@"%@.%@", name, collectionName];
-    allHistory = [[[NSUserDefaults standardUserDefaults] dictionaryForKey:@"query_history"] mutableCopy];
+    allHistory = [[[NSUserDefaults standardUserDefaults] dictionaryForKey:QUERY_HISTORY_KEY] mutableCopy];
     history = [[allHistory objectForKey:absolute] mutableCopy];
     
     [query retain];
     [history removeObject:query];
     [history insertObject:query atIndex:0];
+    while ([history count] > MAX_QUERY_PER_COLLECTION) {
+        [history removeLastObject];
+    }
     [allHistory setObject:history forKey:absolute];
-    [[NSUserDefaults standardUserDefaults] setObject:allHistory forKey:@"query_history"];
+    [[NSUserDefaults standardUserDefaults] setObject:allHistory forKey:QUERY_HISTORY_KEY];
     
     [absolute release];
     [allHistory release];

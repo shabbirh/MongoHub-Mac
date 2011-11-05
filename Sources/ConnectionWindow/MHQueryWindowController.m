@@ -18,6 +18,7 @@
 #import "MODDatabase.h"
 #import "MODHelper.h"
 #import "MODJsonParser.h"
+#import "MHConnectionStore.h"
 
 @implementation MHQueryWindowController
 
@@ -220,6 +221,7 @@
     NSMutableArray *fields;
     NSString *criteria;
     NSString *sort = [self formatedQuerySort];
+    NSString *queryTitle = [[_criteriaComboBox stringValue] retain];
     
     [self findQueryComposer:nil];
     if (limit <= 0) {
@@ -239,6 +241,9 @@
             [findQueryLoaderIndicator stop];
             NSRunAlertPanel(@"Error", [mongoQuery.error localizedDescription], @"OK", nil, nil);
         } else {
+            if ([queryTitle length] > 0) {
+                [_connectionStore addNewQuery:[NSDictionary dictionaryWithObjectsAndKeys:queryTitle, @"title", nil] withDatabaseName:_mongoCollection.databaseName collectionName:_mongoCollection.collectionName];
+            }
             [findResultsViewController.results removeAllObjects];
             [findResultsViewController.results addObjectsFromArray:[MODHelper convertForOutlineWithObjects:documents]];
             [findResultsViewController.myOutlineView reloadData];
@@ -249,6 +254,7 @@
         }
     }];
     [fields release];
+    [queryTitle release];
 }
 
 - (IBAction)expandFindResults:(id)sender
@@ -726,6 +732,48 @@
             NSRunAlertPanel(@"Error", errorMessage, @"OK", nil, nil);
         }
     }
+}
+
+@end
+
+@implementation MHQueryWindowController(NSComboBoxDataSource)
+
+- (NSInteger)numberOfItemsInComboBox:(NSComboBox *)aComboBox
+{
+    return [[_connectionStore queryHistoryWithDatabaseName:_mongoCollection.databaseName collectionName:_mongoCollection.collectionName] count];
+}
+
+- (id)comboBox:(NSComboBox *)aComboBox objectValueForItemAtIndex:(NSInteger)index
+{
+    return [[[_connectionStore queryHistoryWithDatabaseName:_mongoCollection.databaseName collectionName:_mongoCollection.collectionName] objectAtIndex:index] objectForKey:@"title"];
+}
+
+- (NSUInteger)comboBox:(NSComboBox *)aComboBox indexOfItemWithStringValue:(NSString *)string
+{
+    NSUInteger result = NSNotFound;
+    NSUInteger index = 0;
+    
+    for (NSDictionary *history in [_connectionStore queryHistoryWithDatabaseName:_mongoCollection.databaseName collectionName:_mongoCollection.collectionName]) {
+        if ([[history objectForKey:@"title"] isEqualToString:string]) {
+            result = index;
+        }
+        index++;
+    }
+    return result;
+}
+
+- (NSString *)comboBox:(NSComboBox *)aComboBox completedString:(NSString *)string
+{
+    return @"";
+}
+
+@end
+
+@implementation MHQueryWindowController(NSComboBoxDelegate)
+
+- (void)comboBoxSelectionDidChange:(NSNotification *)notification
+{
+    NSLog(@"%@ %@", notification, [notification userInfo]);
 }
 
 @end

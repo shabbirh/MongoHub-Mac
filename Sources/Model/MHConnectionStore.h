@@ -8,7 +8,8 @@
 
 #import <CoreData/CoreData.h>
 
-@interface MHConnectionStore : NSManagedObject {
+@interface MHConnectionStore : NSManagedObject
+{
     NSString *host;
     NSNumber *hostport;
     NSString *servers;
@@ -28,6 +29,9 @@
     NSNumber *usessh;
     NSNumber *userepl;
 }
+
+- (NSArray *)queryHistoryWithDatabaseName:(NSString *)databaseName collectionName:(NSString *)collectionName;
+- (void)addNewQuery:(NSDictionary *)query withDatabaseName:(NSString *)databaseName collectionName:(NSString *)collectionName;
 
 @property (nonatomic, retain) NSString *host;
 @property (nonatomic, retain) NSNumber *hostport;

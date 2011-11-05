@@ -10,15 +10,13 @@
 
 @class MHConnectionStore;
 
-@interface MHDatabaseStore : NSManagedObject {
+@interface MHDatabaseStore : NSManagedObject
+{
     NSString *name;
     NSString *user;
     NSString *password;
     MHConnectionStore *connection;
 }
-
-- (NSArray *)queryHistoryWithCollection:(NSString *)collectionName;
-- (void)addNewQuery:(NSDictionary *)queyr withCollectionName:(NSString *)collectionName;
 
 @property (nonatomic, retain) NSString *name;
 @property (nonatomic, retain) NSString *user;

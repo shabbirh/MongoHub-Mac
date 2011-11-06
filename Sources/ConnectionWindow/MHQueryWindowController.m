@@ -27,9 +27,9 @@
 @synthesize mongoCollection = _mongoCollection;
 @synthesize connectionStore = _connectionStore;
 
-@synthesize fieldsTextField;
-@synthesize skipTextField;
-@synthesize limitTextField;
+@synthesize fieldsTextField = _fieldsTextField;
+@synthesize skipTextField = _skipTextField;
+@synthesize limitTextField = _limitTextField;
 @synthesize totalResultsTextField;
 @synthesize findQueryTextField;
 @synthesize findResultsOutlineView;
@@ -101,9 +101,6 @@
     [_mongoCollection release];
     [_connectionStore release];
     
-    [fieldsTextField release];
-    [skipTextField release];
-    [limitTextField release];
     [totalResultsTextField release];
     [findQueryTextField release];
     [findResultsOutlineView release];
@@ -217,7 +214,7 @@
 
 - (IBAction)findQuery:(id)sender
 {
-    int limit = [limitTextField intValue];
+    int limit = [_limitTextField intValue];
     NSMutableArray *fields;
     NSString *criteria;
     NSString *sort = [self formatedQuerySort];
@@ -229,20 +226,20 @@
     }
     criteria = [self formatedQueryWithReplace:YES];
     fields = [[NSMutableArray alloc] init];
-    for (NSString *field in [[fieldsTextField stringValue] componentsSeparatedByString:@","]) {
+    for (NSString *field in [[_fieldsTextField stringValue] componentsSeparatedByString:@","]) {
         field = [field stringByTrimmingWhitespace];
         if ([field length] > 0) {
             [fields addObject:field];
         }
     }
     [findQueryLoaderIndicator start];
-    [_mongoCollection findWithCriteria:criteria fields:fields skip:[skipTextField intValue] limit:limit sort:sort callback:^(NSArray *documents, MODQuery *mongoQuery) {
+    [_mongoCollection findWithCriteria:criteria fields:fields skip:[_skipTextField intValue] limit:limit sort:sort callback:^(NSArray *documents, MODQuery *mongoQuery) {
         if (mongoQuery.error) {
             [findQueryLoaderIndicator stop];
             NSRunAlertPanel(@"Error", [mongoQuery.error localizedDescription], @"OK", nil, nil);
         } else {
             if ([queryTitle length] > 0) {
-                [_connectionStore addNewQuery:[NSDictionary dictionaryWithObjectsAndKeys:queryTitle, @"title", nil] withDatabaseName:_mongoCollection.databaseName collectionName:_mongoCollection.collectionName];
+                [_connectionStore addNewQuery:[NSDictionary dictionaryWithObjectsAndKeys:queryTitle, @"title", [_sortTextField stringValue], @"sort", [_fieldsTextField stringValue], @"fields", [_limitTextField stringValue], @"limit", [_skipTextField stringValue], @"skip", nil] withDatabaseName:_mongoCollection.databaseName collectionName:_mongoCollection.collectionName];
             }
             [findResultsViewController.results removeAllObjects];
             [findResultsViewController.results addObjectsFromArray:[MODHelper convertForOutlineWithObjects:documents]];
@@ -404,7 +401,7 @@
 {
 	NSTextField *ed = [nd object];
     
-	if (ed == _criteriaComboBox || ed == fieldsTextField || ed == _sortTextField || ed == skipTextField || ed == limitTextField) {
+	if (ed == _criteriaComboBox || ed == _fieldsTextField || ed == _sortTextField || ed == _skipTextField || ed == _limitTextField) {
         [self findQueryComposer:nil];
     } else if (ed == updateCriticalTextField || ed == updateSetTextField) {
         [self updateQueryComposer:nil];
@@ -423,8 +420,8 @@
     NSString *sortValue = [self formatedQuerySort];
     NSString *sort;
     
-    if ([[fieldsTextField stringValue] length] > 0) {
-        NSArray *keys = [[NSArray alloc] initWithArray:[[fieldsTextField stringValue] componentsSeparatedByString:@","]];
+    if ([[_fieldsTextField stringValue] length] > 0) {
+        NSArray *keys = [[NSArray alloc] initWithArray:[[_fieldsTextField stringValue] componentsSeparatedByString:@","]];
         NSMutableArray *tmpstr = [[NSMutableArray alloc] initWithCapacity:[keys count]];
         for (NSString *str in keys) {
             [tmpstr addObject:[NSString stringWithFormat:@"%@:1", str]];
@@ -442,8 +439,8 @@
         sort = [[NSString alloc] initWithString:@""];
     }
     
-    NSString *skip = [[NSString alloc] initWithFormat:@".skip(%d)", [skipTextField intValue]];
-    NSString *limit = [[NSString alloc] initWithFormat:@".limit(%d)", [limitTextField intValue]];
+    NSString *skip = [[NSString alloc] initWithFormat:@".skip(%d)", [_skipTextField intValue]];
+    NSString *limit = [[NSString alloc] initWithFormat:@".limit(%d)", [_limitTextField intValue]];
     NSString *col = [NSString stringWithFormat:@"%@.%@", _mongoCollection.databaseName, _mongoCollection.collectionName];
     
     NSString *query = [NSString stringWithFormat:@"db.%@.find(%@%@)%@%@%@", col, criteria, jsFields, sort, skip, limit];
@@ -736,7 +733,7 @@
 
 @end
 
-@implementation MHQueryWindowController(NSComboBoxDataSource)
+@implementation MHQueryWindowController(NSComboBox)
 
 - (NSInteger)numberOfItemsInComboBox:(NSComboBox *)aComboBox
 {
@@ -748,6 +745,40 @@
     return [[[_connectionStore queryHistoryWithDatabaseName:_mongoCollection.databaseName collectionName:_mongoCollection.collectionName] objectAtIndex:index] objectForKey:@"title"];
 }
 
+- (void)comboBoxSelectionDidChange:(NSNotification *)notification
+{
+    NSArray *queries;
+    NSUInteger index;
+    
+    index = [_criteriaComboBox indexOfSelectedItem];
+    queries = [_connectionStore queryHistoryWithDatabaseName:_mongoCollection.databaseName collectionName:_mongoCollection.collectionName];
+    if (index < [queries count]) {
+        NSDictionary *query;
+        
+        query = [queries objectAtIndex:[_criteriaComboBox indexOfSelectedItem]];
+        if ([query objectForKey:@"fields"]) {
+            [_fieldsTextField setStringValue:[query objectForKey:@"fields"]];
+        } else {
+            [_fieldsTextField setStringValue:@""];
+        }
+        if ([query objectForKey:@"sort"]) {
+            [_sortTextField setStringValue:[query objectForKey:@"sort"]];
+        } else {
+            [_sortTextField setStringValue:@""];
+        }
+        if ([query objectForKey:@"skip"]) {
+            [_skipTextField setStringValue:[query objectForKey:@"skip"]];
+        } else {
+            [_skipTextField setStringValue:@""];
+        }
+        if ([query objectForKey:@"limit"]) {
+            [_limitTextField setStringValue:[query objectForKey:@"limit"]];
+        } else {
+            [_limitTextField setStringValue:@""];
+        }
+    }
+}
+
 - (NSUInteger)comboBox:(NSComboBox *)aComboBox indexOfItemWithStringValue:(NSString *)string
 {
     NSUInteger result = NSNotFound;
@@ -756,6 +787,8 @@
     for (NSDictionary *history in [_connectionStore queryHistoryWithDatabaseName:_mongoCollection.databaseName collectionName:_mongoCollection.collectionName]) {
         if ([[history objectForKey:@"title"] isEqualToString:string]) {
             result = index;
+            [self comboBoxSelectionDidChange:nil];
+            break;
         }
         index++;
     }
@@ -765,15 +798,6 @@
 - (NSString *)comboBox:(NSComboBox *)aComboBox completedString:(NSString *)string
 {
     return @"";
-}
-
-@end
-
-@implementation MHQueryWindowController(NSComboBoxDelegate)
-
-- (void)comboBoxSelectionDidChange:(NSNotification *)notification
-{
-    NSLog(@"%@ %@", notification, [notification userInfo]);
 }
 
 @end

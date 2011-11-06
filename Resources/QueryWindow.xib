@@ -61,7 +61,7 @@
 				<string key="NSClassName">NSApplication</string>
 			</object>
 			<object class="NSView" id="460177029">
-				<reference key="NSNextResponder"/>
+				<nil key="NSNextResponder"/>
 				<int key="NSvFlags">256</int>
 				<object class="NSMutableArray" key="NSSubviews">
 					<bool key="EncodedWithXMLCoder">YES</bool>
@@ -475,7 +475,6 @@
 						<int key="NSvFlags">266</int>
 						<string key="NSFrame">{{22, 41}, {530, 22}}</string>
 						<reference key="NSSuperview" ref="460177029"/>
-						<reference key="NSNextKeyView"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="17262602">
 							<int key="NSCellFlags">68288064</int>
@@ -494,7 +493,6 @@
 					</object>
 				</object>
 				<string key="NSFrameSize">{564, 207}</string>
-				<reference key="NSSuperview"/>
 				<reference key="NSNextKeyView" ref="12054289"/>
 			</object>
 			<object class="NSView" id="468870748">
@@ -1084,7 +1082,6 @@
 							<string key="NSFrameSize">{584, 455}</string>
 							<reference key="NSSuperview" ref="342811145"/>
 							<reference key="NSWindow"/>
-							<reference key="NSNextKeyView" ref="222084738"/>
 							<string key="NSReuseIdentifierKey">_NS:9</string>
 							<object class="NSMutableArray" key="NSTabViewItems">
 								<bool key="EncodedWithXMLCoder">YES</bool>
@@ -1299,7 +1296,6 @@
 												<string key="NSFrame">{{489, 5}, {75, 18}}</string>
 												<reference key="NSSuperview" ref="222084738"/>
 												<reference key="NSWindow"/>
-												<reference key="NSNextKeyView"/>
 												<bool key="NSEnabled">YES</bool>
 												<object class="NSButtonCell" key="NSCell" id="263057689">
 													<int key="NSCellFlags">-2080244224</int>
@@ -4010,6 +4006,30 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 						<reference key="destination" ref="150022905"/>
 					</object>
 					<int key="connectionID">1384</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">_skipTextField</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="757914550"/>
+					</object>
+					<int key="connectionID">1386</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">_limitTextField</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="870762347"/>
+					</object>
+					<int key="connectionID">1387</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">_fieldsTextField</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="970553666"/>
+					</object>
+					<int key="connectionID">1388</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
@@ -6841,7 +6861,7 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 				<reference key="dict.values" ref="0"/>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">1385</int>
+			<int key="maxID">1388</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -7005,6 +7025,9 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>_criteriaComboBox</string>
+							<string>_fieldsTextField</string>
+							<string>_limitTextField</string>
+							<string>_skipTextField</string>
 							<string>_sortTextField</string>
 							<string>expCriticalTextField</string>
 							<string>expFieldsTextField</string>
@@ -7017,7 +7040,6 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 							<string>expSkipTextField</string>
 							<string>expSortTextField</string>
 							<string>expTypePopUpButton</string>
-							<string>fieldsTextField</string>
 							<string>findQueryLoaderIndicator</string>
 							<string>findQueryTextField</string>
 							<string>findResultsOutlineView</string>
@@ -7038,7 +7060,6 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 							<string>insertDataTextView</string>
 							<string>insertLoaderIndicator</string>
 							<string>insertResultsTextField</string>
-							<string>limitTextField</string>
 							<string>mapFunctionTextView</string>
 							<string>mrLoaderIndicator</string>
 							<string>mrOutlineViewController</string>
@@ -7050,7 +7071,6 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 							<string>removeQueryTextField</string>
 							<string>removeResultsTextField</string>
 							<string>segmentedControl</string>
-							<string>skipTextField</string>
 							<string>tabView</string>
 							<string>totalResultsTextField</string>
 							<string>updateCriticalTextField</string>
@@ -7063,6 +7083,9 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>NSComboBox</string>
+							<string>NSTokenField</string>
+							<string>NSTextField</string>
+							<string>NSTextField</string>
 							<string>NSTextField</string>
 							<string>NSTextField</string>
 							<string>NSTokenField</string>
@@ -7075,7 +7098,6 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 							<string>NSTextField</string>
 							<string>NSTextField</string>
 							<string>NSPopUpButton</string>
-							<string>NSTokenField</string>
 							<string>NSProgressIndicator</string>
 							<string>NSTextField</string>
 							<string>NSOutlineView</string>
@@ -7096,7 +7118,6 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 							<string>NSTextView</string>
 							<string>NSProgressIndicator</string>
 							<string>NSTextField</string>
-							<string>NSTextField</string>
 							<string>NSTextView</string>
 							<string>NSProgressIndicator</string>
 							<string>ResultsOutlineViewController</string>
@@ -7108,7 +7129,6 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 							<string>NSTextField</string>
 							<string>NSTextField</string>
 							<string>NSSegmentedControl</string>
-							<string>NSTextField</string>
 							<string>NSTabView</string>
 							<string>NSTextField</string>
 							<string>NSTextField</string>
@@ -7124,6 +7144,9 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>_criteriaComboBox</string>
+							<string>_fieldsTextField</string>
+							<string>_limitTextField</string>
+							<string>_skipTextField</string>
 							<string>_sortTextField</string>
 							<string>expCriticalTextField</string>
 							<string>expFieldsTextField</string>
@@ -7136,7 +7159,6 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 							<string>expSkipTextField</string>
 							<string>expSortTextField</string>
 							<string>expTypePopUpButton</string>
-							<string>fieldsTextField</string>
 							<string>findQueryLoaderIndicator</string>
 							<string>findQueryTextField</string>
 							<string>findResultsOutlineView</string>
@@ -7157,7 +7179,6 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 							<string>insertDataTextView</string>
 							<string>insertLoaderIndicator</string>
 							<string>insertResultsTextField</string>
-							<string>limitTextField</string>
 							<string>mapFunctionTextView</string>
 							<string>mrLoaderIndicator</string>
 							<string>mrOutlineViewController</string>
@@ -7169,7 +7190,6 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 							<string>removeQueryTextField</string>
 							<string>removeResultsTextField</string>
 							<string>segmentedControl</string>
-							<string>skipTextField</string>
 							<string>tabView</string>
 							<string>totalResultsTextField</string>
 							<string>updateCriticalTextField</string>
@@ -7184,6 +7204,18 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 							<object class="IBToOneOutletInfo">
 								<string key="name">_criteriaComboBox</string>
 								<string key="candidateClassName">NSComboBox</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">_fieldsTextField</string>
+								<string key="candidateClassName">NSTokenField</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">_limitTextField</string>
+								<string key="candidateClassName">NSTextField</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">_skipTextField</string>
+								<string key="candidateClassName">NSTextField</string>
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">_sortTextField</string>
@@ -7232,10 +7264,6 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 							<object class="IBToOneOutletInfo">
 								<string key="name">expTypePopUpButton</string>
 								<string key="candidateClassName">NSPopUpButton</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">fieldsTextField</string>
-								<string key="candidateClassName">NSTokenField</string>
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">findQueryLoaderIndicator</string>
@@ -7318,10 +7346,6 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 								<string key="candidateClassName">NSTextField</string>
 							</object>
 							<object class="IBToOneOutletInfo">
-								<string key="name">limitTextField</string>
-								<string key="candidateClassName">NSTextField</string>
-							</object>
-							<object class="IBToOneOutletInfo">
 								<string key="name">mapFunctionTextView</string>
 								<string key="candidateClassName">NSTextView</string>
 							</object>
@@ -7364,10 +7388,6 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 							<object class="IBToOneOutletInfo">
 								<string key="name">segmentedControl</string>
 								<string key="candidateClassName">NSSegmentedControl</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">skipTextField</string>
-								<string key="candidateClassName">NSTextField</string>
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">tabView</string>

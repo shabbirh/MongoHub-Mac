@@ -26,9 +26,9 @@
     IBOutlet NSSegmentedControl *segmentedControl;
     
     IBOutlet NSComboBox *_criteriaComboBox;
-    IBOutlet NSTokenField *fieldsTextField;
-    IBOutlet NSTextField *skipTextField;
-    IBOutlet NSTextField *limitTextField;
+    IBOutlet NSTokenField *_fieldsTextField;
+    IBOutlet NSTextField *_skipTextField;
+    IBOutlet NSTextField *_limitTextField;
     IBOutlet NSTextField *_sortTextField;
     IBOutlet NSTextField *totalResultsTextField;
     IBOutlet NSTextField *findQueryTextField;

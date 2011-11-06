@@ -10,6 +10,8 @@
 
 #define MAX_QUERY_PER_COLLECTION 20
 #define QUERY_HISTORY_KEY @"query_history"
+#define SORTED_TITLE_KEY @"sorted_titles"
+#define QUERY_KEY @"queries"
 
 @implementation MHConnectionStore
 
@@ -36,41 +38,70 @@
 - (NSArray *)queryHistoryWithDatabaseName:(NSString *)databaseName collectionName:(NSString *)collectionName
 {
     NSString *absolute;
+    NSMutableArray *result;
+    NSDictionary *queries;
     
     absolute = [NSString stringWithFormat:@"%@.%@", databaseName, collectionName];
-    return [[[NSUserDefaults standardUserDefaults] dictionaryForKey:QUERY_HISTORY_KEY] objectForKey:absolute];
+    result = [NSMutableArray array];
+    @try {
+        queries = [[[[NSUserDefaults standardUserDefaults] dictionaryForKey:QUERY_HISTORY_KEY] objectForKey:absolute] objectForKey:QUERY_KEY];
+        for (NSString *title in [[[[NSUserDefaults standardUserDefaults] dictionaryForKey:QUERY_HISTORY_KEY] objectForKey:absolute] objectForKey:SORTED_TITLE_KEY]) {
+            [result addObject:[queries objectForKey:title]];
+        }
+    }
+    @catch (NSException *exception) {
+    }
+    return result;
 }
 
 - (void)addNewQuery:(NSDictionary *)query withDatabaseName:(NSString *)databaseName collectionName:(NSString *)collectionName
 {
-    NSMutableArray *history;
-    NSMutableDictionary *allHistory;
     NSString *absolute;
+    NSMutableDictionary *allHistory;
+    NSMutableDictionary *queriesAndTitles;
+    NSMutableArray *sortedTitles;
+    NSMutableDictionary *allQueries;
     
     absolute = [[NSString alloc] initWithFormat:@"%@.%@", databaseName, collectionName];
     allHistory = [[[NSUserDefaults standardUserDefaults] dictionaryForKey:QUERY_HISTORY_KEY] mutableCopy];
     if (allHistory == nil) {
         allHistory = [[NSMutableDictionary alloc] init];
     }
-    history = [[allHistory objectForKey:absolute] mutableCopy];
-    if (history == nil) {
-        history = [[NSMutableArray alloc] init];
+    queriesAndTitles = [[allHistory objectForKey:absolute] mutableCopy];
+    if (queriesAndTitles == nil || ![queriesAndTitles isKindOfClass:[NSDictionary class]]) {
+        [queriesAndTitles release];
+        queriesAndTitles = [[NSMutableDictionary alloc] init];
+    }
+    sortedTitles = [[queriesAndTitles objectForKey:SORTED_TITLE_KEY] mutableCopy];
+    allQueries = [[queriesAndTitles objectForKey:QUERY_KEY] mutableCopy];
+    if (sortedTitles == nil || ![sortedTitles isKindOfClass:[NSArray class]] || allQueries == nil || ![allQueries isKindOfClass:[NSMutableDictionary class]]) {
+        [sortedTitles release];
+        [allQueries release];
+        sortedTitles = [[NSMutableArray alloc] init];
+        allQueries = [[NSMutableDictionary alloc] init];
     }
     
-    [query retain];
-    [history removeObject:query];
-    [history insertObject:query atIndex:0];
-    while ([history count] > MAX_QUERY_PER_COLLECTION) {
-        [history removeLastObject];
+    while ([sortedTitles count] >= MAX_QUERY_PER_COLLECTION) {
+        [allQueries removeObjectForKey:[sortedTitles lastObject]];
+        [sortedTitles removeLastObject];
     }
-    [allHistory setObject:history forKey:absolute];
+    if ([allQueries objectForKey:[query objectForKey:@"title"]]) {
+        [sortedTitles removeObject:[query objectForKey:@"title"]];
+    }
+    [sortedTitles insertObject:[query objectForKey:@"title"] atIndex:0];
+    [allQueries setObject:query forKey:[query objectForKey:@"title"]];
+    
+    [queriesAndTitles setObject:sortedTitles forKey:SORTED_TITLE_KEY];
+    [queriesAndTitles setObject:allQueries forKey:QUERY_KEY];
+    [allHistory setObject:queriesAndTitles forKey:absolute];
     [[NSUserDefaults standardUserDefaults] setObject:allHistory forKey:QUERY_HISTORY_KEY];
     [[NSUserDefaults standardUserDefaults] synchronize];
     
     [absolute release];
     [allHistory release];
-    [history release];
-    [query release];
+    [queriesAndTitles release];
+    [sortedTitles release];
+    [allQueries release];
 }
 
 @end

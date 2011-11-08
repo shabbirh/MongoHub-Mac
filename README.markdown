@@ -36,6 +36,7 @@ This project is very new. Any issues or bug reports are welcome. And I still don
 ** Current **
 
     - changing the NSBundle application id
+    - database stats works again
     
 ## History
 

@@ -652,6 +652,7 @@
 				77C8280B06725ACE000B614F /* MHApplicationDelegate.h */,
 				77C8280C06725ACE000B614F /* MHApplicationDelegate.m */,
 				1D93C27411833C2A003216F7 /* Configure.h */,
+				29B97316FDCFA39411CA2CEA /* main.m */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -1072,7 +1073,6 @@
 			isa = PBXGroup;
 			children = (
 				02D1872F14636F1300D49ED1 /* Sources */,
-				29B97315FDCFA39411CA2CEA /* Other Sources */,
 				0233716E145B640D0084D0F7 /* Spotlight Importer */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
 				02216E5F14128CBF00789BD1 /* Libraries */,
@@ -1080,14 +1080,6 @@
 				19C28FACFE9D520D11CA2CBB /* Products */,
 			);
 			name = MongoHub;
-			sourceTree = "<group>";
-		};
-		29B97315FDCFA39411CA2CEA /* Other Sources */ = {
-			isa = PBXGroup;
-			children = (
-				29B97316FDCFA39411CA2CEA /* main.m */,
-			);
-			name = "Other Sources";
 			sourceTree = "<group>";
 		};
 		29B97317FDCFA39411CA2CEA /* Resources */ = {

@@ -119,7 +119,7 @@
         }
         dispatch_queue_t myQueue = dispatch_queue_create("com.mongohub.mysql", 0);
         
-        dispatch_async(myQueue, ^() {
+        dispatch_async(myQueue, ^ {
             long long total = [self importCount:tableName];
             long long ii = 0;
             

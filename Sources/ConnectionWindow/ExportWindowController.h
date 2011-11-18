@@ -31,9 +31,7 @@
     IBOutlet FieldMapTableController *fieldMapTableController;
 }
 
-@property (nonatomic, retain) MCPConnection *db;
 @property (nonatomic, retain) MODDatabase *mongoDatabase;
-@property (nonatomic, retain) DatabasesArrayController *databasesArrayController;
 @property (nonatomic, retain) NSString *dbname;
 @property (nonatomic, retain) NSArrayController *dbsArrayController;
 @property (nonatomic, retain) NSArrayController *tablesArrayController;

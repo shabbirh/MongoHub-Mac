@@ -19,9 +19,7 @@
 @implementation ExportWindowController
 
 @synthesize dbname;
-@synthesize db;
 @synthesize mongoDatabase;
-@synthesize databasesArrayController;
 @synthesize dbsArrayController;
 @synthesize tablesArrayController;
 @synthesize hostTextField;
@@ -172,11 +170,27 @@
 }
 
 - (IBAction)connect:(id)sender {
+    NSString *mysqlHostname;
+    NSString *userName;
+    NSUInteger port;
+    
     if (db) {
         [self initInterface];
         [db release];
     }
-    db = [[MCPConnection alloc] initToHost:[hostTextField stringValue] withLogin:[userTextField stringValue] usingPort:[portTextField intValue]];
+    mysqlHostname = [[hostTextField stringValue] stringByTrimmingWhitespace];
+    if ([mysqlHostname length] == 0) {
+        mysqlHostname = [[hostTextField cell] placeholderString];
+    }
+    userName = [[userTextField stringValue] stringByTrimmingWhitespace];
+    if ([userName length] == 0) {
+        userName = [[userTextField cell] placeholderString];
+    }
+    port = [portTextField intValue];
+    if (port == 0) {
+        port = [[[portTextField cell] placeholderString] intValue];
+    }
+    db = [[MCPConnection alloc] initToHost:mysqlHostname withLogin:userName usingPort:port];
     [db setPassword:[passwdTextField stringValue]];
     [db connect];
     NSLog(@"Connect: %d", [db isConnected]);

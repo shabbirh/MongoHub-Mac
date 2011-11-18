@@ -197,6 +197,7 @@
     }
     if (replace) {
         [_criteriaComboBox setStringValue:query];
+        [_criteriaComboBox selectText:nil];
     }
     return query;
 }
@@ -719,7 +720,15 @@
 
 - (NSString *)comboBox:(NSComboBox *)aComboBox completedString:(NSString *)string
 {
-    return @"";
+    NSString *result = nil;
+    
+    for (NSDictionary *history in [_connectionStore queryHistoryWithDatabaseName:_mongoCollection.databaseName collectionName:_mongoCollection.collectionName]) {
+        if ([[history objectForKey:@"title"] hasPrefix:string]) {
+            result = [history objectForKey:@"title"];
+            break;
+        }
+    }
+    return result;
 }
 
 @end

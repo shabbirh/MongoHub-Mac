@@ -131,6 +131,9 @@
     sshuser = [sshuserTextField stringValue];
     sshpassword = [sshpasswordTextField stringValue];
     sshkeyfile = [sshkeyfileTextField stringValue];
+    if ([sshkeyfile length] == 0) {
+        sshkeyfile = [[sshkeyfileTextField cell] placeholderString];
+    }
     if ([usesshCheckBox state]) {
         usessh = 1;
     }

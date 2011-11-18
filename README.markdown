@@ -33,13 +33,15 @@ This project is very new. Any issues or bug reports are welcome. And I still don
     - Need a better UI to replace the tabs in a collection window
     
 ** Current **
+    
+## History
+
+** 2.4.9(83) - nov 18, 2011 **
 
     - changing the NSBundle application id
     - database stats works again
     - history combo-box for the criteria
     - fix to use database with an admin user/password
-    
-## History
 
 ** 2.4.8(82) - nov 1, 2011 **
 

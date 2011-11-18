@@ -6,14 +6,11 @@
       <description>Most recent changes with links to updates.</description>
       <language>en</language>      
          <item>
-            <title>Version 2.4.9</title>
-            <enclosure url="http://cloud.github.com/downloads/fotonauts/MongoHub-Mac/MongoHub.zip" sparkle:version="83" sparkle:shortVersionString="2.4.9" length="3046392" sparkle:dsaSignature="MC0CFQDE02p8G3qpL+VDWGbOxeyC92ePqQIUJwxyXrSvQJRXA/3ftsqq3htQt8Y=" type="application/octet-stream" />
+            <title>Version 2.4.10</title>
+            <enclosure url="http://cloud.github.com/downloads/fotonauts/MongoHub-Mac/MongoHub.zip" sparkle:version="84" sparkle:shortVersionString="2.4.10" length="3046721" sparkle:dsaSignature="MC0CFGi9/aRHkbRP+UWCUp3e8fEkrIQGAhUAgioJLn4p2jymc6JUYzmLcKPg4ys=" type="application/octet-stream" />
             <description><![CDATA[
 <ul>
-<li>- changing the NSBundle application id</li>
-<li>- database stats works again</li>
-<li>- history combo-box for the criteria</li>
-<li>- fix to use database with an admin user/password</li>
+<li>- Bug to add a new connection</li>
 </ul>
             ]]>
             </description>

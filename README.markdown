@@ -34,9 +34,12 @@ This project is very new. Any issues or bug reports are welcome. And I still don
     
 ** Current **
 
-    - Bug to add a new connection
     
 ## History
+
+** 2.4.10(84) - nov 19, 2011 **
+
+    - Bug to add a new connection
 
 ** 2.4.9(83) - nov 18, 2011 **
 

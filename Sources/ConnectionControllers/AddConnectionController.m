@@ -31,6 +31,7 @@
 @synthesize sshkeyfileTextField;
 @synthesize connectionInfo;
 @synthesize connectionsArrayController;
+@synthesize managedObjectContext = _managedObjectContext;
 
 - (id)init {
     self = [super initWithWindowNibName:@"NewConnection"];

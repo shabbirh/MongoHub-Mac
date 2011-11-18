@@ -307,6 +307,7 @@
 - (IBAction)showAddConnectionPanel:(id)sender {
     if (!addConnectionController) {
         addConnectionController = [[AddConnectionController alloc] init];
+        addConnectionController.managedObjectContext = self.managedObjectContext;
     }
     [addConnectionController showWindow:self];
 }

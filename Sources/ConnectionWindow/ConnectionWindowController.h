@@ -79,6 +79,8 @@
 - (IBAction)createCollection:(id)sender;
 - (IBAction)importFromMySQL:(id)sender;
 - (IBAction)exportToMySQL:(id)sender;
+- (IBAction)importFromFile:(id)sender;
+- (IBAction)exportToFile:(id)sender;
 - (void)dropCollection:(NSString *)collectionname 
                  ForDB:(NSString *)dbname;
 - (void)createDB;

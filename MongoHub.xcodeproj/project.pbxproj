@@ -649,6 +649,7 @@
 				1D93C24C1183357D003216F7 /* ArrayControllers */,
 				1D93C1DD11833342003216F7 /* ConnectionsCollectionView */,
 				02D1873014636F2D00D49ED1 /* Model */,
+				02D345E414770616001083E7 /* Exporter-Importer */,
 				77C8280B06725ACE000B614F /* MHApplicationDelegate.h */,
 				77C8280C06725ACE000B614F /* MHApplicationDelegate.m */,
 				1D93C27411833C2A003216F7 /* Configure.h */,
@@ -667,6 +668,13 @@
 				1D93C29911833F26003216F7 /* MHDatabaseStore.m */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		02D345E414770616001083E7 /* Exporter-Importer */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = "Exporter-Importer";
 			sourceTree = "<group>";
 		};
 		02D5A867144207CF00C7768C /* mongo-c-driver */ = {

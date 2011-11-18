@@ -570,7 +570,7 @@
 - (IBAction)exportToMySQL:(id)sender
 {
     if ([self selectedCollectionItem] == nil) {
-        NSRunAlertPanel(@"Error", @"Please specify a database!", @"OK", nil, nil);
+        NSRunAlertPanel(@"Error", @"Please specify a collection!", @"OK", nil, nil);
         return;
     }
     if (!exportWindowController)
@@ -583,6 +583,16 @@
         [exportWindowController.collectionTextField setStringValue:[[self selectedCollectionItem].mongoCollection collectionName]];
     }
     [exportWindowController showWindow:self];
+}
+
+- (IBAction)importFromFile:(id)sender
+{
+    
+}
+
+- (IBAction)exportToFile:(id)sender
+{
+    
 }
 
 - (void)alertDidEnd:(NSAlert *)alert returnCode:(int)returnCode contextInfo:(void *)contextInfo

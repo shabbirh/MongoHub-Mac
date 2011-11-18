@@ -36,6 +36,8 @@ This project is very new. Any issues or bug reports are welcome. And I still don
 
     - changing the NSBundle application id
     - database stats works again
+    - history combo-box for the criteria
+    - fix to use database with an admin user/password
     
 ## History
 

@@ -114,7 +114,7 @@
     NSString *sshpassword;
     NSString *sshkeyfile;
     if ([ [hostTextField stringValue] length] == 0) {
-        host = [[NSString alloc] initWithString:@"localhost"];
+        host = [[NSString alloc] initWithString:@"127.0.0.1"];
     }else{
         host = [[NSString alloc] initWithString:[hostTextField stringValue]];
     }
@@ -132,7 +132,7 @@
     }
     
     if ([ [aliasTextField stringValue] length] == 0) {
-        alias = [[NSString alloc] initWithString:@"localhost"];
+        alias = [[NSString alloc] initWithString:@"127.0.0.1"];
     }else{
         alias = [[NSString alloc] initWithString:[aliasTextField stringValue]];
     }

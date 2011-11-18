@@ -78,7 +78,6 @@
 - (void)dealloc
 {
     [self closeMongoDB];
-    [_databaseStoreArrayController release];
     [resultsOutlineViewController release];
     [_connectionStore release];
     [_databases release];

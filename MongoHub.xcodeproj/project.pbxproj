@@ -102,7 +102,6 @@
 		1D93C3B211836510003216F7 /* editicon.png in Resources */ = {isa = PBXBuildFile; fileRef = 1D93C3B011836510003216F7 /* editicon.png */; };
 		1D93C3CF11836863003216F7 /* ConnectionWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D93C3CE11836863003216F7 /* ConnectionWindowController.m */; };
 		1D93C3D11183690E003216F7 /* ConnectionWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1D93C3D01183690E003216F7 /* ConnectionWindow.xib */; };
-		1D93C40211836DC2003216F7 /* ConnectionWindowTitleTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D93C40111836DC2003216F7 /* ConnectionWindowTitleTransformer.m */; };
 		1D93C42C1183744D003216F7 /* collectionicon.png in Resources */ = {isa = PBXBuildFile; fileRef = 1D93C42A1183744D003216F7 /* collectionicon.png */; };
 		1D93C42D1183744D003216F7 /* dbicon.png in Resources */ = {isa = PBXBuildFile; fileRef = 1D93C42B1183744D003216F7 /* dbicon.png */; };
 		1D93C45411837668003216F7 /* SidebarBadgeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D93C45011837668003216F7 /* SidebarBadgeCell.m */; };
@@ -440,8 +439,6 @@
 		1D93C3CD11836863003216F7 /* ConnectionWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConnectionWindowController.h; sourceTree = "<group>"; };
 		1D93C3CE11836863003216F7 /* ConnectionWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConnectionWindowController.m; sourceTree = "<group>"; };
 		1D93C3D01183690E003216F7 /* ConnectionWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ConnectionWindow.xib; sourceTree = "<group>"; };
-		1D93C40011836DC2003216F7 /* ConnectionWindowTitleTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConnectionWindowTitleTransformer.h; sourceTree = "<group>"; };
-		1D93C40111836DC2003216F7 /* ConnectionWindowTitleTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConnectionWindowTitleTransformer.m; sourceTree = "<group>"; };
 		1D93C42A1183744D003216F7 /* collectionicon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = collectionicon.png; path = Resources/images/collectionicon.png; sourceTree = SOURCE_ROOT; };
 		1D93C42B1183744D003216F7 /* dbicon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = dbicon.png; path = Resources/images/dbicon.png; sourceTree = SOURCE_ROOT; };
 		1D93C44F11837668003216F7 /* SidebarBadgeCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SidebarBadgeCell.h; sourceTree = "<group>"; };
@@ -642,7 +639,6 @@
 				02CC22671464895800A38AC9 /* JSONEditor */,
 				1D93C608118417D5003216F7 /* Helpers */,
 				1D93C44C11837668003216F7 /* DatabaseCollectionOutlineView */,
-				1D93C3FF11836D98003216F7 /* Transformers */,
 				1D93C29B118341BD003216F7 /* ConnectionControllers */,
 				02CC2266146485D500A38AC9 /* ConnectionWindow */,
 				1D93C24C1183357D003216F7 /* ArrayControllers */,
@@ -1026,15 +1022,6 @@
 			path = ConnectionControllers;
 			sourceTree = "<group>";
 		};
-		1D93C3FF11836D98003216F7 /* Transformers */ = {
-			isa = PBXGroup;
-			children = (
-				1D93C40011836DC2003216F7 /* ConnectionWindowTitleTransformer.h */,
-				1D93C40111836DC2003216F7 /* ConnectionWindowTitleTransformer.m */,
-			);
-			path = Transformers;
-			sourceTree = "<group>";
-		};
 		1D93C44C11837668003216F7 /* DatabaseCollectionOutlineView */ = {
 			isa = PBXGroup;
 			children = (
@@ -1369,7 +1356,6 @@
 				1D93C29E118341D4003216F7 /* AddConnectionController.m in Sources */,
 				1D93C38711835D2A003216F7 /* EditConnectionController.m in Sources */,
 				1D93C3CF11836863003216F7 /* ConnectionWindowController.m in Sources */,
-				1D93C40211836DC2003216F7 /* ConnectionWindowTitleTransformer.m in Sources */,
 				1D93C45411837668003216F7 /* SidebarBadgeCell.m in Sources */,
 				1D93C7491184369D003216F7 /* DatabasesArrayController.m in Sources */,
 				1D93CB5C1184C243003216F7 /* ResultsOutlineViewController.m in Sources */,

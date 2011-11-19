@@ -123,6 +123,12 @@
 {
     [_databaseCollectionOutlineView setDoubleAction:@selector(outlineViewDoubleClickAction:)];
     [self updateToolbarItems];
+    
+    if ([[_connectionStore userepl] intValue] == 1) {
+        self.window.title = [NSString stringWithFormat:@"%@ [%@]", [_connectionStore alias], [_connectionStore repl_name] ];
+    } else {
+        self.window.title = [NSString stringWithFormat:@"%@ [%@:%@]", [_connectionStore alias], [_connectionStore host], [_connectionStore hostport] ];
+    }
 }
 
 - (void) tunnelStatusChanged: (Tunnel*) tunnel status: (NSString*) status {

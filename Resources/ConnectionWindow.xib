@@ -679,7 +679,7 @@
 															<float key="NSOutlineViewIndentationPerLevelKey">14</float>
 														</object>
 													</object>
-													<string key="NSFrame">{{0.5, 0}, {145, 352}}</string>
+													<string key="NSFrameSize">{145, 352}</string>
 													<reference key="NSSuperview" ref="979873634"/>
 													<reference key="NSWindow"/>
 													<reference key="NSNextKeyView" ref="753034752"/>
@@ -855,7 +855,7 @@
 															<string key="NSFrameSize">{446, 331}</string>
 															<reference key="NSSuperview" ref="99471935"/>
 															<reference key="NSWindow"/>
-															<reference key="NSNextKeyView" ref="281002724"/>
+															<reference key="NSNextKeyView" ref="225477757"/>
 															<int key="NSViewLayerContentsRedrawPolicy">2</int>
 															<bool key="NSEnabled">YES</bool>
 															<object class="NSTableHeaderView" key="NSHeaderView" id="312011680">
@@ -874,7 +874,7 @@
 																<string key="NSFrame">{{431, 0}, {16, 17}}</string>
 																<reference key="NSSuperview" ref="848137174"/>
 																<reference key="NSWindow"/>
-																<reference key="NSNextKeyView" ref="99471935"/>
+																<reference key="NSNextKeyView" ref="361755619"/>
 																<int key="NSViewLayerContentsRedrawPolicy">2</int>
 															</object>
 															<object class="NSMutableArray" key="NSTableColumns">
@@ -1009,7 +1009,7 @@
 															<float key="NSOutlineViewIndentationPerLevelKey">14</float>
 														</object>
 													</object>
-													<string key="NSFrame">{{0, 17}, {446, 331}}</string>
+													<string key="NSFrame">{{0.5, 17}, {446, 331}}</string>
 													<reference key="NSSuperview" ref="848137174"/>
 													<reference key="NSWindow"/>
 													<reference key="NSNextKeyView" ref="317356685"/>
@@ -1024,6 +1024,7 @@
 													<string key="NSFrame">{{431, 17}, {15, 341}}</string>
 													<reference key="NSSuperview" ref="848137174"/>
 													<reference key="NSWindow"/>
+													<reference key="NSNextKeyView"/>
 													<int key="NSViewLayerContentsRedrawPolicy">2</int>
 													<reference key="NSTarget" ref="848137174"/>
 													<string key="NSAction">_doScroller:</string>
@@ -1035,7 +1036,7 @@
 													<string key="NSFrame">{{0, 333}, {432, 15}}</string>
 													<reference key="NSSuperview" ref="848137174"/>
 													<reference key="NSWindow"/>
-													<reference key="NSNextKeyView" ref="225477757"/>
+													<reference key="NSNextKeyView" ref="99471935"/>
 													<int key="NSViewLayerContentsRedrawPolicy">2</int>
 													<int key="NSsFlags">1</int>
 													<reference key="NSTarget" ref="848137174"/>
@@ -1049,7 +1050,7 @@
 														<bool key="EncodedWithXMLCoder">YES</bool>
 														<reference ref="312011680"/>
 													</object>
-													<string key="NSFrameSize">{446, 17}</string>
+													<string key="NSFrame">{{0.5, 0}, {446, 17}}</string>
 													<reference key="NSSuperview" ref="848137174"/>
 													<reference key="NSWindow"/>
 													<reference key="NSNextKeyView" ref="312011680"/>
@@ -1063,7 +1064,7 @@
 											<string key="NSFrameSize">{446, 348}</string>
 											<reference key="NSSuperview" ref="282820595"/>
 											<reference key="NSWindow"/>
-											<reference key="NSNextKeyView" ref="99471935"/>
+											<reference key="NSNextKeyView" ref="281002724"/>
 											<int key="NSViewLayerContentsRedrawPolicy">2</int>
 											<int key="NSsFlags">133680</int>
 											<reference key="NSVScroller" ref="225477757"/>
@@ -2527,26 +2528,6 @@
 						<reference key="destination" ref="1001"/>
 					</object>
 					<int key="connectionID">4</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">title: self.connectionStore</string>
-						<reference key="source" ref="1005"/>
-						<reference key="destination" ref="1001"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="1005"/>
-							<reference key="NSDestination" ref="1001"/>
-							<string key="NSLabel">title: self.connectionStore</string>
-							<string key="NSBinding">title</string>
-							<string key="NSKeyPath">self.connectionStore</string>
-							<object class="NSDictionary" key="NSOptions">
-								<string key="NS.key.0">NSValueTransformerName</string>
-								<string key="NS.object.0">ConnectionWindowTitleTransformer</string>
-							</object>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">317</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">

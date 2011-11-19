@@ -34,7 +34,7 @@ This project is very new. Any issues or bug reports are welcome. And I still don
     
 ** Current **
 
-    - localhost is not an issue anymore
+    - connecting to localhost is not an issue anymore
     
 ## History
 

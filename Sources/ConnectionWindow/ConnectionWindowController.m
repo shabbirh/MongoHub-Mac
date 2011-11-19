@@ -31,6 +31,7 @@
 #import "SidebarBadgeCell.h"
 #import "MHConnectionStore.h"
 #import "MHDatabaseStore.h"
+#import "MHFileExporter.h"
 
 @interface ConnectionWindowController()
 - (void)closeMongoDB;
@@ -592,7 +593,12 @@
 
 - (IBAction)exportToFile:(id)sender
 {
+    MHFileExporter *exporter;
+    NSError *error;
     
+    exporter = [[MHFileExporter alloc] initWithCollection:[self selectedCollectionItem].mongoCollection exportPath:@"/tmp/export"];
+    [exporter exportWithError:&error];
+    NSLog(@"%@", error);
 }
 
 - (void)alertDidEnd:(NSAlert *)alert returnCode:(int)returnCode contextInfo:(void *)contextInfo

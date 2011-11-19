@@ -33,7 +33,18 @@
 #import "MHDatabaseStore.h"
 #import "MHFileExporter.h"
 
+#define SERVER_STATUS_TOOLBAR_ITEM_TAG              0
+#define DATABASE_STATUS_TOOLBAR_ITEM_TAG            1
+#define COLLECTION_STATUS_TOOLBAR_ITEM_TAG          2
+#define QUERY_TOOLBAR_ITEM_TAG                      3
+#define MYSQL_IMPORT_TOOLBAR_ITEM_TAG               4
+#define MYSQL_EXPORT_TOOLBAR_ITEM_TAG               5
+#define FILE_IMPORT_TOOLBAR_ITEM_TAG                6
+#define FILE_EXPORT_TOOLBAR_ITEM_TAG                7
+
 @interface ConnectionWindowController()
+- (void)updateToolbarItems;
+
 - (void)closeMongoDB;
 - (void)fetchServerStatusDelta;
 
@@ -111,6 +122,7 @@
 - (void)awakeFromNib
 {
     [_databaseCollectionOutlineView setDoubleAction:@selector(outlineViewDoubleClickAction:)];
+    [self updateToolbarItems];
 }
 
 - (void) tunnelStatusChanged: (Tunnel*) tunnel status: (NSString*) status {
@@ -748,6 +760,30 @@ static int percentage(NSNumber *previousValue, NSNumber *previousOutOfValue, NSN
     return [_connectionStore managedObjectContext];
 }
 
+- (void)updateToolbarItems
+{
+    NSLog(@"[self selectedCollectionItem] %p", [self selectedCollectionItem]);
+    for (NSToolbarItem *item in [_toolbar items]) {
+        switch ([item tag]) {
+            case DATABASE_STATUS_TOOLBAR_ITEM_TAG:
+                [item setEnabled:[self selectedDatabaseItem] != nil];
+                break;
+                
+            case COLLECTION_STATUS_TOOLBAR_ITEM_TAG:
+            case QUERY_TOOLBAR_ITEM_TAG:
+            case MYSQL_IMPORT_TOOLBAR_ITEM_TAG:
+            case MYSQL_EXPORT_TOOLBAR_ITEM_TAG:
+            case FILE_IMPORT_TOOLBAR_ITEM_TAG:
+            case FILE_EXPORT_TOOLBAR_ITEM_TAG:
+                [item setEnabled:[self selectedCollectionItem] != nil];
+                break;
+                
+            default:
+                break;
+        }
+    }
+}
+
 @end
 
 @implementation ConnectionWindowController(NSOutlineViewDataSource)
@@ -797,6 +833,7 @@ static int percentage(NSNumber *previousValue, NSNumber *previousOutOfValue, NSN
         [self getCollectionListForDatabaseItem:databaseItem];
         [self showDatabaseStatusWithDatabaseItem:databaseItem];
     }
+    [self updateToolbarItems];
     [self getDatabaseList];
 }
 

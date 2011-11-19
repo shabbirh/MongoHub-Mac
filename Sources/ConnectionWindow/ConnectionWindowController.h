@@ -40,6 +40,7 @@
     IBOutlet NSButton *monitorButton;
     IBOutlet NSPanel *monitorPanel;
     IBOutlet StatMonitorTableController *statMonitorTableController;
+    IBOutlet NSToolbar *_toolbar;
     NSMutableArray *_databases;
     Tunnel *sshTunnel;
     AddDBController *addDBController;

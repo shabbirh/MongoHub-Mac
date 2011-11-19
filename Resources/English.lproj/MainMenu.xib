@@ -291,7 +291,7 @@
 					<reference key="NSWindow"/>
 					<reference key="NSNextKeyView" ref="150140682"/>
 				</object>
-				<string key="NSScreenRect">{{0, 0}, {1920, 1178}}</string>
+				<string key="NSScreenRect">{{0, 0}, {1440, 878}}</string>
 				<string key="NSMinSize">{213, 129}</string>
 				<string key="NSMaxSize">{10000000000000, 10000000000000}</string>
 				<bool key="NSWindowIsRestorable">YES</bool>
@@ -1213,7 +1213,7 @@ Y2xvc2UuY29tLwpUd2l0dGVyOiBodHRwOi8vdHdpdHRlci5jb20vYnVidWJhLw</string>
 					<string key="NSFrameSize">{331, 175}</string>
 					<reference key="NSNextKeyView" ref="421534884"/>
 				</object>
-				<string key="NSScreenRect">{{0, 0}, {1920, 1178}}</string>
+				<string key="NSScreenRect">{{0, 0}, {1440, 878}}</string>
 				<string key="NSMaxSize">{10000000000000, 10000000000000}</string>
 				<bool key="NSWindowIsRestorable">YES</bool>
 			</object>
@@ -2773,13 +2773,17 @@ Y2xvc2UuY29tLwpUd2l0dGVyOiBodHRwOi8vdHdpdHRlci5jb20vYnVidWJhLw</string>
 					<string>541.IBPluginDependency</string>
 					<string>542.CustomClassName</string>
 					<string>542.IBPluginDependency</string>
+					<string>554.IBAttributePlaceholdersKey</string>
 					<string>554.IBPluginDependency</string>
 					<string>555.IBPluginDependency</string>
+					<string>556.IBAttributePlaceholdersKey</string>
 					<string>556.IBPluginDependency</string>
 					<string>557.IBPluginDependency</string>
+					<string>558.IBAttributePlaceholdersKey</string>
 					<string>558.IBPluginDependency</string>
 					<string>559.IBPluginDependency</string>
 					<string>56.IBPluginDependency</string>
+					<string>560.IBAttributePlaceholdersKey</string>
 					<string>560.IBPluginDependency</string>
 					<string>561.IBPluginDependency</string>
 					<string>57.IBPluginDependency</string>
@@ -2902,13 +2906,45 @@ Y2xvc2UuY29tLwpUd2l0dGVyOiBodHRwOi8vdHdpdHRlci5jb20vYnVidWJhLw</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>ConnectionsArrayController</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<object class="NSMutableDictionary">
+						<string key="NS.key.0">ToolTip</string>
+						<object class="IBToolTipAttribute" key="NS.object.0">
+							<string key="name">ToolTip</string>
+							<reference key="object" ref="509105330"/>
+							<string key="toolTip">Add Server</string>
+						</object>
+					</object>
+					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<object class="NSMutableDictionary">
+						<string key="NS.key.0">ToolTip</string>
+						<object class="IBToolTipAttribute" key="NS.object.0">
+							<string key="name">ToolTip</string>
+							<reference key="object" ref="377730458"/>
+							<string key="toolTip">Remove Server</string>
+						</object>
+					</object>
+					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<object class="NSMutableDictionary">
+						<string key="NS.key.0">ToolTip</string>
+						<object class="IBToolTipAttribute" key="NS.object.0">
+							<string key="name">ToolTip</string>
+							<reference key="object" ref="726254851"/>
+							<string key="toolTip">Edit Server</string>
+						</object>
+					</object>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<object class="NSMutableDictionary">
+						<string key="NS.key.0">ToolTip</string>
+						<object class="IBToolTipAttribute" key="NS.object.0">
+							<string key="name">ToolTip</string>
+							<reference key="object" ref="425665274"/>
+							<string key="toolTip">Browse Server</string>
+						</object>
+					</object>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>

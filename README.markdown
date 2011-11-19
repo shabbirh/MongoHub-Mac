@@ -34,7 +34,8 @@ This project is very new. Any issues or bug reports are welcome. And I still don
     
 ** Current **
 
-    - connecting to localhost is not an issue anymore
+    - Toolbar items are enabled/disabled according to the selection
+    - Connecting to localhost is not an issue anymore
     
 ## History
 
@@ -44,10 +45,10 @@ This project is very new. Any issues or bug reports are welcome. And I still don
 
 ** 2.4.9(83) - nov 18, 2011 **
 
-    - changing the NSBundle application id
-    - database stats works again
-    - history combo-box for the criteria
-    - fix to use database with an admin user/password
+    - Changing the NSBundle application id
+    - Database stats works again
+    - History combo-box for the criteria
+    - Fix to use database with an admin user/password
 
 ** 2.4.8(82) - nov 1, 2011 **
 

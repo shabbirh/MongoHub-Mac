@@ -14,8 +14,8 @@
 #import "AddDBController.h"
 #import "AddCollectionController.h"
 #import "AuthWindowController.h"
-#import "ImportWindowController.h"
-#import "ExportWindowController.h"
+#import "MHMysqlImportWindowController.h"
+#import "MHMysqlExportWindowController.h"
 #import "ResultsOutlineViewController.h"
 #import "DatabasesArrayController.h"
 #import "StatMonitorTableController.h"
@@ -63,8 +63,8 @@
 @synthesize resultsTitle;
 @synthesize bundleVersion;
 @synthesize authWindowController;
-@synthesize importWindowController;
-@synthesize exportWindowController;
+@synthesize mysqlImportWindowController = _mysqlImportWindowController;
+@synthesize mysqlExportWindowController = _mysqlExportWindowController;
 
 
 - (id)init
@@ -91,8 +91,8 @@
     [statMonitorTableController release];
     [bundleVersion release];
     [authWindowController release];
-    [importWindowController release];
-    [exportWindowController release];
+    [_mysqlImportWindowController release];
+    [_mysqlExportWindowController release];
     [super dealloc];
 }
 
@@ -555,16 +555,16 @@
         NSRunAlertPanel(@"Error", @"Please specify a database!", @"OK", nil, nil);
         return;
     }
-    if (!importWindowController)
+    if (!_mysqlImportWindowController)
     {
-        importWindowController = [[ImportWindowController alloc] init];
+        _mysqlImportWindowController = [[MHMysqlImportWindowController alloc] init];
     }
-    importWindowController.mongoServer = _mongoServer;
-    importWindowController.dbname = [[self selectedDatabaseItem].mongoDatabase databaseName];
+    _mysqlImportWindowController.mongoServer = _mongoServer;
+    _mysqlImportWindowController.dbname = [[self selectedDatabaseItem].mongoDatabase databaseName];
     if ([self selectedCollectionItem]) {
-        [exportWindowController.collectionTextField setStringValue:[[self selectedCollectionItem].mongoCollection collectionName]];
+        [_mysqlExportWindowController.collectionTextField setStringValue:[[self selectedCollectionItem].mongoCollection collectionName]];
     }
-    [importWindowController showWindow:self];
+    [_mysqlImportWindowController showWindow:self];
 }
 
 - (IBAction)exportToMySQL:(id)sender
@@ -573,16 +573,16 @@
         NSRunAlertPanel(@"Error", @"Please specify a collection!", @"OK", nil, nil);
         return;
     }
-    if (!exportWindowController)
+    if (!_mysqlExportWindowController)
     {
-        exportWindowController = [[ExportWindowController alloc] init];
+        _mysqlExportWindowController = [[MHMysqlExportWindowController alloc] init];
     }
-    exportWindowController.mongoDatabase = [[self selectedDatabaseItem] mongoDatabase];
-    exportWindowController.dbname = [[self selectedDatabaseItem].mongoDatabase databaseName];
+    _mysqlExportWindowController.mongoDatabase = [[self selectedDatabaseItem] mongoDatabase];
+    _mysqlExportWindowController.dbname = [[self selectedDatabaseItem].mongoDatabase databaseName];
     if ([self selectedCollectionItem]) {
-        [exportWindowController.collectionTextField setStringValue:[[self selectedCollectionItem].mongoCollection collectionName]];
+        [_mysqlExportWindowController.collectionTextField setStringValue:[[self selectedCollectionItem].mongoCollection collectionName]];
     }
-    [exportWindowController showWindow:self];
+    [_mysqlExportWindowController showWindow:self];
 }
 
 - (IBAction)importFromFile:(id)sender

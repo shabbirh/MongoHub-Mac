@@ -1,12 +1,12 @@
 //
-//  ImportWindowController.m
+//  MHMysqlImportWindowController.m
 //  MongoHub
 //
 //  Created by Syd on 10-6-16.
 //  Copyright 2010 ThePeppersStudio.COM. All rights reserved.
 //
 
-#import "ImportWindowController.h"
+#import "MHMysqlImportWindowController.h"
 #import "Configure.h"
 #import "DatabasesArrayController.h"
 #import "MHDatabaseStore.h"
@@ -16,7 +16,7 @@
 #import "MODCollection.h"
 #import <MCPKit/MCPKit.h>
 
-@implementation ImportWindowController
+@implementation MHMysqlImportWindowController
 @synthesize dbname;
 @synthesize mongoServer;
 @synthesize dbsArrayController;

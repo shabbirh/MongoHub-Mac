@@ -1,5 +1,5 @@
 //
-//  ExportWindowController.h
+//  MHMysqlExportWindowController.h
 //  MongoHub
 //
 //  Created by Syd on 10-6-22.
@@ -14,7 +14,7 @@
 @class MODDatabase;
 @class FieldMapTableController;
 
-@interface ExportWindowController : NSWindowController {
+@interface MHMysqlExportWindowController : NSWindowController {
     DatabasesArrayController *databasesArrayController;
     NSString *dbname;
     MODDatabase *mongoDatabase;

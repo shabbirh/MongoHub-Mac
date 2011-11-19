@@ -1,12 +1,12 @@
 //
-//  ExportWindowController.m
+//  MHMysqlExportWindowController.m
 //  MongoHub
 //
 //  Created by Syd on 10-6-22.
 //  Copyright 2010 ThePeppersStudio.COM. All rights reserved.
 //
 
-#import "ExportWindowController.h"
+#import "MHMysqlExportWindowController.h"
 #import "Configure.h"
 #import "DatabasesArrayController.h"
 #import "MHDatabaseStore.h"
@@ -16,7 +16,7 @@
 #import "FieldMapTableController.h"
 #import "FieldMapDataObject.h"
 
-@implementation ExportWindowController
+@implementation MHMysqlExportWindowController
 
 @synthesize dbname;
 @synthesize mongoDatabase;

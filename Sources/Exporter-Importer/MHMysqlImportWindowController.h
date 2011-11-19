@@ -1,5 +1,5 @@
 //
-//  ImportWindowController.h
+//  MHMysqlImportWindowController.h
 //  MongoHub
 //
 //  Created by Syd on 10-6-16.
@@ -11,7 +11,7 @@
 @class MCPConnection;
 @class MODServer;
 
-@interface ImportWindowController : NSWindowController {
+@interface MHMysqlImportWindowController : NSWindowController {
     DatabasesArrayController *databasesArrayController;
     NSString *dbname;
     MODServer *mongoServer;

@@ -66,8 +66,8 @@
 		1D210BFB1192FF06000EF41C /* key.png in Resources */ = {isa = PBXBuildFile; fileRef = 1D210BFA1192FF06000EF41C /* key.png */; };
 		1D210BFE119301BA000EF41C /* AuthWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D210BFD119301BA000EF41C /* AuthWindowController.m */; };
 		1D210C0011930E18000EF41C /* Auth.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1D210BFF11930E18000EF41C /* Auth.xib */; };
-		1D26614E11CFC47C0092C6B5 /* ExportWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D26614D11CFC47C0092C6B5 /* ExportWindowController.m */; };
-		1D26615211CFC5BE0092C6B5 /* Export.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1D26615111CFC5BE0092C6B5 /* Export.xib */; };
+		1D26614E11CFC47C0092C6B5 /* MHMysqlExportWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D26614D11CFC47C0092C6B5 /* MHMysqlExportWindowController.m */; };
+		1D26615211CFC5BE0092C6B5 /* MysqlExport.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1D26615111CFC5BE0092C6B5 /* MysqlExport.xib */; };
 		1D26619111CFD1640092C6B5 /* FieldMapDataObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D26619011CFD1640092C6B5 /* FieldMapDataObject.m */; };
 		1D26619411CFD2560092C6B5 /* FieldMapTableController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D26619311CFD2560092C6B5 /* FieldMapTableController.m */; };
 		1D58BE0B118ED8D20045A044 /* mapreducemenu.png in Resources */ = {isa = PBXBuildFile; fileRef = 1D58BE0A118ED8D20045A044 /* mapreducemenu.png */; };
@@ -75,8 +75,8 @@
 		1D601B3911C8E13000C86274 /* exportmenu.png in Resources */ = {isa = PBXBuildFile; fileRef = 1D601B3711C8E13000C86274 /* exportmenu.png */; };
 		1D601B3D11C8E7F900C86274 /* exportbox.png in Resources */ = {isa = PBXBuildFile; fileRef = 1D601B3B11C8E7F900C86274 /* exportbox.png */; };
 		1D601B3E11C8E7F900C86274 /* importbox.png in Resources */ = {isa = PBXBuildFile; fileRef = 1D601B3C11C8E7F900C86274 /* importbox.png */; };
-		1D601B5211C8F08C00C86274 /* ImportWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D601B5111C8F08C00C86274 /* ImportWindowController.m */; };
-		1D601B5611C8F24300C86274 /* Import.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1D601B5511C8F24300C86274 /* Import.xib */; };
+		1D601B5211C8F08C00C86274 /* MHMysqlImportWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D601B5111C8F08C00C86274 /* MHMysqlImportWindowController.m */; };
+		1D601B5611C8F24300C86274 /* MysqlImport.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1D601B5511C8F24300C86274 /* MysqlImport.xib */; };
 		1D64100212C8E16C0030AA4C /* NSArray+Color.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D64100112C8E16C0030AA4C /* NSArray+Color.m */; };
 		1D64100512C8E1C00030AA4C /* NSScanner+SkipUpToCharset.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D64100412C8E1C00030AA4C /* NSScanner+SkipUpToCharset.m */; };
 		1D64100812C8E21C0030AA4C /* UKSyntaxColoredTextViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D64100712C8E21C0030AA4C /* UKSyntaxColoredTextViewController.m */; };
@@ -383,9 +383,9 @@
 		1D210BFC119301BA000EF41C /* AuthWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AuthWindowController.h; sourceTree = "<group>"; };
 		1D210BFD119301BA000EF41C /* AuthWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AuthWindowController.m; sourceTree = "<group>"; };
 		1D210BFF11930E18000EF41C /* Auth.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = Auth.xib; sourceTree = "<group>"; };
-		1D26614C11CFC47C0092C6B5 /* ExportWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ExportWindowController.h; sourceTree = "<group>"; };
-		1D26614D11CFC47C0092C6B5 /* ExportWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExportWindowController.m; sourceTree = "<group>"; };
-		1D26615111CFC5BE0092C6B5 /* Export.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = Export.xib; sourceTree = "<group>"; };
+		1D26614C11CFC47C0092C6B5 /* MHMysqlExportWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MHMysqlExportWindowController.h; sourceTree = "<group>"; };
+		1D26614D11CFC47C0092C6B5 /* MHMysqlExportWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MHMysqlExportWindowController.m; sourceTree = "<group>"; };
+		1D26615111CFC5BE0092C6B5 /* MysqlExport.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MysqlExport.xib; sourceTree = "<group>"; };
 		1D26618F11CFD1640092C6B5 /* FieldMapDataObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FieldMapDataObject.h; sourceTree = "<group>"; };
 		1D26619011CFD1640092C6B5 /* FieldMapDataObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FieldMapDataObject.m; sourceTree = "<group>"; };
 		1D26619211CFD2560092C6B5 /* FieldMapTableController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FieldMapTableController.h; sourceTree = "<group>"; };
@@ -395,9 +395,9 @@
 		1D601B3711C8E13000C86274 /* exportmenu.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = exportmenu.png; sourceTree = "<group>"; };
 		1D601B3B11C8E7F900C86274 /* exportbox.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = exportbox.png; path = Resources/images/exportbox.png; sourceTree = SOURCE_ROOT; };
 		1D601B3C11C8E7F900C86274 /* importbox.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = importbox.png; path = Resources/images/importbox.png; sourceTree = SOURCE_ROOT; };
-		1D601B5011C8F08C00C86274 /* ImportWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImportWindowController.h; sourceTree = "<group>"; };
-		1D601B5111C8F08C00C86274 /* ImportWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImportWindowController.m; sourceTree = "<group>"; };
-		1D601B5511C8F24300C86274 /* Import.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = Import.xib; sourceTree = "<group>"; };
+		1D601B5011C8F08C00C86274 /* MHMysqlImportWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MHMysqlImportWindowController.h; sourceTree = "<group>"; };
+		1D601B5111C8F08C00C86274 /* MHMysqlImportWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MHMysqlImportWindowController.m; sourceTree = "<group>"; };
+		1D601B5511C8F24300C86274 /* MysqlImport.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MysqlImport.xib; sourceTree = "<group>"; };
 		1D64100012C8E16C0030AA4C /* NSArray+Color.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+Color.h"; sourceTree = "<group>"; };
 		1D64100112C8E16C0030AA4C /* NSArray+Color.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+Color.m"; sourceTree = "<group>"; };
 		1D64100312C8E1C00030AA4C /* NSScanner+SkipUpToCharset.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSScanner+SkipUpToCharset.h"; sourceTree = "<group>"; };
@@ -618,10 +618,6 @@
 				1DF96F9111883B3800C35AB8 /* MHQueryWindowController.m */,
 				1D210BFC119301BA000EF41C /* AuthWindowController.h */,
 				1D210BFD119301BA000EF41C /* AuthWindowController.m */,
-				1D601B5011C8F08C00C86274 /* ImportWindowController.h */,
-				1D601B5111C8F08C00C86274 /* ImportWindowController.m */,
-				1D26614C11CFC47C0092C6B5 /* ExportWindowController.h */,
-				1D26614D11CFC47C0092C6B5 /* ExportWindowController.m */,
 			);
 			path = ConnectionWindow;
 			sourceTree = "<group>";
@@ -673,6 +669,10 @@
 		02D345E414770616001083E7 /* Exporter-Importer */ = {
 			isa = PBXGroup;
 			children = (
+				1D601B5011C8F08C00C86274 /* MHMysqlImportWindowController.h */,
+				1D601B5111C8F08C00C86274 /* MHMysqlImportWindowController.m */,
+				1D26614C11CFC47C0092C6B5 /* MHMysqlExportWindowController.h */,
+				1D26614D11CFC47C0092C6B5 /* MHMysqlExportWindowController.m */,
 			);
 			path = "Exporter-Importer";
 			sourceTree = "<group>";
@@ -1111,8 +1111,8 @@
 				1DF96E3C11881EB400C35AB8 /* NewCollection.xib */,
 				1DF96F9311883D5E00C35AB8 /* QueryWindow.xib */,
 				1D210BFF11930E18000EF41C /* Auth.xib */,
-				1D601B5511C8F24300C86274 /* Import.xib */,
-				1D26615111CFC5BE0092C6B5 /* Export.xib */,
+				1D601B5511C8F24300C86274 /* MysqlImport.xib */,
+				1D26615111CFC5BE0092C6B5 /* MysqlExport.xib */,
 				1D64100E12C8E6BE0030AA4C /* JsonWindow.xib */,
 			);
 			path = Resources;
@@ -1251,8 +1251,8 @@
 				1D601B3911C8E13000C86274 /* exportmenu.png in Resources */,
 				1D601B3D11C8E7F900C86274 /* exportbox.png in Resources */,
 				1D601B3E11C8E7F900C86274 /* importbox.png in Resources */,
-				1D601B5611C8F24300C86274 /* Import.xib in Resources */,
-				1D26615211CFC5BE0092C6B5 /* Export.xib in Resources */,
+				1D601B5611C8F24300C86274 /* MysqlImport.xib in Resources */,
+				1D26615211CFC5BE0092C6B5 /* MysqlExport.xib in Resources */,
 				1DEC803512B7EE2100FC804E /* SSHCommand.sh in Resources */,
 				1D64100F12C8E6BE0030AA4C /* JsonWindow.xib in Resources */,
 				1DD1CA8312C8EFD4007F2909 /* SyntaxDefinition.plist in Resources */,
@@ -1373,8 +1373,8 @@
 				1DF96F9211883B3800C35AB8 /* MHQueryWindowController.m in Sources */,
 				1DA6806C11888BDD00DFDD29 /* NSString+Extras.m in Sources */,
 				1D210BFE119301BA000EF41C /* AuthWindowController.m in Sources */,
-				1D601B5211C8F08C00C86274 /* ImportWindowController.m in Sources */,
-				1D26614E11CFC47C0092C6B5 /* ExportWindowController.m in Sources */,
+				1D601B5211C8F08C00C86274 /* MHMysqlImportWindowController.m in Sources */,
+				1D26614E11CFC47C0092C6B5 /* MHMysqlExportWindowController.m in Sources */,
 				1D26619111CFD1640092C6B5 /* FieldMapDataObject.m in Sources */,
 				1D26619411CFD2560092C6B5 /* FieldMapTableController.m in Sources */,
 				1DEC7F3B12B7ECAD00FC804E /* Tunnel.m in Sources */,

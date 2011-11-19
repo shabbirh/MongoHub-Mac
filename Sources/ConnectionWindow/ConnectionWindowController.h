@@ -16,8 +16,8 @@
 @class AddDBController;
 @class AddCollectionController;
 @class AuthWindowController;
-@class ImportWindowController;
-@class ExportWindowController;
+@class MHMysqlImportWindowController;
+@class MHMysqlExportWindowController;
 @class ResultsOutlineViewController;
 @class MHConnectionStore;
 @class MODServer;
@@ -45,8 +45,8 @@
     AddDBController *addDBController;
     AddCollectionController *addCollectionController;
     AuthWindowController *authWindowController;
-    ImportWindowController *importWindowController;
-    ExportWindowController *exportWindowController;
+    MHMysqlImportWindowController *_mysqlImportWindowController;
+    MHMysqlExportWindowController *_mysqlExportWindowController;
     IBOutlet NSTextField *bundleVersion;
     BOOL exitThread;
     BOOL monitorStopped;
@@ -68,8 +68,8 @@
 @property (nonatomic, retain) AddCollectionController *addCollectionController;
 @property (nonatomic, retain) NSTextField *bundleVersion;
 @property (nonatomic, retain) AuthWindowController *authWindowController;
-@property (nonatomic, retain) ImportWindowController *importWindowController;
-@property (nonatomic, retain) ExportWindowController *exportWindowController;
+@property (nonatomic, retain) MHMysqlImportWindowController *mysqlImportWindowController;
+@property (nonatomic, retain) MHMysqlExportWindowController *mysqlExportWindowController;
 @property (nonatomic, readonly, assign) NSManagedObjectContext *managedObjectContext;
 
 - (IBAction)reconnect:(id)sender;

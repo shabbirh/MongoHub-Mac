@@ -768,7 +768,6 @@ static int percentage(NSNumber *previousValue, NSNumber *previousOutOfValue, NSN
 
 - (void)updateToolbarItems
 {
-    NSLog(@"[self selectedCollectionItem] %p", [self selectedCollectionItem]);
     for (NSToolbarItem *item in [_toolbar items]) {
         switch ([item tag]) {
             case DATABASE_STATUS_TOOLBAR_ITEM_TAG:

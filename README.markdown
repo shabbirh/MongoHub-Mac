@@ -33,6 +33,8 @@ This project is very new. Any issues or bug reports are welcome. And I still don
     - Need a better UI to replace the tabs in a collection window
     
 ** Current **
+
+    - Problem to update document with boolean values and regexp values
     
 ## History
 

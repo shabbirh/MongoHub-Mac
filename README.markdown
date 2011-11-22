@@ -34,9 +34,11 @@ This project is very new. Any issues or bug reports are welcome. And I still don
     
 ** Current **
 
-    - Problem to update document with boolean values and regexp values
-    
 ## History
+
+** 2.4.12(86) - nov 22, 2011 **
+
+    - Problem to update document with boolean values and regexp values
 
 ** 2.4.11(85) - nov 22, 2011 **
 

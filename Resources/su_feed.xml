@@ -6,13 +6,11 @@
       <description>Most recent changes with links to updates.</description>
       <language>en</language>      
          <item>
-            <title>Version 2.4.11</title>
-            <enclosure url="http://cloud.github.com/downloads/fotonauts/MongoHub-Mac/MongoHub.zip" sparkle:version="85" sparkle:shortVersionString="2.4.11" length="3054603" sparkle:dsaSignature="MC4CFQCyT4HEWUwvXHOYtduLM9mgrYTvmAIVAN2gQqmviSY84OwzorShgAmlESBD" type="application/octet-stream" />
+            <title>Version 2.4.12</title>
+            <enclosure url="http://cloud.github.com/downloads/fotonauts/MongoHub-Mac/MongoHub.zip" sparkle:version="86" sparkle:shortVersionString="2.4.12" length="3055872" sparkle:dsaSignature="MC4CFQDEF6Eif67JOFWI0iTs0k/juW5ipgIVAOoaGmxkouydmn6SZkGmQ3gHMpZt" type="application/octet-stream" />
             <description><![CDATA[
 <ul>
-<li>- Toolbar items are enabled/disabled according to the selection</li>
-<li>- Connecting to localhost is not an issue anymore</li>
-<li>- Bug to parse json with arrays</li>
+<li>Problem to update document with boolean values and regexp values</li>
 </ul>
             ]]>
             </description>

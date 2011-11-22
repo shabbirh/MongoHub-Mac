@@ -33,11 +33,14 @@ This project is very new. Any issues or bug reports are welcome. And I still don
     - Need a better UI to replace the tabs in a collection window
     
 ** Current **
+    
+## History
+
+** 2.4.11(85) - nov 22, 2011 **
 
     - Toolbar items are enabled/disabled according to the selection
     - Connecting to localhost is not an issue anymore
-    
-## History
+    - Bug to parse json with arrays
 
 ** 2.4.10(84) - nov 19, 2011 **
 

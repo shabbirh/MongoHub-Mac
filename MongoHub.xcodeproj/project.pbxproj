@@ -43,6 +43,7 @@
 		029D30AC145613C30021B9C9 /* MHServerItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 029D30AB145613C30021B9C9 /* MHServerItem.m */; };
 		02AA29931477F8BD0041865F /* MHFileExporter.m in Sources */ = {isa = PBXBuildFile; fileRef = 02AA29921477F8BD0041865F /* MHFileExporter.m */; };
 		02AB057C142971CE00B7CD19 /* MODObjectId.m in Sources */ = {isa = PBXBuildFile; fileRef = 02AB057A142971CE00B7CD19 /* MODObjectId.m */; };
+		02B143DC147C720D005AB320 /* MHFileImporter.m in Sources */ = {isa = PBXBuildFile; fileRef = 02B143DB147C720D005AB320 /* MHFileImporter.m */; };
 		02CF87E4142F7316000C4C7F /* MODJsonParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 02CF87E1142F7316000C4C7F /* MODJsonParser.m */; };
 		02CF87E5142F7316000C4C7F /* MODTimestamp.m in Sources */ = {isa = PBXBuildFile; fileRef = 02CF87E3142F7316000C4C7F /* MODTimestamp.m */; };
 		02D5A8E41442087F00C7768C /* bson.c in Sources */ = {isa = PBXBuildFile; fileRef = 02D5A87F144207CF00C7768C /* bson.c */; };
@@ -262,6 +263,8 @@
 		02AA29921477F8BD0041865F /* MHFileExporter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MHFileExporter.m; sourceTree = "<group>"; };
 		02AB057A142971CE00B7CD19 /* MODObjectId.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MODObjectId.m; sourceTree = "<group>"; };
 		02AB057B142971CE00B7CD19 /* MODObjectId.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MODObjectId.h; sourceTree = "<group>"; };
+		02B143DA147C720D005AB320 /* MHFileImporter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MHFileImporter.h; sourceTree = "<group>"; };
+		02B143DB147C720D005AB320 /* MHFileImporter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MHFileImporter.m; sourceTree = "<group>"; };
 		02CF87E0142F7316000C4C7F /* MODJsonParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MODJsonParser.h; sourceTree = "<group>"; };
 		02CF87E1142F7316000C4C7F /* MODJsonParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MODJsonParser.m; sourceTree = "<group>"; };
 		02CF87E2142F7316000C4C7F /* MODTimestamp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MODTimestamp.h; sourceTree = "<group>"; };
@@ -674,6 +677,8 @@
 				1D26614D11CFC47C0092C6B5 /* MHMysqlExportWindowController.m */,
 				02AA29911477F8BD0041865F /* MHFileExporter.h */,
 				02AA29921477F8BD0041865F /* MHFileExporter.m */,
+				02B143DA147C720D005AB320 /* MHFileImporter.h */,
+				02B143DB147C720D005AB320 /* MHFileImporter.m */,
 			);
 			path = "Exporter-Importer";
 			sourceTree = "<group>";
@@ -1393,6 +1398,7 @@
 				029D30AC145613C30021B9C9 /* MHServerItem.m in Sources */,
 				021BEA681463709A0091C2EA /* MongoHub_DataModel.xcdatamodeld in Sources */,
 				02AA29931477F8BD0041865F /* MHFileExporter.m in Sources */,
+				02B143DC147C720D005AB320 /* MHFileImporter.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

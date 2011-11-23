@@ -34,6 +34,7 @@
     BOOL result = YES;
     int fileDescriptor;
     
+    NSAssert(error != nil, @"need to set error variable");
     *error = nil;
     fileDescriptor = open([_exportPath fileSystemRepresentation], O_WRONLY | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
     if (fileDescriptor < 0) {

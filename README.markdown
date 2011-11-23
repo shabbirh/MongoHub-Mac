@@ -34,6 +34,8 @@ This project is very new. Any issues or bug reports are welcome. And I still don
     
 ** Current **
 
+	- Key order is preserved in a document
+
 ## History
 
 ** 2.4.12(86) - nov 22, 2011 **

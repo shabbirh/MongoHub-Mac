@@ -23,6 +23,7 @@
 @class MODServer;
 @class MODDatabase;
 @class MODCollection;
+@class MODSortedMutableDictionary;
 
 @interface ConnectionWindowController : NSWindowController
 {
@@ -52,7 +53,7 @@
     BOOL exitThread;
     BOOL monitorStopped;
     
-    NSDictionary *previousServerStatusForDelta;
+    MODSortedMutableDictionary *previousServerStatusForDelta;
 }
 
 @property (nonatomic, retain) ResultsOutlineViewController *resultsOutlineViewController;

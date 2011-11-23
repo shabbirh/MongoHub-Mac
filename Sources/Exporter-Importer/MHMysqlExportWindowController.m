@@ -92,7 +92,7 @@
         
         MODCursor *cursor;
         cursor = [mongoCollection cursorWithCriteria:nil fields:nil skip:0 limit:0 sort:nil];
-        [cursor forEachDocumentWithCallbackDocumentCallback:^(uint64_t index, NSDictionary *document) {
+        [cursor forEachDocumentWithCallbackDocumentCallback:^(uint64_t index, MODSortedMutableDictionary *document) {
             [self doExportToTable:tablename data:document fieldTypes:fieldTypes fieldMapping:fieldMapping];
             [progressIndicator setDoubleValue:(double)index/total];
             NSLog(@"%lld %lld", index, total);

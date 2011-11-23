@@ -20,11 +20,6 @@
 #import "DatabasesArrayController.h"
 #import "StatMonitorTableController.h"
 #import "Tunnel.h"
-#import "MODServer.h"
-#import "MODDatabase.h"
-#import "MODCollection.h"
-#import "MODQuery.h"
-#import "MODHelper.h"
 #import "MHServerItem.h"
 #import "MHDatabaseItem.h"
 #import "MHCollectionItem.h"
@@ -32,6 +27,8 @@
 #import "MHConnectionStore.h"
 #import "MHDatabaseStore.h"
 #import "MHFileExporter.h"
+#import "MODHelper.h"
+#import "MOD_public.h"
 
 #define SERVER_STATUS_TOOLBAR_ITEM_TAG              0
 #define DATABASE_STATUS_TOOLBAR_ITEM_TAG            1
@@ -349,7 +346,7 @@
     
     [loaderIndicator start];
     [resultsTitle setStringValue:[NSString stringWithFormat:@"Server %@:%@ stats", _connectionStore.host, _connectionStore.hostport]];
-    result = [_mongoServer fetchServerStatusWithCallback:^(NSDictionary *serverStatus, MODQuery *mongoQuery) {
+    result = [_mongoServer fetchServerStatusWithCallback:^(MODSortedMutableDictionary *serverStatus, MODQuery *mongoQuery) {
         [loaderIndicator stop];
         if (_mongoServer == [mongoQuery.parameters objectForKey:@"mongoserver"]) {
             [resultsOutlineViewController.results removeAllObjects];
@@ -372,7 +369,7 @@
         [loaderIndicator start];
         [resultsTitle setStringValue:[NSString stringWithFormat:@"Database %@ stats", databaseItem.name]];
         
-        result = [databaseItem.mongoDatabase fetchDatabaseStatsWithCallback:^(NSDictionary *databaseStats, MODQuery *mongoQuery) {
+        result = [databaseItem.mongoDatabase fetchDatabaseStatsWithCallback:^(MODSortedMutableDictionary *databaseStats, MODQuery *mongoQuery) {
             [loaderIndicator stop];
             [resultsOutlineViewController.results removeAllObjects];
             if (databaseStats) {
@@ -393,7 +390,7 @@
     if (collectionItem) {
         [loaderIndicator start];
         [resultsTitle setStringValue:[NSString stringWithFormat:@"Collection %@.%@ stats", collectionItem.databaseItem.name, collectionItem.name]];
-        result = [collectionItem.mongoCollection fetchCollectionStatsWithCallback:^(NSDictionary *stats, MODQuery *mongoQuery) {
+        result = [collectionItem.mongoCollection fetchCollectionStatsWithCallback:^(MODSortedMutableDictionary *stats, MODQuery *mongoQuery) {
             [loaderIndicator stop];
             [resultsOutlineViewController.results removeAllObjects];
             if (stats) {
@@ -676,7 +673,7 @@ static int percentage(NSNumber *previousValue, NSNumber *previousOutOfValue, NSN
 - (void)fetchServerStatusDelta
 {
     [resultsTitle setStringValue:[NSString stringWithFormat:@"Server %@:%@ stats", _connectionStore.host, _connectionStore.hostport]];
-    [_mongoServer fetchServerStatusWithCallback:^(NSDictionary *serverStatus, MODQuery *mongoQuery) {
+    [_mongoServer fetchServerStatusWithCallback:^(MODSortedMutableDictionary *serverStatus, MODQuery *mongoQuery) {
         [loaderIndicator stop];
         if (_mongoServer == [mongoQuery.parameters objectForKey:@"mongoserver"]) {
             NSMutableDictionary *diff = [[NSMutableDictionary alloc] init];

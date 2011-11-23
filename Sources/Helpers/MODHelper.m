@@ -21,7 +21,7 @@
     NSMutableArray *result;
     
     result = [NSMutableArray arrayWithCapacity:[mongoObjects count]];
-    for (NSDictionary *object in mongoObjects) {
+    for (MODSortedMutableDictionary *object in mongoObjects) {
         id idValue;
         NSString *idValueName;
         NSMutableDictionary *dict;
@@ -44,12 +44,12 @@
     return result;
 }
 
-+ (NSArray *)convertForOutlineWithObject:(NSDictionary *)mongoObject
++ (NSArray *)convertForOutlineWithObject:(MODSortedMutableDictionary *)mongoObject
 {
     NSMutableArray *result;
     
     result = [NSMutableArray array];
-    for (NSString *dataKey in [[mongoObject allKeys] sortedArrayUsingSelector:@selector(compare:)]) {
+    for (NSString *dataKey in mongoObject.sortedKeys) {
         NSMutableDictionary *value;
         
         value = [self convertForOutlineWithValue:[mongoObject objectForKey:dataKey] dataKey:dataKey];
@@ -108,7 +108,7 @@
     } else if ([dataValue isKindOfClass:[NSNull class]]) {
         type = @"NULL";
         value = @"NULL";
-    } else if ([dataValue isKindOfClass:[NSDictionary class]]) {
+    } else if ([dataValue isKindOfClass:[MODSortedMutableDictionary class]]) {
         value = @"";
         type = @"Object";
         child = [self convertForOutlineWithObject:dataValue];
@@ -130,6 +130,7 @@
         }
     } else {
         NSLog(@"type %@ value %@", [dataValue class], dataValue);
+		NSAssert(NO, @"unknown type");
     }
     if (value) {
         result = [NSMutableDictionary dictionaryWithCapacity:4];

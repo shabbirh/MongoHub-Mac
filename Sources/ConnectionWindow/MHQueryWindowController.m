@@ -13,9 +13,7 @@
 #import "ResultsOutlineViewController.h"
 #import "NSString+Extras.h"
 #import "JsonWindowController.h"
-#import "MODServer.h"
-#import "MODCollection.h"
-#import "MODDatabase.h"
+#import "MOD_public.h"
 #import "MODHelper.h"
 #import "MODJsonParser.h"
 #import "MHConnectionStore.h"
@@ -291,7 +289,7 @@
     }];
 }
 
-- (IBAction) insertQuery:(id)sender
+- (IBAction)insertQuery:(id)sender
 {
     id objects;
     NSError *error;
@@ -301,7 +299,7 @@
     if (error) {
         NSRunAlertPanel(@"Error", [error localizedDescription], @"OK", nil, nil);
     } else {
-        if ([objects isKindOfClass:[NSDictionary class]]) {
+        if ([objects isKindOfClass:[MODSortedMutableDictionary class]]) {
             objects = [NSArray arrayWithObject:objects];
         }
         [_mongoCollection insertWithDocuments:objects callback:^(MODQuery *mongoQuery) {

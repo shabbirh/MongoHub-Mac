@@ -127,7 +127,7 @@
             continue;
         } else if ([mongoValue isKindOfClass:[NSArray class]]) {
             continue;
-        } else if ([mongoValue isKindOfClass:[NSDictionary class]]) {
+        } else if ([mongoValue isKindOfClass:[MODSortedMutableDictionary class]]) {
             continue;
         } else if ([mongoValue isKindOfClass:[NSNumber class]] && strcmp([mongoValue objCType], @encode(BOOL)) == 0)  {
             if ([mongoValue boolValue]) {

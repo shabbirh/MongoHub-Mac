@@ -35,6 +35,7 @@ This project is very new. Any issues or bug reports are welcome. And I still don
 ** Current **
 
 	- Key order is preserved in a document
+    - Support for UTF-8
 
 ## History
 

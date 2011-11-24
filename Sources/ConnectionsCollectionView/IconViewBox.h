@@ -12,7 +12,7 @@
 @interface IconViewBox : NSBox
 {
     BOOL selectedFlag;
-	IBOutlet id delegate;
+    IBOutlet id delegate;
 }
 
 @property (nonatomic, assign) id delegate;

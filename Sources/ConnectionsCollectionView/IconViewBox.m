@@ -14,16 +14,19 @@
 @synthesize selectedFlag;
 
 
--(void)setSelected:(BOOL)flag {
+- (void)setSelected:(BOOL)flag
+{
     selectedFlag = flag;
 }
 
--(BOOL)selected {
+- (BOOL)selected
+{
     return selectedFlag;
 }
 
--(void)drawRect:(NSRect)rect {
-    if([self selected]) {
+- (void)drawRect:(NSRect)rect
+{
+    if ([self selected]) {
         NSColor *bgColor = [NSColor colorWithCalibratedWhite:0.0 alpha:0.35];
         NSRect bgRect = rect;
         int minX = NSMinX(bgRect);
@@ -59,7 +62,7 @@
         
         [bgColor set];
         [bgPath fill];  
-    }else {
+    } else {
         [self setWantsLayer:NO];
     }
 
@@ -67,26 +70,27 @@
 }
 
 // -------------------------------------------------------------------------------
-//	hitTest:aPoint
+//  hitTest:aPoint
 // -------------------------------------------------------------------------------
 - (NSView *)hitTest:(NSPoint)aPoint
 {
     // don't allow any mouse clicks for subviews in this view
-	if(NSPointInRect(aPoint,[self convertRect:[self bounds] toView:[self superview]])) {
-		return self;
-	} else {
-		return nil;    
-	}
+    if(NSPointInRect(aPoint,[self convertRect:[self bounds] toView:[self superview]])) {
+        return self;
+    } else {
+        return nil;    
+    }
 }
 
--(void)mouseDown:(NSEvent *)theEvent {
-	[super mouseDown:theEvent];
-	// check for click count above one, which we assume means it's a double click
-	if([theEvent clickCount] > 1) {
-		if(delegate && [delegate respondsToSelector:@selector(doubleClick:)]) {
-			[delegate performSelector:@selector(doubleClick:) withObject:self];
-		}
-	}
+- (void)mouseDown:(NSEvent *)theEvent
+{
+    [super mouseDown:theEvent];
+    // check for click count above one, which we assume means it's a double click
+    if ([theEvent clickCount] > 1) {
+        if(delegate && [delegate respondsToSelector:@selector(doubleClick:)]) {
+            [delegate performSelector:@selector(doubleClick:) withObject:self];
+        }
+    }
 }
 
 @end

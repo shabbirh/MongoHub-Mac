@@ -11,9 +11,7 @@
 #import "DatabasesArrayController.h"
 #import "MHDatabaseStore.h"
 #import "NSString+Extras.h"
-#import "MODServer.h"
-#import "MODDatabase.h"
-#import "MODCollection.h"
+#import "MOD_public.h"
 #import <MCPKit/MCPKit.h>
 
 @implementation MHMysqlImportWindowController
@@ -125,17 +123,20 @@
                 NSString *query = [[NSString alloc] initWithFormat:@"select * from %@ limit %lld, %lld", tableName, ii, chunkSize];
                 MCPResult *theResult = [db queryString:query];
                 NSDictionary *row;
+                NSMutableArray *documents;
                  
                 [query release];
                 if ([theResult numOfRows] == 0) {
                      return;
                 }
                 while ((row = [theResult fetchRowAsDictionary])) {
-                    NSMutableArray *documents;
                     void (^callback)(MODQuery *mongoQuery);
+                    MODSortedMutableDictionary *document;
                     
                     ii++;
-                    documents = [[NSMutableArray alloc] initWithObjects:row, nil];
+                    document = [[MODSortedMutableDictionary alloc] initWithDictionary:row];
+                    documents = [[NSMutableArray alloc] initWithObjects:document, nil];
+                    [document release];
                     if (ii == total) {
                         callback = ^(MODQuery *mongoQuery) {
                             [self importDone:nil];

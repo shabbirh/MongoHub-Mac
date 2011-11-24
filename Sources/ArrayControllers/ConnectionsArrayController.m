@@ -13,11 +13,10 @@
 
 - (void)awakeFromNib
 {
-	if ([NSArrayController instancesRespondToSelector:@selector(awakeFromNib)])
-	{
-		[super awakeFromNib];
-	}
-	[self setClearsFilterPredicateOnInsertion:NO];
+    if ([NSArrayController instancesRespondToSelector:@selector(awakeFromNib)]) {
+        [super awakeFromNib];
+    }
+    [self setClearsFilterPredicateOnInsertion:NO];
 }
 
 - (id)newObject

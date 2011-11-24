@@ -17,7 +17,7 @@
 }
 
 -(void)drawRect:(NSRect)rect {
-	[[NSColor colorWithCalibratedHue: 0 saturation: 0 brightness: 0.13 alpha: 1.0] set];
-	NSRectFill([self frame]);
+    [[NSColor colorWithCalibratedHue: 0 saturation: 0 brightness: 0.13 alpha: 1.0] set];
+    NSRectFill([self frame]);
 }
 @end

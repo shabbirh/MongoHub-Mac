@@ -59,9 +59,8 @@
         
         buffer = malloc(BUFFER_SIZE);
         readCount = availableCount = read(fileDescriptor, buffer, BUFFER_SIZE - 1);
+        buffer[availableCount] = 0;
         while (readCount > 0) {
-            availableCount += readCount;
-            buffer[availableCount] = 0;
             if (!parser) {
                 parser = [[MODJsonToObjectParser alloc] init];
                 parser.multiPartParsing = YES;
@@ -71,7 +70,6 @@
                 NSArray *documents;
                 
                 documents = [[NSArray alloc] initWithObjects:(id)[parser mainObject], nil];
-                NSLog(@"%@", [parser mainObject]);
                 [_latestQuery release];
                 _latestQuery = [[_collection insertWithDocuments:documents callback:^(MODQuery *query) {
                     if (query.error) {
@@ -88,12 +86,17 @@
                 availableCount = readCount - parsedCount;
                 parsedCount = 0;
                 readCount = read(fileDescriptor, buffer + availableCount, BUFFER_SIZE - availableCount - 1);
+                if (readCount > 0) {
+                    availableCount += readCount;
+                    buffer[availableCount] = 0;
+                }
             }
             
         }
         close(fileDescriptor);
         result = YES;
     }
+    [_latestQuery waitUntilFinished];
     return result;
 }
 

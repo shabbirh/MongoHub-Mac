@@ -14,11 +14,10 @@
 
 - (void)awakeFromNib
 {
-	if ([NSArrayController instancesRespondToSelector:@selector(awakeFromNib)])
-	{
-		[super awakeFromNib];
-	}
-	[self setClearsFilterPredicateOnInsertion:NO];
+    if ([NSArrayController instancesRespondToSelector:@selector(awakeFromNib)]) {
+        [super awakeFromNib];
+    }
+    [self setClearsFilterPredicateOnInsertion:NO];
 }
 
 - (id)newObjectWithConn:(MHConnectionStore *) conn name:(NSString *)name user:(NSString *)user password:(NSString *)password

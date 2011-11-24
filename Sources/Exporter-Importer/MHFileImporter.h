@@ -8,12 +8,14 @@
 
 #import <Foundation/Foundation.h>
 
-@class MODCollection;
+@class MODCollection, MODQuery;
 
 @interface MHFileImporter : NSObject
 {
     NSString *_importPath;
     MODCollection *_collection;
+    NSMutableDictionary *_errorForDocument;
+    MODQuery *_latestQuery;
 }
 
 - (id)initWithCollection:(MODCollection *)collection importPath:(NSString *)importPath;

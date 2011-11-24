@@ -27,6 +27,7 @@
 #import "MHConnectionStore.h"
 #import "MHDatabaseStore.h"
 #import "MHFileExporter.h"
+#import "MHFileImporter.h"
 #import "MODHelper.h"
 #import "MOD_public.h"
 
@@ -603,7 +604,12 @@
 
 - (IBAction)importFromFile:(id)sender
 {
+    MHFileImporter *importer;
+    NSError *error;
     
+    importer = [[MHFileImporter alloc] initWithCollection:[self selectedCollectionItem].mongoCollection importPath:@"/tmp/export"];
+    [importer importWithError:&error];
+    NSLog(@"%@", error);
 }
 
 - (IBAction)exportToFile:(id)sender

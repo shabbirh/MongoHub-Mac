@@ -15,7 +15,7 @@
 @class MODCollection;
 
 #ifndef UKSCTD_DEFAULT_TEXTENCODING
-#define UKSCTD_DEFAULT_TEXTENCODING		NSUTF8StringEncoding
+#define UKSCTD_DEFAULT_TEXTENCODING     NSUTF8StringEncoding
 #endif
 
 @interface JsonWindowController : NSWindowController <UKSyntaxColoredTextViewDelegate, MODQueryCallbackTarget>
@@ -40,7 +40,7 @@
 @property (nonatomic, retain) NSTextView *myTextView;
 @property (nonatomic, readwrite, retain) MODCollection *mongoCollection;
 
--(IBAction) save:(id)sender;
--(IBAction)	recolorCompleteFile: (id)sender;
+- (IBAction)save:(id)sender;
+- (IBAction)recolorCompleteFile: (id)sender;
 
 @end

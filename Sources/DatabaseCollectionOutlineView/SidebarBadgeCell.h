@@ -8,11 +8,11 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface SidebarBadgeCell : NSTextFieldCell {
-	@private
-		NSUInteger _badgeCount;
-		NSImage *_icon;
-		BOOL _hasBadge;
+@interface SidebarBadgeCell : NSTextFieldCell
+{
+    NSUInteger _badgeCount;
+    NSImage *_icon;
+    BOOL _hasBadge;
 }
 
 @property (readwrite) NSUInteger badgeCount;

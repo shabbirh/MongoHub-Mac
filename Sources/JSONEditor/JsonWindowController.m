@@ -22,12 +22,14 @@
 @synthesize jsonDict;
 @synthesize myTextView;
 
-- (id)init {
+- (id)init
+{
     self = [super initWithWindowNibName:@"JsonWindow"];
     return self;
 }
 
-- (void)dealloc {
+- (void)dealloc
+{
     [databasesArrayController release];
     [mongoServer release];
     [mongoCollection release];
@@ -42,7 +44,8 @@
     [super dealloc];
 }
 
-- (void)windowWillClose:(NSNotification *)notification {
+- (void)windowWillClose:(NSNotification *)notification
+{
     [[NSNotificationCenter defaultCenter] postNotificationName:kJsonWindowWillClose object:nil];
     [super release];
 }
@@ -54,24 +57,24 @@
     [title release];
     [myTextView setString:[jsonDict objectForKey:@"beautified"]];
     syntaxColoringController = [[UKSyntaxColoredTextViewController alloc] init];
-	[syntaxColoringController setDelegate: self];
-	[syntaxColoringController setView: myTextView];
+    [syntaxColoringController setDelegate: self];
+    [syntaxColoringController setView: myTextView];
 }
 
 
--(void)	textViewControllerWillStartSyntaxRecoloring: (UKSyntaxColoredTextViewController*)sender
+- (void)textViewControllerWillStartSyntaxRecoloring: (UKSyntaxColoredTextViewController*)sender
 {
     // Show your progress indicator.
-	[progress startAnimation: self];
-	[progress display];
+    [progress startAnimation: self];
+    [progress display];
 }
 
 
--(void)	textViewControllerDidFinishSyntaxRecoloring: (UKSyntaxColoredTextViewController*)sender
+- (void)textViewControllerDidFinishSyntaxRecoloring: (UKSyntaxColoredTextViewController*)sender
 {
     // Hide your progress indicator.
-	[progress stopAnimation: self];
-	[progress display];
+    [progress stopAnimation: self];
+    [progress display];
 }
 
 -(NSString *)syntaxDefinitionFilenameForTextViewController: (UKSyntaxColoredTextViewController*)sender
@@ -79,26 +82,23 @@
     return @"JSON";
 }
 
--(void)	selectionInTextViewController: (UKSyntaxColoredTextViewController*)sender						// Update any selection status display.
+- (void)selectionInTextViewController: (UKSyntaxColoredTextViewController*)sender                        // Update any selection status display.
               changedToStartCharacter: (NSUInteger)startCharInLine endCharacter: (NSUInteger)endCharInLine
                                inLine: (NSUInteger)lineInDoc startCharacterInDocument: (NSUInteger)startCharInDoc
                endCharacterInDocument: (NSUInteger)endCharInDoc;
 {
-	NSString*	statusMsg = nil;
-	
-	if( startCharInDoc < endCharInDoc )
-	{
-		statusMsg = NSLocalizedString(@"character %lu to %lu of line %lu (%lu to %lu in document).",@"selection description in syntax colored text documents.");
-		statusMsg = [NSString stringWithFormat: statusMsg, startCharInLine +1, endCharInLine +1, lineInDoc +1, startCharInDoc +1, endCharInDoc +1];
-	}
-	else
-	{
-		statusMsg = NSLocalizedString(@"character %lu of line %lu (%lu in document).",@"insertion mark description in syntax colored text documents.");
-		statusMsg = [NSString stringWithFormat: statusMsg, startCharInLine +1, lineInDoc +1, startCharInDoc +1];
-	}
+    NSString *statusMsg = nil;
     
-	[status setStringValue: statusMsg];
-	[status display];
+    if( startCharInDoc < endCharInDoc ) {
+        statusMsg = NSLocalizedString(@"character %lu to %lu of line %lu (%lu to %lu in document).",@"selection description in syntax colored text documents.");
+        statusMsg = [NSString stringWithFormat: statusMsg, startCharInLine +1, endCharInLine +1, lineInDoc +1, startCharInDoc +1, endCharInDoc +1];
+    } else {
+        statusMsg = NSLocalizedString(@"character %lu of line %lu (%lu in document).",@"insertion mark description in syntax colored text documents.");
+        statusMsg = [NSString stringWithFormat: statusMsg, startCharInLine +1, lineInDoc +1, startCharInDoc +1];
+    }
+    
+    [status setStringValue: statusMsg];
+    [status display];
 }
 
 /* -----------------------------------------------------------------------------
@@ -106,9 +106,9 @@
  IBAction to do a complete recolor of the whole friggin' document.
  -------------------------------------------------------------------------- */
 
--(IBAction)	recolorCompleteFile: (id)sender
+- (IBAction)recolorCompleteFile: (id)sender
 {
-	[syntaxColoringController recolorCompleteFile: sender];
+    [syntaxColoringController recolorCompleteFile: sender];
 }
 
 -(IBAction) save:(id)sender
@@ -116,7 +116,7 @@
     [status setStringValue: @"Saving..."];
     [status display];
     [progress startAnimation: self];
-	[progress display];
+    [progress display];
     [mongoCollection saveWithDocument:[myTextView string] callback:^(MODQuery *mongoQuery) {
         if (mongoQuery.error) {
             NSRunAlertPanel(@"Error", [mongoQuery.error localizedDescription], @"OK", nil, nil);

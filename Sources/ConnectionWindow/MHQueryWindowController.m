@@ -398,9 +398,9 @@
 
 - (void)controlTextDidChange:(NSNotification *)nd
 {
-	NSTextField *ed = [nd object];
+    NSTextField *ed = [nd object];
     
-	if (ed == _criteriaComboBox || ed == _fieldsTextField || ed == _sortTextField || ed == _skipTextField || ed == _limitTextField) {
+    if (ed == _criteriaComboBox || ed == _fieldsTextField || ed == _sortTextField || ed == _skipTextField || ed == _limitTextField) {
         [self findQueryComposer:nil];
     } else if (ed == updateCriticalTextField || ed == updateSetTextField) {
         [self updateQueryComposer:nil];
@@ -540,10 +540,10 @@
 - (void)showEditWindow:(id)sender
 {
     switch([findResultsViewController.myOutlineView selectedRow])
-	{
-		case -1:
-			break;
-		default:{
+    {
+        case -1:
+            break;
+        default:{
             [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(findQuery:) name:kJsonWindowSaved object:nil];
             [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(jsonWindowWillClose:) name:kJsonWindowWillClose object:nil];
             id currentItem = [findResultsViewController.myOutlineView itemAtRow:[findResultsViewController.myOutlineView selectedRow]];
@@ -552,9 +552,9 @@
             jsonWindowController.mongoCollection = _mongoCollection;
             jsonWindowController.jsonDict = [findResultsViewController rootForItem:currentItem];
             [jsonWindowController showWindow:sender];
-			break;
+            break;
         }
-	}
+    }
 }
 
 - (void)jsonWindowWillClose:(id)sender
@@ -564,41 +564,41 @@
 
 - (IBAction)chooseExportPath:(id)sender
 {
-    NSSavePanel *tvarNSSavePanelObj	= [NSSavePanel savePanel];
-    int tvarInt	= [tvarNSSavePanelObj runModal];
+    NSSavePanel *tvarNSSavePanelObj = [NSSavePanel savePanel];
+    int tvarInt = [tvarNSSavePanelObj runModal];
     if(tvarInt == NSOKButton){
-     	NSLog(@"doSaveAs we have an OK button");
+        NSLog(@"doSaveAs we have an OK button");
         //NSString * tvarDirectory = [tvarNSSavePanelObj directory];
         //NSLog(@"doSaveAs directory = %@",tvarDirectory);
         NSString * tvarFilename = [[tvarNSSavePanelObj URL] path];
         NSLog(@"doSaveAs filename = %@",tvarFilename);
         [expPathTextField setStringValue:tvarFilename];
     } else if(tvarInt == NSCancelButton) {
-     	NSLog(@"doSaveAs we have a Cancel button");
-     	return;
+        NSLog(@"doSaveAs we have a Cancel button");
+        return;
     } else {
-     	NSLog(@"doSaveAs tvarInt not equal 1 or zero = %3d",tvarInt);
-     	return;
+        NSLog(@"doSaveAs tvarInt not equal 1 or zero = %3d",tvarInt);
+        return;
     } // end if
 }
 
 - (IBAction)chooseImportPath:(id)sender
 {
-    NSOpenPanel *tvarNSOpenPanelObj	= [NSOpenPanel openPanel];
-    NSInteger tvarNSInteger	= [tvarNSOpenPanelObj runModal];
+    NSOpenPanel *tvarNSOpenPanelObj = [NSOpenPanel openPanel];
+    NSInteger tvarNSInteger = [tvarNSOpenPanelObj runModal];
     if(tvarNSInteger == NSOKButton){
-     	NSLog(@"doOpen we have an OK button");
+        NSLog(@"doOpen we have an OK button");
         //NSString * tvarDirectory = [tvarNSOpenPanelObj directory];
         //NSLog(@"doOpen directory = %@",tvarDirectory);
         NSString * tvarFilename = [[tvarNSOpenPanelObj URL] path];
         NSLog(@"doOpen filename = %@",tvarFilename);
         [impPathTextField setStringValue:tvarFilename];
     } else if(tvarNSInteger == NSCancelButton) {
-     	NSLog(@"doOpen we have a Cancel button");
-     	return;
+        NSLog(@"doOpen we have a Cancel button");
+        return;
     } else {
-     	NSLog(@"doOpen tvarInt not equal 1 or zero = %ld",(long int)tvarNSInteger);
-     	return;
+        NSLog(@"doOpen tvarInt not equal 1 or zero = %ld",(long int)tvarNSInteger);
+        return;
     } // end if
 }
 

@@ -49,8 +49,8 @@
 
 /**
     Returns the external records directory for the application.
-	This code uses a directory named "MongoHub" for the content, 
-	either in the ~/Library/Caches/Metadata/CoreData location or (if the
+    This code uses a directory named "MongoHub" for the content, 
+    either in the ~/Library/Caches/Metadata/CoreData location or (if the
     former cannot be found), the system's temporary directory.
  */
 
@@ -68,8 +68,10 @@
  
 - (NSManagedObjectModel *)managedObjectModel {
 
-    if (managedObjectModel) return managedObjectModel;
-	
+    if (managedObjectModel) {
+        return managedObjectModel;
+    }
+    
     managedObjectModel = [[NSManagedObjectModel mergedModelFromBundles:nil] retain];    
     return managedObjectModel;
 }
@@ -97,16 +99,16 @@
     NSString *applicationSupportDirectory = [self applicationSupportDirectory];
     NSError *error = nil;
     
-    if ( ![fileManager fileExistsAtPath:applicationSupportDirectory isDirectory:NULL] ) {
-		if (![fileManager createDirectoryAtPath:applicationSupportDirectory withIntermediateDirectories:NO attributes:nil error:&error]) {
+    if (![fileManager fileExistsAtPath:applicationSupportDirectory isDirectory:NULL]) {
+        if (![fileManager createDirectoryAtPath:applicationSupportDirectory withIntermediateDirectories:NO attributes:nil error:&error]) {
             NSAssert2(NO, @"Failed to create App Support directory %@ : %@", applicationSupportDirectory, error);
             NSLog(@"Error creating application support directory at %@ : %@",applicationSupportDirectory,error);
             return nil;
-		}
+        }
     }
 
     NSString *externalRecordsDirectory = [self externalRecordsDirectory];
-    if ( ![fileManager fileExistsAtPath:externalRecordsDirectory isDirectory:NULL] ) {
+    if (![fileManager fileExistsAtPath:externalRecordsDirectory isDirectory:NULL]) {
         if (![fileManager createDirectoryAtPath:externalRecordsDirectory withIntermediateDirectories:YES attributes:nil error:&error]) {
             NSLog(@"Error creating external records directory at %@ : %@",externalRecordsDirectory,error);
             NSAssert2(NO, @"Failed to create external records directory %@ : %@", externalRecordsDirectory, error);
@@ -286,7 +288,7 @@
     
     [connectionsCollectionView release];
     [connectionsArrayController release];
-	[addConnectionController release];
+    [addConnectionController release];
     [editConnectionController release];
     
     [bundleVersion release];

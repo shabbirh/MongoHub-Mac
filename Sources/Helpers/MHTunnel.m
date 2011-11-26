@@ -247,9 +247,7 @@ static int GetFirstChildPID(int pid)
     retStatus = @"";
     startDate = [NSDate date];
     NSLog(@"%@", startDate);
-    if ([delegate respondsToSelector:@selector(tunnelStatusChanged:status:)]) {
-        [delegate tunnelStatusChanged:self status:@"START"];
-    }
+    [delegate tunnelStatusChanged:self status:@"START"];
     
     [lock unlock];
 }
@@ -268,9 +266,7 @@ static int GetFirstChildPID(int pid)
         [task terminate];
         task = nil;
     }
-    if ([delegate respondsToSelector:@selector(tunnelStatusChanged:status:)]) {
-        [delegate tunnelStatusChanged:self status:@"STOP"];
-    }
+    [delegate tunnelStatusChanged:self status:@"STOP"];
     
     [lock unlock];
 }
@@ -298,9 +294,7 @@ static int GetFirstChildPID(int pid)
         if (r.location != NSNotFound) {
             retStatus = @"CONNECTED";
             
-            if ([delegate respondsToSelector:@selector(tunnelStatusChanged:status:)]) {
-                [delegate tunnelStatusChanged:self status:retStatus];
-            }
+            [delegate tunnelStatusChanged:self status:retStatus];
             [lock unlock];
             return;
         }
@@ -309,9 +303,7 @@ static int GetFirstChildPID(int pid)
         if (r.location != NSNotFound) {
             retStatus = @"CONNECTION_ERROR";
             
-            if ([delegate respondsToSelector:@selector(tunnelStatusChanged:status:)]) {
-                [delegate tunnelStatusChanged:self status:retStatus];
-            }
+            [delegate tunnelStatusChanged:self status:retStatus];
             [lock unlock];
             return;
         }
@@ -320,9 +312,7 @@ static int GetFirstChildPID(int pid)
         if (r.location != NSNotFound) {
             retStatus = @"CONNECTION_REFUSED";
             
-            if ([delegate respondsToSelector:@selector(tunnelStatusChanged:status:)]) {
-                [delegate tunnelStatusChanged:self status:retStatus];
-            }
+            [delegate tunnelStatusChanged:self status:retStatus];
             [lock unlock];
             return;
         }
@@ -331,9 +321,7 @@ static int GetFirstChildPID(int pid)
         if (r.location != NSNotFound) {
             retStatus = @"WRONG_PASSWORD";
             
-            if ([delegate respondsToSelector:@selector(tunnelStatusChanged:status:)]) {
-                [delegate tunnelStatusChanged:self status:retStatus];
-            }
+            [delegate tunnelStatusChanged:self status:retStatus];
             [lock unlock];
             return;
         }
@@ -341,9 +329,7 @@ static int GetFirstChildPID(int pid)
         /*if( [[NSDate date] timeIntervalSinceDate:startDate] > 30 ){
             retStatus = @"TIME_OUT";
             
-            if ( [delegate respondsToSelector:@selector(tunnelStatusChanged:status:)] ) {
-                [delegate tunnelStatusChanged:self status:retStatus];
-            }
+            [delegate tunnelStatusChanged:self status:retStatus];
             
             return;
         }*/

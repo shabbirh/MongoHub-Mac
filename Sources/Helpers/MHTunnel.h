@@ -8,9 +8,15 @@
 
 #import <Foundation/Foundation.h>
 
+@class MHTunnel;
+
+@protocol MHTunnelDelegate<NSObject>
+- (void)tunnelStatusChanged:(MHTunnel *)tunnel status:(NSString *)status;
+@end
+
 @interface MHTunnel : NSObject <NSCoding>
 {
-	id delegate;
+	id<MHTunnelDelegate> delegate;
 	
 	NSLock* lock;	
 	NSTask* task;
@@ -48,7 +54,7 @@
 @property(assign) BOOL compression;
 @property(retain) NSString* additionalArgs;
 @property(retain) NSMutableArray* portForwardings;
-@property(nonatomic, assign, readwrite) id delegate;
+@property(nonatomic, assign, readwrite) id<MHTunnelDelegate> delegate;
 
 - (BOOL)running; 
 - (BOOL)checkProcess;
@@ -67,11 +73,5 @@
 - (BOOL)keychainDeleteItem;
 - (NSString *)keychainGetPassword;
 - (NSString *)keychainGetPasswordFromItemRef:(SecKeychainItemRef)item;
-
-@end
-
-@interface NSObject(Tunnel)
-
-- (void)tunnelStatusChanged:(Tunnel*)tunnel status:(NSString*)status;
 
 @end

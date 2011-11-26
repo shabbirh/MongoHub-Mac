@@ -8,6 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 #import "MHServerItem.h"
+#import "MHTunnel.h"
 
 @class BWSheetController;
 @class DatabasesArrayController;
@@ -23,9 +24,8 @@
 @class MODDatabase;
 @class MODCollection;
 @class MODSortedMutableDictionary;
-@class MHTunnel;
 
-@interface ConnectionWindowController : NSWindowController
+@interface ConnectionWindowController : NSWindowController <MHTunnelDelegate>
 {
     IBOutlet NSMenu *createCollectionOrDatabaseMenu;
     IBOutlet DatabasesArrayController *_databaseStoreArrayController;

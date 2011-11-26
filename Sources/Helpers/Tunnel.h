@@ -8,7 +8,8 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface Tunnel : NSObject <NSCoding> {
+@interface Tunnel : NSObject <NSCoding>
+{
 	id delegate;
 	
 	NSLock* lock;	
@@ -51,28 +52,28 @@
 - (void)setDelegate:(id)val;
 - (id)delegate;
 
--(BOOL) running; 
--(BOOL) checkProcess;
--(void) start;
--(void) stop;
--(void) readStatus;
--(NSArray*) prepareSSHCommandArgs;
+- (BOOL)running; 
+- (BOOL)checkProcess;
+- (void)start;
+- (void)stop;
+- (void)readStatus;
+- (NSArray *)prepareSSHCommandArgs;
 
--(void) tunnelLoaded;
--(void) tunnelSaved;
--(void) tunnelRemoved;
+- (void)tunnelLoaded;
+- (void)tunnelSaved;
+- (void)tunnelRemoved;
 
--(BOOL) keychainItemExists;
--(BOOL) keychainAddItem;
--(BOOL) keychainModifyItem;
--(BOOL) keychainDeleteItem;
--(NSString*) keychainGetPassword;
--(NSString*) keychainGetPasswordFromItemRef: (SecKeychainItemRef)item;
+- (BOOL)keychainItemExists;
+- (BOOL)keychainAddItem;
+- (BOOL)keychainModifyItem;
+- (BOOL)keychainDeleteItem;
+- (NSString *)keychainGetPassword;
+- (NSString *)keychainGetPasswordFromItemRef:(SecKeychainItemRef)item;
 
 @end
 
-@interface NSObject (Tunnel)
+@interface NSObject(Tunnel)
 
-- (void) tunnelStatusChanged: (Tunnel*) tunnel status: (NSString*) status;
+- (void)tunnelStatusChanged:(Tunnel*)tunnel status:(NSString*)status;
 
 @end

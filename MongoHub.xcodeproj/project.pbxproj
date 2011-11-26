@@ -123,7 +123,7 @@
 		1DD1CA8A12C8F004007F2909 /* HTML.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1DD1CA8712C8F004007F2909 /* HTML.plist */; };
 		1DD1CA8B12C8F004007F2909 /* Objective C.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1DD1CA8812C8F004007F2909 /* Objective C.plist */; };
 		1DDC486912CB7758009924A1 /* JSON.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1DDC486812CB7758009924A1 /* JSON.plist */; };
-		1DEC7F3B12B7ECAD00FC804E /* Tunnel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DEC7F3A12B7ECAC00FC804E /* Tunnel.m */; };
+		1DEC7F3B12B7ECAD00FC804E /* MHTunnel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DEC7F3A12B7ECAC00FC804E /* MHTunnel.m */; };
 		1DEC7FF112B7EDB900FC804E /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DEC7FF012B7EDB900FC804E /* Security.framework */; };
 		1DEC803512B7EE2100FC804E /* SSHCommand.sh in Resources */ = {isa = PBXBuildFile; fileRef = 1DEC803412B7EE2100FC804E /* SSHCommand.sh */; };
 		1DF96E3B11881AED00C35AB8 /* AddCollectionController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DF96E3A11881AED00C35AB8 /* AddCollectionController.m */; };
@@ -470,8 +470,8 @@
 		1DD1CA8712C8F004007F2909 /* HTML.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = HTML.plist; sourceTree = "<group>"; };
 		1DD1CA8812C8F004007F2909 /* Objective C.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Objective C.plist"; sourceTree = "<group>"; };
 		1DDC486812CB7758009924A1 /* JSON.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = JSON.plist; sourceTree = "<group>"; };
-		1DEC7F3912B7ECAC00FC804E /* Tunnel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Tunnel.h; sourceTree = "<group>"; };
-		1DEC7F3A12B7ECAC00FC804E /* Tunnel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Tunnel.m; sourceTree = "<group>"; };
+		1DEC7F3912B7ECAC00FC804E /* MHTunnel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MHTunnel.h; sourceTree = "<group>"; };
+		1DEC7F3A12B7ECAC00FC804E /* MHTunnel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MHTunnel.m; sourceTree = "<group>"; };
 		1DEC7FF012B7EDB900FC804E /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = /System/Library/Frameworks/Security.framework; sourceTree = "<absolute>"; };
 		1DEC803412B7EE2100FC804E /* SSHCommand.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = SSHCommand.sh; sourceTree = "<group>"; };
 		1DF96E3911881AED00C35AB8 /* AddCollectionController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddCollectionController.h; sourceTree = "<group>"; };
@@ -1054,8 +1054,8 @@
 				1DA6806B11888BDD00DFDD29 /* NSString+Extras.m */,
 				1D26618F11CFD1640092C6B5 /* FieldMapDataObject.h */,
 				1D26619011CFD1640092C6B5 /* FieldMapDataObject.m */,
-				1DEC7F3912B7ECAC00FC804E /* Tunnel.h */,
-				1DEC7F3A12B7ECAC00FC804E /* Tunnel.m */,
+				1DEC7F3912B7ECAC00FC804E /* MHTunnel.h */,
+				1DEC7F3A12B7ECAC00FC804E /* MHTunnel.m */,
 				1DBFFAF312C1FDF200B643CA /* NSProgressIndicator+Extras.h */,
 				1DBFFAF412C1FDF200B643CA /* NSProgressIndicator+Extras.m */,
 				1D64100012C8E16C0030AA4C /* NSArray+Color.h */,
@@ -1378,7 +1378,7 @@
 				1D26614E11CFC47C0092C6B5 /* MHMysqlExportWindowController.m in Sources */,
 				1D26619111CFD1640092C6B5 /* FieldMapDataObject.m in Sources */,
 				1D26619411CFD2560092C6B5 /* FieldMapTableController.m in Sources */,
-				1DEC7F3B12B7ECAD00FC804E /* Tunnel.m in Sources */,
+				1DEC7F3B12B7ECAD00FC804E /* MHTunnel.m in Sources */,
 				1DBFFAF512C1FDF200B643CA /* NSProgressIndicator+Extras.m in Sources */,
 				1DCC562912C264600025F181 /* StatMonitorTableController.m in Sources */,
 				1D64100212C8E16C0030AA4C /* NSArray+Color.m in Sources */,

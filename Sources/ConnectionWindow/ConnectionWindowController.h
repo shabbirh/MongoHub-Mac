@@ -7,7 +7,6 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import "Tunnel.h"
 #import "MHServerItem.h"
 
 @class BWSheetController;
@@ -24,6 +23,7 @@
 @class MODDatabase;
 @class MODCollection;
 @class MODSortedMutableDictionary;
+@class MHTunnel;
 
 @interface ConnectionWindowController : NSWindowController
 {
@@ -43,7 +43,7 @@
     IBOutlet StatMonitorTableController *statMonitorTableController;
     IBOutlet NSToolbar *_toolbar;
     NSMutableArray *_databases;
-    Tunnel *sshTunnel;
+    MHTunnel *sshTunnel;
     AddDBController *addDBController;
     AddCollectionController *addCollectionController;
     AuthWindowController *authWindowController;
@@ -60,7 +60,7 @@
 @property (nonatomic, retain) MHConnectionStore *connectionStore;
 @property (nonatomic, retain) MODServer *mongoServer;
 @property (nonatomic, retain) NSMutableArray *databases;
-@property (nonatomic, retain) Tunnel *sshTunnel;
+@property (nonatomic, retain) MHTunnel *sshTunnel;
 @property (nonatomic, retain) NSTextField *resultsTitle;
 @property (nonatomic, retain) NSProgressIndicator *loaderIndicator;
 @property (nonatomic, retain) NSButton *monitorButton;
@@ -91,9 +91,9 @@
 - (void)dropDB;
 - (IBAction)query:(id)sender;
 - (IBAction)showAuth:(id)sender;
--(void) checkTunnel;
-- (void) connect:(BOOL)haveHostAddress;
-- (void) tunnelStatusChanged: (Tunnel*) tunnel status: (NSString*) status;
+- (void)checkTunnel;
+- (void)connect:(BOOL)haveHostAddress;
+- (void)tunnelStatusChanged:(MHTunnel *)tunnel status:(NSString *)status;
 - (void)dropWarning:(NSString *)msg;
 
 - (IBAction)startMonitor:(id)sender;

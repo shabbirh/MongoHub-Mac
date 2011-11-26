@@ -19,7 +19,7 @@
 #import "ResultsOutlineViewController.h"
 #import "DatabasesArrayController.h"
 #import "StatMonitorTableController.h"
-#import "Tunnel.h"
+#import "MHTunnel.h"
 #import "MHServerItem.h"
 #import "MHDatabaseItem.h"
 #import "MHCollectionItem.h"
@@ -129,7 +129,8 @@
     }
 }
 
-- (void) tunnelStatusChanged: (Tunnel*) tunnel status: (NSString*) status {
+- (void)tunnelStatusChanged:(MHTunnel *)tunnel status:(NSString *)status
+{
     NSLog(@"SSH TUNNEL STATUS: %@", status);
     if( [status isEqualToString: @"CONNECTED"] ){
         exitThread = YES;
@@ -164,8 +165,9 @@
         NSString *portForward = [[NSString alloc] initWithFormat:@"L:%@:%@:%@:%@", _connectionStore.bindaddress, _connectionStore.bindport, _connectionStore.host, _connectionStore.hostport];
         NSMutableArray *portForwardings = [[NSMutableArray alloc] initWithObjects:portForward, nil];
         [portForward release];
-        if (!sshTunnel)
-            sshTunnel =[[Tunnel alloc] init];
+        if (!sshTunnel) {
+            sshTunnel =[[MHTunnel alloc] init];
+        }
         [sshTunnel setDelegate:self];
         [sshTunnel setUser:_connectionStore.sshuser];
         [sshTunnel setHost:_connectionStore.sshhost];
@@ -260,7 +262,8 @@
     }
 }
 
-- (void)checkTunnel {
+- (void)checkTunnel
+{
     NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
     while(!exitThread){
         [NSThread sleepForTimeInterval:3];
@@ -279,7 +282,8 @@
     [NSThread exit];
 }
 
-- (void)windowWillClose:(NSNotification *)notification {
+- (void)windowWillClose:(NSNotification *)notification
+{
     if ([sshTunnel running]) {
         [sshTunnel stop];
     }

@@ -6,9 +6,9 @@
 //  Copyright 2010 ThePeppersStudio.COM. All rights reserved.
 //
 
-#import <Cocoa/Cocoa.h>
+#import <Foundation/Foundation.h>
 
-@interface Tunnel : NSObject <NSCoding>
+@interface MHTunnel : NSObject <NSCoding>
 {
 	id delegate;
 	

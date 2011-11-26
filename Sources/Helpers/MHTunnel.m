@@ -1,12 +1,12 @@
 //
-//  Tunnel.m
+//  MHTunnel.m
 //  MongoHub
 //
 //  Created by Syd on 10-12-15.
 //  Copyright 2010 ThePeppersStudio.COM. All rights reserved.
 //
 
-#import "Tunnel.h"
+#import "MHTunnel.h"
 #import <Security/Security.h>
 #import "NSString+Extras.h"
 
@@ -138,7 +138,7 @@ static int GetFirstChildPID(int pid)
     return pidFound;
 }
 
-@implementation Tunnel
+@implementation MHTunnel
 
 @synthesize uid;
 @synthesize name;

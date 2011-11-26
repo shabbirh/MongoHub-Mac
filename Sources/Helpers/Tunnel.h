@@ -48,9 +48,7 @@
 @property(assign) BOOL compression;
 @property(retain) NSString* additionalArgs;
 @property(retain) NSMutableArray* portForwardings;
-
-- (void)setDelegate:(id)val;
-- (id)delegate;
+@property(nonatomic, assign, readwrite) id delegate;
 
 - (BOOL)running; 
 - (BOOL)checkProcess;

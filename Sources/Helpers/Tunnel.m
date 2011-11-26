@@ -153,6 +153,7 @@ static int GetFirstChildPID(int pid)
 @synthesize compression;
 @synthesize additionalArgs;
 @synthesize portForwardings;
+@synthesize delegate;
 
 - (id)init
 {
@@ -169,21 +170,23 @@ static int GetFirstChildPID(int pid)
 
 - (id)initWithCoder:(NSCoder *)coder
 {
-    uid = [coder decodeObjectForKey:@"uid"];
-    name = [coder decodeObjectForKey:@"name"];
-    host = [coder decodeObjectForKey:@"host"];
-    port = [coder decodeIntForKey:@"port"];
-    user = [coder decodeObjectForKey:@"user"];
-    password = [coder decodeObjectForKey:@"password"];
-    keyfile = [coder decodeObjectForKey:@"keyfile"];
-    aliveInterval = [coder decodeIntForKey:@"aliveInterval"];
-    aliveCountMax = [coder decodeIntForKey:@"aliveCountMax"];
-    tcpKeepAlive = [coder decodeBoolForKey:@"tcpKeepAlive"];
-    compression = [coder decodeBoolForKey:@"compression"];
-    additionalArgs = [coder decodeObjectForKey:@"additionalArgs"];
-    portForwardings = [coder decodeObjectForKey:@"portForwardings"];
-    
-    [self tunnelLoaded];
+    if (self = [self init]) {
+        uid = [coder decodeObjectForKey:@"uid"];
+        name = [coder decodeObjectForKey:@"name"];
+        host = [coder decodeObjectForKey:@"host"];
+        port = [coder decodeIntForKey:@"port"];
+        user = [coder decodeObjectForKey:@"user"];
+        password = [coder decodeObjectForKey:@"password"];
+        keyfile = [coder decodeObjectForKey:@"keyfile"];
+        aliveInterval = [coder decodeIntForKey:@"aliveInterval"];
+        aliveCountMax = [coder decodeIntForKey:@"aliveCountMax"];
+        tcpKeepAlive = [coder decodeBoolForKey:@"tcpKeepAlive"];
+        compression = [coder decodeBoolForKey:@"compression"];
+        additionalArgs = [coder decodeObjectForKey:@"additionalArgs"];
+        portForwardings = [coder decodeObjectForKey:@"portForwardings"];
+        
+        [self tunnelLoaded];
+    }
     
     return (self);
 }
@@ -218,16 +221,6 @@ static int GetFirstChildPID(int pid)
     [coder encodeObject:portForwardings forKey:@"portForwardings"];
     
     [self tunnelSaved];
-}
-
-- (void)setDelegate:(id)val
-{
-    delegate = val;
-}
-
-- (id)delegate
-{
-    return delegate;
 }
 
 - (void)start
@@ -418,7 +411,7 @@ static int GetFirstChildPID(int pid)
 {
     if (uid == nil || [uid length] == 0) {
         CFUUIDRef uidref = CFUUIDCreate(nil);
-        uid = (NSString*)CFUUIDCreateString(nil, uidref);
+        uid = (NSString *)CFUUIDCreateString(nil, uidref);
         CFRelease(uidref);
     }
     

@@ -181,8 +181,7 @@
 
 - (IBAction)enableSSH:(id)sender
 {
-    if ([usesshCheckBox state] == 1)
-    {
+    if ([usesshCheckBox state] == 1) {
         [bindaddressTextField setEnabled:YES];
         [bindportTextField setEnabled:YES];
         [sshhostTextField setEnabled:YES];
@@ -190,7 +189,7 @@
         [sshpasswordTextField setEnabled:YES];
         [sshportTextField setEnabled:YES];
         [sshkeyfileTextField setEnabled:YES];
-    }else {
+    } else {
         [bindaddressTextField setEnabled:NO];
         [bindportTextField setEnabled:NO];
         [sshhostTextField setEnabled:NO];
@@ -204,11 +203,10 @@
 
 - (IBAction)enableRepl:(id)sender
 {
-    if ([usereplCheckBox state] == 1)
-    {
+    if ([usereplCheckBox state] == 1) {
         [serversTextField setEnabled:YES];
         [replnameTextField setEnabled:YES];
-    }else {
+    } else {
         [serversTextField setEnabled:NO];
         [replnameTextField setEnabled:NO];
     }
@@ -219,14 +217,14 @@
 {
     NSOpenPanel *tvarNSOpenPanelObj = [NSOpenPanel openPanel];
     NSInteger tvarNSInteger = [tvarNSOpenPanelObj runModal];
-    if(tvarNSInteger == NSOKButton){
+    if (tvarNSInteger == NSOKButton) {
         NSLog(@"doOpen we have an OK button");
         //NSString * tvarDirectory = [tvarNSOpenPanelObj directory];
         //NSLog(@"doOpen directory = %@",tvarDirectory);
         NSString * tvarFilename = [[tvarNSOpenPanelObj URL] path];
         NSLog(@"doOpen filename = %@",tvarFilename);
         [sshkeyfileTextField setStringValue:tvarFilename];
-    } else if(tvarNSInteger == NSCancelButton) {
+    } else if (tvarNSInteger == NSCancelButton) {
         NSLog(@"doOpen we have a Cancel button");
         return;
     } else {

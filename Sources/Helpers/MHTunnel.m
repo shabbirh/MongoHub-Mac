@@ -160,7 +160,6 @@ static int GetFirstChildPID(int pid)
     if (self = [super init]) {
         uid = [[NSString UUIDString] retain];
         
-        lock = [NSLock new];
         portForwardings = [[NSMutableArray alloc] init];
         isRunning = NO;
     }
@@ -225,127 +224,113 @@ static int GetFirstChildPID(int pid)
 
 - (void)start
 {
-    [lock lock];
-    
-    isRunning = YES;
-    
-    task = [NSTask new];
-    pipe = [NSPipe pipe];
-    
-    [task setLaunchPath:[[NSBundle bundleForClass:[self class]] pathForResource:@"SSHCommand" ofType:@"sh"] ];
-    [task setArguments:[self prepareSSHCommandArgs] ];
-    [task setStandardOutput:pipe];
-    //The magic line that keeps your log where it belongs
-    [task setStandardInput:[NSPipe pipe]];
-    
-    [task launch];
-    /*NSData *output = [[pipe fileHandleForReading] readDataToEndOfFile];
-    NSString *string = [[[NSString alloc] initWithData:output encoding:NSUTF8StringEncoding] autorelease];
-    
-    NSLog(@"\n%@\n", string);*/
-    pipeData = @"";
-    retStatus = @"";
-    startDate = [NSDate date];
-    NSLog(@"%@", startDate);
-    [delegate tunnelStatusChanged:self status:@"START"];
-    
-    [lock unlock];
+    @synchronized(self) {
+        isRunning = YES;
+        
+        task = [NSTask new];
+        pipe = [NSPipe pipe];
+        
+        [task setLaunchPath:[[NSBundle bundleForClass:[self class]] pathForResource:@"SSHCommand" ofType:@"sh"]];
+        [task setArguments:[self prepareSSHCommandArgs] ];
+        [task setStandardOutput:pipe];
+        //The magic line that keeps your log where it belongs
+        [task setStandardInput:[NSPipe pipe]];
+        
+        [task launch];
+        /*NSData *output = [[pipe fileHandleForReading] readDataToEndOfFile];
+        NSString *string = [[[NSString alloc] initWithData:output encoding:NSUTF8StringEncoding] autorelease];
+        
+        NSLog(@"\n%@\n", string);*/
+        pipeData = @"";
+        retStatus = @"";
+        startDate = [NSDate date];
+        NSLog(@"%@", startDate);
+        [delegate tunnelStatusChanged:self status:@"START"];
+    }
 }
 
 - (void)stop
 {
-    [lock lock];
-    
-    isRunning = NO;
-    
-    if ([task isRunning]) {
-        int chpid = GetFirstChildPID([task processIdentifier]);
-        if(chpid != -1) {
-            kill(chpid,  SIGTERM);
+    @synchronized(self) {
+        isRunning = NO;
+        
+        if ([task isRunning]) {
+            int chpid = GetFirstChildPID([task processIdentifier]);
+            if(chpid != -1) {
+                kill(chpid,  SIGTERM);
+            }
+            [task terminate];
+            task = nil;
         }
-        [task terminate];
-        task = nil;
+        [delegate tunnelStatusChanged:self status:@"STOP"];
     }
-    [delegate tunnelStatusChanged:self status:@"STOP"];
-    
-    [lock unlock];
 }
 
 - (BOOL)running
 {
-    BOOL ret = NO;
-    
-    [lock lock];
-    ret = isRunning;
-    [lock unlock];
-    
-    return ret;
+    return isRunning;
 }
 
 - (void)readStatus
 {
-    [lock lock];
-    if (isRunning && [retStatus isEqualToString:@""]) {
-        NSString *pipeStr = [[NSString alloc] initWithData:[[pipe fileHandleForReading] availableData] encoding:NSASCIIStringEncoding];
-        //NSLog(@"%@", pipeStr);
-        pipeData = [pipeData stringByAppendingString:pipeStr];
-        [pipeStr release];
-        NSRange r = [pipeData rangeOfString:@"CONNECTED"];
-        if (r.location != NSNotFound) {
-            retStatus = @"CONNECTED";
+    @synchronized(self) {
+        if (isRunning && [retStatus isEqualToString:@""]) {
+            NSString *pipeStr = [[NSString alloc] initWithData:[[pipe fileHandleForReading] availableData] encoding:NSASCIIStringEncoding];
+            //NSLog(@"%@", pipeStr);
+            pipeData = [pipeData stringByAppendingString:pipeStr];
+            [pipeStr release];
+            NSRange r = [pipeData rangeOfString:@"CONNECTED"];
+            if (r.location != NSNotFound) {
+                retStatus = @"CONNECTED";
+                
+                [delegate tunnelStatusChanged:self status:retStatus];
+                return;
+            }
             
-            [delegate tunnelStatusChanged:self status:retStatus];
-            [lock unlock];
-            return;
+            r = [pipeData rangeOfString:@"CONNECTION_ERROR"];
+            if (r.location != NSNotFound) {
+                retStatus = @"CONNECTION_ERROR";
+                
+                [delegate tunnelStatusChanged:self status:retStatus];
+                return;
+            }
+            
+            r = [pipeData rangeOfString:@"CONNECTION_REFUSED"];
+            if (r.location != NSNotFound) {
+                retStatus = @"CONNECTION_REFUSED";
+                
+                [delegate tunnelStatusChanged:self status:retStatus];
+                return;
+            }
+            
+            r = [pipeData rangeOfString:@"WRONG_PASSWORD"];
+            if (r.location != NSNotFound) {
+                retStatus = @"WRONG_PASSWORD";
+                
+                [delegate tunnelStatusChanged:self status:retStatus];
+                return;
+            }
+            //NSLog(@"%@", startDate);
+            /*if( [[NSDate date] timeIntervalSinceDate:startDate] > 30 ){
+                retStatus = @"TIME_OUT";
+                
+                [delegate tunnelStatusChanged:self status:retStatus];
+                
+                return;
+            }*/
         }
-        
-        r = [pipeData rangeOfString:@"CONNECTION_ERROR"];
-        if (r.location != NSNotFound) {
-            retStatus = @"CONNECTION_ERROR";
-            
-            [delegate tunnelStatusChanged:self status:retStatus];
-            [lock unlock];
-            return;
-        }
-        
-        r = [pipeData rangeOfString:@"CONNECTION_REFUSED"];
-        if (r.location != NSNotFound) {
-            retStatus = @"CONNECTION_REFUSED";
-            
-            [delegate tunnelStatusChanged:self status:retStatus];
-            [lock unlock];
-            return;
-        }
-        
-        r = [pipeData rangeOfString:@"WRONG_PASSWORD"];
-        if (r.location != NSNotFound) {
-            retStatus = @"WRONG_PASSWORD";
-            
-            [delegate tunnelStatusChanged:self status:retStatus];
-            [lock unlock];
-            return;
-        }
-        //NSLog(@"%@", startDate);
-        /*if( [[NSDate date] timeIntervalSinceDate:startDate] > 30 ){
-            retStatus = @"TIME_OUT";
-            
-            [delegate tunnelStatusChanged:self status:retStatus];
-            
-            return;
-        }*/
     }
-    [lock unlock];
 }
 
 - (BOOL)checkProcess
 {
     BOOL ret = NO;
-    [lock lock];
-    ret = isRunning;
-    if (ret) {
-        ret = GetFirstChildPID( [task processIdentifier] ) != -1;
+    @synchronized(self) {
+        ret = isRunning;
+        if (ret) {
+            ret = GetFirstChildPID( [task processIdentifier] ) != -1;
+        }
     }
-    [lock unlock];
     
     return ret;
 }
@@ -458,7 +443,7 @@ static int GetFirstChildPID(int pid)
     uint itemsFound = 0;
     SecKeychainItemRef item;
     
-    while (SecKeychainSearchCopyNext (search, &item) == noErr) {
+    while (SecKeychainSearchCopyNext(search, &item) == noErr) {
         CFRelease (item);
         itemsFound++;
     }

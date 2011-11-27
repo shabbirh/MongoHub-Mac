@@ -18,7 +18,6 @@
 {
 	id<MHTunnelDelegate> delegate;
 	
-	NSLock* lock;	
 	NSTask* task;
 	NSPipe* pipe;
 	NSString* pipeData;

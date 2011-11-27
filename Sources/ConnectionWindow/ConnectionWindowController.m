@@ -609,22 +609,28 @@
 
 - (IBAction)importFromFile:(id)sender
 {
-    MHFileImporter *importer;
-    NSError *error;
+    NSOpenPanel *openPanel = [NSOpenPanel openPanel];
     
-    importer = [[MHFileImporter alloc] initWithCollection:[self selectedCollectionItem].mongoCollection importPath:@"/tmp/export"];
-    [importer importWithError:&error];
-    NSLog(@"%@", error);
+    if ([openPanel runModal] == NSOKButton) {
+        MHFileImporter *importer;
+        NSError *error;
+        
+        importer = [[MHFileImporter alloc] initWithCollection:[self selectedCollectionItem].mongoCollection importPath:[[openPanel URL] path]];
+        [importer importWithError:&error];
+    }
 }
 
 - (IBAction)exportToFile:(id)sender
 {
-    MHFileExporter *exporter;
-    NSError *error;
+    NSSavePanel *savePanel = [NSSavePanel savePanel];
     
-    exporter = [[MHFileExporter alloc] initWithCollection:[self selectedCollectionItem].mongoCollection exportPath:@"/tmp/export"];
-    [exporter exportWithError:&error];
-    NSLog(@"%@", error);
+    if ([savePanel runModal] == NSOKButton) {
+        MHFileExporter *exporter;
+        NSError *error;
+        
+        exporter = [[MHFileExporter alloc] initWithCollection:[self selectedCollectionItem].mongoCollection exportPath:[[savePanel URL] path]];
+        [exporter exportWithError:&error];
+    }
 }
 
 - (void)alertDidEnd:(NSAlert *)alert returnCode:(int)returnCode contextInfo:(void *)contextInfo

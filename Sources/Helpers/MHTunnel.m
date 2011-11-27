@@ -232,7 +232,7 @@ static int GetFirstChildPID(int pid)
         _task = [[NSTask alloc] init];
         pipe = [NSPipe pipe];
         
-        _fileHandle = [pipe fileHandleForReading];
+        _fileHandle = [[pipe fileHandleForReading] retain];
         [_task setLaunchPath:[[NSBundle bundleForClass:[self class]] pathForResource:@"SSHCommand" ofType:@"sh"]];
         [_task setArguments:[self prepareSSHCommandArgs] ];
         [_task setStandardOutput:pipe];

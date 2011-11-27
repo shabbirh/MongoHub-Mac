@@ -18,10 +18,9 @@
 {
 	id<MHTunnelDelegate> delegate;
 	
-	NSTask* task;
-	NSPipe* pipe;
-	NSString* pipeData;
-	NSDate* startDate;
+	NSTask *_task;
+    NSFileHandle *_fileHandle;
+	NSMutableString* pipeData;
 	NSString* retStatus;
 	BOOL isRunning;
 	

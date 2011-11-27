@@ -192,6 +192,7 @@ static int GetFirstChildPID(int pid)
 
 - (void)dealloc
 {
+    [self stop];
     self.uid = nil;
     self.name = nil;
     self.host = nil;
@@ -225,26 +226,26 @@ static int GetFirstChildPID(int pid)
 - (void)start
 {
     @synchronized(self) {
+        NSPipe *pipe;
         isRunning = YES;
         
-        task = [NSTask new];
+        _task = [[NSTask alloc] init];
         pipe = [NSPipe pipe];
         
-        [task setLaunchPath:[[NSBundle bundleForClass:[self class]] pathForResource:@"SSHCommand" ofType:@"sh"]];
-        [task setArguments:[self prepareSSHCommandArgs] ];
-        [task setStandardOutput:pipe];
+        _fileHandle = [pipe fileHandleForReading];
+        [_task setLaunchPath:[[NSBundle bundleForClass:[self class]] pathForResource:@"SSHCommand" ofType:@"sh"]];
+        [_task setArguments:[self prepareSSHCommandArgs] ];
+        [_task setStandardOutput:pipe];
         //The magic line that keeps your log where it belongs
-        [task setStandardInput:[NSPipe pipe]];
+        [_task setStandardInput:[NSPipe pipe]];
         
-        [task launch];
+        [_task launch];
         /*NSData *output = [[pipe fileHandleForReading] readDataToEndOfFile];
         NSString *string = [[[NSString alloc] initWithData:output encoding:NSUTF8StringEncoding] autorelease];
         
         NSLog(@"\n%@\n", string);*/
-        pipeData = @"";
+        pipeData = [[NSMutableString alloc] init];
         retStatus = @"";
-        startDate = [NSDate date];
-        NSLog(@"%@", startDate);
         [delegate tunnelStatusChanged:self status:@"START"];
     }
 }
@@ -254,13 +255,18 @@ static int GetFirstChildPID(int pid)
     @synchronized(self) {
         isRunning = NO;
         
-        if ([task isRunning]) {
-            int chpid = GetFirstChildPID([task processIdentifier]);
+        if ([_task isRunning]) {
+            int chpid = GetFirstChildPID([_task processIdentifier]);
             if(chpid != -1) {
                 kill(chpid,  SIGTERM);
             }
-            [task terminate];
-            task = nil;
+            [_task terminate];
+            [_task release];
+            _task = nil;
+            [_fileHandle release];
+            _fileHandle = nil;
+            [pipeData release];
+            pipeData = nil;
         }
         [delegate tunnelStatusChanged:self status:@"STOP"];
     }
@@ -275,9 +281,9 @@ static int GetFirstChildPID(int pid)
 {
     @synchronized(self) {
         if (isRunning && [retStatus isEqualToString:@""]) {
-            NSString *pipeStr = [[NSString alloc] initWithData:[[pipe fileHandleForReading] availableData] encoding:NSASCIIStringEncoding];
+            NSString *pipeStr = [[NSString alloc] initWithData:[_fileHandle availableData] encoding:NSASCIIStringEncoding];
             //NSLog(@"%@", pipeStr);
-            pipeData = [pipeData stringByAppendingString:pipeStr];
+            [pipeData appendString:pipeStr];
             [pipeStr release];
             NSRange r = [pipeData rangeOfString:@"CONNECTED"];
             if (r.location != NSNotFound) {
@@ -310,7 +316,6 @@ static int GetFirstChildPID(int pid)
                 [delegate tunnelStatusChanged:self status:retStatus];
                 return;
             }
-            //NSLog(@"%@", startDate);
             /*if( [[NSDate date] timeIntervalSinceDate:startDate] > 30 ){
                 retStatus = @"TIME_OUT";
                 
@@ -328,7 +333,7 @@ static int GetFirstChildPID(int pid)
     @synchronized(self) {
         ret = isRunning;
         if (ret) {
-            ret = GetFirstChildPID( [task processIdentifier] ) != -1;
+            ret = GetFirstChildPID([_task processIdentifier]) != -1;
         }
     }
     

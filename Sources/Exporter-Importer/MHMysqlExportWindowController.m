@@ -32,7 +32,7 @@
 @synthesize fieldMapTableController;
 
 - (id)init {
-    self = [super initWithWindowNibName:@"Export"];
+    self = [super initWithWindowNibName:@"MysqlExport"];
     return self;
 }
 

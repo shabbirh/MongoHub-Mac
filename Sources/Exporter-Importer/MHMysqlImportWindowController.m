@@ -29,7 +29,7 @@
 @synthesize tablesPopUpButton;
 
 - (id)init {
-    self = [super initWithWindowNibName:@"Import"];
+    self = [super initWithWindowNibName:@"MysqlImport"];
     return self;
 }
 

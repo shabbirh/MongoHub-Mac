@@ -156,7 +156,8 @@
     NSRunAlertPanel(@"Error", [error localizedDescription], @"OK", nil, nil);
 }
 
-- (void)connect:(BOOL)haveHostAddress {
+- (void)connect:(BOOL)haveHostAddress
+{
     NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
     [loaderIndicator start];
     [reconnectButton setEnabled:NO];
@@ -183,7 +184,7 @@
         [portForwardings release];
         [pool drain];
         return;
-    }else {
+    } else {
         [self closeMongoDB];
         _mongoServer = [[MODServer alloc] init];
         _serverItem = [[MHServerItem alloc] initWithMongoServer:_mongoServer delegate:self];
@@ -265,12 +266,12 @@
 - (void)checkTunnel
 {
     NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-    while(!exitThread){
+    while (!exitThread) {
         [NSThread sleepForTimeInterval:3];
-        @synchronized(self){
+        @synchronized(self) {
             if ([sshTunnel running] == NO){
                 [sshTunnel start];
-            }else if( [sshTunnel running] == YES && [sshTunnel checkProcess] == NO ){
+            } else if( [sshTunnel running] == YES && [sshTunnel checkProcess] == NO ){
                 [sshTunnel stop];
                 [NSThread sleepForTimeInterval:2];
                 [sshTunnel start];

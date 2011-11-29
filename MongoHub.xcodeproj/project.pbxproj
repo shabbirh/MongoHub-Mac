@@ -33,6 +33,7 @@
 		02216ECD14128D1200789BD1 /* MODDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 02216EB814128CBF00789BD1 /* MODDatabase.m */; };
 		02216ECE14128D1200789BD1 /* MODQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = 02216EBA14128CBF00789BD1 /* MODQuery.m */; };
 		02216ECF14128D1200789BD1 /* MODServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 02216EBC14128CBF00789BD1 /* MODServer.m */; };
+		023ED002148526E700185781 /* MODSymbol.m in Sources */ = {isa = PBXBuildFile; fileRef = 023ED001148526E700185781 /* MODSymbol.m */; };
 		024F67901427F3DE00956BF6 /* MODHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 024F678F1427F3DE00956BF6 /* MODHelper.m */; };
 		025C563214350DEF0064B010 /* MODRegex.m in Sources */ = {isa = PBXBuildFile; fileRef = 025C562A14350DEF0064B010 /* MODRegex.m */; };
 		025C563414350DEF0064B010 /* MODDBRef.m in Sources */ = {isa = PBXBuildFile; fileRef = 025C562E14350DEF0064B010 /* MODDBRef.m */; };
@@ -41,6 +42,8 @@
 		029D30A5145613420021B9C9 /* MHDatabaseItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 029D30A4145613420021B9C9 /* MHDatabaseItem.m */; };
 		029D30A9145613580021B9C9 /* MHCollectionItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 029D30A8145613580021B9C9 /* MHCollectionItem.m */; };
 		029D30AC145613C30021B9C9 /* MHServerItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 029D30AB145613C30021B9C9 /* MHServerItem.m */; };
+		02A7C40A1482DEDD0099CDD1 /* MHMysqlImporter.m in Sources */ = {isa = PBXBuildFile; fileRef = 02A7C4091482DEDD0099CDD1 /* MHMysqlImporter.m */; };
+		02A7C40E1482DF080099CDD1 /* MHMysqlExporter.m in Sources */ = {isa = PBXBuildFile; fileRef = 02A7C40D1482DF080099CDD1 /* MHMysqlExporter.m */; };
 		02AA29931477F8BD0041865F /* MHFileExporter.m in Sources */ = {isa = PBXBuildFile; fileRef = 02AA29921477F8BD0041865F /* MHFileExporter.m */; };
 		02AB057C142971CE00B7CD19 /* MODObjectId.m in Sources */ = {isa = PBXBuildFile; fileRef = 02AB057A142971CE00B7CD19 /* MODObjectId.m */; };
 		02B143DC147C720D005AB320 /* MHFileImporter.m in Sources */ = {isa = PBXBuildFile; fileRef = 02B143DB147C720D005AB320 /* MHFileImporter.m */; };
@@ -243,6 +246,8 @@
 		02216EBB14128CBF00789BD1 /* MODServer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MODServer.h; sourceTree = "<group>"; };
 		02216EBC14128CBF00789BD1 /* MODServer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MODServer.m; sourceTree = "<group>"; };
 		02216EBD14128CBF00789BD1 /* mongo-objc-driver-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "mongo-objc-driver-Info.plist"; sourceTree = "<group>"; };
+		023ED000148526E700185781 /* MODSymbol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MODSymbol.h; sourceTree = "<group>"; };
+		023ED001148526E700185781 /* MODSymbol.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MODSymbol.m; sourceTree = "<group>"; };
 		02411ABC1432D55900A5FFCA /* MOD_public.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MOD_public.h; sourceTree = "<group>"; };
 		024F678E1427F3DE00956BF6 /* MODHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MODHelper.h; sourceTree = "<group>"; };
 		024F678F1427F3DE00956BF6 /* MODHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MODHelper.m; sourceTree = "<group>"; };
@@ -260,6 +265,10 @@
 		029D30A8145613580021B9C9 /* MHCollectionItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MHCollectionItem.m; sourceTree = "<group>"; };
 		029D30AA145613C30021B9C9 /* MHServerItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MHServerItem.h; sourceTree = "<group>"; };
 		029D30AB145613C30021B9C9 /* MHServerItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MHServerItem.m; sourceTree = "<group>"; };
+		02A7C4081482DEDD0099CDD1 /* MHMysqlImporter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MHMysqlImporter.h; sourceTree = "<group>"; };
+		02A7C4091482DEDD0099CDD1 /* MHMysqlImporter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MHMysqlImporter.m; sourceTree = "<group>"; };
+		02A7C40C1482DF080099CDD1 /* MHMysqlExporter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MHMysqlExporter.h; sourceTree = "<group>"; };
+		02A7C40D1482DF080099CDD1 /* MHMysqlExporter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MHMysqlExporter.m; sourceTree = "<group>"; };
 		02AA29911477F8BD0041865F /* MHFileExporter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MHFileExporter.h; sourceTree = "<group>"; };
 		02AA29921477F8BD0041865F /* MHFileExporter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MHFileExporter.m; sourceTree = "<group>"; };
 		02AB057A142971CE00B7CD19 /* MODObjectId.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MODObjectId.m; sourceTree = "<group>"; };
@@ -584,6 +593,8 @@
 				02216EBA14128CBF00789BD1 /* MODQuery.m */,
 				02CF87E2142F7316000C4C7F /* MODTimestamp.h */,
 				02CF87E3142F7316000C4C7F /* MODTimestamp.m */,
+				023ED000148526E700185781 /* MODSymbol.h */,
+				023ED001148526E700185781 /* MODSymbol.m */,
 				02AB057B142971CE00B7CD19 /* MODObjectId.h */,
 				02AB057A142971CE00B7CD19 /* MODObjectId.m */,
 				025C562A14350DEF0064B010 /* MODRegex.m */,
@@ -680,6 +691,10 @@
 				1D601B5111C8F08C00C86274 /* MHMysqlImportWindowController.m */,
 				1D26614C11CFC47C0092C6B5 /* MHMysqlExportWindowController.h */,
 				1D26614D11CFC47C0092C6B5 /* MHMysqlExportWindowController.m */,
+				02A7C4081482DEDD0099CDD1 /* MHMysqlImporter.h */,
+				02A7C4091482DEDD0099CDD1 /* MHMysqlImporter.m */,
+				02A7C40C1482DF080099CDD1 /* MHMysqlExporter.h */,
+				02A7C40D1482DF080099CDD1 /* MHMysqlExporter.m */,
 				02AA29911477F8BD0041865F /* MHFileExporter.h */,
 				02AA29921477F8BD0041865F /* MHFileExporter.m */,
 				02B143DA147C720D005AB320 /* MHFileImporter.h */,
@@ -1405,6 +1420,9 @@
 				02AA29931477F8BD0041865F /* MHFileExporter.m in Sources */,
 				02B143DC147C720D005AB320 /* MHFileImporter.m in Sources */,
 				02B2427D147D2BBC008A15A3 /* MODSortedMutableDictionary.m in Sources */,
+				02A7C40A1482DEDD0099CDD1 /* MHMysqlImporter.m in Sources */,
+				02A7C40E1482DF080099CDD1 /* MHMysqlExporter.m in Sources */,
+				023ED002148526E700185781 /* MODSymbol.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

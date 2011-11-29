@@ -112,6 +112,9 @@
         value = @"";
         type = @"Object";
         child = [self convertForOutlineWithObject:dataValue];
+    } else if ([dataValue isKindOfClass:[MODSymbol class]]) {
+        type = @"Symbol";
+        value = [dataValue value];
     } else if ([dataValue isKindOfClass:[NSArray class]]) {
         NSInteger ii, count;
         

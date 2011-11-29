@@ -617,6 +617,7 @@
         
         importer = [[MHFileImporter alloc] initWithCollection:[self selectedCollectionItem].mongoCollection importPath:[[openPanel URL] path]];
         [importer importWithError:&error];
+        [importer release];
     }
 }
 
@@ -630,6 +631,7 @@
         
         exporter = [[MHFileExporter alloc] initWithCollection:[self selectedCollectionItem].mongoCollection exportPath:[[savePanel URL] path]];
         [exporter exportWithError:&error];
+        [exporter release];
     }
 }
 

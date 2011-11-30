@@ -6,11 +6,15 @@
       <description>Most recent changes with links to updates.</description>
       <language>en</language>      
          <item>
-            <title>Version 2.4.12</title>
-            <enclosure url="http://cloud.github.com/downloads/fotonauts/MongoHub-Mac/MongoHub.zip" sparkle:version="86" sparkle:shortVersionString="2.4.12" length="3055872" sparkle:dsaSignature="MC4CFQDEF6Eif67JOFWI0iTs0k/juW5ipgIVAOoaGmxkouydmn6SZkGmQ3gHMpZt" type="application/octet-stream" />
+            <title>Version 2.4.13</title>
+            <enclosure url="http://cloud.github.com/downloads/fotonauts/MongoHub-Mac/MongoHub.zip" sparkle:version="87" sparkle:shortVersionString="2.4.13" length="3067295" sparkle:dsaSignature="MCwCFFID1KFjW1fyr/oWMsInV/Kde2moAhQXboFlLZu2C0V3E0V+Uudcql+L8w==" type="application/octet-stream" />
             <description><![CDATA[
 <ul>
-<li>Problem to update document with boolean values and regexp values</li>
+<li>Key order is preserved in a document</li>
+<li>Support for UTF-8</li>
+<li>Fix for Mysql import/export</li>
+<li>Support for symbol type</li>
+<li>fix for the UI selection in the connexion window</li>
 </ul>
             ]]>
             </description>

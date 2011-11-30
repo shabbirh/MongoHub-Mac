@@ -33,14 +33,16 @@ This project is very new. Any issues or bug reports are welcome. And I still don
     - Need a better UI to replace the tabs in a collection window
     
 ** Current **
+    
+## History
+
+** 2.4.13(87) - nov 30, 2011 **
 
 	- Key order is preserved in a document
     - Support for UTF-8
     - Fix for Mysql import/export
     - Support for symbol type
     - fix for the UI selection in the connexion window
-    
-## History
 
 ** 2.4.12(86) - nov 22, 2011 **
 

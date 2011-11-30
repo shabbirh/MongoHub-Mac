@@ -28,7 +28,7 @@
 {
     if ([self selected]) {
         NSColor *bgColor = [NSColor colorWithCalibratedWhite:0.0 alpha:0.35];
-        NSRect bgRect = rect;
+        NSRect bgRect = [self bounds];
         int minX = NSMinX(bgRect);
         int midX = NSMidX(bgRect);
         int maxX = NSMaxX(bgRect);

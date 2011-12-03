@@ -10,7 +10,7 @@
 
 @implementation ResultsOutlineViewController
 
-@synthesize myOutlineView, results = _results;
+@synthesize outlineView = _outlineView, results = _results;
 
 - (id)init
 {
@@ -23,15 +23,15 @@
 
 - (void)dealloc
 {
-    [myOutlineView deselectAll:nil];
-    [myOutlineView release];
+    [_outlineView deselectAll:nil];
+    [_outlineView release];
     [_results release];
     [super dealloc];
 }
 
 - (void)awakeFromNib
 {
-    [myOutlineView selectRowIndexes:[NSIndexSet indexSetWithIndex:0] byExtendingSelection:NO];
+    [_outlineView selectRowIndexes:[NSIndexSet indexSetWithIndex:0] byExtendingSelection:NO];
 }
 
 #pragma mark -
@@ -115,11 +115,11 @@ objectValueForTableColumn:(NSTableColumn *)tableColumn
 
 - (id)selectedItem
 {
-    NSInteger index = [myOutlineView selectedRow];
+    NSInteger index = [_outlineView selectedRow];
     id item = nil;
   
     if (index != NSNotFound) {
-        item = [myOutlineView itemAtRow:index];
+        item = [_outlineView itemAtRow:index];
     }
     return item;
 }
@@ -133,16 +133,16 @@ objectValueForTableColumn:(NSTableColumn *)tableColumn
 #pragma mark NSOutlineView delegate methods
 - (void)outlineViewSelectionDidChange:(NSNotification *)notification
 {
-    switch ([myOutlineView selectedRow]) {
+    switch ([_outlineView selectedRow]) {
         case -1:
             break;
         default:{
             break;
-            id currentItem = [myOutlineView itemAtRow:[myOutlineView selectedRow]];
-            if ([myOutlineView isItemExpanded:currentItem]) {
-                [myOutlineView collapseItem:currentItem collapseChildren:NO];
+            id currentItem = [_outlineView itemAtRow:[_outlineView selectedRow]];
+            if ([_outlineView isItemExpanded:currentItem]) {
+                [_outlineView collapseItem:currentItem collapseChildren:NO];
             }else {
-                [myOutlineView expandItem:currentItem expandChildren:NO];
+                [_outlineView expandItem:currentItem expandChildren:NO];
             }
             break;
         }
@@ -153,7 +153,7 @@ objectValueForTableColumn:(NSTableColumn *)tableColumn
 #pragma mark helper methods
 - (id)rootForItem:(id)item
 {
-    id parentItem = [myOutlineView parentForItem:item];
+    id parentItem = [_outlineView parentForItem:item];
     if (parentItem) {
         return [self rootForItem:parentItem];
     }else {

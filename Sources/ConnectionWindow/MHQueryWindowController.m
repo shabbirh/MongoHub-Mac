@@ -242,7 +242,7 @@
             }
             [findResultsViewController.results removeAllObjects];
             [findResultsViewController.results addObjectsFromArray:[MODHelper convertForOutlineWithObjects:documents]];
-            [findResultsViewController.myOutlineView reloadData];
+            [findResultsViewController.outlineView reloadData];
             [_mongoCollection countWithCriteria:criteria callback:^(int64_t count, MODQuery *mongoQuery) {
                 [findQueryLoaderIndicator stop];
                 [totalResultsTextField setStringValue:[NSString stringWithFormat:@"Total Results: %lld (%0.2fs)", count, [[mongoQuery.userInfo objectForKey:@"timequery"] duration]]];
@@ -322,7 +322,7 @@
         }
         [indexesOutlineViewController.results removeAllObjects];
         [indexesOutlineViewController.results addObjectsFromArray:[MODHelper convertForOutlineWithObjects:indexes]];
-        [indexesOutlineViewController.myOutlineView reloadData];
+        [indexesOutlineViewController.outlineView reloadData];
     }];
 }
 
@@ -377,10 +377,10 @@
 
 - (IBAction)removeRecord:(id)sender
 {
-    if ([findResultsViewController.myOutlineView selectedRow] != -1)
+    if ([findResultsViewController.outlineView selectedRow] != -1)
     {
         MODSortedMutableDictionary *criteria;
-        id currentItem = [findResultsViewController.myOutlineView itemAtRow:[findResultsViewController.myOutlineView selectedRow]];
+        id currentItem = [findResultsViewController.outlineView itemAtRow:[findResultsViewController.outlineView selectedRow]];
         //NSLog(@"%@", [findResultsViewController rootForItem:currentItem]);
         [removeQueryLoaderIndicator start];
         
@@ -539,14 +539,14 @@
 
 - (void)showEditWindow:(id)sender
 {
-    switch([findResultsViewController.myOutlineView selectedRow])
+    switch([findResultsViewController.outlineView selectedRow])
     {
         case -1:
             break;
         default:{
             [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(findQuery:) name:kJsonWindowSaved object:nil];
             [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(jsonWindowWillClose:) name:kJsonWindowWillClose object:nil];
-            id currentItem = [findResultsViewController.myOutlineView itemAtRow:[findResultsViewController.myOutlineView selectedRow]];
+            id currentItem = [findResultsViewController.outlineView itemAtRow:[findResultsViewController.outlineView selectedRow]];
             //NSLog(@"%@", [findResultsViewController rootForItem:currentItem]);
             JsonWindowController *jsonWindowController = [[JsonWindowController alloc] init];
             jsonWindowController.mongoCollection = _mongoCollection;
@@ -624,7 +624,7 @@
         } else {
             [findResultsViewController.results removeAllObjects];
             [findResultsViewController.results addObjectsFromArray:result];
-            [findResultsViewController.myOutlineView reloadData];
+            [findResultsViewController.outlineView reloadData];
         }
     }
 }

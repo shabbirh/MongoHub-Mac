@@ -47,7 +47,7 @@
             } else if (mongoQuery.error) {
                 NSRunAlertPanel(@"Error", [mongoQuery.error localizedDescription], @"OK", nil, nil);
             }
-            [_resultsOutlineViewController.myOutlineView reloadData];
+            [_resultsOutlineViewController.outlineView reloadData];
         }
     }];
     return result;
@@ -67,7 +67,7 @@
             } else if (mongoQuery.error) {
                 NSRunAlertPanel(@"Error", [mongoQuery.error localizedDescription], @"OK", nil, nil);
             }
-            [_resultsOutlineViewController.myOutlineView reloadData];
+            [_resultsOutlineViewController.outlineView reloadData];
         }];
     }
     return result;
@@ -86,7 +86,7 @@
             } else if (mongoQuery.error) {
                 NSRunAlertPanel(@"Error", [mongoQuery.error localizedDescription], @"OK", nil, nil);
             }
-            [_resultsOutlineViewController.myOutlineView reloadData];
+            [_resultsOutlineViewController.outlineView reloadData];
         }];
     }
     return result;

@@ -10,11 +10,11 @@
 
 
 @interface ResultsOutlineViewController : NSObject{
-    IBOutlet NSOutlineView *myOutlineView;
+    IBOutlet NSOutlineView *_outlineView;
     NSMutableArray *_results;
 }
 
-@property (nonatomic, retain) NSOutlineView  *myOutlineView;
+@property (nonatomic, retain) NSOutlineView  *outlineView;
 @property (nonatomic, retain) NSMutableArray *results;
 @property (nonatomic, readonly, assign) id selectedItem;
 @property (nonatomic, readonly, assign) id selectedDocument;

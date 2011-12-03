@@ -10,7 +10,7 @@
 
 @implementation ResultsOutlineViewController
 
-@synthesize outlineView = _outlineView, results = _results;
+@synthesize outlineView = _outlineView;
 
 - (id)init
 {
@@ -160,6 +160,20 @@ objectValueForTableColumn:(NSTableColumn *)tableColumn
         return item;
     }
 
+}
+
+- (NSArray *)results
+{
+    return _results;
+}
+
+- (void)setResults:(NSArray *)results
+{
+    if (results != _results) {
+        [_results release];
+        _results = [results copy];
+    }
+    [_outlineView reloadData];
 }
 
 @end

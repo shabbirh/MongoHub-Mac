@@ -41,13 +41,14 @@
     self.title = [NSString stringWithFormat:@"%@:%@", _connectionStore.host, _connectionStore.hostport];
     result = [_mongoServer fetchServerStatusWithCallback:^(MODSortedMutableDictionary *serverStatus, MODQuery *mongoQuery) {
         if (_mongoServer == [mongoQuery.parameters objectForKey:@"mongoserver"]) {
-            [_resultsOutlineViewController.results removeAllObjects];
             if (serverStatus) {
-                [_resultsOutlineViewController.results addObjectsFromArray:[MODHelper convertForOutlineWithObject:serverStatus]];
-            } else if (mongoQuery.error) {
-                NSRunAlertPanel(@"Error", [mongoQuery.error localizedDescription], @"OK", nil, nil);
+                _resultsOutlineViewController.results = [MODHelper convertForOutlineWithObject:serverStatus];
+            } else {
+                _resultsOutlineViewController.results = [NSArray array];
+                if (mongoQuery.error) {
+                    NSRunAlertPanel(@"Error", [mongoQuery.error localizedDescription], @"OK", nil, nil);
+                }
             }
-            [_resultsOutlineViewController.outlineView reloadData];
         }
     }];
     return result;
@@ -61,13 +62,14 @@
         self.title = [NSString stringWithFormat:@"Database %@ stats", databaseItem.name];
         
         result = [databaseItem.mongoDatabase fetchDatabaseStatsWithCallback:^(MODSortedMutableDictionary *databaseStats, MODQuery *mongoQuery) {
-            [_resultsOutlineViewController.results removeAllObjects];
             if (databaseStats) {
-                [_resultsOutlineViewController.results addObjectsFromArray:[MODHelper convertForOutlineWithObject:databaseStats]];
-            } else if (mongoQuery.error) {
-                NSRunAlertPanel(@"Error", [mongoQuery.error localizedDescription], @"OK", nil, nil);
+                _resultsOutlineViewController.results = [MODHelper convertForOutlineWithObject:databaseStats];
+            } else {
+                _resultsOutlineViewController.results = [NSArray array];
+                if (mongoQuery.error) {
+                    NSRunAlertPanel(@"Error", [mongoQuery.error localizedDescription], @"OK", nil, nil);
+                }
             }
-            [_resultsOutlineViewController.outlineView reloadData];
         }];
     }
     return result;
@@ -80,13 +82,14 @@
     if (collectionItem) {
         self.title = [NSString stringWithFormat:@"Collection %@.%@ stats", collectionItem.databaseItem.name, collectionItem.name];
         result = [collectionItem.mongoCollection fetchCollectionStatsWithCallback:^(MODSortedMutableDictionary *stats, MODQuery *mongoQuery) {
-            [_resultsOutlineViewController.results removeAllObjects];
             if (stats) {
-                [_resultsOutlineViewController.results addObjectsFromArray:[MODHelper convertForOutlineWithObject:stats]];
-            } else if (mongoQuery.error) {
-                NSRunAlertPanel(@"Error", [mongoQuery.error localizedDescription], @"OK", nil, nil);
+                _resultsOutlineViewController.results = [MODHelper convertForOutlineWithObject:stats];
+            } else {
+                _resultsOutlineViewController.results = [NSArray array];
+                if (mongoQuery.error) {
+                    NSRunAlertPanel(@"Error", [mongoQuery.error localizedDescription], @"OK", nil, nil);
+                }
             }
-            [_resultsOutlineViewController.outlineView reloadData];
         }];
     }
     return result;

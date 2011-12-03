@@ -4325,15 +4325,15 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
-						<string key="label">enabled: self.myOutlineView.selectedRow</string>
+						<string key="label">enabled: self.outlineView.selectedRow</string>
 						<reference key="source" ref="801002076"/>
 						<reference key="destination" ref="727808051"/>
 						<object class="NSNibBindingConnector" key="connector">
 							<reference key="NSSource" ref="801002076"/>
 							<reference key="NSDestination" ref="727808051"/>
-							<string key="NSLabel">enabled: self.myOutlineView.selectedRow</string>
+							<string key="NSLabel">enabled: self.outlineView.selectedRow</string>
 							<string key="NSBinding">enabled</string>
-							<string key="NSKeyPath">self.myOutlineView.selectedRow</string>
+							<string key="NSKeyPath">self.outlineView.selectedRow</string>
 							<int key="NSNibBindingConnectorVersion">2</int>
 						</object>
 					</object>

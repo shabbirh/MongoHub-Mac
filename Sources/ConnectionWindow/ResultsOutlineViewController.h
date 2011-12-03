@@ -14,10 +14,10 @@
     NSMutableArray *_results;
 }
 
-@property (nonatomic, retain) NSOutlineView  *outlineView;
-@property (nonatomic, retain) NSMutableArray *results;
-@property (nonatomic, readonly, assign) id selectedItem;
-@property (nonatomic, readonly, assign) id selectedDocument;
+@property (nonatomic, retain, readonly) NSOutlineView *outlineView;
+@property (nonatomic, retain, readwrite) NSArray *results;
+@property (nonatomic, assign, readonly) id selectedItem;
+@property (nonatomic, assign, readonly) id selectedDocument;
 
 - (id)rootForItem:(id)item;
 

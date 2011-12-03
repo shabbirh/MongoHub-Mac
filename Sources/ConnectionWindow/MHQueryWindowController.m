@@ -240,9 +240,7 @@
             if ([queryTitle length] > 0) {
                 [_connectionStore addNewQuery:[NSDictionary dictionaryWithObjectsAndKeys:queryTitle, @"title", [_sortTextField stringValue], @"sort", [_fieldsTextField stringValue], @"fields", [_limitTextField stringValue], @"limit", [_skipTextField stringValue], @"skip", nil] withDatabaseName:_mongoCollection.databaseName collectionName:_mongoCollection.collectionName];
             }
-            [findResultsViewController.results removeAllObjects];
-            [findResultsViewController.results addObjectsFromArray:[MODHelper convertForOutlineWithObjects:documents]];
-            [findResultsViewController.outlineView reloadData];
+            findResultsViewController.results = [MODHelper convertForOutlineWithObjects:documents];
             [_mongoCollection countWithCriteria:criteria callback:^(int64_t count, MODQuery *mongoQuery) {
                 [findQueryLoaderIndicator stop];
                 [totalResultsTextField setStringValue:[NSString stringWithFormat:@"Total Results: %lld (%0.2fs)", count, [[mongoQuery.userInfo objectForKey:@"timequery"] duration]]];
@@ -320,9 +318,7 @@
         if (mongoQuery.error) {
             NSRunAlertPanel(@"Error", [mongoQuery.error localizedDescription], @"OK", nil, nil);
         }
-        [indexesOutlineViewController.results removeAllObjects];
-        [indexesOutlineViewController.results addObjectsFromArray:[MODHelper convertForOutlineWithObjects:indexes]];
-        [indexesOutlineViewController.outlineView reloadData];
+        indexesOutlineViewController.results = [MODHelper convertForOutlineWithObjects:indexes];
     }];
 }
 
@@ -377,14 +373,16 @@
 
 - (IBAction)removeRecord:(id)sender
 {
-    if ([findResultsViewController.outlineView selectedRow] != -1)
+    id selectedItem;
+    
+    selectedItem = findResultsViewController.selectedItem;
+    if (selectedItem != nil)
     {
         MODSortedMutableDictionary *criteria;
-        id currentItem = [findResultsViewController.outlineView itemAtRow:[findResultsViewController.outlineView selectedRow]];
-        //NSLog(@"%@", [findResultsViewController rootForItem:currentItem]);
+        //NSLog(@"%@", [findResultsViewController rootForItem:selectedItem]);
         [removeQueryLoaderIndicator start];
         
-        criteria = [[MODSortedMutableDictionary alloc] initWithObjectsAndKeys:[currentItem objectForKey:@"objectvalueid"], @"_id", nil];
+        criteria = [[MODSortedMutableDictionary alloc] initWithObjectsAndKeys:[selectedItem objectForKey:@"objectvalueid"], @"_id", nil];
         [_mongoCollection removeWithCriteria:criteria callback:^(MODQuery *mongoQuery) {
             if (mongoQuery.error) {
                 NSRunAlertPanel(@"Error", [mongoQuery.error localizedDescription], @"OK", nil, nil);
@@ -539,21 +537,17 @@
 
 - (void)showEditWindow:(id)sender
 {
-    switch([findResultsViewController.outlineView selectedRow])
-    {
-        case -1:
-            break;
-        default:{
-            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(findQuery:) name:kJsonWindowSaved object:nil];
-            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(jsonWindowWillClose:) name:kJsonWindowWillClose object:nil];
-            id currentItem = [findResultsViewController.outlineView itemAtRow:[findResultsViewController.outlineView selectedRow]];
-            //NSLog(@"%@", [findResultsViewController rootForItem:currentItem]);
-            JsonWindowController *jsonWindowController = [[JsonWindowController alloc] init];
-            jsonWindowController.mongoCollection = _mongoCollection;
-            jsonWindowController.jsonDict = [findResultsViewController rootForItem:currentItem];
-            [jsonWindowController showWindow:sender];
-            break;
-        }
+    id selectedItem;
+    
+    selectedItem = findResultsViewController.selectedItem;
+    if (selectedItem != nil) {
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(findQuery:) name:kJsonWindowSaved object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(jsonWindowWillClose:) name:kJsonWindowWillClose object:nil];
+        //NSLog(@"%@", [findResultsViewController rootForItem:selectedItem]);
+        JsonWindowController *jsonWindowController = [[JsonWindowController alloc] init];
+        jsonWindowController.mongoCollection = _mongoCollection;
+        jsonWindowController.jsonDict = [findResultsViewController rootForItem:selectedItem];
+        [jsonWindowController showWindow:sender];
     }
 }
 
@@ -622,9 +616,7 @@
         if (errorMessage) {
             NSRunAlertPanel(@"Error", errorMessage, @"OK", nil, nil);
         } else {
-            [findResultsViewController.results removeAllObjects];
-            [findResultsViewController.results addObjectsFromArray:result];
-            [findResultsViewController.outlineView reloadData];
+            findResultsViewController.results = result;
         }
     }
 }

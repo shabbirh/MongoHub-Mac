@@ -11,7 +11,7 @@
 
 @implementation MHTabViewController
 
-@synthesize selectedTabIndex = _selectedTabIndex, tabControllers = _tabControllers;
+@synthesize tabControllers = _tabControllers;
 
 - (void)dealloc
 {
@@ -21,6 +21,7 @@
 
 - (void)awakeFromNib
 {
+    _selectedTabIndex = NSNotFound;
     _tabControllers = [[NSMutableArray alloc] init];
 }
 
@@ -28,8 +29,12 @@
 {
     if ([_tabControllers indexOfObject:viewController] == NSNotFound) {
         [viewController addObserver:self forKeyPath:@"title" options:NSKeyValueObservingOptionNew context:nil];
+        viewController.view.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
         [_tabControllers addObject:viewController];
         [_tabTitleView setNeedsDisplay:YES];
+        if ([_tabControllers count] == 1) {
+            self.selectedTabIndex = 0;
+        }
     }
 }
 
@@ -60,6 +65,29 @@
         [_tabTitleView setNeedsDisplayInRect:[_tabTitleView rectForTabTitleAtIndex:index]];
     } else {
         [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
+    }
+}
+
+- (NSUInteger)selectedTabIndex
+{
+    return _selectedTabIndex;
+}
+
+- (void)setSelectedTabIndex:(NSUInteger)index
+{
+    if (index != _selectedTabIndex) {
+        NSRect rect;
+        
+        rect = self.view.bounds;
+        [self willChangeValueForKey:@"selectedTabIndex"];
+        [_selectedTabView removeFromSuperview];
+        _selectedTabView = [[_tabControllers objectAtIndex:index] view];
+        [self.view addSubview:_selectedTabView];
+        rect.size.height -= _tabTitleView.frame.size.height;
+        _selectedTabView.frame = rect;
+        [_tabTitleView setNeedsDisplay:YES];
+        _selectedTabIndex = index;
+        [self didChangeValueForKey:@"selectedTabIndex"];
     }
 }
 

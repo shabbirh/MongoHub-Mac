@@ -24,6 +24,10 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		020F511A14896DE700D4B54B /* MHTabViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 020F511814896DE700D4B54B /* MHTabViewController.m */; };
+		020F511B14896DE700D4B54B /* MHTabViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 020F511914896DE700D4B54B /* MHTabViewController.xib */; };
+		020F5128148973BA00D4B54B /* MHStatusViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 020F5126148973BA00D4B54B /* MHStatusViewController.m */; };
+		020F5129148973BA00D4B54B /* MHStatusViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 020F5127148973BA00D4B54B /* MHStatusViewController.xib */; };
 		0213CAEE1431F3400027795D /* dsa_pub.pem in Resources */ = {isa = PBXBuildFile; fileRef = 1DFC2A8C11970BD0006AA167 /* dsa_pub.pem */; };
 		0213CAF41431FEF50027795D /* su_feed.xml in Resources */ = {isa = PBXBuildFile; fileRef = 0213CAF31431FEF50027795D /* su_feed.xml */; };
 		021BEA681463709A0091C2EA /* MongoHub_DataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 021BEA641463709A0091C2EA /* MongoHub_DataModel.xcdatamodeld */; };
@@ -48,6 +52,7 @@
 		02AB057C142971CE00B7CD19 /* MODObjectId.m in Sources */ = {isa = PBXBuildFile; fileRef = 02AB057A142971CE00B7CD19 /* MODObjectId.m */; };
 		02B143DC147C720D005AB320 /* MHFileImporter.m in Sources */ = {isa = PBXBuildFile; fileRef = 02B143DB147C720D005AB320 /* MHFileImporter.m */; };
 		02B2427D147D2BBC008A15A3 /* MODSortedMutableDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = 02B2427C147D2BBC008A15A3 /* MODSortedMutableDictionary.m */; };
+		02CEE9BE1486DD7A00E488DA /* MHTabTitleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 02CEE9BD1486DD7A00E488DA /* MHTabTitleView.m */; };
 		02CF87E4142F7316000C4C7F /* MODJsonParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 02CF87E1142F7316000C4C7F /* MODJsonParser.m */; };
 		02CF87E5142F7316000C4C7F /* MODTimestamp.m in Sources */ = {isa = PBXBuildFile; fileRef = 02CF87E3142F7316000C4C7F /* MODTimestamp.m */; };
 		02D5A8E41442087F00C7768C /* bson.c in Sources */ = {isa = PBXBuildFile; fileRef = 02D5A87F144207CF00C7768C /* bson.c */; };
@@ -225,6 +230,12 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		020F511714896DE700D4B54B /* MHTabViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MHTabViewController.h; sourceTree = "<group>"; };
+		020F511814896DE700D4B54B /* MHTabViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MHTabViewController.m; sourceTree = "<group>"; };
+		020F511914896DE700D4B54B /* MHTabViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MHTabViewController.xib; sourceTree = "<group>"; };
+		020F5125148973BA00D4B54B /* MHStatusViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MHStatusViewController.h; sourceTree = "<group>"; };
+		020F5126148973BA00D4B54B /* MHStatusViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MHStatusViewController.m; sourceTree = "<group>"; };
+		020F5127148973BA00D4B54B /* MHStatusViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MHStatusViewController.xib; sourceTree = "<group>"; };
 		0213CAF31431FEF50027795D /* su_feed.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = su_feed.xml; sourceTree = "<group>"; };
 		021BEA651463709A0091C2EA /* MongoHub_DataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = MongoHub_DataModel.xcdatamodel; sourceTree = "<group>"; };
 		021BEA661463709A0091C2EA /* MongoHub_DataModel1.0.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = MongoHub_DataModel1.0.xcdatamodel; sourceTree = "<group>"; };
@@ -277,6 +288,8 @@
 		02B143DB147C720D005AB320 /* MHFileImporter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MHFileImporter.m; sourceTree = "<group>"; };
 		02B2427B147D2BBC008A15A3 /* MODSortedMutableDictionary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MODSortedMutableDictionary.h; sourceTree = "<group>"; };
 		02B2427C147D2BBC008A15A3 /* MODSortedMutableDictionary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MODSortedMutableDictionary.m; sourceTree = "<group>"; };
+		02CEE9BC1486DD7A00E488DA /* MHTabTitleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MHTabTitleView.h; sourceTree = "<group>"; };
+		02CEE9BD1486DD7A00E488DA /* MHTabTitleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MHTabTitleView.m; sourceTree = "<group>"; };
 		02CF87E0142F7316000C4C7F /* MODJsonParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MODJsonParser.h; sourceTree = "<group>"; };
 		02CF87E1142F7316000C4C7F /* MODJsonParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MODJsonParser.m; sourceTree = "<group>"; };
 		02CF87E2142F7316000C4C7F /* MODTimestamp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MODTimestamp.h; sourceTree = "<group>"; };
@@ -637,6 +650,14 @@
 				1DF96F9111883B3800C35AB8 /* MHQueryWindowController.m */,
 				1D210BFC119301BA000EF41C /* AuthWindowController.h */,
 				1D210BFD119301BA000EF41C /* AuthWindowController.m */,
+				02CEE9BC1486DD7A00E488DA /* MHTabTitleView.h */,
+				02CEE9BD1486DD7A00E488DA /* MHTabTitleView.m */,
+				020F511714896DE700D4B54B /* MHTabViewController.h */,
+				020F511814896DE700D4B54B /* MHTabViewController.m */,
+				020F511914896DE700D4B54B /* MHTabViewController.xib */,
+				020F5125148973BA00D4B54B /* MHStatusViewController.h */,
+				020F5126148973BA00D4B54B /* MHStatusViewController.m */,
+				020F5127148973BA00D4B54B /* MHStatusViewController.xib */,
 			);
 			path = ConnectionWindow;
 			sourceTree = "<group>";
@@ -1280,6 +1301,8 @@
 				1DDC486912CB7758009924A1 /* JSON.plist in Resources */,
 				0213CAEE1431F3400027795D /* dsa_pub.pem in Resources */,
 				0213CAF41431FEF50027795D /* su_feed.xml in Resources */,
+				020F511B14896DE700D4B54B /* MHTabViewController.xib in Resources */,
+				020F5129148973BA00D4B54B /* MHStatusViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1423,6 +1446,9 @@
 				02A7C40A1482DEDD0099CDD1 /* MHMysqlImporter.m in Sources */,
 				02A7C40E1482DF080099CDD1 /* MHMysqlExporter.m in Sources */,
 				023ED002148526E700185781 /* MODSymbol.m in Sources */,
+				02CEE9BE1486DD7A00E488DA /* MHTabTitleView.m in Sources */,
+				020F511A14896DE700D4B54B /* MHTabViewController.m in Sources */,
+				020F5128148973BA00D4B54B /* MHStatusViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -24,12 +24,19 @@
 @class MODDatabase;
 @class MODCollection;
 @class MODSortedMutableDictionary;
+@class MHTabTitleView;
+@class MHStatusViewController;
+@class MHTabViewController;
 
 @interface ConnectionWindowController : NSWindowController <MHTunnelDelegate>
 {
     IBOutlet NSMenu *createCollectionOrDatabaseMenu;
     IBOutlet DatabasesArrayController *_databaseStoreArrayController;
-    IBOutlet ResultsOutlineViewController *resultsOutlineViewController;
+    
+    MHStatusViewController *_statusViewController;
+    IBOutlet MHTabViewController *_tabViewController;
+    IBOutlet NSSplitView *_splitView;
+    
     MHServerItem *_serverItem;
     MHConnectionStore *_connectionStore;
     MODServer *_mongoServer;
@@ -53,10 +60,12 @@
     BOOL exitThread;
     BOOL monitorStopped;
     
+    IBOutlet NSView *_mainTabView;
+    IBOutlet MHTabTitleView *_tabTitleView;
+    
     MODSortedMutableDictionary *previousServerStatusForDelta;
 }
 
-@property (nonatomic, retain) ResultsOutlineViewController *resultsOutlineViewController;
 @property (nonatomic, retain) MHConnectionStore *connectionStore;
 @property (nonatomic, retain) MODServer *mongoServer;
 @property (nonatomic, retain) NSMutableArray *databases;

@@ -123,8 +123,6 @@
     [[_splitView.subviews objectAtIndex:1] addSubview:tabView];
     tabView.frame = tabView.superview.bounds;
     _statusViewController = [[MHStatusViewController loadNewViewController] retain];
-    _statusViewController.mongoServer = _mongoServer;
-    _statusViewController.connectionStore = _connectionStore;
     [_tabViewController addViewController:_statusViewController];
     [_databaseCollectionOutlineView setDoubleAction:@selector(outlineViewDoubleClickAction:)];
     [self updateToolbarItems];
@@ -195,6 +193,9 @@
         [self closeMongoDB];
         _mongoServer = [[MODServer alloc] init];
         _serverItem = [[MHServerItem alloc] initWithMongoServer:_mongoServer delegate:self];
+        NSLog(@"_statusViewController %@", _statusViewController);
+        _statusViewController.mongoServer = _mongoServer;
+        _statusViewController.connectionStore = _connectionStore;
         if ([_connectionStore.adminuser length] > 0 && [_connectionStore.adminpass length] > 0) {
             _mongoServer.userName = _connectionStore.adminuser;
             _mongoServer.password = _connectionStore.adminpass;

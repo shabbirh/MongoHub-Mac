@@ -19,7 +19,6 @@
 @interface MHTabTitleView : NSControl
 {
     IBOutlet id<MHTabTitleViewDataSource> _dataSource;
-    IBOutlet NSButtonCell *_button;
     NSButtonCell *_titleCell;
 }
 

@@ -11,7 +11,7 @@
 
 @interface ResultsOutlineViewController : NSObject{
     IBOutlet NSOutlineView *myOutlineView;
-    NSMutableArray *results;
+    NSMutableArray *_results;
 }
 
 @property (nonatomic, retain) NSOutlineView  *myOutlineView;

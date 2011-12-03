@@ -10,13 +10,12 @@
 
 @implementation ResultsOutlineViewController
 
-@synthesize myOutlineView;
-@synthesize results;
+@synthesize myOutlineView, results = _results;
 
 - (id)init
 {
     if (self = [super init]) {
-        results = [[NSMutableArray alloc] init];
+        _results = [[NSMutableArray alloc] init];
     }
     
     return self;
@@ -26,7 +25,7 @@
 {
     [myOutlineView deselectAll:nil];
     [myOutlineView release];
-    [results release];
+    [_results release];
     [super dealloc];
 }
 
@@ -45,7 +44,7 @@
 {
     // If the item is the root item, return the corresponding mailbox object
     if ([outlineView levelForItem:item] == -1) {
-        return [results objectAtIndex:index];
+        return [_results objectAtIndex:index];
     }
     
     // If the item is a root-level item (ie mailbox)
@@ -70,7 +69,7 @@ numberOfChildrenOfItem:(id)item
 {
     // If the item is the root item, return the number of mailboxes
     if ([outlineView levelForItem:item] == -1) {
-        return [results count];
+        return [_results count];
     }
     // If the item is a root-level item (ie mailbox)
     return [[item objectForKey:@"child"] count];

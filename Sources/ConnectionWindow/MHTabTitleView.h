@@ -8,20 +8,14 @@
 
 #import <Cocoa/Cocoa.h>
 
-@class MHTabTitleView;
-
-@protocol MHTabTitleViewDataSource <NSObject>
-- (NSUInteger)tabtitleViewSelectedIndex:(MHTabTitleView *)tabTitleView;
-- (NSUInteger)tabTitleViewTabCount:(MHTabTitleView *)tabTitleView;
-- (NSString *)tabTitleView:(MHTabTitleView *)tabTitleView tabTitleAtIndex:(NSUInteger)index;
-@end
+@class MHTabViewController;
 
 @interface MHTabTitleView : NSControl
 {
-    IBOutlet id<MHTabTitleViewDataSource> _dataSource;
+    IBOutlet MHTabViewController *_tabViewController;
     NSButtonCell *_titleCell;
 }
 
-@property (nonatomic, assign, readwrite) id<MHTabTitleViewDataSource> dataSource;
+- (NSRect)rectForTabTitleAtIndex:(NSUInteger)index;
 
 @end

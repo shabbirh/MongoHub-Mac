@@ -7,10 +7,9 @@
 //
 
 #import "MHTabTitleView.h"
+#import "MHTabViewController.h"
 
 @implementation MHTabTitleView
-
-@synthesize dataSource = _dataSource;
 
 - (id)initWithFrame:(NSRect)frame
 {
@@ -33,22 +32,36 @@
     [super dealloc];
 }
 
+- (NSRect)rectForTabTitleAtIndex:(NSUInteger)index
+{
+    NSRect result;
+    NSUInteger count;
+    
+    count = [[_tabViewController tabControllers] count];
+    result = self.bounds;
+    result.size.width = result.size.width / count;
+    result.origin.x = result.size.width * index;
+    return result;
+}
+
 - (void)drawRect:(NSRect)dirtyRect
 {
+    NSArray *tabControllers;
     NSUInteger count, ii, selectedIndex;
-    NSRect titleRect;
-    NSUInteger width;
     
-    selectedIndex = [_dataSource tabtitleViewSelectedIndex:self];
-    titleRect = [self bounds];
-    count = [_dataSource tabTitleViewTabCount:self];
-    width = titleRect.size.width / count;
-    titleRect.size.width = width;
+    tabControllers = [_tabViewController tabControllers];
+    selectedIndex = [_tabViewController selectedTabIndex];
+    count = [tabControllers count];
     [_titleCell setState:NSOffState];
     for (ii = 0; ii < count; ii++) {
-        _titleCell.highlighted = ii == selectedIndex;
-        [_titleCell setTitle:[_dataSource tabTitleView:self tabTitleAtIndex:ii]];
-        [_titleCell drawWithFrame:titleRect inView:self];
+        NSRect titleRect;
+        
+        titleRect = [self rectForTabTitleAtIndex:ii];
+        if (NSIntersectsRect(titleRect, dirtyRect)) {
+            _titleCell.highlighted = ii == selectedIndex;
+            [_titleCell setTitle:[[tabControllers objectAtIndex:ii] title]];
+            [_titleCell drawWithFrame:titleRect inView:self];
+        }
     }
 }
 

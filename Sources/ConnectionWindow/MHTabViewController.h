@@ -7,16 +7,19 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import "MHTabTitleView.h"
 
-@interface MHTabViewController : NSViewController<MHTabTitleViewDataSource>
+@class MHTabTitleView;
+
+@interface MHTabViewController : NSViewController
 {
     IBOutlet MHTabTitleView *_tabTitleView;
-    NSMutableArray *_tabItems;
+    NSMutableArray *_tabControllers;
     NSUInteger _selectedTabIndex;
 }
 
 @property (nonatomic, assign, readwrite) NSUInteger selectedTabIndex;
+@property (nonatomic, assign, readonly) NSUInteger tabCount;
+@property (nonatomic, assign, readonly) NSArray *tabControllers;
 
 - (void)addViewController:(NSViewController *)viewController;
 

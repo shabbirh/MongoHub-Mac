@@ -53,8 +53,8 @@
 - (MODQuery *)getDatabaseList;
 - (MODQuery *)getCollectionListForDatabaseItem:(MHDatabaseItem *)databaseItem;
 
-- (MODQuery *)showDatabaseStatusWithDatabaseItem:(MHDatabaseItem *)databaseItem;
-- (MODQuery *)showCollectionStatusWithCollectionItem:(MHCollectionItem *)collectionItem;
+- (void)showDatabaseStatusWithDatabaseItem:(MHDatabaseItem *)databaseItem;
+- (void)showCollectionStatusWithCollectionItem:(MHCollectionItem *)collectionItem;
 @end
 
 @implementation ConnectionWindowController
@@ -353,14 +353,14 @@
     return result;
 }
 
-- (MODQuery *)showDatabaseStatusWithDatabaseItem:(MHDatabaseItem *)databaseItem
+- (void)showDatabaseStatusWithDatabaseItem:(MHDatabaseItem *)databaseItem
 {
-    return nil;
+    [_statusViewController showDatabaseStatusWithDatabaseItem:databaseItem];
 }
 
-- (MODQuery *)showCollectionStatusWithCollectionItem:(MHCollectionItem *)collectionItem
+- (void)showCollectionStatusWithCollectionItem:(MHCollectionItem *)collectionItem
 {
-    return nil;
+    [_statusViewController showCollectionStatusWithCollectionItem:collectionItem];
 }
 
 - (IBAction)showServerStatus:(id)sender 

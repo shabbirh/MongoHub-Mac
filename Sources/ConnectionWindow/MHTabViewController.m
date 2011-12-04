@@ -28,9 +28,9 @@
 - (void)addViewController:(NSViewController *)viewController
 {
     if ([_tabControllers indexOfObject:viewController] == NSNotFound) {
+        [_tabControllers addObject:viewController];
         [viewController addObserver:self forKeyPath:@"title" options:NSKeyValueObservingOptionNew context:nil];
         viewController.view.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
-        [_tabControllers addObject:viewController];
         [_tabTitleView setNeedsDisplay:YES];
         if ([_tabControllers count] == 1) {
             self.selectedTabIndex = 0;

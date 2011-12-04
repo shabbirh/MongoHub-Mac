@@ -8,7 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 
-@class MHTabTitleView;
+@class MHTabTitleView, MHTabItemViewController;
 
 @interface MHTabViewController : NSViewController
 {
@@ -22,6 +22,7 @@
 @property (nonatomic, assign, readonly) NSUInteger tabCount;
 @property (nonatomic, assign, readonly) NSArray *tabControllers;
 
-- (void)addViewController:(NSViewController *)viewController;
+- (void)addViewController:(MHTabItemViewController *)viewController;
+- (void)removeViewController:(MHTabItemViewController *)viewController;
 
 @end

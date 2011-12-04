@@ -8,6 +8,7 @@
 
 #import "MHTabViewController.h"
 #import "MHTabTitleView.h"
+#import "MHTabItemViewController.h"
 
 @implementation MHTabViewController
 
@@ -15,6 +16,9 @@
 
 - (void)dealloc
 {
+    for (MHTabItemViewController *controller in _tabControllers) {
+        [controller removeObserver:self forKeyPath:@"title"];
+    }
     [_tabControllers release];
     [super dealloc];
 }
@@ -25,7 +29,7 @@
     _tabControllers = [[NSMutableArray alloc] init];
 }
 
-- (void)addViewController:(NSViewController *)viewController
+- (void)addViewController:(MHTabItemViewController *)viewController
 {
     if ([_tabControllers indexOfObject:viewController] == NSNotFound) {
         [_tabControllers addObject:viewController];
@@ -36,7 +40,7 @@
     }
 }
 
-- (void)removeViewController:(NSViewController *)viewController
+- (void)removeViewController:(MHTabItemViewController *)viewController
 {
     NSUInteger index;
     
@@ -55,7 +59,7 @@
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
-    if ([object isKindOfClass:[NSViewController class]]) {
+    if ([object isKindOfClass:[MHTabItemViewController class]]) {
         NSUInteger index;
         
         index = [_tabControllers indexOfObject:object];

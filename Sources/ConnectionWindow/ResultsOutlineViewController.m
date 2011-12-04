@@ -23,8 +23,6 @@
 
 - (void)dealloc
 {
-    [_outlineView deselectAll:nil];
-    [_outlineView release];
     [_results release];
     [super dealloc];
 }

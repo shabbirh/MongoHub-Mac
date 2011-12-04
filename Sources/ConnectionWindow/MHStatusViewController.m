@@ -25,7 +25,6 @@
 
 - (void)dealloc
 {
-    [_resultsOutlineViewController release];
     [_mongoServer release];
     [_connectionStore release];
     [super dealloc];

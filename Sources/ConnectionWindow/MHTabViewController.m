@@ -32,9 +32,7 @@
         [viewController addObserver:self forKeyPath:@"title" options:NSKeyValueObservingOptionNew context:nil];
         viewController.view.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
         [_tabTitleView setNeedsDisplay:YES];
-        if ([_tabControllers count] == 1) {
-            self.selectedTabIndex = 0;
-        }
+        self.selectedTabIndex = [_tabControllers count] - 1;
     }
 }
 

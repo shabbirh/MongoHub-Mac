@@ -65,4 +65,26 @@
     }
 }
 
+- (void)mouseDown:(NSEvent *)theEvent
+{
+    NSPoint mousePoint;
+    NSArray *tabControllers;
+    NSUInteger count, ii, selectedIndex;
+    
+    mousePoint = [self convertPoint:theEvent.locationInWindow fromView:nil];
+    tabControllers = [_tabViewController tabControllers];
+    selectedIndex = [_tabViewController selectedTabIndex];
+    count = [tabControllers count];
+    [_titleCell setState:NSOffState];
+    for (ii = 0; ii < count; ii++) {
+        NSRect titleRect;
+        
+        titleRect = [self rectForTabTitleAtIndex:ii];
+        if (NSPointInRect(mousePoint, titleRect)) {
+            _tabViewController.selectedTabIndex = ii;
+            break;
+        }
+    }
+}
+
 @end

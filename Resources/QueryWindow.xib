@@ -1097,13 +1097,13 @@
 				<reference key="NSNextKeyView" ref="797745879"/>
 			</object>
 			<object class="NSCustomObject" id="727808051">
-				<string key="NSClassName">ResultsOutlineViewController</string>
+				<string key="NSClassName">MHResultsOutlineViewController</string>
 			</object>
 			<object class="NSCustomObject" id="473593150">
-				<string key="NSClassName">ResultsOutlineViewController</string>
+				<string key="NSClassName">MHResultsOutlineViewController</string>
 			</object>
 			<object class="NSCustomObject" id="94733408">
-				<string key="NSClassName">ResultsOutlineViewController</string>
+				<string key="NSClassName">MHResultsOutlineViewController</string>
 			</object>
 			<object class="NSCustomView" id="92685492">
 				<reference key="NSNextResponder"/>
@@ -6872,7 +6872,7 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 				<bool key="EncodedWithXMLCoder">YES</bool>
 				<object class="IBPartialClassDescription">
 					<string key="className">MHQueryWindowController</string>
-					<string key="superclassName">NSViewController</string>
+					<string key="superclassName">MHTabItemViewController</string>
 					<object class="NSMutableDictionary" key="actions">
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSArray" key="dict.sortedKeys">
@@ -7105,7 +7105,7 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 							<string>NSProgressIndicator</string>
 							<string>NSTextField</string>
 							<string>NSOutlineView</string>
-							<string>ResultsOutlineViewController</string>
+							<string>MHResultsOutlineViewController</string>
 							<string>NSButton</string>
 							<string>NSTokenField</string>
 							<string>NSButton</string>
@@ -7118,13 +7118,13 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 							<string>NSPopUpButton</string>
 							<string>NSProgressIndicator</string>
 							<string>NSTextField</string>
-							<string>ResultsOutlineViewController</string>
+							<string>MHResultsOutlineViewController</string>
 							<string>NSTextView</string>
 							<string>NSProgressIndicator</string>
 							<string>NSTextField</string>
 							<string>NSTextView</string>
 							<string>NSProgressIndicator</string>
-							<string>ResultsOutlineViewController</string>
+							<string>MHResultsOutlineViewController</string>
 							<string>NSTextField</string>
 							<string>NSTextField</string>
 							<string>NSTextView</string>
@@ -7283,7 +7283,7 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">findResultsViewController</string>
-								<string key="candidateClassName">ResultsOutlineViewController</string>
+								<string key="candidateClassName">MHResultsOutlineViewController</string>
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">impDropCheckBox</string>
@@ -7335,7 +7335,7 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">indexesOutlineViewController</string>
-								<string key="candidateClassName">ResultsOutlineViewController</string>
+								<string key="candidateClassName">MHResultsOutlineViewController</string>
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">insertDataTextView</string>
@@ -7359,7 +7359,7 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">mrOutlineViewController</string>
-								<string key="candidateClassName">ResultsOutlineViewController</string>
+								<string key="candidateClassName">MHResultsOutlineViewController</string>
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">mrcriticalTextField</string>
@@ -7433,7 +7433,7 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
-					<string key="className">ResultsOutlineViewController</string>
+					<string key="className">MHResultsOutlineViewController</string>
 					<string key="superclassName">NSObject</string>
 					<object class="NSMutableDictionary" key="outlets">
 						<string key="NS.key.0">_outlineView</string>
@@ -7448,7 +7448,15 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 					</object>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/ResultsOutlineViewController.h</string>
+						<string key="minorKey">./Classes/MHResultsOutlineViewController.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">MHTabItemViewController</string>
+					<string key="superclassName">NSViewController</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/MHTabItemViewController.h</string>
 					</object>
 				</object>
 			</object>

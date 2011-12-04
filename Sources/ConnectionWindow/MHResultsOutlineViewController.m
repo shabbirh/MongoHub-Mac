@@ -1,14 +1,14 @@
 //
-//  ResultsOutlineViewController.m
+//  MHResultsOutlineViewController.m
 //  MongoHub
 //
 //  Created by Syd on 10-4-26.
 //  Copyright 2010 MusicPeace.ORG. All rights reserved.
 //
 
-#import "ResultsOutlineViewController.h"
+#import "MHResultsOutlineViewController.h"
 
-@implementation ResultsOutlineViewController
+@implementation MHResultsOutlineViewController
 
 @synthesize outlineView = _outlineView;
 

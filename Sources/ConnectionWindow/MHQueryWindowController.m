@@ -10,7 +10,7 @@
 #import "NSProgressIndicator+Extras.h"
 #import "MHQueryWindowController.h"
 #import "DatabasesArrayController.h"
-#import "ResultsOutlineViewController.h"
+#import "MHResultsOutlineViewController.h"
 #import "NSString+Extras.h"
 #import "JsonWindowController.h"
 #import "MOD_public.h"

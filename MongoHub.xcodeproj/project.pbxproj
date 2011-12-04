@@ -117,7 +117,7 @@
 		1D93C42D1183744D003216F7 /* dbicon.png in Resources */ = {isa = PBXBuildFile; fileRef = 1D93C42B1183744D003216F7 /* dbicon.png */; };
 		1D93C45411837668003216F7 /* SidebarBadgeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D93C45011837668003216F7 /* SidebarBadgeCell.m */; };
 		1D93C7491184369D003216F7 /* DatabasesArrayController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D93C7481184369D003216F7 /* DatabasesArrayController.m */; };
-		1D93CB5C1184C243003216F7 /* ResultsOutlineViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D93CB5B1184C243003216F7 /* ResultsOutlineViewController.m */; };
+		1D93CB5C1184C243003216F7 /* MHResultsOutlineViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D93CB5B1184C243003216F7 /* MHResultsOutlineViewController.m */; };
 		1DA68047118875B300DFDD29 /* findmenu.png in Resources */ = {isa = PBXBuildFile; fileRef = 1DA68042118875B300DFDD29 /* findmenu.png */; };
 		1DA68048118875B300DFDD29 /* insertmenu.png in Resources */ = {isa = PBXBuildFile; fileRef = 1DA68043118875B300DFDD29 /* insertmenu.png */; };
 		1DA68049118875B300DFDD29 /* removemenu.png in Resources */ = {isa = PBXBuildFile; fileRef = 1DA68044118875B300DFDD29 /* removemenu.png */; };
@@ -477,8 +477,8 @@
 		1D93C45011837668003216F7 /* SidebarBadgeCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SidebarBadgeCell.m; sourceTree = "<group>"; };
 		1D93C7471184369D003216F7 /* DatabasesArrayController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DatabasesArrayController.h; sourceTree = "<group>"; };
 		1D93C7481184369D003216F7 /* DatabasesArrayController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DatabasesArrayController.m; sourceTree = "<group>"; };
-		1D93CB5A1184C243003216F7 /* ResultsOutlineViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ResultsOutlineViewController.h; sourceTree = "<group>"; };
-		1D93CB5B1184C243003216F7 /* ResultsOutlineViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ResultsOutlineViewController.m; sourceTree = "<group>"; };
+		1D93CB5A1184C243003216F7 /* MHResultsOutlineViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MHResultsOutlineViewController.h; sourceTree = "<group>"; };
+		1D93CB5B1184C243003216F7 /* MHResultsOutlineViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MHResultsOutlineViewController.m; sourceTree = "<group>"; };
 		1DA68042118875B300DFDD29 /* findmenu.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = findmenu.png; path = Resources/images/findmenu.png; sourceTree = SOURCE_ROOT; };
 		1DA68043118875B300DFDD29 /* insertmenu.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = insertmenu.png; path = Resources/images/insertmenu.png; sourceTree = SOURCE_ROOT; };
 		1DA68044118875B300DFDD29 /* removemenu.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = removemenu.png; path = Resources/images/removemenu.png; sourceTree = SOURCE_ROOT; };
@@ -660,8 +660,8 @@
 			children = (
 				1D93C3CD11836863003216F7 /* ConnectionWindowController.h */,
 				0262CA3E148C1838009033F9 /* ConnectionWindowController.m */,
-				1D93CB5A1184C243003216F7 /* ResultsOutlineViewController.h */,
-				1D93CB5B1184C243003216F7 /* ResultsOutlineViewController.m */,
+				1D93CB5A1184C243003216F7 /* MHResultsOutlineViewController.h */,
+				1D93CB5B1184C243003216F7 /* MHResultsOutlineViewController.m */,
 				0262CA40148C1852009033F9 /* MHQueryWindowController.h */,
 				1DF96F9111883B3800C35AB8 /* MHQueryWindowController.m */,
 				1D210BFC119301BA000EF41C /* AuthWindowController.h */,
@@ -1418,7 +1418,7 @@
 				1D93C38711835D2A003216F7 /* EditConnectionController.m in Sources */,
 				1D93C45411837668003216F7 /* SidebarBadgeCell.m in Sources */,
 				1D93C7491184369D003216F7 /* DatabasesArrayController.m in Sources */,
-				1D93CB5C1184C243003216F7 /* ResultsOutlineViewController.m in Sources */,
+				1D93CB5C1184C243003216F7 /* MHResultsOutlineViewController.m in Sources */,
 				1D799455118755EE009C187F /* AddDBController.m in Sources */,
 				1DF96E3B11881AED00C35AB8 /* AddCollectionController.m in Sources */,
 				1DF96F9211883B3800C35AB8 /* MHQueryWindowController.m in Sources */,

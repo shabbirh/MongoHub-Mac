@@ -54,7 +54,6 @@
 										<int key="NSvFlags">256</int>
 										<string key="NSFrameSize">{451, 399}</string>
 										<reference key="NSSuperview" ref="442413183"/>
-										<reference key="NSWindow"/>
 										<reference key="NSNextKeyView" ref="456369140"/>
 										<string key="NSReuseIdentifierKey">_NS:1703</string>
 										<bool key="NSEnabled">YES</bool>
@@ -63,7 +62,7 @@
 											<int key="NSvFlags">256</int>
 											<string key="NSFrameSize">{451, 17}</string>
 											<reference key="NSSuperview" ref="251233542"/>
-											<reference key="NSWindow"/>
+											<reference key="NSNextKeyView" ref="730237223"/>
 											<reference key="NSTableView" ref="1055374176"/>
 										</object>
 										<object class="_NSCornerView" key="NSCornerView" id="730237223">
@@ -71,7 +70,6 @@
 											<int key="NSvFlags">-2147483392</int>
 											<string key="NSFrame">{{224, 0}, {16, 17}}</string>
 											<reference key="NSSuperview" ref="627261057"/>
-											<reference key="NSWindow"/>
 											<reference key="NSNextKeyView" ref="442413183"/>
 											<string key="NSReuseIdentifierKey">_NS:1709</string>
 										</object>
@@ -218,7 +216,6 @@
 								</array>
 								<string key="NSFrame">{{1, 17}, {451, 399}}</string>
 								<reference key="NSSuperview" ref="627261057"/>
-								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="1055374176"/>
 								<string key="NSReuseIdentifierKey">_NS:1701</string>
 								<reference key="NSDocView" ref="1055374176"/>
@@ -230,7 +227,6 @@
 								<int key="NSvFlags">-2147483392</int>
 								<string key="NSFrame">{{224, 17}, {15, 102}}</string>
 								<reference key="NSSuperview" ref="627261057"/>
-								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="60837760"/>
 								<string key="NSReuseIdentifierKey">_NS:1726</string>
 								<reference key="NSTarget" ref="627261057"/>
@@ -242,7 +238,6 @@
 								<int key="NSvFlags">-2147483392</int>
 								<string key="NSFrame">{{1, 401}, {451, 15}}</string>
 								<reference key="NSSuperview" ref="627261057"/>
-								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView"/>
 								<string key="NSReuseIdentifierKey">_NS:1728</string>
 								<int key="NSsFlags">1</int>
@@ -258,7 +253,6 @@
 								</array>
 								<string key="NSFrame">{{1, 0}, {451, 17}}</string>
 								<reference key="NSSuperview" ref="627261057"/>
-								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="521118572"/>
 								<reference key="NSDocView" ref="521118572"/>
 								<reference key="NSBGColor" ref="316577446"/>
@@ -268,8 +262,7 @@
 						</array>
 						<string key="NSFrame">{{0, -3}, {453, 417}}</string>
 						<reference key="NSSuperview" ref="1005"/>
-						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView"/>
+						<reference key="NSNextKeyView" ref="251233542"/>
 						<string key="NSReuseIdentifierKey">_NS:1699</string>
 						<int key="NSsFlags">133682</int>
 						<reference key="NSVScroller" ref="456369140"/>
@@ -282,12 +275,11 @@
 				</array>
 				<string key="NSFrameSize">{453, 414}</string>
 				<reference key="NSSuperview"/>
-				<reference key="NSWindow"/>
 				<reference key="NSNextKeyView" ref="627261057"/>
 				<string key="NSClassName">NSView</string>
 			</object>
 			<object class="NSCustomObject" id="123950839">
-				<string key="NSClassName">ResultsOutlineViewController</string>
+				<string key="NSClassName">MHResultsOutlineViewController</string>
 			</object>
 		</array>
 		<object class="IBObjectContainer" key="IBDocument.Objects">
@@ -489,48 +481,7 @@
 			<nil key="sourceID"/>
 			<int key="maxID">42</int>
 		</object>
-		<object class="IBClassDescriber" key="IBDocument.Classes">
-			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
-				<object class="IBPartialClassDescription">
-					<string key="className">MHStatusViewController</string>
-					<string key="superclassName">NSViewController</string>
-					<object class="NSMutableDictionary" key="outlets">
-						<string key="NS.key.0">_resultsOutlineViewController</string>
-						<string key="NS.object.0">ResultsOutlineViewController</string>
-					</object>
-					<object class="NSMutableDictionary" key="toOneOutletInfosByName">
-						<string key="NS.key.0">_resultsOutlineViewController</string>
-						<object class="IBToOneOutletInfo" key="NS.object.0">
-							<string key="name">_resultsOutlineViewController</string>
-							<string key="candidateClassName">ResultsOutlineViewController</string>
-						</object>
-					</object>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/MHStatusViewController.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">ResultsOutlineViewController</string>
-					<string key="superclassName">NSObject</string>
-					<object class="NSMutableDictionary" key="outlets">
-						<string key="NS.key.0">_outlineView</string>
-						<string key="NS.object.0">NSOutlineView</string>
-					</object>
-					<object class="NSMutableDictionary" key="toOneOutletInfosByName">
-						<string key="NS.key.0">_outlineView</string>
-						<object class="IBToOneOutletInfo" key="NS.object.0">
-							<string key="name">_outlineView</string>
-							<string key="candidateClassName">NSOutlineView</string>
-						</object>
-					</object>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/ResultsOutlineViewController.h</string>
-					</object>
-				</object>
-			</array>
-		</object>
+		<object class="IBClassDescriber" key="IBDocument.Classes"/>
 		<int key="IBDocument.localizationMode">0</int>
 		<string key="IBDocument.TargetRuntimeIdentifier">IBCocoaFramework</string>
 		<bool key="IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion">YES</bool>

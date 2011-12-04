@@ -18,7 +18,7 @@
 @class AuthWindowController;
 @class MHMysqlImportWindowController;
 @class MHMysqlExportWindowController;
-@class ResultsOutlineViewController;
+@class MHResultsOutlineViewController;
 @class MHConnectionStore;
 @class MODServer;
 @class MODDatabase;

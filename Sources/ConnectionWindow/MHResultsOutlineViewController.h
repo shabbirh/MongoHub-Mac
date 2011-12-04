@@ -1,5 +1,5 @@
 //
-//  ResultsOutlineViewController.h
+//  MHResultsOutlineViewController.h
 //  MongoHub
 //
 //  Created by Syd on 10-4-26.
@@ -9,7 +9,8 @@
 #import <Cocoa/Cocoa.h>
 
 
-@interface ResultsOutlineViewController : NSObject{
+@interface MHResultsOutlineViewController : NSObject
+{
     IBOutlet NSOutlineView *_outlineView;
     NSMutableArray *_results;
 }

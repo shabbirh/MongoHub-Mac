@@ -11,7 +11,7 @@
 #import "MHDatabaseItem.h"
 #import "MHCollectionItem.h"
 #import "MOD_public.h"
-#import "ResultsOutlineViewController.h"
+#import "MHResultsOutlineViewController.h"
 #import "MODHelper.h"
 
 @implementation MHStatusViewController

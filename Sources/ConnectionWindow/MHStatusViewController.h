@@ -8,11 +8,11 @@
 
 #import "MHTabItemViewController.h"
 
-@class ResultsOutlineViewController, MODServer, MHConnectionStore, MHDatabaseItem, MHCollectionItem, MODQuery;
+@class MHResultsOutlineViewController, MODServer, MHConnectionStore, MHDatabaseItem, MHCollectionItem, MODQuery;
 
 @interface MHStatusViewController : MHTabItemViewController
 {
-    IBOutlet ResultsOutlineViewController *_resultsOutlineViewController;
+    IBOutlet MHResultsOutlineViewController *_resultsOutlineViewController;
     MODServer *_mongoServer;
     MHConnectionStore *_connectionStore;
 }

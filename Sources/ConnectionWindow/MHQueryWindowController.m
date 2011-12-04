@@ -84,12 +84,9 @@
 @synthesize impProgressIndicator;
 
 
-- (id)init
++ (id)loadQueryController
 {
-    if (self = [super initWithWindowNibName:@"QueryWindow"]) {
-        
-    }
-    return self;
+    return [[[MHQueryWindowController alloc] initWithNibName:@"QueryWindow" bundle:nil] autorelease];
 }
 
 - (void)dealloc
@@ -200,15 +197,9 @@
     return query;
 }
 
-- (void)windowDidLoad {
-    [super windowDidLoad];
-    NSString *title = [[NSString alloc] initWithFormat:@"Query in %@", _mongoCollection.absoluteCollectionName];
-    [self.window setTitle:title];
-    [title release];
-}
-
-- (void)windowWillClose:(NSNotification *)notification {
-    [self release];
+- (void)awakeFromNib
+{
+    self.title = _mongoCollection.absoluteCollectionName;
 }
 
 - (IBAction)findQuery:(id)sender

@@ -494,10 +494,10 @@
         NSRunAlertPanel(@"Error", @"Please choose a collection!", @"OK", nil, nil);
         return;
     }
-    MHQueryWindowController *queryWindowController = [[MHQueryWindowController alloc] init];
+    MHQueryWindowController *queryWindowController = [MHQueryWindowController loadQueryController];
     queryWindowController.mongoCollection = [self selectedCollectionItem].mongoCollection;
     queryWindowController.connectionStore = _connectionStore;
-    [queryWindowController showWindow:sender];
+    [_tabViewController addViewController:queryWindowController];
 }
 
 - (IBAction)showAuth:(id)sender

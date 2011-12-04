@@ -14,7 +14,7 @@
 @class MODCollection;
 @class MHConnectionStore;
 
-@interface MHQueryWindowController : NSWindowController
+@interface MHQueryWindowController : NSViewController
 {
     DatabasesArrayController *databasesArrayController;
     IBOutlet ResultsOutlineViewController *findResultsViewController;
@@ -147,6 +147,8 @@
 @property (nonatomic, retain) NSButton *impJsonArrayCheckBox;
 @property (nonatomic, retain) NSButton *impStopOnErrorCheckBox;
 @property (nonatomic, retain) NSProgressIndicator *impProgressIndicator;
+
++ (id)loadQueryController;
 
 - (IBAction)segmentedControlAction:(id)sender;
 - (IBAction)findQuery:(id)sender;

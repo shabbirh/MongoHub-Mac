@@ -6,11 +6,11 @@
 //  Copyright (c) 2011 ThePeppersStudio.COM. All rights reserved.
 //
 
-#import <Cocoa/Cocoa.h>
+#import "MHTabItemViewController.h"
 
 @class ResultsOutlineViewController, MODServer, MHConnectionStore, MHDatabaseItem, MHCollectionItem, MODQuery;
 
-@interface MHStatusViewController : NSViewController
+@interface MHStatusViewController : MHTabItemViewController
 {
     IBOutlet ResultsOutlineViewController *_resultsOutlineViewController;
     MODServer *_mongoServer;

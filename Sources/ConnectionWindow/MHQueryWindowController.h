@@ -6,7 +6,7 @@
 //  Copyright 2010 ThePeppersStudio.COM. All rights reserved.
 //
 
-#import <Cocoa/Cocoa.h>
+#import "MHTabItemViewController.h"
 
 @class DatabasesArrayController;
 @class ResultsOutlineViewController;
@@ -14,7 +14,7 @@
 @class MODCollection;
 @class MHConnectionStore;
 
-@interface MHQueryWindowController : NSViewController
+@interface MHQueryWindowController : MHTabItemViewController
 {
     DatabasesArrayController *databasesArrayController;
     IBOutlet ResultsOutlineViewController *findResultsViewController;

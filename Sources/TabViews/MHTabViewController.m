@@ -29,24 +29,25 @@
     _tabControllers = [[NSMutableArray alloc] init];
 }
 
-- (void)addViewController:(MHTabItemViewController *)viewController
+- (void)addTabItemViewController:(MHTabItemViewController *)tabItemViewController
 {
-    if ([_tabControllers indexOfObject:viewController] == NSNotFound) {
-        [_tabControllers addObject:viewController];
-        [viewController addObserver:self forKeyPath:@"title" options:NSKeyValueObservingOptionNew context:nil];
-        viewController.view.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
+    if ([_tabControllers indexOfObject:tabItemViewController] == NSNotFound) {
+        tabItemViewController.tabViewController = self;
+        [_tabControllers addObject:tabItemViewController];
+        [tabItemViewController addObserver:self forKeyPath:@"title" options:NSKeyValueObservingOptionNew context:nil];
+        tabItemViewController.view.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
         [_tabTitleView setNeedsDisplay:YES];
         self.selectedTabIndex = [_tabControllers count] - 1;
     }
 }
 
-- (void)removeViewController:(MHTabItemViewController *)viewController
+- (void)removeTabItemViewController:(MHTabItemViewController *)tabItemViewController
 {
     NSUInteger index;
     
-    index = [_tabControllers indexOfObject:viewController];
+    index = [_tabControllers indexOfObject:tabItemViewController];
     if (index != NSNotFound) {
-        [viewController removeObserver:self forKeyPath:@"title"];
+        [tabItemViewController removeObserver:self forKeyPath:@"title"];
         [_tabControllers removeObjectAtIndex:index];
         [_tabTitleView setNeedsDisplay:YES];
     }
@@ -90,6 +91,16 @@
         [_tabTitleView setNeedsDisplay:YES];
         _selectedTabIndex = index;
         [self didChangeValueForKey:@"selectedTabIndex"];
+    }
+}
+
+- (void)selectTabItemViewController:(MHTabItemViewController *)tabItemViewController
+{
+    NSInteger index;
+    
+    index = [_tabControllers indexOfObject:tabItemViewController];
+    if (index != NSNotFound) {
+        self.selectedTabIndex = index;
     }
 }
 

@@ -7,7 +7,15 @@
 //
 
 #import "MHTabItemViewController.h"
+#import "MHTabViewController.h"
 
 @implementation MHTabItemViewController
+
+@synthesize tabViewController = _tabViewController;
+
+- (void)select
+{
+    [_tabViewController selectTabItemViewController:self];
+}
 
 @end

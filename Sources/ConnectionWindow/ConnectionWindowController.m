@@ -123,7 +123,7 @@
     [[_splitView.subviews objectAtIndex:1] addSubview:tabView];
     tabView.frame = tabView.superview.bounds;
     _statusViewController = [[MHStatusViewController loadNewViewController] retain];
-    [_tabViewController addViewController:_statusViewController];
+    [_tabViewController addTabItemViewController:_statusViewController];
     [_databaseCollectionOutlineView setDoubleAction:@selector(outlineViewDoubleClickAction:)];
     [self updateToolbarItems];
     
@@ -497,7 +497,7 @@
     MHQueryWindowController *queryWindowController = [MHQueryWindowController loadQueryController];
     queryWindowController.mongoCollection = [self selectedCollectionItem].mongoCollection;
     queryWindowController.connectionStore = _connectionStore;
-    [_tabViewController addViewController:queryWindowController];
+    [_tabViewController addTabItemViewController:queryWindowController];
 }
 
 - (IBAction)showAuth:(id)sender

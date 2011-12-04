@@ -22,7 +22,8 @@
 @property (nonatomic, assign, readonly) NSUInteger tabCount;
 @property (nonatomic, assign, readonly) NSArray *tabControllers;
 
-- (void)addViewController:(MHTabItemViewController *)viewController;
-- (void)removeViewController:(MHTabItemViewController *)viewController;
+- (void)addTabItemViewController:(MHTabItemViewController *)tabItemViewController;
+- (void)removeTabItemViewController:(MHTabItemViewController *)tabItemViewController;
+- (void)selectTabItemViewController:(MHTabItemViewController *)tabItemViewController;
 
 @end

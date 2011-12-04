@@ -23,16 +23,13 @@
     return [[[MHStatusViewController alloc] initWithNibName:@"MHStatusViewController" bundle:nil] autorelease];
 }
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+- (void)dealloc
 {
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Initialization code here.
-    }
-    
-    return self;
+    [_resultsOutlineViewController release];
+    [_mongoServer release];
+    [_connectionStore release];
+    [super dealloc];
 }
-
 
 - (MODQuery *)showServerStatus
 {

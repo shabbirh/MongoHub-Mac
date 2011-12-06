@@ -30,6 +30,7 @@
 
 @interface ConnectionWindowController : NSWindowController <MHTunnelDelegate>
 {
+    NSMutableDictionary *_tabItemControllers;
     IBOutlet NSMenu *createCollectionOrDatabaseMenu;
     IBOutlet DatabasesArrayController *_databaseStoreArrayController;
     

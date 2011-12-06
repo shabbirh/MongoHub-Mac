@@ -80,12 +80,14 @@
 {
     if (self = [super initWithWindowNibName:@"ConnectionWindow"]) {
         _databases = [[NSMutableArray alloc] init];
+        _tabItemControllers = [[NSMutableDictionary alloc] init];
     }
     return self;
 }
 
 - (void)dealloc
 {
+    [_tabItemControllers release];
     [self closeMongoDB];
     [_connectionStore release];
     [_databases release];
@@ -494,10 +496,17 @@
         NSRunAlertPanel(@"Error", @"Please choose a collection!", @"OK", nil, nil);
         return;
     }
-    MHQueryWindowController *queryWindowController = [MHQueryWindowController loadQueryController];
-    queryWindowController.mongoCollection = [self selectedCollectionItem].mongoCollection;
-    queryWindowController.connectionStore = _connectionStore;
-    [_tabViewController addTabItemViewController:queryWindowController];
+    MHQueryWindowController *queryWindowController;
+    
+    queryWindowController = [_tabItemControllers objectForKey:[[[self selectedCollectionItem] mongoCollection] absoluteCollectionName]];
+    if (queryWindowController == nil) {
+        queryWindowController = [MHQueryWindowController loadQueryController];
+        [_tabItemControllers setObject:queryWindowController forKey:[[[self selectedCollectionItem] mongoCollection] absoluteCollectionName]];
+        queryWindowController.mongoCollection = [self selectedCollectionItem].mongoCollection;
+        queryWindowController.connectionStore = _connectionStore;
+        [_tabViewController addTabItemViewController:queryWindowController];
+    }
+    [queryWindowController select];
 }
 
 - (IBAction)showAuth:(id)sender

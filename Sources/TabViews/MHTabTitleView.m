@@ -21,6 +21,7 @@
         _titleCell.buttonType = NSMomentaryPushInButton;
         _titleCell.bordered = YES;
         _titleCell.bezelStyle = NSShadowlessSquareBezelStyle;
+        _titleCell.lineBreakMode = NSLineBreakByTruncatingHead;
     }
     
     return self;
@@ -58,7 +59,7 @@
         
         titleRect = [self rectForTabTitleAtIndex:ii];
         if (NSIntersectsRect(titleRect, dirtyRect)) {
-            _titleCell.highlighted = ii == selectedIndex;
+            _titleCell.highlighted = ii != selectedIndex;
             [_titleCell setTitle:[[tabControllers objectAtIndex:ii] title]];
             [_titleCell drawWithFrame:titleRect inView:self];
         }

@@ -195,7 +195,6 @@
         [self closeMongoDB];
         _mongoServer = [[MODServer alloc] init];
         _serverItem = [[MHServerItem alloc] initWithMongoServer:_mongoServer delegate:self];
-        NSLog(@"_statusViewController %@", _statusViewController);
         _statusViewController.mongoServer = _mongoServer;
         _statusViewController.connectionStore = _connectionStore;
         if ([_connectionStore.adminuser length] > 0 && [_connectionStore.adminpass length] > 0) {
@@ -357,16 +356,34 @@
 
 - (void)showDatabaseStatusWithDatabaseItem:(MHDatabaseItem *)databaseItem
 {
+    if (_statusViewController == nil) {
+        _statusViewController = [[MHStatusViewController loadNewViewController] retain];
+        _statusViewController.mongoServer = _mongoServer;
+        _statusViewController.connectionStore = _connectionStore;
+        [_tabViewController addTabItemViewController:_statusViewController];
+    }
     [_statusViewController showDatabaseStatusWithDatabaseItem:databaseItem];
 }
 
 - (void)showCollectionStatusWithCollectionItem:(MHCollectionItem *)collectionItem
 {
+    if (_statusViewController == nil) {
+        _statusViewController = [[MHStatusViewController loadNewViewController] retain];
+        _statusViewController.mongoServer = _mongoServer;
+        _statusViewController.connectionStore = _connectionStore;
+        [_tabViewController addTabItemViewController:_statusViewController];
+    }
     [_statusViewController showCollectionStatusWithCollectionItem:collectionItem];
 }
 
 - (IBAction)showServerStatus:(id)sender 
 {
+    if (_statusViewController == nil) {
+        _statusViewController = [[MHStatusViewController loadNewViewController] retain];
+        _statusViewController.mongoServer = _mongoServer;
+        _statusViewController.connectionStore = _connectionStore;
+        [_tabViewController addTabItemViewController:_statusViewController];
+    }
     [_statusViewController showServerStatus];
 }
 
@@ -486,6 +503,9 @@
         tabItemViewController = _tabViewController.selectedTabItemViewController;
         if ([tabItemViewController isKindOfClass:[MHQueryWindowController class]]) {
             [_tabItemControllers removeObjectForKey:[[(MHQueryWindowController *)tabItemViewController mongoCollection] absoluteCollectionName]];
+        } else if (tabItemViewController == _statusViewController) {
+            [_statusViewController release];
+            _statusViewController = nil;
         }
         [_tabViewController removeTabItemViewController:tabItemViewController];
     } else {

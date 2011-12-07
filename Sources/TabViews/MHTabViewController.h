@@ -21,6 +21,7 @@
 @property (nonatomic, assign, readwrite) NSUInteger selectedTabIndex;
 @property (nonatomic, assign, readonly) NSUInteger tabCount;
 @property (nonatomic, assign, readonly) NSArray *tabControllers;
+@property (nonatomic, assign, readonly) MHTabItemViewController *selectedTabItemViewController;
 
 - (void)addTabItemViewController:(MHTabItemViewController *)tabItemViewController;
 - (void)removeTabItemViewController:(MHTabItemViewController *)tabItemViewController;

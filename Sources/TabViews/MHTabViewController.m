@@ -29,6 +29,27 @@
     _tabControllers = [[NSMutableArray alloc] init];
 }
 
+- (void)_removeCurrentTabItemViewController
+{
+    [_selectedTabView removeFromSuperview];
+    _selectedTabView = nil;
+}
+
+- (void)_tabItemViewControllerWithIndex:(NSInteger)index
+{
+    if (index != NSNotFound) {
+        NSRect rect;
+        
+        rect = self.view.bounds;
+        _selectedTabView = [[_tabControllers objectAtIndex:index] view];
+        [self.view addSubview:_selectedTabView];
+        rect.size.height -= _tabTitleView.frame.size.height;
+        _selectedTabView.frame = rect;
+        [_tabTitleView setNeedsDisplay:YES];
+    }
+    _selectedTabIndex = index;
+}
+
 - (void)addTabItemViewController:(MHTabItemViewController *)tabItemViewController
 {
     if ([_tabControllers indexOfObject:tabItemViewController] == NSNotFound) {
@@ -47,9 +68,19 @@
     
     index = [_tabControllers indexOfObject:tabItemViewController];
     if (index != NSNotFound) {
+        [self willChangeValueForKey:@"selectedTabIndex"];
+        [self _removeCurrentTabItemViewController];
         [tabItemViewController removeObserver:self forKeyPath:@"title"];
         [_tabControllers removeObjectAtIndex:index];
+        if ([_tabControllers count] == 0) {
+            [self _tabItemViewControllerWithIndex:NSNotFound];
+        } else if (_selectedTabIndex == 0) {
+            [self _tabItemViewControllerWithIndex:0];
+        } else {
+            [self _tabItemViewControllerWithIndex:_selectedTabIndex - 1];
+        }
         [_tabTitleView setNeedsDisplay:YES];
+        [self didChangeValueForKey:@"selectedTabIndex"];
     }
 }
 
@@ -79,17 +110,9 @@
 - (void)setSelectedTabIndex:(NSUInteger)index
 {
     if (index != _selectedTabIndex) {
-        NSRect rect;
-        
-        rect = self.view.bounds;
         [self willChangeValueForKey:@"selectedTabIndex"];
-        [_selectedTabView removeFromSuperview];
-        _selectedTabView = [[_tabControllers objectAtIndex:index] view];
-        [self.view addSubview:_selectedTabView];
-        rect.size.height -= _tabTitleView.frame.size.height;
-        _selectedTabView.frame = rect;
-        [_tabTitleView setNeedsDisplay:YES];
-        _selectedTabIndex = index;
+        [self _removeCurrentTabItemViewController];
+        [self _tabItemViewControllerWithIndex:index];
         [self didChangeValueForKey:@"selectedTabIndex"];
     }
 }
@@ -101,6 +124,15 @@
     index = [_tabControllers indexOfObject:tabItemViewController];
     if (index != NSNotFound) {
         self.selectedTabIndex = index;
+    }
+}
+
+- (MHTabItemViewController *)selectedTabItemViewController
+{
+    if (self.selectedTabIndex == NSNotFound) {
+        return nil;
+    } else {
+        return [_tabControllers objectAtIndex:self.selectedTabIndex];
     }
 }
 

@@ -478,6 +478,21 @@
     }
 }
 
+- (void)keyDown:(NSEvent *)theEvent
+{
+    if ([theEvent.charactersIgnoringModifiers isEqualToString:@"w"] && (theEvent.modifierFlags & NSDeviceIndependentModifierFlagsMask) == (NSUInteger)(NSCommandKeyMask | NSControlKeyMask)) {
+        MHTabItemViewController *tabItemViewController;
+        
+        tabItemViewController = _tabViewController.selectedTabItemViewController;
+        if ([tabItemViewController isKindOfClass:[MHQueryWindowController class]]) {
+            [_tabItemControllers removeObjectForKey:[[(MHQueryWindowController *)tabItemViewController mongoCollection] absoluteCollectionName]];
+        }
+        [_tabViewController removeTabItemViewController:tabItemViewController];
+    } else {
+        [super keyDown:theEvent];
+    }
+}
+
 - (void)dropDB
 {
     [loaderIndicator start];

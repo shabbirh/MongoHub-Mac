@@ -61,7 +61,12 @@
         if (NSIntersectsRect(titleRect, dirtyRect)) {
             _titleCell.highlighted = ii != selectedIndex;
             [_titleCell setTitle:[[tabControllers objectAtIndex:ii] title]];
-            [_titleCell drawWithFrame:titleRect inView:self];
+//            [_titleCell drawWithFrame:titleRect inView:self];
+            [_titleCell drawBezelWithFrame:titleRect inView:self];
+            titleRect.size.height -= 7;
+            titleRect.origin.x += 20;
+            titleRect.size.width -= 40;
+            [_titleCell drawTitle:[_titleCell attributedTitle] withFrame:titleRect inView:self];
         }
     }
 }

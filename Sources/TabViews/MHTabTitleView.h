@@ -12,10 +12,13 @@
 
 @interface MHTabTitleView : NSControl
 {
-    IBOutlet MHTabViewController *_tabViewController;
+    MHTabViewController *_tabViewController;
     NSButtonCell *_titleCell;
+    NSTrackingRectTag _trakingTag;
+    BOOL _selected;
 }
 
-- (NSRect)rectForTabTitleAtIndex:(NSUInteger)index;
+@property(nonatomic, assign, readwrite) BOOL selected;
+@property(nonatomic, assign, readwrite) MHTabViewController *tabViewController;
 
 @end

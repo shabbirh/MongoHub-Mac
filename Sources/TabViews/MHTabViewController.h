@@ -12,9 +12,9 @@
 
 @interface MHTabViewController : NSViewController
 {
-    IBOutlet MHTabTitleView *_tabTitleView;
     NSView *_selectedTabView;
     NSMutableArray *_tabControllers;
+    NSMutableArray *_tabTitleViewes;
     NSUInteger _selectedTabIndex;
 }
 

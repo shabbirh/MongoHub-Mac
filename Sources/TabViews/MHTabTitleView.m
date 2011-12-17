@@ -11,6 +11,8 @@
 
 @implementation MHTabTitleView
 
+@synthesize selected = _selected, tabViewController = _tabViewController;
+
 - (id)initWithFrame:(NSRect)frame
 {
     self = [super initWithFrame:frame];
@@ -33,64 +35,61 @@
     [super dealloc];
 }
 
-- (NSRect)rectForTabTitleAtIndex:(NSUInteger)index
+- (void)viewDidMoveToSuperview
 {
-    NSRect result;
-    NSUInteger count;
-    
-    count = [[_tabViewController tabControllers] count];
-    result = self.bounds;
-    result.size.width = result.size.width / count;
-    result.origin.x = result.size.width * index;
-    return result;
+    _trakingTag = [self addTrackingRect:self.bounds owner:self userData:nil assumeInside:NO];
+    [super viewDidMoveToSuperview];
+}
+
+- (void)removeFromSuperview
+{
+    [self removeTrackingRect:_trakingTag];
+    [super removeFromSuperview];
+}
+
+- (void)mouseEntered:(NSEvent *)theEvent
+{
+}
+
+- (void)mouseExited:(NSEvent *)theEvent
+{
+}
+
+- (void)setFrame:(NSRect)frameRect
+{
+    [self removeTrackingRect:_trakingTag];
+    [super setFrame:frameRect];
+    _trakingTag = [self addTrackingRect:self.bounds owner:self userData:nil assumeInside:NO];
 }
 
 - (void)drawRect:(NSRect)dirtyRect
 {
-    NSArray *tabControllers;
-    NSUInteger count, ii, selectedIndex;
+    _titleCell.highlighted = _selected;
+    [_titleCell drawBezelWithFrame:self.bounds inView:self];
     
-    tabControllers = [_tabViewController tabControllers];
-    selectedIndex = [_tabViewController selectedTabIndex];
-    count = [tabControllers count];
-    [_titleCell setState:NSOffState];
-    for (ii = 0; ii < count; ii++) {
-        NSRect titleRect;
+    if (_titleCell.title.length > 0) {
+        NSRect titleRect = self.bounds;
         
-        titleRect = [self rectForTabTitleAtIndex:ii];
-        if (NSIntersectsRect(titleRect, dirtyRect)) {
-            _titleCell.highlighted = ii != selectedIndex;
-            [_titleCell setTitle:[[tabControllers objectAtIndex:ii] title]];
-//            [_titleCell drawWithFrame:titleRect inView:self];
-            [_titleCell drawBezelWithFrame:titleRect inView:self];
-            titleRect.size.height -= 7;
-            titleRect.origin.x += 20;
-            titleRect.size.width -= 40;
-            [_titleCell drawTitle:[_titleCell attributedTitle] withFrame:titleRect inView:self];
-        }
+        titleRect.size.height -= 7;
+        titleRect.origin.x += 20;
+        titleRect.size.width -= 40;
+        [_titleCell drawTitle:_titleCell.attributedTitle withFrame:titleRect inView:self];
     }
 }
 
 - (void)mouseDown:(NSEvent *)theEvent
 {
-    NSPoint mousePoint;
-    NSArray *tabControllers;
-    NSUInteger count, ii, selectedIndex;
-    
-    mousePoint = [self convertPoint:theEvent.locationInWindow fromView:nil];
-    tabControllers = [_tabViewController tabControllers];
-    selectedIndex = [_tabViewController selectedTabIndex];
-    count = [tabControllers count];
-    [_titleCell setState:NSOffState];
-    for (ii = 0; ii < count; ii++) {
-        NSRect titleRect;
-        
-        titleRect = [self rectForTabTitleAtIndex:ii];
-        if (NSPointInRect(mousePoint, titleRect)) {
-            _tabViewController.selectedTabIndex = ii;
-            break;
-        }
-    }
+    _tabViewController.selectedTabIndex = self.tag;
+}
+
+- (void)setStringValue:(NSString *)aString
+{
+    _titleCell.title = aString;
+}
+
+- (NSString *)stringValue
+{
+    return _titleCell.title;
 }
 
 @end

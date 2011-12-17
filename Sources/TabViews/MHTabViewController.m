@@ -22,15 +22,19 @@
         [controller removeObserver:self forKeyPath:@"title"];
     }
     [_tabControllers release];
+    [_tabTitleViewes release];
+    [self.view removeObserver:self forKeyPath:@"frame"];
     [super dealloc];
 }
 
 - (void)awakeFromNib
 {
-    _selectedTabIndex = NSNotFound;
-    _tabControllers = [[NSMutableArray alloc] init];
-    _tabTitleViewes = [[NSMutableArray alloc] init];
-    [self.view addObserver:self forKeyPath:@"frame" options:NSKeyValueObservingOptionNew context:nil];
+    if (_tabControllers == nil) {
+        _selectedTabIndex = NSNotFound;
+        _tabControllers = [[NSMutableArray alloc] init];
+        _tabTitleViewes = [[NSMutableArray alloc] init];
+        [self.view addObserver:self forKeyPath:@"frame" options:NSKeyValueObservingOptionNew context:nil];
+    }
 }
 
 - (NSRect)_rectForTabTitleAtIndex:(NSUInteger)index

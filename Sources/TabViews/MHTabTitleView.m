@@ -64,17 +64,15 @@
 
 - (void)drawRect:(NSRect)dirtyRect
 {
+    NSRect titleRect = self.bounds;
+    
     _titleCell.highlighted = _selected;
     [_titleCell drawBezelWithFrame:self.bounds inView:self];
     
-    if (_titleCell.title.length > 0) {
-        NSRect titleRect = self.bounds;
-        
-        titleRect.size.height -= 7;
-        titleRect.origin.x += 20;
-        titleRect.size.width -= 40;
-        [_titleCell drawTitle:_titleCell.attributedTitle withFrame:titleRect inView:self];
-    }
+    titleRect.size.height -= 7;
+    titleRect.origin.x += 20;
+    titleRect.size.width -= 40;
+    [_titleCell drawTitle:_titleCell.attributedTitle withFrame:titleRect inView:self];
 }
 
 - (void)mouseDown:(NSEvent *)theEvent

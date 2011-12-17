@@ -146,7 +146,6 @@
         NSAssert(index != NSNotFound, @"unknown tab");
         [[_tabTitleViewes objectAtIndex:index] setStringValue:[object title]];
         [[_tabTitleViewes objectAtIndex:index] setNeedsDisplay:YES];
-        NSLog(@"%@", [object title]);
     } else {
         [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
     }

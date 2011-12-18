@@ -189,4 +189,9 @@
     }
 }
 
+- (MHTabItemViewController *)tabItemViewControlletAtIndex:(NSInteger)index
+{
+    return [_tabControllers objectAtIndex:index];
+}
+
 @end

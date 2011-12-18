@@ -26,5 +26,6 @@
 - (void)addTabItemViewController:(MHTabItemViewController *)tabItemViewController;
 - (void)removeTabItemViewController:(MHTabItemViewController *)tabItemViewController;
 - (void)selectTabItemViewController:(MHTabItemViewController *)tabItemViewController;
+- (MHTabItemViewController *)tabItemViewControlletAtIndex:(NSInteger)index;
 
 @end

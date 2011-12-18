@@ -110,7 +110,11 @@ static NSImage *_closeButtonImage;
 
 - (void)mouseDown:(NSEvent *)theEvent
 {
-    _tabViewController.selectedTabIndex = self.tag;
+    if (NSPointInRect([self convertPoint:theEvent.locationInWindow fromView:nil], [self _closeButtonRect])) {
+        [_tabViewController removeTabItemViewController:[_tabViewController tabItemViewControlletAtIndex:self.tag]];
+    } else {
+        _tabViewController.selectedTabIndex = self.tag;
+    }
 }
 
 - (void)setStringValue:(NSString *)aString

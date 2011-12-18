@@ -16,6 +16,7 @@
     NSButtonCell *_titleCell;
     NSTrackingRectTag _trakingTag;
     BOOL _selected;
+    BOOL _showCloseButton;
 }
 
 @property(nonatomic, assign, readwrite) BOOL selected;

@@ -9,6 +9,11 @@
 #import "MHTabTitleView.h"
 #import "MHTabViewController.h"
 
+#define CLOSE_BUTTON_SIZE 15.0
+#define CLOSE_BUTTON_MARGIN 20.0
+
+static NSImage *_closeButtonImage;
+
 @implementation MHTabTitleView
 
 @synthesize selected = _selected, tabViewController = _tabViewController;
@@ -25,6 +30,13 @@
         _titleCell.bezelStyle = NSShadowlessSquareBezelStyle;
         _titleCell.lineBreakMode = NSLineBreakByTruncatingHead;
     }
+    if (!_closeButtonImage) {
+        NSSize size = { CLOSE_BUTTON_SIZE, CLOSE_BUTTON_SIZE };
+        
+        _closeButtonImage = [[NSImage imageNamed:@"removemenu"] retain];
+        [_closeButtonImage setScalesWhenResized:YES];
+        [_closeButtonImage setSize:size];
+    }
     
     return self;
 }
@@ -33,6 +45,18 @@
 {
     [_titleCell release];
     [super dealloc];
+}
+
+- (NSRect)_closeButtonRect
+{
+    NSRect result;
+    
+    result = self.bounds;
+    result.origin.x += 5.0;
+    result.origin.y = (result.size.height - CLOSE_BUTTON_SIZE) / 2.0;
+    result.size.width = result.size.height = CLOSE_BUTTON_SIZE;
+    
+    return result;
 }
 
 - (void)viewDidMoveToSuperview
@@ -49,10 +73,14 @@
 
 - (void)mouseEntered:(NSEvent *)theEvent
 {
+    _showCloseButton = YES;
+    [self setNeedsDisplayInRect:[self _closeButtonRect]];
 }
 
 - (void)mouseExited:(NSEvent *)theEvent
 {
+    _showCloseButton = NO;
+    [self setNeedsDisplayInRect:[self _closeButtonRect]];
 }
 
 - (void)setFrame:(NSRect)frameRect
@@ -65,14 +93,19 @@
 - (void)drawRect:(NSRect)dirtyRect
 {
     NSRect titleRect = self.bounds;
+    NSRect closeButtonRect = [self _closeButtonRect];
     
     _titleCell.highlighted = _selected;
     [_titleCell drawBezelWithFrame:self.bounds inView:self];
     
     titleRect.size.height -= 7;
-    titleRect.origin.x += 20;
-    titleRect.size.width -= 40;
+    titleRect.origin.x += CLOSE_BUTTON_MARGIN;
+    titleRect.size.width -= CLOSE_BUTTON_MARGIN * 2.0;
     [_titleCell drawTitle:_titleCell.attributedTitle withFrame:titleRect inView:self];
+    if (_showCloseButton && NSIntersectsRect(dirtyRect, closeButtonRect)) {
+        [_closeButtonImage drawInRect:closeButtonRect fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0];
+    }
+    
 }
 
 - (void)mouseDown:(NSEvent *)theEvent

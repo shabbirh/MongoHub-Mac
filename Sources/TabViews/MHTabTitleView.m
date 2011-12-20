@@ -53,7 +53,7 @@ static NSImage *_closeButtonImage;
     
     result = self.bounds;
     result.origin.x += 5.0;
-    result.origin.y = (result.size.height - CLOSE_BUTTON_SIZE) / 2.0;
+    result.origin.y = (int)((result.size.height - CLOSE_BUTTON_SIZE) / 2.0);
     result.size.width = result.size.height = CLOSE_BUTTON_SIZE;
     
     return result;
@@ -103,6 +103,10 @@ static NSImage *_closeButtonImage;
     titleRect.size.width -= CLOSE_BUTTON_MARGIN * 2.0;
     [_titleCell drawTitle:_titleCell.attributedTitle withFrame:titleRect inView:self];
     if (_showCloseButton && NSIntersectsRect(dirtyRect, closeButtonRect)) {
+        [[NSColor lightGrayColor] set];
+        NSRectFill(closeButtonRect);
+        [[NSColor darkGrayColor] set];
+        NSFrameRectWithWidth(closeButtonRect, 1.0);
         [_closeButtonImage drawInRect:closeButtonRect fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0];
     }
     

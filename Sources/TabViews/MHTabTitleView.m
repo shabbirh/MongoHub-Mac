@@ -88,6 +88,7 @@ static NSImage *_closeButtonImage;
     [self removeTrackingRect:_trakingTag];
     [super setFrame:frameRect];
     _trakingTag = [self addTrackingRect:self.bounds owner:self userData:nil assumeInside:NO];
+    _showCloseButton = [self mouse:[self convertPoint:[self.window convertScreenToBase:[NSEvent mouseLocation]] fromView:nil] inRect:self.bounds];
 }
 
 - (void)drawRect:(NSRect)dirtyRect
@@ -103,9 +104,17 @@ static NSImage *_closeButtonImage;
     titleRect.size.width -= CLOSE_BUTTON_MARGIN * 2.0;
     [_titleCell drawTitle:_titleCell.attributedTitle withFrame:titleRect inView:self];
     if (_showCloseButton && NSIntersectsRect(dirtyRect, closeButtonRect)) {
-        [[NSColor lightGrayColor] set];
+        if (_closeButtonHit) {
+            [[NSColor darkGrayColor] set];
+        } else {
+            [[NSColor lightGrayColor] set];
+        }
         NSRectFill(closeButtonRect);
-        [[NSColor darkGrayColor] set];
+        if (_closeButtonHit) {
+            [[NSColor blackColor] set];
+        } else {
+            [[NSColor darkGrayColor] set];
+        }
         NSFrameRectWithWidth(closeButtonRect, 1.0);
         [_closeButtonImage drawInRect:closeButtonRect fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0];
     }
@@ -114,11 +123,40 @@ static NSImage *_closeButtonImage;
 
 - (void)mouseDown:(NSEvent *)theEvent
 {
-    if (NSPointInRect([self convertPoint:theEvent.locationInWindow fromView:nil], [self _closeButtonRect])) {
-        [_tabViewController removeTabItemViewController:[_tabViewController tabItemViewControlletAtIndex:self.tag]];
-    } else {
-        _tabViewController.selectedTabIndex = self.tag;
-    }
+    BOOL keepOn = YES;
+    BOOL isInside = YES;
+    BOOL insideCloseButton;
+    NSPoint mouseLoc;
+    NSRect closeButtonRect = [self _closeButtonRect];
+    
+    while (keepOn) {
+        mouseLoc = [self convertPoint:[theEvent locationInWindow] fromView:nil];
+        isInside = [self mouse:mouseLoc inRect:self.bounds];
+        insideCloseButton = [self mouse:mouseLoc inRect:closeButtonRect];
+        
+        if (insideCloseButton != _closeButtonHit) {
+            _closeButtonHit = insideCloseButton;
+            [self setNeedsDisplayInRect:closeButtonRect];
+        }
+        switch ([theEvent type]) {
+            case NSLeftMouseDragged:
+                break;
+            case NSLeftMouseUp:
+                if (insideCloseButton) {
+                    [_tabViewController removeTabItemViewController:[_tabViewController tabItemViewControlletAtIndex:self.tag]];
+                } else if (isInside) {
+                    _tabViewController.selectedTabIndex = self.tag;
+                }
+                keepOn = NO;
+                break;
+            default:
+                /* Ignore any other kind of event. */
+                break;
+        }
+        if (keepOn) {
+            theEvent = [[self window] nextEventMatchingMask: NSLeftMouseUpMask | NSLeftMouseDraggedMask];
+        }
+    };
 }
 
 - (void)setStringValue:(NSString *)aString

@@ -17,6 +17,7 @@
     NSTrackingRectTag _trakingTag;
     BOOL _selected;
     BOOL _showCloseButton;
+    BOOL _closeButtonHit;
 }
 
 @property(nonatomic, assign, readwrite) BOOL selected;

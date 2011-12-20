@@ -14,7 +14,7 @@
 
 @implementation MHTabViewController
 
-@synthesize tabControllers = _tabControllers;
+@synthesize tabControllers = _tabControllers, delegate = _delegate;
 
 - (void)dealloc
 {
@@ -116,6 +116,7 @@
     
     index = [_tabControllers indexOfObject:tabItemViewController];
     if (index != NSNotFound) {
+        [tabItemViewController retain];
         [self willChangeValueForKey:@"selectedTabIndex"];
         [self _removeCurrentTabItemViewController];
         [tabItemViewController removeObserver:self forKeyPath:@"title"];
@@ -131,6 +132,8 @@
         }
         [self _updateTitleViewes];
         [self didChangeValueForKey:@"selectedTabIndex"];
+        [_delegate tabViewControllerDidRemoveTabItem:tabItemViewController];
+        [tabItemViewController release];
     }
 }
 

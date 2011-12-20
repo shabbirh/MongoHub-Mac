@@ -889,3 +889,15 @@ static int percentage(NSNumber *previousValue, NSNumber *previousOutOfValue, NSN
 }
 
 @end
+
+@implementation ConnectionWindowController(MHTabViewControllerDelegate)
+
+- (void)tabViewControllerDidRemoveTabItem:(MHTabItemViewController *)tabItemViewController
+{
+    if (tabItemViewController == _statusViewController) {
+        [_statusViewController release];
+        _statusViewController = nil;
+    }
+}
+
+@end

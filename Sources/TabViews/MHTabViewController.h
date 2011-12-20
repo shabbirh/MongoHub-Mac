@@ -10,18 +10,24 @@
 
 @class MHTabTitleView, MHTabItemViewController;
 
+@protocol MHTabViewControllerDelegate <NSObject>
+- (void)tabViewControllerDidRemoveTabItem:(MHTabItemViewController *)tabItemViewController;
+@end
+
 @interface MHTabViewController : NSViewController
 {
     NSView *_selectedTabView;
     NSMutableArray *_tabControllers;
     NSMutableArray *_tabTitleViewes;
     NSUInteger _selectedTabIndex;
+    IBOutlet id<MHTabViewControllerDelegate> _delegate;
 }
 
 @property (nonatomic, assign, readwrite) NSUInteger selectedTabIndex;
 @property (nonatomic, assign, readonly) NSUInteger tabCount;
 @property (nonatomic, assign, readonly) NSArray *tabControllers;
 @property (nonatomic, assign, readonly) MHTabItemViewController *selectedTabItemViewController;
+@property (nonatomic, assign, readwrite) id<MHTabViewControllerDelegate> delegate;
 
 - (void)addTabItemViewController:(MHTabItemViewController *)tabItemViewController;
 - (void)removeTabItemViewController:(MHTabItemViewController *)tabItemViewController;

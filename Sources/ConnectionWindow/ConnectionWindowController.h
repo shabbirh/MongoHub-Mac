@@ -9,6 +9,7 @@
 #import <Cocoa/Cocoa.h>
 #import "MHServerItem.h"
 #import "MHTunnel.h"
+#import "MHTabViewController.h"
 
 @class BWSheetController;
 @class DatabasesArrayController;
@@ -26,7 +27,6 @@
 @class MODSortedMutableDictionary;
 @class MHTabTitleView;
 @class MHStatusViewController;
-@class MHTabViewController;
 
 @interface ConnectionWindowController : NSWindowController <MHTunnelDelegate>
 {
@@ -114,4 +114,7 @@
 @end
 
 @interface ConnectionWindowController(MHServerItemDelegateCategory)<MHServerItemDelegate>
+@end
+
+@interface ConnectionWindowController(MHTabViewControllerDelegate)<MHTabViewControllerDelegate>
 @end

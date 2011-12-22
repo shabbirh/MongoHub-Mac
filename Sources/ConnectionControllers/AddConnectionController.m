@@ -112,7 +112,7 @@
     
     alias = [[aliasTextField stringValue] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     if ([alias length] == 0) {
-        alias = [[aliasTextField cell] placeholderString];
+        alias = host;
     }
     bindaddress = [[bindaddressTextField stringValue] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     if ([bindaddress length] == 0) {

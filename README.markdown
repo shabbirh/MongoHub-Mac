@@ -33,11 +33,13 @@ This project is very new. Any issues or bug reports are welcome. And I still don
     - Need a better UI to replace the tabs in a collection window
     
 ** Current **
+    
+## History
+
+** 2.4.14(88) - dec 23, 2011 **
 
     - Adding full-screen support (lion only), thanks callumj
     - Fix when you don't have the right to get the database list (you need to set the database you want to use in the connection panel)
-    
-## History
 
 ** 2.4.13(87) - nov 30, 2011 **
 

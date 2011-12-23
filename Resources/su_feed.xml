@@ -6,15 +6,12 @@
       <description>Most recent changes with links to updates.</description>
       <language>en</language>      
          <item>
-            <title>Version 2.4.13</title>
-            <enclosure url="http://cloud.github.com/downloads/fotonauts/MongoHub-Mac/MongoHub.zip" sparkle:version="87" sparkle:shortVersionString="2.4.13" length="3067295" sparkle:dsaSignature="MCwCFFID1KFjW1fyr/oWMsInV/Kde2moAhQXboFlLZu2C0V3E0V+Uudcql+L8w==" type="application/octet-stream" />
+            <title>Version 2.4.14</title>
+            <enclosure url="http://cloud.github.com/downloads/fotonauts/MongoHub-Mac/MongoHub.zip" sparkle:version="88" sparkle:shortVersionString="2.4.14" length="3073280" sparkle:dsaSignature="MCwCFHI84dEYoPYwTBub5STPvrJOccutAhR2fiS8qtV1y+nVu15tpTFsLCX3pw==" type="application/octet-stream" />
             <description><![CDATA[
 <ul>
-<li>Key order is preserved in a document</li>
-<li>Support for UTF-8</li>
-<li>Fix for Mysql import/export</li>
-<li>Support for symbol type</li>
-<li>fix for the UI selection in the connexion window</li>
+<li>- Adding full-screen support (lion only), thanks callumj</li>
+<li>- Fix when you don't have the right to get the database list (you need to set the database you want to use in the connection panel)</li>
 </ul>
             ]]>
             </description>

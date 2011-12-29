@@ -297,6 +297,7 @@
     [insertLoaderIndicator start];
     objects = [MODJsonToObjectParser objectsFromJson:[insertDataTextView string] error:&error];
     if (error) {
+        [insertLoaderIndicator stop];
         NSRunAlertPanel(@"Error", [error localizedDescription], @"OK", nil, nil);
     } else {
         if ([objects isKindOfClass:[MODSortedMutableDictionary class]]) {

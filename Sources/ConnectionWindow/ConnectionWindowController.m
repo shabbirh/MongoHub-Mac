@@ -528,20 +528,24 @@
 - (IBAction)query:(id)sender
 {
     if (![self selectedCollectionItem]) {
-        NSRunAlertPanel(@"Error", @"Please choose a collection!", @"OK", nil, nil);
-        return;
+        if (![_databaseCollectionOutlineView isItemExpanded:[_databaseCollectionOutlineView itemAtRow:[_databaseCollectionOutlineView selectedRow]]]) {
+            [_databaseCollectionOutlineView expandItem:[_databaseCollectionOutlineView itemAtRow:[_databaseCollectionOutlineView selectedRow]] expandChildren:NO];
+        } else {
+            [_databaseCollectionOutlineView collapseItem:[_databaseCollectionOutlineView itemAtRow:[_databaseCollectionOutlineView selectedRow]]];
+        }
+    } else {
+        MHQueryWindowController *queryWindowController;
+        
+        queryWindowController = [_tabItemControllers objectForKey:[[[self selectedCollectionItem] mongoCollection] absoluteCollectionName]];
+        if (queryWindowController == nil) {
+            queryWindowController = [MHQueryWindowController loadQueryController];
+            [_tabItemControllers setObject:queryWindowController forKey:[[[self selectedCollectionItem] mongoCollection] absoluteCollectionName]];
+            queryWindowController.mongoCollection = [self selectedCollectionItem].mongoCollection;
+            queryWindowController.connectionStore = _connectionStore;
+            [_tabViewController addTabItemViewController:queryWindowController];
+        }
+        [queryWindowController select];
     }
-    MHQueryWindowController *queryWindowController;
-    
-    queryWindowController = [_tabItemControllers objectForKey:[[[self selectedCollectionItem] mongoCollection] absoluteCollectionName]];
-    if (queryWindowController == nil) {
-        queryWindowController = [MHQueryWindowController loadQueryController];
-        [_tabItemControllers setObject:queryWindowController forKey:[[[self selectedCollectionItem] mongoCollection] absoluteCollectionName]];
-        queryWindowController.mongoCollection = [self selectedCollectionItem].mongoCollection;
-        queryWindowController.connectionStore = _connectionStore;
-        [_tabViewController addTabItemViewController:queryWindowController];
-    }
-    [queryWindowController select];
 }
 
 - (IBAction)showAuth:(id)sender

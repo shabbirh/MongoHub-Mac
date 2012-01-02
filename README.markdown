@@ -34,12 +34,15 @@ This project is very new. Any issues or bug reports are welcome. And I still don
     
 ** Current **
 
+    
+## History
+
+** 2.4.15(89) - dec 30, 2011 **
+
     - Crash fixed when remove all documents : https://github.com/fotonauts/MongoHub-Mac/issues/18
     - Change minimum size of MainMenu window to avoid display bug (thanks ohardy)
     - Bug fixes (thanks ohardy)
     - Double click on database name collapse or expand item (thanks ohardy)
-    
-## History
 
 ** 2.4.14(88) - dec 23, 2011 **
 

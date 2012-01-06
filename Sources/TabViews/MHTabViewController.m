@@ -132,7 +132,7 @@
         }
         [self _updateTitleViewes];
         [self didChangeValueForKey:@"selectedTabIndex"];
-        [_delegate tabViewControllerDidRemoveTabItem:tabItemViewController];
+        [_delegate tabViewController:self didRemoveTabItem:tabItemViewController];
         [tabItemViewController release];
     }
 }

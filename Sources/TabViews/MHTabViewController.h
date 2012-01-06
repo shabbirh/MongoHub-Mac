@@ -8,10 +8,10 @@
 
 #import <Cocoa/Cocoa.h>
 
-@class MHTabTitleView, MHTabItemViewController;
+@class MHTabTitleView, MHTabItemViewController, MHTabViewController;
 
 @protocol MHTabViewControllerDelegate <NSObject>
-- (void)tabViewControllerDidRemoveTabItem:(MHTabItemViewController *)tabItemViewController;
+- (void)tabViewController:(MHTabViewController *)tabViewController didRemoveTabItem:(MHTabItemViewController *)tabItemViewController;
 @end
 
 @interface MHTabViewController : NSViewController

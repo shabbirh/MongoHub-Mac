@@ -87,6 +87,7 @@
 
 - (void)dealloc
 {
+    [_tabViewController removeObserver:self forKeyPath:@"selectedTabIndex"];
     [_tabItemControllers release];
     [self closeMongoDB];
     [_connectionStore release];
@@ -134,12 +135,41 @@
     } else {
         self.window.title = [NSString stringWithFormat:@"%@ [%@:%@]", [_connectionStore alias], [_connectionStore host], [_connectionStore hostport] ];
     }
+    [_tabViewController addObserver:self forKeyPath:@"selectedTabIndex" options:NSKeyValueObservingOptionNew context:nil];
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+    if ([keyPath isEqualToString:@"selectedTabIndex"] && object == _tabViewController) {
+        id selectedTab = _tabViewController.selectedTabItemViewController;
+        
+        if ([selectedTab isKindOfClass:[MHQueryWindowController class]]) {
+            NSIndexSet *indexes = nil;
+            MHDatabaseItem *databaseOutlineViewItem;
+            MHCollectionItem *collectionOutlineViewItem;
+            
+            databaseOutlineViewItem = [_serverItem databaseItemWithName:[selectedTab mongoCollection].databaseName];
+            collectionOutlineViewItem = [databaseOutlineViewItem collectionItemWithName:[selectedTab mongoCollection].collectionName];
+            if (collectionOutlineViewItem) {
+                [_databaseCollectionOutlineView expandItem:databaseOutlineViewItem];
+                indexes = [[NSIndexSet alloc] initWithIndex:[_databaseCollectionOutlineView rowForItem:collectionOutlineViewItem]];
+            } else if (databaseOutlineViewItem) {
+                indexes = [[NSIndexSet alloc] initWithIndex:[_databaseCollectionOutlineView rowForItem:databaseOutlineViewItem]];
+            }
+            if (indexes) {
+                [_databaseCollectionOutlineView selectRowIndexes:indexes byExtendingSelection:NO];
+                [indexes release];
+            }
+        } else if ([selectedTab isKindOfClass:[MHStatusViewController class]]) {
+            
+        }
+    }
 }
 
 - (void)tunnelStatusChanged:(MHTunnel *)tunnel status:(NSString *)status
 {
     NSLog(@"SSH TUNNEL STATUS: %@", status);
-    if( [status isEqualToString: @"CONNECTED"] ){
+    if ([status isEqualToString: @"CONNECTED"]) {
         exitThread = YES;
         [self connect:YES];
     }
@@ -837,7 +867,7 @@ static int percentage(NSNumber *previousValue, NSNumber *previousOutOfValue, NSN
     return !item || [item isKindOfClass:[MHDatabaseItem class]];
 }
 
-- (id)outlineView:(NSOutlineView *)outlineView objectValueForTableColumn:(NSTableColumn *)tableColumn byItem:(id)item;
+- (id)outlineView:(NSOutlineView *)outlineView objectValueForTableColumn:(NSTableColumn *)tableColumn byItem:(id)item
 {
     return [item name];
 }
@@ -896,7 +926,7 @@ static int percentage(NSNumber *previousValue, NSNumber *previousOutOfValue, NSN
 
 @implementation ConnectionWindowController(MHTabViewControllerDelegate)
 
-- (void)tabViewControllerDidRemoveTabItem:(MHTabItemViewController *)tabItemViewController
+- (void)tabViewController:(MHTabViewController *)tabViewController didRemoveTabItem:(MHTabItemViewController *)tabItemViewController
 {
     if (tabItemViewController == _statusViewController) {
         [_statusViewController release];

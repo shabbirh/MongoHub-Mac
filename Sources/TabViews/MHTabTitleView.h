@@ -18,6 +18,7 @@
     BOOL _selected;
     BOOL _showCloseButton;
     BOOL _closeButtonHit;
+    BOOL _titleHit;
 }
 
 @property(nonatomic, assign, readwrite) BOOL selected;

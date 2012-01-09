@@ -96,7 +96,7 @@ static NSImage *_closeButtonImage;
     NSRect titleRect = self.bounds;
     NSRect closeButtonRect = [self _closeButtonRect];
     
-    _titleCell.highlighted = _selected;
+    _titleCell.highlighted = _selected || _titleHit;
     [_titleCell drawBezelWithFrame:self.bounds inView:self];
     
     titleRect.size.height -= 7;
@@ -124,27 +124,28 @@ static NSImage *_closeButtonImage;
 - (void)mouseDown:(NSEvent *)theEvent
 {
     BOOL keepOn = YES;
-    BOOL isInside = YES;
-    BOOL insideCloseButton;
+    BOOL titleHit = YES;
+    BOOL closeButtonHit;
     NSPoint mouseLoc;
     NSRect closeButtonRect = [self _closeButtonRect];
     
     while (keepOn) {
         mouseLoc = [self convertPoint:[theEvent locationInWindow] fromView:nil];
-        isInside = [self mouse:mouseLoc inRect:self.bounds];
-        insideCloseButton = [self mouse:mouseLoc inRect:closeButtonRect];
+        titleHit = [self mouse:mouseLoc inRect:self.bounds];
+        closeButtonHit = [self mouse:mouseLoc inRect:closeButtonRect];
         
-        if (insideCloseButton != _closeButtonHit) {
-            _closeButtonHit = insideCloseButton;
-            [self setNeedsDisplayInRect:closeButtonRect];
+        if (closeButtonHit != _closeButtonHit || titleHit != _titleHit) {
+            _closeButtonHit = closeButtonHit;
+            _titleHit = titleHit;
+            [self setNeedsDisplay];
         }
         switch ([theEvent type]) {
             case NSLeftMouseDragged:
                 break;
             case NSLeftMouseUp:
-                if (insideCloseButton) {
+                if (closeButtonHit) {
                     [_tabViewController removeTabItemViewController:[_tabViewController tabItemViewControlletAtIndex:self.tag]];
-                } else if (isInside) {
+                } else if (titleHit) {
                     _tabViewController.selectedTabIndex = self.tag;
                 }
                 keepOn = NO;
@@ -157,6 +158,7 @@ static NSImage *_closeButtonImage;
             theEvent = [[self window] nextEventMatchingMask: NSLeftMouseUpMask | NSLeftMouseDraggedMask];
         }
     };
+    _titleHit = NO;
 }
 
 - (void)setStringValue:(NSString *)aString

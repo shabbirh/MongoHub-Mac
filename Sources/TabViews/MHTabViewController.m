@@ -77,12 +77,16 @@
     }
 }
 
-- (void)_updateTitleViewes
+- (void)_updateTitleViewesWithAnimation:(BOOL)animation exceptView:(MHTabTitleView *)exceptView
 {
     NSUInteger ii = 0;
     
     for (MHTabTitleView *titleView in _tabTitleViewes) {
-        titleView.frame = [self _rectForTabTitleAtIndex:ii];
+        if (animation && exceptView != titleView) {
+            [[titleView animator] setFrame:[self _rectForTabTitleAtIndex:ii]];
+        } else {
+            [titleView setFrame:[self _rectForTabTitleAtIndex:ii]];
+        }
         titleView.selected = self.selectedTabIndex == ii;
         titleView.tag = ii;
         ii++;
@@ -106,7 +110,7 @@
         [tabItemViewController addObserver:self forKeyPath:@"title" options:NSKeyValueObservingOptionNew context:nil];
         
         self.selectedTabIndex = [_tabControllers count] - 1;
-        [self _updateTitleViewes];
+        [self _updateTitleViewesWithAnimation:NO exceptView:nil];
     }
 }
 
@@ -130,7 +134,7 @@
         } else {
             [self _tabItemViewControllerWithIndex:_selectedTabIndex - 1];
         }
-        [self _updateTitleViewes];
+        [self _updateTitleViewesWithAnimation:NO exceptView:nil];
         [self didChangeValueForKey:@"selectedTabIndex"];
         [_delegate tabViewController:self didRemoveTabItem:tabItemViewController];
         [tabItemViewController release];
@@ -145,7 +149,7 @@
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
     if (object == self.view) {
-        [self _updateTitleViewes];
+        [self _updateTitleViewesWithAnimation:NO exceptView:nil];
     } else if ([object isKindOfClass:[MHTabItemViewController class]]) {
         NSUInteger index;
         
@@ -195,6 +199,18 @@
 - (MHTabItemViewController *)tabItemViewControlletAtIndex:(NSInteger)index
 {
     return [_tabControllers objectAtIndex:index];
+}
+
+- (void)moveTabItemFromIndex:(NSUInteger)fromIndex toIndex:(NSUInteger)toIndex
+{
+    [_tabControllers exchangeObjectAtIndex:fromIndex withObjectAtIndex:toIndex];
+    [_tabTitleViewes exchangeObjectAtIndex:fromIndex withObjectAtIndex:toIndex];
+    if (fromIndex == _selectedTabIndex) {
+        _selectedTabIndex = toIndex;
+    } else if (toIndex == _selectedTabIndex) {
+        _selectedTabIndex = fromIndex;
+    }
+    [self _updateTitleViewesWithAnimation:YES exceptView:[_tabTitleViewes objectAtIndex:toIndex]];
 }
 
 @end

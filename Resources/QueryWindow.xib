@@ -1137,7 +1137,7 @@
 									<int key="NSSegmentItemImageScaling">0</int>
 								</object>
 								<object class="NSSegmentItem">
-									<object class="NSCustomResource" key="NSSegmentItemImage" id="306295549">
+									<object class="NSCustomResource" key="NSSegmentItemImage">
 										<string key="NSClassName">NSImage</string>
 										<string key="NSResourceName">insertmenu</string>
 									</object>
@@ -1164,7 +1164,10 @@
 									<int key="NSSegmentItemImageScaling">0</int>
 								</object>
 								<object class="NSSegmentItem">
-									<reference key="NSSegmentItemImage" ref="306295549"/>
+									<object class="NSCustomResource" key="NSSegmentItemImage">
+										<string key="NSClassName">NSImage</string>
+										<string key="NSResourceName">indexmenu</string>
+									</object>
 									<string key="NSSegmentItemLabel">Index</string>
 									<int key="NSSegmentItemTag">4</int>
 									<int key="NSSegmentItemImageScaling">0</int>
@@ -6823,7 +6826,7 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<integer value="3"/>
+					<integer value="4"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -7482,6 +7485,7 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 				<string>NSRemoveTemplate</string>
 				<string>NSStopProgressTemplate</string>
 				<string>NSSwitch</string>
+				<string>indexmenu</string>
 				<string>insertmenu</string>
 				<string>mapreducemenu</string>
 				<string>querymenu</string>
@@ -7500,6 +7504,7 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 				<string>{8, 8}</string>
 				<string>{11, 11}</string>
 				<string>{15, 15}</string>
+				<string>{32, 32}</string>
 				<string>{32, 32}</string>
 				<string>{32, 32}</string>
 				<string>{32, 32}</string>

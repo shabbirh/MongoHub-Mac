@@ -35,6 +35,7 @@ This project is very new. Any issues or bug reports are welcome. And I still don
 ** Current **
 
     - Adding autosave for the connection list window
+    - Adding back the index icon
     
 ## History
 

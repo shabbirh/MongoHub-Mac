@@ -36,11 +36,9 @@
     [dbname release];
     [collectionname release];
     [jsonDict release];
-    [myTextView release];
     [syntaxColoringController setDelegate: nil];
     [syntaxColoringController release];
     syntaxColoringController = nil;
-    [progress release];
     [super dealloc];
 }
 

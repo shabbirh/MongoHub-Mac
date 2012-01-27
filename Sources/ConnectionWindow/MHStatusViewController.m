@@ -39,11 +39,10 @@
         if (_mongoServer == [mongoQuery.parameters objectForKey:@"mongoserver"]) {
             if (serverStatus) {
                 _resultsOutlineViewController.results = [MODHelper convertForOutlineWithObject:serverStatus];
+            } else if (mongoQuery.error) {
+                _resultsOutlineViewController.results = [NSArray arrayWithObject:[NSDictionary dictionaryWithObjectsAndKeys:[mongoQuery.error localizedDescription], @"value", @"error", @"name", nil]];
             } else {
                 _resultsOutlineViewController.results = [NSArray array];
-                if (mongoQuery.error) {
-                    NSRunAlertPanel(@"Error", [mongoQuery.error localizedDescription], @"OK", nil, nil);
-                }
             }
         }
     }];
@@ -60,11 +59,10 @@
         result = [databaseItem.mongoDatabase fetchDatabaseStatsWithCallback:^(MODSortedMutableDictionary *databaseStats, MODQuery *mongoQuery) {
             if (databaseStats) {
                 _resultsOutlineViewController.results = [MODHelper convertForOutlineWithObject:databaseStats];
+            } else if (mongoQuery.error) {
+                _resultsOutlineViewController.results = [NSArray arrayWithObject:[NSDictionary dictionaryWithObjectsAndKeys:[mongoQuery.error localizedDescription], @"value", @"error", @"name", nil]];
             } else {
                 _resultsOutlineViewController.results = [NSArray array];
-                if (mongoQuery.error) {
-                    NSRunAlertPanel(@"Error", [mongoQuery.error localizedDescription], @"OK", nil, nil);
-                }
             }
         }];
     }
@@ -80,11 +78,10 @@
         result = [collectionItem.mongoCollection fetchCollectionStatsWithCallback:^(MODSortedMutableDictionary *stats, MODQuery *mongoQuery) {
             if (stats) {
                 _resultsOutlineViewController.results = [MODHelper convertForOutlineWithObject:stats];
+            } else if (mongoQuery.error) {
+                _resultsOutlineViewController.results = [NSArray arrayWithObject:[NSDictionary dictionaryWithObjectsAndKeys:[mongoQuery.error localizedDescription], @"value", @"error", @"name", nil]];
             } else {
                 _resultsOutlineViewController.results = [NSArray array];
-                if (mongoQuery.error) {
-                    NSRunAlertPanel(@"Error", [mongoQuery.error localizedDescription], @"OK", nil, nil);
-                }
             }
         }];
     }

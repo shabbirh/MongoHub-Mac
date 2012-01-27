@@ -359,7 +359,7 @@
             if (serverStatus) {
                 [resultsOutlineViewController.results addObjectsFromArray:[MODHelper convertForOutlineWithObject:serverStatus]];
             } else if (mongoQuery.error) {
-                NSRunAlertPanel(@"Error", [mongoQuery.error localizedDescription], @"OK", nil, nil);
+                [resultsOutlineViewController.results addObjectsFromArray:[NSArray arrayWithObject:[NSDictionary dictionaryWithObjectsAndKeys:[mongoQuery.error localizedDescription], @"value", @"error", @"name", nil]]];
             }
             [resultsOutlineViewController.myOutlineView reloadData];
         }

@@ -36,6 +36,8 @@ This project is very new. Any issues or bug reports are welcome. And I still don
 
     - Adding autosave for the connection list window
     - Adding back the index icon
+    - Better error message when not having the authorization to get the server status
+    - Crash fixed when not having the authorization to get the server status
     
 ## History
 

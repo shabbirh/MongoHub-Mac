@@ -34,10 +34,14 @@ This project is very new. Any issues or bug reports are welcome. And I still don
     
 ** Current **
 
+## History
+
+** 2.4.16(90) - jan 29, 2012 **
+
     - Adding autosave for the connection list window
     - Adding back the index icon
-    
-## History
+    - Better error message when not having the authorization to get the server status
+    - Crash fixed when not having the authorization to get the server status
 
 ** 2.4.15(89) - dec 30, 2011 **
 

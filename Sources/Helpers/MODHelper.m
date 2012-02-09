@@ -133,7 +133,7 @@
         }
     } else {
         NSLog(@"type %@ value %@", [dataValue class], dataValue);
-        NSAssert(NO, @"unknown type");
+        NSAssert(NO, @"unknown type type %@ value %@", [dataValue class], dataValue);
     }
     if (value) {
         result = [NSMutableDictionary dictionaryWithCapacity:4];

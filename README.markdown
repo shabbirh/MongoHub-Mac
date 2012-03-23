@@ -34,6 +34,9 @@ This project is very new. Any issues or bug reports are welcome. And I still don
     
 ** Current **
 
+    - Problem to parse binary values
+    - Problem to parse an hash with $type
+
 ## History
 
 ** 2.4.16(90) - jan 29, 2012 **

@@ -307,7 +307,6 @@
 		02AB057B142971CE00B7CD19 /* MODObjectId.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MODObjectId.h; sourceTree = "<group>"; };
 		02AC8E1E151C6E5700F7531B /* env_default.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = env_default.c; sourceTree = "<group>"; };
 		02AC8E1F151C6E5700F7531B /* env_posix.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = env_posix.c; sourceTree = "<group>"; };
-		02AC8E20151C6E5700F7531B /* env_posix.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = env_posix.h; sourceTree = "<group>"; };
 		02AC8E21151C6E5700F7531B /* env.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = env.h; sourceTree = "<group>"; };
 		02B143DA147C720D005AB320 /* MHFileImporter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MHFileImporter.h; sourceTree = "<group>"; };
 		02B143DB147C720D005AB320 /* MHFileImporter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MHFileImporter.m; sourceTree = "<group>"; };
@@ -345,7 +344,6 @@
 		02D5A887144207CF00C7768C /* mongo.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = mongo.c; sourceTree = "<group>"; };
 		02D5A888144207CF00C7768C /* mongo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = mongo.h; sourceTree = "<group>"; };
 		02D5A88B144207CF00C7768C /* numbers.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = numbers.c; sourceTree = "<group>"; };
-		02D5A890144207CF00C7768C /* platform.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = platform.h; sourceTree = "<group>"; };
 		02D5A892144207CF00C7768C /* auth.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = auth.c; sourceTree = "<group>"; };
 		02D5A893144207CF00C7768C /* benchmark.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = benchmark.c; sourceTree = "<group>"; };
 		02D5A894144207CF00C7768C /* bson.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = bson.c; sourceTree = "<group>"; };
@@ -839,7 +837,6 @@
 				02D5A882144207CF00C7768C /* encoding.h */,
 				02AC8E1E151C6E5700F7531B /* env_default.c */,
 				02AC8E1F151C6E5700F7531B /* env_posix.c */,
-				02AC8E20151C6E5700F7531B /* env_posix.h */,
 				02AC8E21151C6E5700F7531B /* env.h */,
 				02D5A883144207CF00C7768C /* gridfs.c */,
 				02D5A884144207CF00C7768C /* gridfs.h */,
@@ -848,7 +845,6 @@
 				02D5A887144207CF00C7768C /* mongo.c */,
 				02D5A888144207CF00C7768C /* mongo.h */,
 				02D5A88B144207CF00C7768C /* numbers.c */,
-				02D5A890144207CF00C7768C /* platform.h */,
 			);
 			path = src;
 			sourceTree = "<group>";

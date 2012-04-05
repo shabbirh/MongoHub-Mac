@@ -36,6 +36,8 @@ This project is very new. Any issues or bug reports are welcome. And I still don
 
     - Problem to parse binary values
     - Problem to parse an hash with $type
+    - Changing "upset" to "upsert"
+    - Fix from billybobuk to get the database list when having auth
 
 ## History
 

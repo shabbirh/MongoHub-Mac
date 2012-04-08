@@ -9,8 +9,9 @@
 #import "MHTabViewController.h"
 #import "MHTabTitleView.h"
 #import "MHTabItemViewController.h"
+#import "MHTabTitleContainerView.h"
 
-#define TAB_HEIGHT 30.0
+#define TAB_HEIGHT 35.0
 
 @implementation MHTabViewController
 
@@ -23,6 +24,7 @@
     }
     [_tabControllers release];
     [_tabTitleViewes release];
+    [_tabContainerView release];
     [self.view removeObserver:self forKeyPath:@"frame"];
     [super dealloc];
 }
@@ -33,7 +35,10 @@
         _selectedTabIndex = NSNotFound;
         _tabControllers = [[NSMutableArray alloc] init];
         _tabTitleViewes = [[NSMutableArray alloc] init];
+        _tabContainerView = [[MHTabTitleContainerView alloc] initWithFrame:NSMakeRect(0, self.view.bounds.size.height - TAB_HEIGHT, self.view.bounds.size.width, TAB_HEIGHT)];
+        [self.view addSubview:_tabContainerView];
         [self.view addObserver:self forKeyPath:@"frame" options:NSKeyValueObservingOptionNew context:nil];
+        [_tabContainerView setAutoresizingMask:NSViewWidthSizable | NSViewMinYMargin];
     }
 }
 
@@ -43,10 +48,10 @@
     NSUInteger count;
     
     count = [_tabControllers count];
-    result = self.view.bounds;
+    result = _tabContainerView.bounds;
     result.origin.y += result.size.height - TAB_HEIGHT;
     result.size.height = TAB_HEIGHT;
-    result.size.width = result.size.width / count;
+    result.size.width = round(result.size.width / count);
     result.origin.x = result.size.width * index;
     return result;
 }
@@ -101,11 +106,11 @@
         tabItemViewController.tabViewController = self;
         [_tabControllers addObject:tabItemViewController];
         tabItemViewController.view.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
-        titleView = [[MHTabTitleView alloc] initWithFrame:self.view.bounds];
+        titleView = [[MHTabTitleView alloc] initWithFrame:_tabContainerView.bounds];
         titleView.tabViewController = self;
         titleView.stringValue = tabItemViewController.title;
         [_tabTitleViewes addObject:titleView];
-        [self.view addSubview:titleView];
+        [_tabContainerView addSubview:titleView];
         [titleView release];
         [tabItemViewController addObserver:self forKeyPath:@"title" options:NSKeyValueObservingOptionNew context:nil];
         

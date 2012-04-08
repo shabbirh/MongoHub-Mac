@@ -8,7 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 
-@class MHTabTitleView, MHTabItemViewController, MHTabViewController;
+@class MHTabTitleView, MHTabItemViewController, MHTabViewController, MHTabTitleContainerView;
 
 @protocol MHTabViewControllerDelegate <NSObject>
 - (void)tabViewController:(MHTabViewController *)tabViewController didRemoveTabItem:(MHTabItemViewController *)tabItemViewController;
@@ -17,6 +17,7 @@
 @interface MHTabViewController : NSViewController
 {
     NSView *_selectedTabView;
+    MHTabTitleContainerView *_tabContainerView;
     NSMutableArray *_tabControllers;
     NSMutableArray *_tabTitleViewes;
     NSUInteger _selectedTabIndex;

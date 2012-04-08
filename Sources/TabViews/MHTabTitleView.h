@@ -13,7 +13,6 @@
 @interface MHTabTitleView : NSControl
 {
     MHTabViewController *_tabViewController;
-    NSButtonCell *_titleCell;
     NSTrackingRectTag _trakingTag;
     BOOL _selected;
     BOOL _showCloseButton;

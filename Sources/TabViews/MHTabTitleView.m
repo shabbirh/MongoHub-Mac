@@ -12,7 +12,20 @@
 #define CLOSE_BUTTON_SIZE 15.0
 #define CLOSE_BUTTON_MARGIN 20.0
 
-static NSImage *_closeButtonImage;
+static NSMutableDictionary *_drawingObjects = nil;
+
+static void initializeImages(void)
+{
+    if (!_drawingObjects) {
+        _drawingObjects = [[NSMutableDictionary alloc] init];
+        [_drawingObjects setObject:[NSArray arrayWithObjects:[NSImage imageNamed:@"background_blue_left"], [NSImage imageNamed:@"background_blue_center"], [NSImage imageNamed:@"background_blue_right"], nil] forKey:@"selected_tab"];
+        [_drawingObjects setObject:[NSImage imageNamed:@"unselected-tab-background"] forKey:@"unselected-tab-background"];
+        [_drawingObjects setObject:[NSImage imageNamed:@"unselected-tab-border"] forKey:@"unselected-tab-border"];
+        [_drawingObjects setObject:[NSImage imageNamed:@"background_blue_arrow"] forKey:@"selected_tab_arrow"];
+        [_drawingObjects setObject:[NSImage imageNamed:@"close_button"] forKey:@"close_button"];
+        [_drawingObjects setObject:[NSImage imageNamed:@"overlay_close_button"] forKey:@"overlay_close_button"];
+    }
+}
 
 @implementation MHTabTitleView
 
@@ -20,22 +33,9 @@ static NSImage *_closeButtonImage;
 
 - (id)initWithFrame:(NSRect)frame
 {
+    initializeImages();
     self = [super initWithFrame:frame];
     if (self) {
-        // Initialization code here.
-        _titleCell = [[NSButtonCell alloc] init];
-        _titleCell.imagePosition = NSNoImage;
-        _titleCell.buttonType = NSMomentaryPushInButton;
-        _titleCell.bordered = YES;
-        _titleCell.bezelStyle = NSShadowlessSquareBezelStyle;
-        _titleCell.lineBreakMode = NSLineBreakByTruncatingHead;
-    }
-    if (!_closeButtonImage) {
-        NSSize size = { CLOSE_BUTTON_SIZE, CLOSE_BUTTON_SIZE };
-        
-        _closeButtonImage = [[NSImage imageNamed:@"removemenu"] retain];
-        [_closeButtonImage setScalesWhenResized:YES];
-        [_closeButtonImage setSize:size];
     }
     
     return self;
@@ -43,7 +43,6 @@ static NSImage *_closeButtonImage;
 
 - (void)dealloc
 {
-    [_titleCell release];
     [super dealloc];
 }
 
@@ -53,9 +52,8 @@ static NSImage *_closeButtonImage;
     
     result = self.bounds;
     result.origin.x += 5.0;
-    result.origin.y = (int)((result.size.height - CLOSE_BUTTON_SIZE) / 2.0);
-    result.size.width = result.size.height = CLOSE_BUTTON_SIZE;
-    
+    result.origin.y = ceil(result.size.height - [[_drawingObjects objectForKey:@"unselected-tab-background"] size].height + (([[_drawingObjects objectForKey:@"unselected-tab-background"] size].height - [[_drawingObjects objectForKey:@"close_button"] size].height) / 2.0) - (([[_drawingObjects objectForKey:@"close_button"] size].height - [[_drawingObjects objectForKey:@"close_button"] size].height) / 2.0)) + 1;
+    result.size.width = result.size.height = [[_drawingObjects objectForKey:@"close_button"] size].height;
     return result;
 }
 
@@ -95,30 +93,55 @@ static NSImage *_closeButtonImage;
 {
     NSRect titleRect = self.bounds;
     NSRect closeButtonRect = [self _closeButtonRect];
+    NSRect mainRect;
+    NSImage *image;
     
-    _titleCell.highlighted = _selected || _titleHit;
-    [_titleCell drawBezelWithFrame:self.bounds inView:self];
+    if (_selected || _titleHit) {
+        NSArray *images = [_drawingObjects objectForKey:@"selected_tab"];
+        
+        image = [images objectAtIndex:0];
+        [image drawAtPoint:NSMakePoint(0, self.bounds.size.height - image.size.height) fromRect:NSMakeRect(0, 0, image.size.width, image.size.height) operation:NSCompositeCopy fraction:1.0];
+        mainRect.origin.x = image.size.width;
+        mainRect.origin.y = self.bounds.size.height - image.size.height;
+        mainRect.size.height = image.size.height;
+        
+        image = [images objectAtIndex:2];
+        [image drawAtPoint:NSMakePoint(self.bounds.size.width - image.size.width, self.bounds.size.height - image.size.height) fromRect:NSMakeRect(0, 0, image.size.width, image.size.height) operation:NSCompositeCopy fraction:1.0];
+        mainRect.size.width = self.bounds.size.width - mainRect.origin.x - image.size.width;
+        
+        image = [images objectAtIndex:1];
+        [image drawInRect:mainRect fromRect:NSMakeRect(0, 0, image.size.width, image.size.height) operation:NSCompositeCopy fraction:1.0];
+        
+        if (_selected) {
+            image = [_drawingObjects objectForKey:@"selected_tab_arrow"];
+            [image drawAtPoint:NSMakePoint(round((self.bounds.size.width / 2.0) + (image.size.width / 2.0)), 0) fromRect:NSMakeRect(0, 0, image.size.width, image.size.height) operation:NSCompositeSourceOver fraction:1.0];
+        }
+    } else {
+        image = [_drawingObjects objectForKey:@"unselected-tab-border"];
+        NSRect rect1, rect2;
+        
+        rect1 = NSMakeRect(1, self.bounds.size.height - image.size.height, self.bounds.size.width - 2, image.size.height);
+        rect2 = NSMakeRect(1, 0, 1, image.size.height);
+        
+        [image drawInRect:NSMakeRect(0, self.bounds.size.height - image.size.height, 1, image.size.height) fromRect:NSMakeRect(0, 0, 1, image.size.height) operation:NSCompositeCopy fraction:1.0];
+        [image drawInRect:NSMakeRect(self.bounds.size.width - 1, self.bounds.size.height - image.size.height, 1, image.size.height) fromRect:NSMakeRect(1, 0, 1, image.size.height) operation:NSCompositeCopy fraction:1.0];
+        image = [_drawingObjects objectForKey:@"unselected-tab-background"];
+        [image drawInRect:NSMakeRect(1, self.bounds.size.height - image.size.height, self.bounds.size.width - 2, image.size.height) fromRect:NSMakeRect(0, 0, 1, image.size.height) operation:NSCompositeCopy fraction:1.0];
+    }
     
     titleRect.size.height -= 7;
     titleRect.origin.x += CLOSE_BUTTON_MARGIN;
     titleRect.size.width -= CLOSE_BUTTON_MARGIN * 2.0;
-    [_titleCell drawTitle:_titleCell.attributedTitle withFrame:titleRect inView:self];
+//    [_titleCell drawTitle:_titleCell.attributedTitle withFrame:titleRect inView:self];
     if (_showCloseButton && NSIntersectsRect(dirtyRect, closeButtonRect)) {
         if (_closeButtonHit) {
-            [[NSColor darkGrayColor] set];
+            image = [_drawingObjects objectForKey:@"overlay_close_button"];
         } else {
-            [[NSColor lightGrayColor] set];
+            image = [_drawingObjects objectForKey:@"close_button"];
         }
-        NSRectFill(closeButtonRect);
-        if (_closeButtonHit) {
-            [[NSColor blackColor] set];
-        } else {
-            [[NSColor darkGrayColor] set];
-        }
-        NSFrameRectWithWidth(closeButtonRect, 1.0);
-        [_closeButtonImage drawInRect:closeButtonRect fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0];
+        
+        [image drawInRect:closeButtonRect fromRect:NSMakeRect(0, 0, image.size.width, image.size.height) operation:NSCompositeSourceOver fraction:1.0];
     }
-    
 }
 
 static NSComparisonResult orderFromView(id view1, id view2, void *current)
@@ -189,10 +212,14 @@ static NSComparisonResult orderFromView(id view1, id view2, void *current)
                 }
                 break;
             case NSLeftMouseUp:
+                _showCloseButton = NO;
                 if (closeButtonHit) {
                     [_tabViewController removeTabItemViewController:[_tabViewController tabItemViewControlletAtIndex:self.tag]];
                 } else if (titleHit) {
                     _tabViewController.selectedTabIndex = self.tag;
+                    [self setNeedsDisplay];
+                } else {
+                    [self setNeedsDisplay];
                 }
                 keepOn = NO;
                 break;
@@ -210,12 +237,13 @@ static NSComparisonResult orderFromView(id view1, id view2, void *current)
 
 - (void)setStringValue:(NSString *)aString
 {
-    _titleCell.title = aString;
+//    _titleCell.title = aString;
 }
 
 - (NSString *)stringValue
 {
-    return _titleCell.title;
+    return @"";
+//    return _titleCell.title;
 }
 
 @end

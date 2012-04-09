@@ -36,14 +36,26 @@ static void initializeImages(void)
     initializeImages();
     self = [super initWithFrame:frame];
     if (self) {
+        NSMutableParagraphStyle *mutParaStyle = [[NSMutableParagraphStyle alloc] init];
+        
+        [mutParaStyle setAlignment:NSCenterTextAlignment];
+        [mutParaStyle setLineBreakMode:NSLineBreakByTruncatingMiddle];
+        _titleAttributes = [[NSMutableDictionary alloc] initWithObjectsAndKeys:mutParaStyle, NSParagraphStyleAttributeName, nil];
+        [_titleAttributes setObject:[NSColor whiteColor] forKey:NSForegroundColorAttributeName];
+        _attributedTitle = [[NSMutableAttributedString alloc] initWithString:@"Loading…" attributes:_titleAttributes];
         _titleCell = [[NSCell alloc] init];
-    }
+        _titleCell.attributedStringValue = _attributedTitle;
+
+        [mutParaStyle release];
+}
     
     return self;
 }
 
 - (void)dealloc
 {
+    [_titleAttributes release];
+    [_attributedTitle release];
     [_titleCell release];
     [super dealloc];
 }
@@ -118,6 +130,7 @@ static void initializeImages(void)
             image = [_drawingObjects objectForKey:@"selected_tab_arrow"];
             [image drawAtPoint:NSMakePoint(round((self.bounds.size.width / 2.0) + (image.size.width / 2.0)), 0) fromRect:NSMakeRect(0, 0, image.size.width, image.size.height) operation:NSCompositeSourceOver fraction:1.0];
         }
+        [_titleAttributes setObject:[NSColor whiteColor] forKey:NSForegroundColorAttributeName];
     } else {
         image = [_drawingObjects objectForKey:@"unselected-tab-border"];
         NSRect rect1, rect2;
@@ -129,7 +142,10 @@ static void initializeImages(void)
         [image drawInRect:NSMakeRect(self.bounds.size.width - 1, self.bounds.size.height - image.size.height, 1, image.size.height) fromRect:NSMakeRect(1, 0, 1, image.size.height) operation:NSCompositeCopy fraction:1.0];
         image = [_drawingObjects objectForKey:@"unselected-tab-background"];
         [image drawInRect:NSMakeRect(1, self.bounds.size.height - image.size.height, self.bounds.size.width - 2, image.size.height) fromRect:NSMakeRect(0, 0, 1, image.size.height) operation:NSCompositeCopy fraction:1.0];
+        [_titleAttributes setObject:[NSColor blackColor] forKey:NSForegroundColorAttributeName];
     }
+    [_attributedTitle setAttributes:_titleAttributes range:NSMakeRange(0, _attributedTitle.length)];
+    _titleCell.attributedStringValue = _attributedTitle;
     
     titleRect.size.height -= 7;
     titleRect.origin.x += CLOSE_BUTTON_MARGIN;
@@ -156,7 +172,6 @@ static NSComparisonResult orderFromView(id view1, id view2, void *current)
         return NSOrderedSame;
     }
 }
-//{NSOrderedAscending = -1, NSOrderedSame, NSOrderedDescending}
 
 - (void)mouseDown:(NSEvent *)theEvent
 {
@@ -239,20 +254,11 @@ static NSComparisonResult orderFromView(id view1, id view2, void *current)
 
 - (void)setStringValue:(NSString *)aString
 {
-    NSAttributedString *attributedString;
-    NSMutableParagraphStyle *mutParaStyle=[[NSMutableParagraphStyle alloc] init];
-    
-    NSLog(@"title %@", aString);
-    if (!aString) {
-        aString = @"Loading…";
+    if (aString) {
+        [_attributedTitle.mutableString setString:aString];
+        _titleCell.attributedStringValue = _attributedTitle;
+        [self setNeedsDisplay];
     }
-    [mutParaStyle setAlignment:NSCenterTextAlignment];
-    [mutParaStyle setLineBreakMode:NSLineBreakByTruncatingMiddle];
-    attributedString = [[NSAttributedString alloc] initWithString:aString attributes:[NSDictionary dictionaryWithObjectsAndKeys:mutParaStyle,NSParagraphStyleAttributeName, aString, NSToolTipAttributeName, nil]];
-    _titleCell.attributedStringValue = attributedString;
-    [attributedString release];
-    [mutParaStyle release];
-    [self setNeedsDisplay];
 }
 
 - (NSString *)stringValue

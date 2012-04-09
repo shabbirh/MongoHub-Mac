@@ -34,10 +34,11 @@ This project is very new. Any issues or bug reports are welcome. And I still don
     
 ** Current **
 
-    - Problem to parse binary values
-    - Problem to parse an hash with $type
+    - Fix to parse binary values
+    - Fix to parse an hash with $type
     - Changing "upset" to "upsert"
     - Fix from billybobuk to get the database list when having auth
+    - Adding header in the data outline view
 
 ## History
 

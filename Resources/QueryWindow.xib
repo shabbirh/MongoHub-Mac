@@ -1163,6 +1163,7 @@
 																	<string key="NSFrameSize">{584, 17}</string>
 																	<reference key="NSSuperview" ref="930504296"/>
 																	<reference key="NSWindow"/>
+																	<reference key="NSNextKeyView" ref="743549604"/>
 																	<reference key="NSTableView" ref="144741638"/>
 																</object>
 																<object class="_NSCornerView" key="NSCornerView" id="743549604">
@@ -1293,9 +1294,10 @@
 																	</object>
 																</object>
 																<double key="NSRowHeight">17</double>
-																<int key="NSTvFlags">-222298112</int>
+																<int key="NSTvFlags">-205520896</int>
 																<reference key="NSDelegate"/>
 																<reference key="NSDataSource"/>
+																<string key="NSAutosaveName">query-result-outlineview</string>
 																<int key="NSGridStyleMask">1</int>
 																<int key="NSColumnAutoresizingStyle">2</int>
 																<int key="NSDraggingSourceMaskForLocal">15</int>
@@ -1356,7 +1358,7 @@
 												<string key="NSFrame">{{0, 27}, {584, 345}}</string>
 												<reference key="NSSuperview" ref="222084738"/>
 												<reference key="NSWindow"/>
-												<reference key="NSNextKeyView" ref="1009916102"/>
+												<reference key="NSNextKeyView" ref="930504296"/>
 												<int key="NSsFlags">133680</int>
 												<reference key="NSVScroller" ref="958364523"/>
 												<reference key="NSHScroller" ref="527548618"/>

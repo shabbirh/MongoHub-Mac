@@ -36,6 +36,7 @@ static void initializeImages(void)
     initializeImages();
     self = [super initWithFrame:frame];
     if (self) {
+        _titleCell = [[NSCell alloc] init];
     }
     
     return self;
@@ -43,6 +44,7 @@ static void initializeImages(void)
 
 - (void)dealloc
 {
+    [_titleCell release];
     [super dealloc];
 }
 
@@ -52,7 +54,7 @@ static void initializeImages(void)
     
     result = self.bounds;
     result.origin.x += 5.0;
-    result.origin.y = ceil(result.size.height - [[_drawingObjects objectForKey:@"unselected-tab-background"] size].height + (([[_drawingObjects objectForKey:@"unselected-tab-background"] size].height - [[_drawingObjects objectForKey:@"close_button"] size].height) / 2.0) - (([[_drawingObjects objectForKey:@"close_button"] size].height - [[_drawingObjects objectForKey:@"close_button"] size].height) / 2.0)) + 1;
+    result.origin.y = ceil(result.size.height - [[_drawingObjects objectForKey:@"unselected-tab-background"] size].height + (([[_drawingObjects objectForKey:@"unselected-tab-background"] size].height - [[_drawingObjects objectForKey:@"close_button"] size].height) / 2.0) - (([[_drawingObjects objectForKey:@"close_button"] size].height - [[_drawingObjects objectForKey:@"close_button"] size].height) / 2.0));
     result.size.width = result.size.height = [[_drawingObjects objectForKey:@"close_button"] size].height;
     return result;
 }
@@ -132,7 +134,7 @@ static void initializeImages(void)
     titleRect.size.height -= 7;
     titleRect.origin.x += CLOSE_BUTTON_MARGIN;
     titleRect.size.width -= CLOSE_BUTTON_MARGIN * 2.0;
-//    [_titleCell drawTitle:_titleCell.attributedTitle withFrame:titleRect inView:self];
+    [_titleCell drawInteriorWithFrame:titleRect inView:self];
     if (_showCloseButton && NSIntersectsRect(dirtyRect, closeButtonRect)) {
         if (_closeButtonHit) {
             image = [_drawingObjects objectForKey:@"overlay_close_button"];
@@ -237,13 +239,25 @@ static NSComparisonResult orderFromView(id view1, id view2, void *current)
 
 - (void)setStringValue:(NSString *)aString
 {
-//    _titleCell.title = aString;
+    NSAttributedString *attributedString;
+    NSMutableParagraphStyle *mutParaStyle=[[NSMutableParagraphStyle alloc] init];
+    
+    NSLog(@"title %@", aString);
+    if (!aString) {
+        aString = @"Loading…";
+    }
+    [mutParaStyle setAlignment:NSCenterTextAlignment];
+    [mutParaStyle setLineBreakMode:NSLineBreakByTruncatingMiddle];
+    attributedString = [[NSAttributedString alloc] initWithString:aString attributes:[NSDictionary dictionaryWithObjectsAndKeys:mutParaStyle,NSParagraphStyleAttributeName, aString, NSToolTipAttributeName, nil]];
+    _titleCell.attributedStringValue = attributedString;
+    [attributedString release];
+    [mutParaStyle release];
+    [self setNeedsDisplay];
 }
 
 - (NSString *)stringValue
 {
-    return @"";
-//    return _titleCell.title;
+    return _titleCell.attributedStringValue.string;
 }
 
 @end

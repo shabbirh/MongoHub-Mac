@@ -34,7 +34,7 @@
 {
     MODQuery *result;
     
-    self.title = [NSString stringWithFormat:@"%@:%@", _connectionStore.host, _connectionStore.hostport];
+    self.title = @"Server stats";
     result = [_mongoServer fetchServerStatusWithCallback:^(MODSortedMutableDictionary *serverStatus, MODQuery *mongoQuery) {
         if (_mongoServer == [mongoQuery.parameters objectForKey:@"mongoserver"]) {
             if (serverStatus) {

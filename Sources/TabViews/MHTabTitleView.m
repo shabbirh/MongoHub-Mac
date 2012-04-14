@@ -9,7 +9,6 @@
 #import "MHTabTitleView.h"
 #import "MHTabViewController.h"
 
-#define CLOSE_BUTTON_SIZE 15.0
 #define CLOSE_BUTTON_MARGIN 20.0
 
 static NSMutableDictionary *_drawingObjects = nil;
@@ -24,6 +23,7 @@ static void initializeImages(void)
         [_drawingObjects setObject:[NSImage imageNamed:@"background_blue_arrow"] forKey:@"selected_tab_arrow"];
         [_drawingObjects setObject:[NSImage imageNamed:@"close_button"] forKey:@"close_button"];
         [_drawingObjects setObject:[NSImage imageNamed:@"overlay_close_button"] forKey:@"overlay_close_button"];
+        [_drawingObjects setObject:[NSImage imageNamed:@"grip_button"] forKey:@"grip_button"];
     }
 }
 
@@ -71,6 +71,17 @@ static void initializeImages(void)
     return result;
 }
 
+- (NSRect)_gripButtonRect
+{
+    NSRect result;
+    
+    result = self.bounds;
+    result.origin.x = result.size.width - 5.0 - [[_drawingObjects objectForKey:@"grip_button"] size].width;
+    result.origin.y = ceil(result.size.height - [[_drawingObjects objectForKey:@"unselected-tab-background"] size].height + (([[_drawingObjects objectForKey:@"unselected-tab-background"] size].height - [[_drawingObjects objectForKey:@"grip_button"] size].height) / 2.0) - (([[_drawingObjects objectForKey:@"grip_button"] size].height - [[_drawingObjects objectForKey:@"grip_button"] size].height) / 2.0));
+    result.size.width = result.size.height = [[_drawingObjects objectForKey:@"grip_button"] size].height;
+    return result;
+}
+
 - (void)viewDidMoveToSuperview
 {
     _trakingTag = [self addTrackingRect:self.bounds owner:self userData:nil assumeInside:NO];
@@ -87,12 +98,14 @@ static void initializeImages(void)
 {
     _showCloseButton = YES;
     [self setNeedsDisplayInRect:[self _closeButtonRect]];
+    [self setNeedsDisplayInRect:[self _gripButtonRect]];
 }
 
 - (void)mouseExited:(NSEvent *)theEvent
 {
     _showCloseButton = NO;
     [self setNeedsDisplayInRect:[self _closeButtonRect]];
+    [self setNeedsDisplayInRect:[self _gripButtonRect]];
 }
 
 - (void)setFrame:(NSRect)frameRect
@@ -106,7 +119,7 @@ static void initializeImages(void)
 - (void)drawRect:(NSRect)dirtyRect
 {
     NSRect titleRect = self.bounds;
-    NSRect closeButtonRect = [self _closeButtonRect];
+    NSRect imageDisplayRect;
     NSRect mainRect;
     NSImage *image;
     
@@ -151,14 +164,21 @@ static void initializeImages(void)
     titleRect.origin.x += CLOSE_BUTTON_MARGIN;
     titleRect.size.width -= CLOSE_BUTTON_MARGIN * 2.0;
     [_titleCell drawInteriorWithFrame:titleRect inView:self];
-    if (_showCloseButton && NSIntersectsRect(dirtyRect, closeButtonRect)) {
+    imageDisplayRect = [self _closeButtonRect];
+    if (_showCloseButton && NSIntersectsRect(dirtyRect, imageDisplayRect)) {
         if (_closeButtonHit) {
             image = [_drawingObjects objectForKey:@"overlay_close_button"];
         } else {
             image = [_drawingObjects objectForKey:@"close_button"];
         }
         
-        [image drawInRect:closeButtonRect fromRect:NSMakeRect(0, 0, image.size.width, image.size.height) operation:NSCompositeSourceOver fraction:1.0];
+        [image drawInRect:imageDisplayRect fromRect:NSMakeRect(0, 0, image.size.width, image.size.height) operation:NSCompositeSourceOver fraction:1.0];
+    }
+    
+    imageDisplayRect = [self _gripButtonRect];
+    if (_showCloseButton && NSIntersectsRect(dirtyRect, imageDisplayRect)) {
+        image = [_drawingObjects objectForKey:@"grip_button"];
+        [image drawInRect:imageDisplayRect fromRect:NSMakeRect(0, 0, image.size.width, image.size.height) operation:NSCompositeSourceOver fraction:1.0];
     }
 }
 

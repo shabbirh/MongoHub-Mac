@@ -126,6 +126,12 @@ static void initializeImages(void)
     if (_selected || _titleHit) {
         NSArray *images = [_drawingObjects objectForKey:@"selected_tab"];
         
+        image = [images objectAtIndex:1];
+        mainRect = self.bounds;
+        mainRect.origin.y = mainRect.size.height - image.size.height;
+        mainRect.size.height = image.size.height;
+        [image drawInRect:mainRect fromRect:NSMakeRect(0, 0, image.size.width, image.size.height) operation:NSCompositeCopy fraction:1.0];
+        
         image = [images objectAtIndex:0];
         [image drawAtPoint:NSMakePoint(0, self.bounds.size.height - image.size.height) fromRect:NSMakeRect(0, 0, image.size.width, image.size.height) operation:NSCompositeCopy fraction:1.0];
         mainRect.origin.x = image.size.width;
@@ -135,9 +141,6 @@ static void initializeImages(void)
         image = [images objectAtIndex:2];
         [image drawAtPoint:NSMakePoint(self.bounds.size.width - image.size.width, self.bounds.size.height - image.size.height) fromRect:NSMakeRect(0, 0, image.size.width, image.size.height) operation:NSCompositeCopy fraction:1.0];
         mainRect.size.width = self.bounds.size.width - mainRect.origin.x - image.size.width;
-        
-        image = [images objectAtIndex:1];
-        [image drawInRect:mainRect fromRect:NSMakeRect(0, 0, image.size.width, image.size.height) operation:NSCompositeCopy fraction:1.0];
         
         if (_selected) {
             image = [_drawingObjects objectForKey:@"selected_tab_arrow"];
@@ -151,10 +154,10 @@ static void initializeImages(void)
         rect1 = NSMakeRect(1, self.bounds.size.height - image.size.height, self.bounds.size.width - 2, image.size.height);
         rect2 = NSMakeRect(1, 0, 1, image.size.height);
         
+        image = [_drawingObjects objectForKey:@"unselected-tab-background"];
+        [image drawInRect:NSMakeRect(0, self.bounds.size.height - image.size.height, self.bounds.size.width, image.size.height) fromRect:NSMakeRect(0, 0, 1, image.size.height) operation:NSCompositeCopy fraction:1.0];
         [image drawInRect:NSMakeRect(0, self.bounds.size.height - image.size.height, 1, image.size.height) fromRect:NSMakeRect(0, 0, 1, image.size.height) operation:NSCompositeCopy fraction:1.0];
         [image drawInRect:NSMakeRect(self.bounds.size.width - 1, self.bounds.size.height - image.size.height, 1, image.size.height) fromRect:NSMakeRect(1, 0, 1, image.size.height) operation:NSCompositeCopy fraction:1.0];
-        image = [_drawingObjects objectForKey:@"unselected-tab-background"];
-        [image drawInRect:NSMakeRect(1, self.bounds.size.height - image.size.height, self.bounds.size.width - 2, image.size.height) fromRect:NSMakeRect(0, 0, 1, image.size.height) operation:NSCompositeCopy fraction:1.0];
         [_titleAttributes setObject:[NSColor blackColor] forKey:NSForegroundColorAttributeName];
     }
     [_attributedTitle setAttributes:_titleAttributes range:NSMakeRange(0, _attributedTitle.length)];

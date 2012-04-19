@@ -217,6 +217,7 @@ static NSComparisonResult orderFromView(id view1, id view2, void *current)
         locationInWindow = [theEvent locationInWindow];
         if (!startToDrag && !firstClickInCloseButton && pow(firstLocationInView.x - locationInView.x, 2) >= 100) {
             startToDrag = YES;
+            self.alphaValue = 0.8;
         }
         locationInView = [self convertPoint:locationInWindow fromView:nil];
         titleHit = [self mouse:locationInView inRect:self.bounds];
@@ -271,6 +272,9 @@ static NSComparisonResult orderFromView(id view1, id view2, void *current)
             theEvent = [[self window] nextEventMatchingMask: NSLeftMouseUpMask | NSLeftMouseDraggedMask];
         }
     };
+    if (startToDrag) {
+        self.alphaValue = 1.0;
+    }
     self.frame = originalFrame;
     _titleHit = NO;
 }

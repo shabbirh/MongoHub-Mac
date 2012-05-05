@@ -39,6 +39,7 @@ This project is very new. Any issues or bug reports are welcome. And I still don
     - Changing "upset" to "upsert"
     - Fix from billybobuk to get the database list when having auth
     - Adding header in the data outline view
+    - Fix to add a document with structures inside an array (https://github.com/fotonauts/MongoHub-Mac/issues/28)
 
 ## History
 

@@ -6,14 +6,16 @@
       <description>Most recent changes with links to updates.</description>
       <language>en</language>      
          <item>
-            <title>Version 2.4.16</title>
-            <enclosure url="http://cloud.github.com/downloads/fotonauts/MongoHub-Mac/MongoHub.zip" sparkle:version="90" sparkle:shortVersionString="2.4.16" length="3071327" sparkle:dsaSignature="MC0CFQC21jS0LEbfxr0D+NqwMFIy6lznsQIUC82usGRQ+F/rWY6PnzxpwzkSb3Q=" type="application/octet-stream" />
+            <title>Version 2.4.17</title>
+            <enclosure url="http://cloud.github.com/downloads/fotonauts/MongoHub-Mac/MongoHub.zip" sparkle:version="91" sparkle:shortVersionString="2.4.17" length="3075222" sparkle:dsaSignature="MCwCFHnPMRYQOyhM1ta8ydZY9x5HKIKQAhRSHsxbY7Yv3EWTemaFh0xo+qzG3Q==" type="application/octet-stream" />
             <description><![CDATA[
 <ul>
-<li>Adding autosave for the connection list window</li>
-<li>Adding back the index icon</li>
-<li>Better error message when not having the authorization to get the server status</li>
-<li>Crash fixed when not having the authorization to get the server status</li>
+<li>Fix to parse binary values</li>
+<li>Fix to parse an hash with $type</li>
+<li>Changing "upset" to "upsert"</li>
+<li>Fix from billybobuk to get the database list when having auth</li>
+<li>Adding header in the data outline view</li>
+<li>Fix to add a document with structures inside an array (https://github.com/fotonauts/MongoHub-Mac/issues/28)</li>
 </ul>
             ]]>
             </description>

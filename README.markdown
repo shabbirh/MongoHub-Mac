@@ -34,14 +34,21 @@ This project is very new. Any issues or bug reports are welcome. And I still don
     
 ** Current **
 
+## History
+
+** 2.4.18(92) - may 10, 2012 **
+
+    - Fix crasher when error https://github.com/fotonauts/MongoHub-Mac/issues/31
+    - Fix to use an authenticated database
+
+** 2.4.17(91) - may 5, 2012 **
+
     - Fix to parse binary values
     - Fix to parse an hash with $type
     - Changing "upset" to "upsert"
     - Fix from billybobuk to get the database list when having auth
     - Adding header in the data outline view
     - Fix to add a document with structures inside an array (https://github.com/fotonauts/MongoHub-Mac/issues/28)
-
-## History
 
 ** 2.4.16(90) - jan 29, 2012 **
 

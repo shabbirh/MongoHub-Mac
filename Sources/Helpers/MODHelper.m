@@ -22,8 +22,8 @@
     
     result = [NSMutableArray arrayWithCapacity:[mongoObjects count]];
     for (MODSortedMutableDictionary *object in mongoObjects) {
-        id idValue;
-        NSString *idValueName;
+        id idValue = nil;
+        NSString *idValueName = nil;
         NSMutableDictionary *dict;
         
         idValue = [object objectForKey:@"_id"];
@@ -32,7 +32,13 @@
             idValue = [object objectForKey:@"name"];
             idValueName = @"name";
         }
-        dict = [self convertForOutlineWithValue:idValue dataKey:idValueName];
+        if (!idValue && [object count] > 0) {
+            idValueName = [[object sortedKeys] objectAtIndex:0];
+            idValue = [object objectForKey:idValueName];
+        }
+        if (idValue) {
+            dict = [self convertForOutlineWithValue:idValue dataKey:idValueName];
+        }
         if (dict == nil) {
             dict = [NSMutableDictionary dictionary];
         }

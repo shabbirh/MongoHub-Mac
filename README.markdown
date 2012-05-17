@@ -34,6 +34,9 @@ This project is very new. Any issues or bug reports are welcome. And I still don
     
 ** Current **
 
+    - Trying to keep type (integer and float) the same as much as possible (when editing a document) https://github.com/fotonauts/MongoHub-Mac/issues/35
+    - Crash fixed when opening a collection with documents that has no "_id" and "name" https://github.com/fotonauts/MongoHub-Mac/issues/24
+
 ## History
 
 ** 2.4.18(92) - may 10, 2012 **

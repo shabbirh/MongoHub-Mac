@@ -6,12 +6,12 @@
       <description>Most recent changes with links to updates.</description>
       <language>en</language>      
          <item>
-            <title>Version 2.4.18</title>
-            <enclosure url="http://cloud.github.com/downloads/fotonauts/MongoHub-Mac/MongoHub.zip" sparkle:version="92" sparkle:shortVersionString="2.4.18" length="3075168" sparkle:dsaSignature="MCwCFD0VwUSENxtpoE9G5tDjIYQR84+KAhQzBD8FUvIVCobCV2MP2aGPzQSJ8g==" type="application/octet-stream" />
+            <title>Version 2.4.19</title>
+            <enclosure url="http://cloud.github.com/downloads/fotonauts/MongoHub-Mac/MongoHub.zip" sparkle:version="93" sparkle:shortVersionString="2.4.19" length="3076320" sparkle:dsaSignature="MC0CFQCfBT7ibM3O0O1T3Tlxy1mF6dYqlgIUJDOGe5hTJPJxT4HgmZ8Z1E4i54o=" type="application/octet-stream" />
             <description><![CDATA[
 <ul>
-<li>- Fix crasher when error https://github.com/fotonauts/MongoHub-Mac/issues/31</li>
-<li>- Fix to use an authenticated database</li>
+<li>- Trying to keep type (integer and float) the same as much as possible (when editing a document) <a href="https://github.com/fotonauts/MongoHub-Mac/issues/35">https://github.com/fotonauts/MongoHub-Mac/issues/35</a></li>
+<li>- Crash fixed when opening a collection with documents that has no "_id" and "name" <a href="https://github.com/fotonauts/MongoHub-Mac/issues/24">https://github.com/fotonauts/MongoHub-Mac/issues/24</a></li>
 </ul>
             ]]>
             </description>

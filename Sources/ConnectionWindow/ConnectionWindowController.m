@@ -342,6 +342,10 @@
             if ([_serverItem updateChildrenWithList:list]) {
                 [_databaseCollectionOutlineView reloadData];
             }
+        } else if (_connectionStore.defaultdb) {
+            if ([_serverItem updateChildrenWithList:[NSArray arrayWithObject:_connectionStore.defaultdb]]) {
+                [_databaseCollectionOutlineView reloadData];
+            }
         } else if (mongoQuery.error) {
             NSRunAlertPanel(@"Error", [mongoQuery.error localizedDescription], @"OK", nil, nil);
         }

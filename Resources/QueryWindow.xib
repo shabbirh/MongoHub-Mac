@@ -1126,6 +1126,7 @@
 							<string key="NSFrameSize">{584, 455}</string>
 							<reference key="NSSuperview" ref="342811145"/>
 							<reference key="NSWindow"/>
+							<reference key="NSNextKeyView" ref="222084738"/>
 							<string key="NSReuseIdentifierKey">_NS:9</string>
 							<object class="NSMutableArray" key="NSTabViewItems">
 								<bool key="EncodedWithXMLCoder">YES</bool>
@@ -1152,7 +1153,7 @@
 																<string key="NSFrameSize">{584, 328}</string>
 																<reference key="NSSuperview" ref="1009916102"/>
 																<reference key="NSWindow"/>
-																<reference key="NSNextKeyView" ref="930504296"/>
+																<reference key="NSNextKeyView" ref="958364523"/>
 																<bool key="NSEnabled">YES</bool>
 																<object class="NSTableHeaderView" key="NSHeaderView" id="15276686">
 																	<reference key="NSNextResponder" ref="930504296"/>
@@ -1355,7 +1356,7 @@
 												<string key="NSFrame">{{0, 27}, {584, 345}}</string>
 												<reference key="NSSuperview" ref="222084738"/>
 												<reference key="NSWindow"/>
-												<reference key="NSNextKeyView" ref="1009916102"/>
+												<reference key="NSNextKeyView" ref="930504296"/>
 												<int key="NSsFlags">133680</int>
 												<reference key="NSVScroller" ref="958364523"/>
 												<reference key="NSHScroller" ref="527548618"/>
@@ -3797,14 +3798,6 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 						<reference key="destination" ref="734479284"/>
 					</object>
 					<int key="connectionID">369</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">limitTextField</string>
-						<reference key="source" ref="1001"/>
-						<reference key="destination" ref="870762347"/>
-					</object>
-					<int key="connectionID">108</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">

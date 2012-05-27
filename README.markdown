@@ -34,6 +34,8 @@ This project is very new. Any issues or bug reports are welcome. And I still don
     
 ** Current **
 
+    - Fix for the limit and skip field (limited to 9999) https://github.com/fotonauts/MongoHub-Mac/issues/30
+
 ## History
 
 ** 2.4.19(93) - may 23, 2012 **

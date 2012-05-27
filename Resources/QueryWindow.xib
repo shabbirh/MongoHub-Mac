@@ -2,10 +2,10 @@
 <archive type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="7.10">
 	<data>
 		<int key="IBDocument.SystemTarget">1070</int>
-		<string key="IBDocument.SystemVersion">11D50</string>
+		<string key="IBDocument.SystemVersion">11E53</string>
 		<string key="IBDocument.InterfaceBuilderVersion">2182</string>
-		<string key="IBDocument.AppKitVersion">1138.32</string>
-		<string key="IBDocument.HIToolboxVersion">568.00</string>
+		<string key="IBDocument.AppKitVersion">1138.47</string>
+		<string key="IBDocument.HIToolboxVersion">569.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin</string>
 			<string key="NS.object.0">2182</string>
@@ -493,7 +493,6 @@
 						<string key="NSFrame">{{22, 41}, {530, 22}}</string>
 						<reference key="NSSuperview" ref="460177029"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="17262602">
 							<int key="NSCellFlags">68288064</int>
@@ -1079,7 +1078,6 @@
 						<string key="NSFrame">{{22, 39}, {530, 22}}</string>
 						<reference key="NSSuperview" ref="468870748"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="205924935">
 							<int key="NSCellFlags">68288064</int>
@@ -1128,7 +1126,6 @@
 							<string key="NSFrameSize">{584, 455}</string>
 							<reference key="NSSuperview" ref="342811145"/>
 							<reference key="NSWindow"/>
-							<reference key="NSNextKeyView" ref="222084738"/>
 							<string key="NSReuseIdentifierKey">_NS:9</string>
 							<object class="NSMutableArray" key="NSTabViewItems">
 								<bool key="EncodedWithXMLCoder">YES</bool>
@@ -1155,7 +1152,7 @@
 																<string key="NSFrameSize">{584, 328}</string>
 																<reference key="NSSuperview" ref="1009916102"/>
 																<reference key="NSWindow"/>
-																<reference key="NSNextKeyView" ref="958364523"/>
+																<reference key="NSNextKeyView" ref="930504296"/>
 																<bool key="NSEnabled">YES</bool>
 																<object class="NSTableHeaderView" key="NSHeaderView" id="15276686">
 																	<reference key="NSNextResponder" ref="930504296"/>
@@ -1358,7 +1355,7 @@
 												<string key="NSFrame">{{0, 27}, {584, 345}}</string>
 												<reference key="NSSuperview" ref="222084738"/>
 												<reference key="NSWindow"/>
-												<reference key="NSNextKeyView" ref="930504296"/>
+												<reference key="NSNextKeyView" ref="1009916102"/>
 												<int key="NSsFlags">133680</int>
 												<reference key="NSVScroller" ref="958364523"/>
 												<reference key="NSHScroller" ref="527548618"/>
@@ -1373,7 +1370,6 @@
 												<string key="NSFrame">{{489, 5}, {75, 18}}</string>
 												<reference key="NSSuperview" ref="222084738"/>
 												<reference key="NSWindow"/>
-												<reference key="NSNextKeyView"/>
 												<bool key="NSEnabled">YES</bool>
 												<object class="NSButtonCell" key="NSCell" id="263057689">
 													<int key="NSCellFlags">-2080244224</int>
@@ -1630,12 +1626,12 @@
 																		<reference ref="510074392"/>
 																		<string>-∞</string>
 																		<string/>
-																		<integer value="1"/>
+																		<integer value="0"/>
 																		<string>+∞</string>
 																	</object>
 																</object>
-																<string key="NS.positiveformat">#,##0.###</string>
-																<string key="NS.negativeformat">#,##0.###</string>
+																<string key="NS.positiveformat">#</string>
+																<string key="NS.negativeformat">#</string>
 																<nil key="NS.positiveattrs"/>
 																<nil key="NS.negativeattrs"/>
 																<nil key="NS.zero"/>
@@ -1656,7 +1652,7 @@
 																</object>
 																<string key="NS.decimal">.</string>
 																<string key="NS.thousand">,</string>
-																<bool key="NS.hasthousands">YES</bool>
+																<bool key="NS.hasthousands">NO</bool>
 																<bool key="NS.localized">NO</bool>
 																<bool key="NS.allowsfloats">YES</bool>
 															</object>
@@ -1717,12 +1713,12 @@
 																		<reference ref="510074392"/>
 																		<string>-∞</string>
 																		<string/>
-																		<integer value="1"/>
+																		<integer value="0"/>
 																		<string>+∞</string>
 																	</object>
 																</object>
-																<string key="NS.positiveformat">#,##0.###</string>
-																<string key="NS.negativeformat">#,##0.###</string>
+																<string key="NS.positiveformat">#</string>
+																<string key="NS.negativeformat">#</string>
 																<nil key="NS.positiveattrs"/>
 																<nil key="NS.negativeattrs"/>
 																<nil key="NS.zero"/>
@@ -1743,7 +1739,7 @@
 																</object>
 																<string key="NS.decimal">.</string>
 																<string key="NS.thousand">,</string>
-																<bool key="NS.hasthousands">YES</bool>
+																<bool key="NS.hasthousands">NO</bool>
 																<bool key="NS.localized">NO</bool>
 																<bool key="NS.allowsfloats">YES</bool>
 															</object>

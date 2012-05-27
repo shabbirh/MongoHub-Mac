@@ -6,12 +6,12 @@
       <description>Most recent changes with links to updates.</description>
       <language>en</language>      
          <item>
-            <title>Version 2.4.19</title>
-            <enclosure url="http://cloud.github.com/downloads/fotonauts/MongoHub-Mac/MongoHub.zip" sparkle:version="93" sparkle:shortVersionString="2.4.19" length="3076320" sparkle:dsaSignature="MC0CFQCfBT7ibM3O0O1T3Tlxy1mF6dYqlgIUJDOGe5hTJPJxT4HgmZ8Z1E4i54o=" type="application/octet-stream" />
+            <title>Version 2.5</title>
+            <enclosure url="http://cloud.github.com/downloads/fotonauts/MongoHub-Mac/MongoHub.zip" sparkle:version="94" sparkle:shortVersionString="2.5" length="3127722" sparkle:dsaSignature="MC0CFQChXdF+hpi5tgo1sxG5tJeJeZo3SQIUHyzmUVMCDqLe0bfCM5m43o6DvKE=" type="application/octet-stream" />
             <description><![CDATA[
 <ul>
-<li>- Trying to keep type (integer and float) the same as much as possible (when editing a document) <a href="https://github.com/fotonauts/MongoHub-Mac/issues/35">https://github.com/fotonauts/MongoHub-Mac/issues/35</a></li>
-<li>- Crash fixed when opening a collection with documents that has no "_id" and "name" <a href="https://github.com/fotonauts/MongoHub-Mac/issues/24">https://github.com/fotonauts/MongoHub-Mac/issues/24</a></li>
+<li>Fix for the limit and skip field (limited to 9999) <a href='https://github.com/fotonauts/MongoHub-Mac/issues/30'>https://github.com/fotonauts/MongoHub-Mac/issues/30</a></li>
+<li>Adding tabs</li>
 </ul>
             ]]>
             </description>

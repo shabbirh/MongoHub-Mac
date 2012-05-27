@@ -30,14 +30,15 @@ This project is very new. Any issues or bug reports are welcome. And I still don
     - Should manage a list of database/user/password for each connections
     - Should save the password into the keychain
     - Create a document editor to edit using an outline view (like the plist editor in Xcode)
-    - Need a better UI to replace the tabs in a collection window
     
 ** Current **
 
+## History
+
+** 2.5(94) - may 27, 2012 **
+
     - Fix for the limit and skip field (limited to 9999) https://github.com/fotonauts/MongoHub-Mac/issues/30
     - Adding tabs
-
-## History
 
 ** 2.4.19(93) - may 23, 2012 **
 

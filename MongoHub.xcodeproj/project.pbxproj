@@ -128,7 +128,7 @@
 		1D93C38A11835FB8003216F7 /* EditConnection.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1D93C38911835FB8003216F7 /* EditConnection.xib */; };
 		1D93C3B111836510003216F7 /* connecticon.png in Resources */ = {isa = PBXBuildFile; fileRef = 1D93C3AF11836510003216F7 /* connecticon.png */; };
 		1D93C3B211836510003216F7 /* editicon.png in Resources */ = {isa = PBXBuildFile; fileRef = 1D93C3B011836510003216F7 /* editicon.png */; };
-		1D93C3D11183690E003216F7 /* ConnectionWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1D93C3D01183690E003216F7 /* ConnectionWindow.xib */; };
+		1D93C3D11183690E003216F7 /* MHConnectionWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1D93C3D01183690E003216F7 /* MHConnectionWindow.xib */; };
 		1D93C42C1183744D003216F7 /* collectionicon.png in Resources */ = {isa = PBXBuildFile; fileRef = 1D93C42A1183744D003216F7 /* collectionicon.png */; };
 		1D93C42D1183744D003216F7 /* dbicon.png in Resources */ = {isa = PBXBuildFile; fileRef = 1D93C42B1183744D003216F7 /* dbicon.png */; };
 		1D93C45411837668003216F7 /* SidebarBadgeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D93C45011837668003216F7 /* SidebarBadgeCell.m */; };
@@ -502,7 +502,7 @@
 		1D93C3AF11836510003216F7 /* connecticon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = connecticon.png; path = Resources/images/connecticon.png; sourceTree = SOURCE_ROOT; };
 		1D93C3B011836510003216F7 /* editicon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = editicon.png; path = Resources/images/editicon.png; sourceTree = SOURCE_ROOT; };
 		1D93C3CD11836863003216F7 /* MHConnectionWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MHConnectionWindowController.h; sourceTree = "<group>"; };
-		1D93C3D01183690E003216F7 /* ConnectionWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ConnectionWindow.xib; sourceTree = "<group>"; };
+		1D93C3D01183690E003216F7 /* MHConnectionWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MHConnectionWindow.xib; sourceTree = "<group>"; };
 		1D93C42A1183744D003216F7 /* collectionicon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = collectionicon.png; path = Resources/images/collectionicon.png; sourceTree = SOURCE_ROOT; };
 		1D93C42B1183744D003216F7 /* dbicon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = dbicon.png; path = Resources/images/dbicon.png; sourceTree = SOURCE_ROOT; };
 		1D93C44F11837668003216F7 /* SidebarBadgeCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SidebarBadgeCell.h; sourceTree = "<group>"; };
@@ -1197,7 +1197,7 @@
 				2F7446970DB6B7EA00F9684A /* MainMenu.xib */,
 				1D93C29F118343EF003216F7 /* NewConnection.xib */,
 				1D93C38911835FB8003216F7 /* EditConnection.xib */,
-				1D93C3D01183690E003216F7 /* ConnectionWindow.xib */,
+				1D93C3D01183690E003216F7 /* MHConnectionWindow.xib */,
 				1D79945611875E7A009C187F /* NewDB.xib */,
 				1DF96E3C11881EB400C35AB8 /* NewCollection.xib */,
 				1DF96F9311883D5E00C35AB8 /* QueryWindow.xib */,
@@ -1317,7 +1317,7 @@
 				1D93C38A11835FB8003216F7 /* EditConnection.xib in Resources */,
 				1D93C3B111836510003216F7 /* connecticon.png in Resources */,
 				1D93C3B211836510003216F7 /* editicon.png in Resources */,
-				1D93C3D11183690E003216F7 /* ConnectionWindow.xib in Resources */,
+				1D93C3D11183690E003216F7 /* MHConnectionWindow.xib in Resources */,
 				1D93C42C1183744D003216F7 /* collectionicon.png in Resources */,
 				1D93C42D1183744D003216F7 /* dbicon.png in Resources */,
 				1D79945711875E7A009C187F /* NewDB.xib in Resources */,

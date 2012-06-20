@@ -1,5 +1,5 @@
 //
-//  ConnectionWindowController.h
+//  MHConnectionWindowController.h
 //  MongoHub
 //
 //  Created by Syd on 10-4-25.
@@ -28,7 +28,7 @@
 @class MHTabTitleView;
 @class MHStatusViewController;
 
-@interface ConnectionWindowController : NSWindowController <MHTunnelDelegate>
+@interface MHConnectionWindowController : NSWindowController <MHTunnelDelegate>
 {
     NSMutableDictionary *_tabItemControllers;
     IBOutlet NSMenu *createCollectionOrDatabaseMenu;
@@ -110,11 +110,11 @@
 - (IBAction)stopMonitor:(id)sender;
 @end
 
-@interface ConnectionWindowController(NSOutlineViewDataSource) <NSOutlineViewDataSource>
+@interface MHConnectionWindowController(NSOutlineViewDataSource) <NSOutlineViewDataSource>
 @end
 
-@interface ConnectionWindowController(MHServerItemDelegateCategory)<MHServerItemDelegate>
+@interface MHConnectionWindowController(MHServerItemDelegateCategory)<MHServerItemDelegate>
 @end
 
-@interface ConnectionWindowController(MHTabViewControllerDelegate)<MHTabViewControllerDelegate>
+@interface MHConnectionWindowController(MHTabViewControllerDelegate)<MHTabViewControllerDelegate>
 @end

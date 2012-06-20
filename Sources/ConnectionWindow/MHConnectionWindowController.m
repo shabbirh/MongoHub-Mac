@@ -1,5 +1,5 @@
 //
-//  ConnectionWindowController.m
+//  MHConnectionWindowController.m
 //  MongoHub
 //
 //  Created by Syd on 10-4-25.
@@ -9,7 +9,7 @@
 #import "Configure.h"
 #import "NSString+Extras.h"
 #import "NSProgressIndicator+Extras.h"
-#import "ConnectionWindowController.h"
+#import "MHConnectionWindowController.h"
 #import "MHQueryWindowController.h"
 #import "AddDBController.h"
 #import "AddCollectionController.h"
@@ -41,7 +41,7 @@
 #define FILE_IMPORT_TOOLBAR_ITEM_TAG                6
 #define FILE_EXPORT_TOOLBAR_ITEM_TAG                7
 
-@interface ConnectionWindowController()
+@interface MHConnectionWindowController()
 - (void)updateToolbarItems;
 
 - (void)closeMongoDB;
@@ -57,7 +57,7 @@
 - (void)showCollectionStatusWithCollectionItem:(MHCollectionItem *)collectionItem;
 @end
 
-@implementation ConnectionWindowController
+@implementation MHConnectionWindowController
 
 @synthesize connectionStore = _connectionStore;
 @synthesize mongoServer = _mongoServer;
@@ -842,7 +842,7 @@ static int percentage(NSNumber *previousValue, NSNumber *previousOutOfValue, NSN
 
 @end
 
-@implementation ConnectionWindowController(NSOutlineViewDataSource)
+@implementation MHConnectionWindowController(NSOutlineViewDataSource)
 
 - (NSInteger)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(id)item
 {
@@ -914,7 +914,7 @@ static int percentage(NSNumber *previousValue, NSNumber *previousOutOfValue, NSN
 @end
 
 
-@implementation ConnectionWindowController (MHServerItemDelegateCategory)
+@implementation MHConnectionWindowController (MHServerItemDelegateCategory)
 
 - (id)mongoDatabaseWithDatabaseItem:(MHDatabaseItem *)item
 {
@@ -928,7 +928,7 @@ static int percentage(NSNumber *previousValue, NSNumber *previousOutOfValue, NSN
 
 @end
 
-@implementation ConnectionWindowController(MHTabViewControllerDelegate)
+@implementation MHConnectionWindowController(MHTabViewControllerDelegate)
 
 - (void)tabViewController:(MHTabViewController *)tabViewController didRemoveTabItem:(MHTabItemViewController *)tabItemViewController
 {

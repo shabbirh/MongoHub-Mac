@@ -45,7 +45,7 @@
 		025C563414350DEF0064B010 /* MODDBRef.m in Sources */ = {isa = PBXBuildFile; fileRef = 025C562E14350DEF0064B010 /* MODDBRef.m */; };
 		025C563514350DEF0064B010 /* MODBinary.m in Sources */ = {isa = PBXBuildFile; fileRef = 025C563014350DEF0064B010 /* MODBinary.m */; };
 		0262CA3C148C14A8009033F9 /* MHTabItemViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0262CA3A148C14A8009033F9 /* MHTabItemViewController.m */; };
-		0262CA3F148C1838009033F9 /* ConnectionWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0262CA3E148C1838009033F9 /* ConnectionWindowController.m */; };
+		0262CA3F148C1838009033F9 /* MHConnectionWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0262CA3E148C1838009033F9 /* MHConnectionWindowController.m */; };
 		026B2DE513BB6FB8009BEA7B /* RegexKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 026B2DE413BB6FB8009BEA7B /* RegexKit.framework */; };
 		026B949814BC214800BA0688 /* MODUndefined.m in Sources */ = {isa = PBXBuildFile; fileRef = 026B949714BC214800BA0688 /* MODUndefined.m */; };
 		029D30A5145613420021B9C9 /* MHDatabaseItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 029D30A4145613420021B9C9 /* MHDatabaseItem.m */; };
@@ -290,7 +290,7 @@
 		025C563114350DEF0064B010 /* MODBinary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MODBinary.h; sourceTree = "<group>"; };
 		0262CA39148C14A8009033F9 /* MHTabItemViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MHTabItemViewController.h; sourceTree = "<group>"; };
 		0262CA3A148C14A8009033F9 /* MHTabItemViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MHTabItemViewController.m; sourceTree = "<group>"; };
-		0262CA3E148C1838009033F9 /* ConnectionWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConnectionWindowController.m; sourceTree = "<group>"; };
+		0262CA3E148C1838009033F9 /* MHConnectionWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MHConnectionWindowController.m; sourceTree = "<group>"; };
 		0262CA40148C1852009033F9 /* MHQueryWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MHQueryWindowController.h; sourceTree = "<group>"; };
 		02683D5D1442759100467EBE /* README.markdown */ = {isa = PBXFileReference; lastKnownFileType = text; name = README.markdown; path = ../README.markdown; sourceTree = "<group>"; };
 		026B2DE413BB6FB8009BEA7B /* RegexKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = RegexKit.framework; sourceTree = "<group>"; };
@@ -501,7 +501,7 @@
 		1D93C38911835FB8003216F7 /* EditConnection.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EditConnection.xib; sourceTree = "<group>"; };
 		1D93C3AF11836510003216F7 /* connecticon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = connecticon.png; path = Resources/images/connecticon.png; sourceTree = SOURCE_ROOT; };
 		1D93C3B011836510003216F7 /* editicon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = editicon.png; path = Resources/images/editicon.png; sourceTree = SOURCE_ROOT; };
-		1D93C3CD11836863003216F7 /* ConnectionWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConnectionWindowController.h; sourceTree = "<group>"; };
+		1D93C3CD11836863003216F7 /* MHConnectionWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MHConnectionWindowController.h; sourceTree = "<group>"; };
 		1D93C3D01183690E003216F7 /* ConnectionWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ConnectionWindow.xib; sourceTree = "<group>"; };
 		1D93C42A1183744D003216F7 /* collectionicon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = collectionicon.png; path = Resources/images/collectionicon.png; sourceTree = SOURCE_ROOT; };
 		1D93C42B1183744D003216F7 /* dbicon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = dbicon.png; path = Resources/images/dbicon.png; sourceTree = SOURCE_ROOT; };
@@ -694,8 +694,8 @@
 		02CC2266146485D500A38AC9 /* ConnectionWindow */ = {
 			isa = PBXGroup;
 			children = (
-				1D93C3CD11836863003216F7 /* ConnectionWindowController.h */,
-				0262CA3E148C1838009033F9 /* ConnectionWindowController.m */,
+				1D93C3CD11836863003216F7 /* MHConnectionWindowController.h */,
+				0262CA3E148C1838009033F9 /* MHConnectionWindowController.m */,
 				1D93CB5A1184C243003216F7 /* MHResultsOutlineViewController.h */,
 				1D93CB5B1184C243003216F7 /* MHResultsOutlineViewController.m */,
 				0262CA40148C1852009033F9 /* MHQueryWindowController.h */,
@@ -1515,7 +1515,7 @@
 				020F511A14896DE700D4B54B /* MHTabViewController.m in Sources */,
 				020F5128148973BA00D4B54B /* MHStatusViewController.m in Sources */,
 				0262CA3C148C14A8009033F9 /* MHTabItemViewController.m in Sources */,
-				0262CA3F148C1838009033F9 /* ConnectionWindowController.m in Sources */,
+				0262CA3F148C1838009033F9 /* MHConnectionWindowController.m in Sources */,
 				026B949814BC214800BA0688 /* MODUndefined.m in Sources */,
 				02AC8E23151C6E7300F7531B /* env_posix.c in Sources */,
 				025B8F0C1531C76E00849A71 /* MHTabTitleContainerView.m in Sources */,

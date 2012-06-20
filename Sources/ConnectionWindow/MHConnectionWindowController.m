@@ -87,6 +87,7 @@
 
 - (void)dealloc
 {
+    [self.window removeObserver:self forKeyPath:@"firstResponder"];
     [_tabViewController removeObserver:self forKeyPath:@"selectedTabIndex"];
     [_tabItemControllers release];
     [self closeMongoDB];
@@ -136,11 +137,15 @@
         self.window.title = [NSString stringWithFormat:@"%@ [%@:%@]", [_connectionStore alias], [_connectionStore host], [_connectionStore hostport] ];
     }
     [_tabViewController addObserver:self forKeyPath:@"selectedTabIndex" options:NSKeyValueObservingOptionNew context:nil];
+    [self.window addObserver:self forKeyPath:@"firstResponder" options:NSKeyValueObservingOptionNew context:nil];
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
-    if ([keyPath isEqualToString:@"selectedTabIndex"] && object == _tabViewController) {
+    if ((object == _tabViewController && [keyPath isEqualToString:@"selectedTabIndex"])
+        || (object == self.window && [keyPath isEqualToString:@"firstResponder"] && self.window.firstResponder != _databaseCollectionOutlineView && self.window.firstResponder != self.window)) {
+// update the outline view selection if the tab changed, or if the first responder changed
+// don't do it if the first responder is the outline view or the windw, other we will lose the new user selection
         id selectedTab = _tabViewController.selectedTabItemViewController;
         
         if ([selectedTab isKindOfClass:[MHQueryWindowController class]]) {

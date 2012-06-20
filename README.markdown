@@ -33,6 +33,8 @@ This project is very new. Any issues or bug reports are welcome. And I still don
     
 ** Current **
 
+    - Fix for https://github.com/fotonauts/MongoHub-Mac/issues/36
+
 ## History
 
 ** 2.5(94) - may 27, 2012 **

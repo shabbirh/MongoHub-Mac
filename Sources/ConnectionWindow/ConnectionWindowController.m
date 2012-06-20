@@ -935,6 +935,8 @@ static int percentage(NSNumber *previousValue, NSNumber *previousOutOfValue, NSN
     if (tabItemViewController == _statusViewController) {
         [_statusViewController release];
         _statusViewController = nil;
+    } else {
+        [_tabItemControllers removeObjectForKey:[(MHQueryWindowController *)tabItemViewController mongoCollection].absoluteCollectionName];
     }
 }
 

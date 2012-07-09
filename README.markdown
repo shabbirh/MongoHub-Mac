@@ -33,8 +33,10 @@ This project is very new. Any issues or bug reports are welcome. And I still don
     
 ** Current **
 
-    - Some UTF8 characters became invisible while editing a document
-    - Some problems with updating colors while editing
+    - Fix: Some UTF8 characters became invisible while editing a document
+    - Fix: Some problems with updating colors while editing
+    - Open only one document window for each document
+    - Close all document windows when close a collection
 
 ## History
 

@@ -888,6 +888,11 @@ static int percentage(NSNumber *previousValue, NSNumber *previousOutOfValue, NSN
         
         [self getCollectionListForDatabaseItem:collectionItem.databaseItem];
         [self showCollectionStatusWithCollectionItem:collectionItem];
+        if ([_tabItemControllers objectForKey:[collectionItem.mongoCollection absoluteCollectionName]]) {
+            [[_tabItemControllers objectForKey:[collectionItem.mongoCollection absoluteCollectionName]] select];
+        } else {
+            [_statusViewController select];
+        }
     } else if ([self selectedDatabaseItem]) {
         MHDatabaseItem *databaseItem = [self selectedDatabaseItem];
         

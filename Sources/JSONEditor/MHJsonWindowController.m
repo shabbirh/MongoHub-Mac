@@ -44,8 +44,7 @@
 
 - (void)windowWillClose:(NSNotification *)notification
 {
-    [[NSNotificationCenter defaultCenter] postNotificationName:kJsonWindowWillClose object:nil];
-    [super release];
+    [[NSNotificationCenter defaultCenter] postNotificationName:kJsonWindowWillClose object:self];
 }
 
 - (void)windowDidLoad {

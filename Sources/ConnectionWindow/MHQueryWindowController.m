@@ -91,6 +91,7 @@
 
 - (void)dealloc
 {
+    [_jsonWindowControllers release];
     [databasesArrayController release];
     [findResultsViewController release];
     [_mongoCollection release];
@@ -200,6 +201,7 @@
 - (void)awakeFromNib
 {
     self.title = _mongoCollection.absoluteCollectionName;
+    _jsonWindowControllers = [[NSMutableDictionary alloc] init];
 }
 
 - (IBAction)findQuery:(id)sender
@@ -533,19 +535,47 @@
     
     selectedItem = findResultsViewController.selectedItem;
     if (selectedItem != nil) {
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(findQuery:) name:kJsonWindowSaved object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(jsonWindowWillClose:) name:kJsonWindowWillClose object:nil];
-        //NSLog(@"%@", [findResultsViewController rootForItem:selectedItem]);
-        MHJsonWindowController *jsonWindowController = [[MHJsonWindowController alloc] init];
-        jsonWindowController.mongoCollection = _mongoCollection;
-        jsonWindowController.jsonDict = [findResultsViewController rootForItem:selectedItem];
-        [jsonWindowController showWindow:sender];
+        id idValue;
+        NSDictionary *jsonDict;
+        id jsonWindowControllerKey;
+        
+        MHJsonWindowController *jsonWindowController;
+        
+        jsonDict = [findResultsViewController rootForItem:selectedItem];
+        idValue = [jsonDict objectForKey:@"objectvalueid"];
+        if (idValue) {
+            jsonWindowControllerKey = [MODServer convertObjectToJson:[MODSortedMutableDictionary sortedDictionaryWithObject:idValue forKey:@"_id"] pretty:NO];
+        } else {
+            jsonWindowControllerKey = jsonDict;
+        }
+        jsonWindowController = [_jsonWindowControllers objectForKey:jsonWindowControllerKey];
+        if (!jsonWindowController) {
+            jsonWindowController = [[MHJsonWindowController alloc] init];
+            jsonWindowController.mongoCollection = _mongoCollection;
+            jsonWindowController.jsonDict = jsonDict;
+            [jsonWindowController showWindow:sender];
+            [_jsonWindowControllers setObject:jsonWindowController forKey:jsonWindowControllerKey];
+            [jsonWindowController release];
+            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(findQuery:) name:kJsonWindowSaved object:jsonWindowController];
+            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(jsonWindowWillClose:) name:kJsonWindowWillClose object:jsonWindowController];
+        } else {
+            [jsonWindowController showWindow:self];
+        }
     }
 }
 
-- (void)jsonWindowWillClose:(id)sender
+- (void)jsonWindowWillClose:(NSNotification *)notification
 {
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    MHJsonWindowController *jsonWindowController = notification.object;
+    id idValue;
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:nil object:notification.object];
+    idValue = [jsonWindowController.jsonDict objectForKey:@"objectvalueid"];
+    if (idValue) {
+        [_jsonWindowControllers removeObjectForKey:[MODServer convertObjectToJson:[MODSortedMutableDictionary sortedDictionaryWithObject:idValue forKey:@"_id"] pretty:NO]];
+    } else {
+        [_jsonWindowControllers removeObjectForKey:jsonWindowController.jsonDict];
+    }
 }
 
 - (IBAction)chooseExportPath:(id)sender

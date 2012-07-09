@@ -21,6 +21,7 @@
     IBOutlet NSOutlineView *findResultsOutlineView;
     MODCollection *_mongoCollection;
     MHConnectionStore *_connectionStore;
+    NSMutableDictionary *_jsonWindowControllers;
     
     IBOutlet NSTabView *tabView;
     IBOutlet NSSegmentedControl *segmentedControl;

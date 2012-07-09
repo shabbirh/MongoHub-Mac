@@ -269,15 +269,22 @@
 
 - (IBAction)removeQuery:(id)sender
 {
-    [removeQueryLoaderIndicator start];
-    NSString *criteria = [removeCriticalTextField stringValue];
-    
-    [_mongoCollection countWithCriteria:criteria callback:^(int64_t count, MODQuery *mongoQuery) {
-        [removeResultsTextField setStringValue:[NSString stringWithFormat:@"Affected Rows: %lld", count]];
-    }];
-    [_mongoCollection removeWithCriteria:criteria callback:^(MODQuery *mongoQuery) {
-        [removeQueryLoaderIndicator stop];
-    }];
+    if ([[removeCriticalTextField stringValue] stringByTrimmingWhitespace].length == 0) {
+        NSAlert *alert;
+        
+        alert = [NSAlert alertWithMessageText:@"If you want to remove all documents, write at least \"{}\"" defaultButton:@"OK" alternateButton:nil otherButton:nil informativeTextWithFormat:@"This is to make sure you don't do any mistakes too easily"];
+        [alert beginSheetModalForWindow:self.view.window modalDelegate:nil didEndSelector:nil contextInfo:nil];
+    } else {
+        [removeQueryLoaderIndicator start];
+        NSString *criteria = [removeCriticalTextField stringValue];
+        
+        [_mongoCollection countWithCriteria:criteria callback:^(int64_t count, MODQuery *mongoQuery) {
+            [removeResultsTextField setStringValue:[NSString stringWithFormat:@"Affected Rows: %lld", count]];
+        }];
+        [_mongoCollection removeWithCriteria:criteria callback:^(MODQuery *mongoQuery) {
+            [removeQueryLoaderIndicator stop];
+        }];
+    }
 }
 
 - (IBAction)insertQuery:(id)sender

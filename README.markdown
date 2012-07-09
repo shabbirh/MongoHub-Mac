@@ -33,6 +33,7 @@ This project is very new. Any issues or bug reports are welcome. And I still don
     
 ** Current **
 
+    - Some UTF8 characters become invisible while editing a document (some problems with colors)
 
 ## History
 

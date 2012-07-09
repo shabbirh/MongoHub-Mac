@@ -109,8 +109,8 @@
 		1D64100212C8E16C0030AA4C /* NSArray+Color.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D64100112C8E16C0030AA4C /* NSArray+Color.m */; };
 		1D64100512C8E1C00030AA4C /* NSScanner+SkipUpToCharset.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D64100412C8E1C00030AA4C /* NSScanner+SkipUpToCharset.m */; };
 		1D64100812C8E21C0030AA4C /* UKSyntaxColoredTextViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D64100712C8E21C0030AA4C /* UKSyntaxColoredTextViewController.m */; };
-		1D64100D12C8E3D90030AA4C /* JsonWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D64100C12C8E3D90030AA4C /* JsonWindowController.m */; };
-		1D64100F12C8E6BE0030AA4C /* JsonWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1D64100E12C8E6BE0030AA4C /* JsonWindow.xib */; };
+		1D64100D12C8E3D90030AA4C /* MHJsonWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D64100C12C8E3D90030AA4C /* MHJsonWindowController.m */; };
+		1D64100F12C8E6BE0030AA4C /* MHJsonWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1D64100E12C8E6BE0030AA4C /* MHJsonWindow.xib */; };
 		1D799455118755EE009C187F /* AddDBController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D799454118755EE009C187F /* AddDBController.m */; };
 		1D79945711875E7A009C187F /* NewDB.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1D79945611875E7A009C187F /* NewDB.xib */; };
 		1D8A624E11897C6800D55937 /* indexmenu.png in Resources */ = {isa = PBXBuildFile; fileRef = 1D8A624D11897C6800D55937 /* indexmenu.png */; };
@@ -470,9 +470,9 @@
 		1D64100412C8E1C00030AA4C /* NSScanner+SkipUpToCharset.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSScanner+SkipUpToCharset.m"; sourceTree = "<group>"; };
 		1D64100612C8E21C0030AA4C /* UKSyntaxColoredTextViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UKSyntaxColoredTextViewController.h; sourceTree = "<group>"; };
 		1D64100712C8E21C0030AA4C /* UKSyntaxColoredTextViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UKSyntaxColoredTextViewController.m; sourceTree = "<group>"; };
-		1D64100B12C8E3D90030AA4C /* JsonWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JsonWindowController.h; sourceTree = "<group>"; };
-		1D64100C12C8E3D90030AA4C /* JsonWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JsonWindowController.m; sourceTree = "<group>"; };
-		1D64100E12C8E6BE0030AA4C /* JsonWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = JsonWindow.xib; sourceTree = "<group>"; };
+		1D64100B12C8E3D90030AA4C /* MHJsonWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; path = MHJsonWindowController.h; sourceTree = "<group>"; };
+		1D64100C12C8E3D90030AA4C /* MHJsonWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MHJsonWindowController.m; sourceTree = "<group>"; };
+		1D64100E12C8E6BE0030AA4C /* MHJsonWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MHJsonWindow.xib; sourceTree = "<group>"; };
 		1D799453118755EE009C187F /* AddDBController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddDBController.h; sourceTree = "<group>"; };
 		1D799454118755EE009C187F /* AddDBController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddDBController.m; sourceTree = "<group>"; };
 		1D79945611875E7A009C187F /* NewDB.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NewDB.xib; sourceTree = "<group>"; };
@@ -712,8 +712,8 @@
 			children = (
 				1D64100612C8E21C0030AA4C /* UKSyntaxColoredTextViewController.h */,
 				1D64100712C8E21C0030AA4C /* UKSyntaxColoredTextViewController.m */,
-				1D64100B12C8E3D90030AA4C /* JsonWindowController.h */,
-				1D64100C12C8E3D90030AA4C /* JsonWindowController.m */,
+				1D64100B12C8E3D90030AA4C /* MHJsonWindowController.h */,
+				1D64100C12C8E3D90030AA4C /* MHJsonWindowController.m */,
 			);
 			path = JSONEditor;
 			sourceTree = "<group>";
@@ -1202,7 +1202,7 @@
 				1D210BFF11930E18000EF41C /* Auth.xib */,
 				1D601B5511C8F24300C86274 /* MysqlImport.xib */,
 				1D26615111CFC5BE0092C6B5 /* MysqlExport.xib */,
-				1D64100E12C8E6BE0030AA4C /* JsonWindow.xib */,
+				1D64100E12C8E6BE0030AA4C /* MHJsonWindow.xib */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -1343,7 +1343,7 @@
 				1D601B5611C8F24300C86274 /* MysqlImport.xib in Resources */,
 				1D26615211CFC5BE0092C6B5 /* MysqlExport.xib in Resources */,
 				1DEC803512B7EE2100FC804E /* SSHCommand.sh in Resources */,
-				1D64100F12C8E6BE0030AA4C /* JsonWindow.xib in Resources */,
+				1D64100F12C8E6BE0030AA4C /* MHJsonWindow.xib in Resources */,
 				1DD1CA8312C8EFD4007F2909 /* SyntaxDefinition.plist in Resources */,
 				1DD1CA8412C8EFD4007F2909 /* SyntaxColorDefaults.plist in Resources */,
 				1DD1CA8912C8F004007F2909 /* CSS 1.plist in Resources */,
@@ -1485,7 +1485,7 @@
 				1D64100212C8E16C0030AA4C /* NSArray+Color.m in Sources */,
 				1D64100512C8E1C00030AA4C /* NSScanner+SkipUpToCharset.m in Sources */,
 				1D64100812C8E21C0030AA4C /* UKSyntaxColoredTextViewController.m in Sources */,
-				1D64100D12C8E3D90030AA4C /* JsonWindowController.m in Sources */,
+				1D64100D12C8E3D90030AA4C /* MHJsonWindowController.m in Sources */,
 				02216ECC14128D1200789BD1 /* MODCollection.m in Sources */,
 				02216ECD14128D1200789BD1 /* MODDatabase.m in Sources */,
 				02216ECE14128D1200789BD1 /* MODQuery.m in Sources */,

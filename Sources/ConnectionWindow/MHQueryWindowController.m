@@ -12,7 +12,7 @@
 #import "DatabasesArrayController.h"
 #import "MHResultsOutlineViewController.h"
 #import "NSString+Extras.h"
-#import "JsonWindowController.h"
+#import "MHJsonWindowController.h"
 #import "MOD_public.h"
 #import "MODHelper.h"
 #import "MODJsonParser.h"
@@ -536,7 +536,7 @@
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(findQuery:) name:kJsonWindowSaved object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(jsonWindowWillClose:) name:kJsonWindowWillClose object:nil];
         //NSLog(@"%@", [findResultsViewController rootForItem:selectedItem]);
-        JsonWindowController *jsonWindowController = [[JsonWindowController alloc] init];
+        MHJsonWindowController *jsonWindowController = [[MHJsonWindowController alloc] init];
         jsonWindowController.mongoCollection = _mongoCollection;
         jsonWindowController.jsonDict = [findResultsViewController rootForItem:selectedItem];
         [jsonWindowController showWindow:sender];

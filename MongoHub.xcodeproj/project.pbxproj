@@ -310,7 +310,6 @@
 		02AA29921477F8BD0041865F /* MHFileExporter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MHFileExporter.m; sourceTree = "<group>"; };
 		02AB057A142971CE00B7CD19 /* MODObjectId.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MODObjectId.m; sourceTree = "<group>"; };
 		02AB057B142971CE00B7CD19 /* MODObjectId.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MODObjectId.h; sourceTree = "<group>"; };
-		02AC8E1E151C6E5700F7531B /* env_default.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = env_default.c; sourceTree = "<group>"; };
 		02AC8E1F151C6E5700F7531B /* env_posix.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = env_posix.c; sourceTree = "<group>"; };
 		02AC8E21151C6E5700F7531B /* env.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = env.h; sourceTree = "<group>"; };
 		02B143DA147C720D005AB320 /* MHFileImporter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MHFileImporter.h; sourceTree = "<group>"; };
@@ -842,7 +841,6 @@
 				02D5A880144207CF00C7768C /* bson.h */,
 				02D5A881144207CF00C7768C /* encoding.c */,
 				02D5A882144207CF00C7768C /* encoding.h */,
-				02AC8E1E151C6E5700F7531B /* env_default.c */,
 				02AC8E1F151C6E5700F7531B /* env_posix.c */,
 				02AC8E21151C6E5700F7531B /* env.h */,
 				02D5A883144207CF00C7768C /* gridfs.c */,

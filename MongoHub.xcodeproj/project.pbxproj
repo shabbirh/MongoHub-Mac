@@ -44,6 +44,7 @@
 		025C563214350DEF0064B010 /* MODRegex.m in Sources */ = {isa = PBXBuildFile; fileRef = 025C562A14350DEF0064B010 /* MODRegex.m */; };
 		025C563414350DEF0064B010 /* MODDBRef.m in Sources */ = {isa = PBXBuildFile; fileRef = 025C562E14350DEF0064B010 /* MODDBRef.m */; };
 		025C563514350DEF0064B010 /* MODBinary.m in Sources */ = {isa = PBXBuildFile; fileRef = 025C563014350DEF0064B010 /* MODBinary.m */; };
+		025F635215AE21F300CD0EB4 /* NSViewHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 025F635115AE21F300CD0EB4 /* NSViewHelpers.m */; };
 		0262CA3C148C14A8009033F9 /* MHTabItemViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0262CA3A148C14A8009033F9 /* MHTabItemViewController.m */; };
 		0262CA3F148C1838009033F9 /* MHConnectionWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0262CA3E148C1838009033F9 /* MHConnectionWindowController.m */; };
 		026B2DE513BB6FB8009BEA7B /* RegexKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 026B2DE413BB6FB8009BEA7B /* RegexKit.framework */; };
@@ -288,6 +289,8 @@
 		025C562F14350DEF0064B010 /* MODDBRef.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MODDBRef.h; sourceTree = "<group>"; };
 		025C563014350DEF0064B010 /* MODBinary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MODBinary.m; sourceTree = "<group>"; };
 		025C563114350DEF0064B010 /* MODBinary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MODBinary.h; sourceTree = "<group>"; };
+		025F635015AE21F300CD0EB4 /* NSViewHelpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSViewHelpers.h; sourceTree = "<group>"; };
+		025F635115AE21F300CD0EB4 /* NSViewHelpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSViewHelpers.m; sourceTree = "<group>"; };
 		0262CA39148C14A8009033F9 /* MHTabItemViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MHTabItemViewController.h; sourceTree = "<group>"; };
 		0262CA3A148C14A8009033F9 /* MHTabItemViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MHTabItemViewController.m; sourceTree = "<group>"; };
 		0262CA3E148C1838009033F9 /* MHConnectionWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MHConnectionWindowController.m; sourceTree = "<group>"; };
@@ -470,7 +473,7 @@
 		1D64100412C8E1C00030AA4C /* NSScanner+SkipUpToCharset.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSScanner+SkipUpToCharset.m"; sourceTree = "<group>"; };
 		1D64100612C8E21C0030AA4C /* UKSyntaxColoredTextViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UKSyntaxColoredTextViewController.h; sourceTree = "<group>"; };
 		1D64100712C8E21C0030AA4C /* UKSyntaxColoredTextViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UKSyntaxColoredTextViewController.m; sourceTree = "<group>"; };
-		1D64100B12C8E3D90030AA4C /* MHJsonWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; path = MHJsonWindowController.h; sourceTree = "<group>"; };
+		1D64100B12C8E3D90030AA4C /* MHJsonWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MHJsonWindowController.h; sourceTree = "<group>"; };
 		1D64100C12C8E3D90030AA4C /* MHJsonWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MHJsonWindowController.m; sourceTree = "<group>"; };
 		1D64100E12C8E6BE0030AA4C /* MHJsonWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MHJsonWindow.xib; sourceTree = "<group>"; };
 		1D799453118755EE009C187F /* AddDBController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddDBController.h; sourceTree = "<group>"; };
@@ -1149,6 +1152,8 @@
 				1D64100412C8E1C00030AA4C /* NSScanner+SkipUpToCharset.m */,
 				024F678E1427F3DE00956BF6 /* MODHelper.h */,
 				024F678F1427F3DE00956BF6 /* MODHelper.m */,
+				025F635015AE21F300CD0EB4 /* NSViewHelpers.h */,
+				025F635115AE21F300CD0EB4 /* NSViewHelpers.m */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -1517,6 +1522,7 @@
 				026B949814BC214800BA0688 /* MODUndefined.m in Sources */,
 				02AC8E23151C6E7300F7531B /* env_posix.c in Sources */,
 				025B8F0C1531C76E00849A71 /* MHTabTitleContainerView.m in Sources */,
+				025F635215AE21F300CD0EB4 /* NSViewHelpers.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

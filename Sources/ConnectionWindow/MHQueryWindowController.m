@@ -17,6 +17,7 @@
 #import "MODHelper.h"
 #import "MODJsonParser.h"
 #import "MHConnectionStore.h"
+#import "NSViewHelpers.h"
 
 @implementation MHQueryWindowController
 
@@ -226,6 +227,8 @@
     }
     [findQueryLoaderIndicator start];
     [_mongoCollection findWithCriteria:criteria fields:fields skip:[_skipTextField intValue] limit:limit sort:sort callback:^(NSArray *documents, MODQuery *mongoQuery) {
+        NSColor *currentColor;
+        
         if (mongoQuery.error) {
             [findQueryLoaderIndicator stop];
             NSRunAlertPanel(@"Error", [mongoQuery.error localizedDescription], @"OK", nil, nil);
@@ -239,6 +242,10 @@
                 [totalResultsTextField setStringValue:[NSString stringWithFormat:@"Total Results: %lld (%0.2fs)", count, [[mongoQuery.userInfo objectForKey:@"timequery"] duration]]];
             }];
         }
+        [NSViewHelpers cancelColorForTarget:totalResultsTextField selector:@selector(setTextColor:)];
+        currentColor = totalResultsTextField.textColor;
+        totalResultsTextField.textColor = [NSColor redColor];
+        [NSViewHelpers setColor:currentColor fromColor:[NSColor redColor] toTarget:totalResultsTextField withSelector:@selector(setTextColor:) delay:1];
     }];
     [fields release];
     [queryTitle release];
@@ -260,7 +267,13 @@
     
     [updateQueryLoaderIndicator start];
     [_mongoCollection countWithCriteria:criteria callback:^(int64_t count, MODQuery *mongoQuery) {
+        NSColor *currentColor;
+        
         [updateResultsTextField setStringValue:[NSString stringWithFormat:@"Affected Rows: %lld", count]];
+        [NSViewHelpers cancelColorForTarget:updateResultsTextField selector:@selector(setTextColor:)];
+        currentColor = updateResultsTextField.textColor;
+        updateResultsTextField.textColor = [NSColor redColor];
+        [NSViewHelpers setColor:currentColor fromColor:[NSColor redColor] toTarget:updateResultsTextField withSelector:@selector(setTextColor:) delay:1];
     }];
     [_mongoCollection updateWithCriteria:criteria update:[updateSetTextField stringValue] upsert:[upsetCheckBox state] multiUpdate:YES callback:^(MODQuery *mongoQuery) {
         [updateQueryLoaderIndicator stop];
@@ -276,10 +289,16 @@
         [alert beginSheetModalForWindow:self.view.window modalDelegate:nil didEndSelector:nil contextInfo:nil];
     } else {
         [removeQueryLoaderIndicator start];
-        NSString *criteria = [removeCriticalTextField stringValue];
+        NSString *criteria = [[removeCriticalTextField stringValue] stringByTrimmingWhitespace];
         
         [_mongoCollection countWithCriteria:criteria callback:^(int64_t count, MODQuery *mongoQuery) {
+            NSColor *currentColor;
+            
             [removeResultsTextField setStringValue:[NSString stringWithFormat:@"Affected Rows: %lld", count]];
+            [NSViewHelpers cancelColorForTarget:removeResultsTextField selector:@selector(setTextColor:)];
+            currentColor = removeResultsTextField.textColor;
+            removeResultsTextField.textColor = [NSColor redColor];
+            [NSViewHelpers setColor:currentColor fromColor:[NSColor redColor] toTarget:removeResultsTextField withSelector:@selector(setTextColor:) delay:1];
         }];
         [_mongoCollection removeWithCriteria:criteria callback:^(MODQuery *mongoQuery) {
             [removeQueryLoaderIndicator stop];
@@ -295,13 +314,22 @@
     [insertLoaderIndicator start];
     objects = [MODJsonToObjectParser objectsFromJson:[insertDataTextView string] error:&error];
     if (error) {
+        NSColor *currentColor;
+        
         [insertLoaderIndicator stop];
         NSRunAlertPanel(@"Error", [error localizedDescription], @"OK", nil, nil);
+        insertResultsTextField.stringValue = @"Parsing error";
+        [NSViewHelpers cancelColorForTarget:insertResultsTextField selector:@selector(setTextColor:)];
+        currentColor = insertResultsTextField.textColor;
+        insertResultsTextField.textColor = [NSColor redColor];
+        [NSViewHelpers setColor:currentColor fromColor:[NSColor redColor] toTarget:insertResultsTextField withSelector:@selector(setTextColor:) delay:1];
     } else {
         if ([objects isKindOfClass:[MODSortedMutableDictionary class]]) {
             objects = [NSArray arrayWithObject:objects];
         }
         [_mongoCollection insertWithDocuments:objects callback:^(MODQuery *mongoQuery) {
+            NSColor *currentColor;
+            
             [insertLoaderIndicator stop];
             if (mongoQuery.error) {
                 NSRunAlertPanel(@"Error", [mongoQuery.error localizedDescription], @"OK", nil, nil);
@@ -309,6 +337,10 @@
             } else {
                 [insertResultsTextField setStringValue:@"Completed!"];
             }
+            [NSViewHelpers cancelColorForTarget:insertResultsTextField selector:@selector(setTextColor:)];
+            currentColor = insertResultsTextField.textColor;
+            insertResultsTextField.textColor = [NSColor redColor];
+            [NSViewHelpers setColor:currentColor fromColor:[NSColor redColor] toTarget:insertResultsTextField withSelector:@selector(setTextColor:) delay:1];
         }];
     }
 }

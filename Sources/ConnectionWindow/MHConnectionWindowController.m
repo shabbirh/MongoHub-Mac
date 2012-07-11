@@ -510,7 +510,7 @@
 - (IBAction)dropDBorCollection:(id)sender
 {
     if ([self selectedCollectionItem]) {
-        [self dropWarning:[NSString stringWithFormat:@"COLLECTION:%@", [[[self selectedCollectionItem] mongoCollection] collectionName]]];
+        [self dropWarning:[NSString stringWithFormat:@"COLLECTION:%@", [[[self selectedCollectionItem] mongoCollection] absoluteCollectionName]]];
     }else {
         [self dropWarning:[NSString stringWithFormat:@"DB:%@", [[self selectedDatabaseItem].mongoDatabase databaseName]]];
     }

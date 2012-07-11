@@ -47,7 +47,6 @@ static NSString *keyForTargetAndSelector(id target, NSString *selector)
     NSString *infoKey;
     
     infoKey = keyForTargetAndSelector(target, NSStringFromSelector(selector));
-    NSLog(@"infoKey %@", infoKey);
     info = [colorInfo objectForKey:infoKey];
     if (info) {
         [info setObject:[NSNumber numberWithBool:YES] forKey:@"cancel"];

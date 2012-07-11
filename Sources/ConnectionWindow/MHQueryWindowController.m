@@ -289,7 +289,7 @@
         [alert beginSheetModalForWindow:self.view.window modalDelegate:nil didEndSelector:nil contextInfo:nil];
     } else {
         [removeQueryLoaderIndicator start];
-        NSString *criteria = [[removeCriticalTextField stringValue] stringByTrimmingWhitespace];
+        NSString *criteria = [removeCriticalTextField stringValue];
         
         [_mongoCollection countWithCriteria:criteria callback:^(int64_t count, MODQuery *mongoQuery) {
             NSColor *currentColor;

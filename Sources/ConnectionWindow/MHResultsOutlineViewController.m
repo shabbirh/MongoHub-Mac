@@ -30,6 +30,20 @@
 - (void)awakeFromNib
 {
     [_outlineView selectRowIndexes:[NSIndexSet indexSetWithIndex:0] byExtendingSelection:NO];
+    [_outlineView setDraggingSourceOperationMask:NSDragOperationCopy forLocal:NO];
+}
+
+- (NSArray *)selectedDocuments
+{
+    NSMutableArray *documents;
+    
+    documents = [NSMutableArray array];
+    [[_outlineView selectedRowIndexes] enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL *stop) {
+        id currentItem = [_outlineView itemAtRow:idx];
+        
+        [documents addObject:[self rootForItem:currentItem]];
+    }];
+    return documents;
 }
 
 #pragma mark -
@@ -62,8 +76,7 @@
 }
 
 // Returns the number of child items encompassed by a given item.
-- (int)outlineView:(NSOutlineView *)outlineView
-numberOfChildrenOfItem:(id)item
+- (int)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(id)item
 {
     // If the item is the root item, return the number of mailboxes
     if ([outlineView levelForItem:item] == -1) {
@@ -74,76 +87,60 @@ numberOfChildrenOfItem:(id)item
 }
 
 // Return the data object associated with the specified item.
-- (id)outlineView:(NSOutlineView *)outlineView
-objectValueForTableColumn:(NSTableColumn *)tableColumn
-           byItem:(id)item
+- (id)outlineView:(NSOutlineView *)outlineView objectValueForTableColumn:(NSTableColumn *)tableColumn byItem:(id)item
 {
-    if([[tableColumn identifier] isEqualToString:@"name"])
-    {
+    if ([[tableColumn identifier] isEqualToString:@"name"]) {
         return [item objectForKey:@"name"];
-    }
-    
-    else if([[tableColumn identifier] isEqualToString:@"value"])
+    } else if([[tableColumn identifier] isEqualToString:@"value"]) {
         return [item objectForKey:@"value"];
-    else if([[tableColumn identifier] isEqualToString:@"type"])
+    } else if([[tableColumn identifier] isEqualToString:@"type"]) {
         return [item objectForKey:@"type"];
-    /*switch([outlineView levelForItem:item])
-    {
-            // If the item is a root-level item 
-        case 0:
-            if([[tableColumn identifier] isEqualToString:@"name"])
-                return [item objectForKey:@"name" ];
-            break;
-            
-        case 1:
-            if([[tableColumn identifier] isEqualToString:@"name"])
-            {
-                return [item objectForKey:@"name"];
-            }
-            
-            else if([[tableColumn identifier] isEqualToString:@"value"])
-                return [item objectForKey:@"value"];
-            else if([[tableColumn identifier] isEqualToString:@"type"])
-                return [item objectForKey:@"type"];
-            break;
-    }*/
-    
+    }
     return nil;
 }
 
-- (id)selectedItem
+- (BOOL)outlineView:(NSOutlineView *)outlineView writeItems:(NSArray *)items toPasteboard:(NSPasteboard *)pasteboard
 {
-    NSInteger index = [_outlineView selectedRow];
-    id item = nil;
-  
-    if (index != NSNotFound) {
-        item = [_outlineView itemAtRow:index];
+    NSMutableString *string;
+    
+    string = [[NSMutableString alloc] init];
+    for (NSDictionary *item in items) {
+        [string appendString:[[self rootForItem:item] objectForKey:@"beautified"]];
+        [string appendString:@"\n"];
     }
-    return item;
+    [pasteboard setString:string forType:NSStringPboardType];
+    [pasteboard setString:[NSString stringWithFormat:@"%p", self] forType:@"OutlineViewControllerAddress"];
+    return YES;
 }
 
-- (id)selectedDocument
+- (NSDragOperation)outlineView:(NSOutlineView *)outlineView validateDrop:(id < NSDraggingInfo >)info proposedItem:(id)item proposedChildIndex:(NSInteger)index
 {
-    return [self rootForItem:[self selectedItem]];
+    // Add code here to validate the drop
+    return NSDragOperationNone;
+}
+
+- (BOOL)outlineView:(NSOutlineView *)outlineView acceptDrop:(id < NSDraggingInfo >)info item:(id)item childIndex:(NSInteger)index{
+    return NO;
 }
 
 #pragma mark -
 #pragma mark NSOutlineView delegate methods
-- (void)outlineViewSelectionDidChange:(NSNotification *)notification
+- (void)outlineViewSelectionIsChanging:(NSNotification *)notification
 {
-    switch ([_outlineView selectedRow]) {
-        case -1:
-            break;
-        default:{
-            break;
-            id currentItem = [_outlineView itemAtRow:[_outlineView selectedRow]];
-            if ([_outlineView isItemExpanded:currentItem]) {
-                [_outlineView collapseItem:currentItem collapseChildren:NO];
-            }else {
-                [_outlineView expandItem:currentItem expandChildren:NO];
+    if (!_checkingSelection) {
+        _checkingSelection = YES;
+        [[_outlineView selectedRowIndexes] enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL *stop) {
+            id currentItem = [_outlineView itemAtRow:idx];
+            
+            if ([currentItem objectForKey:@"objectvalue"] == nil) {
+                NSIndexSet *indexSet;
+                
+                [_outlineView deselectRow:idx];
+                indexSet = [[NSIndexSet alloc] initWithIndex:[_outlineView rowForItem:[self rootForItem:currentItem]]];
+                [_outlineView selectRowIndexes:indexSet byExtendingSelection:YES];
             }
-            break;
-        }
+        }];
+        _checkingSelection = NO;
     }
 }
 

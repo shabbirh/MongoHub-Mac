@@ -40,6 +40,8 @@ This project is very new. Any issues or bug reports are welcome. And I still don
     - Fix: Making sure the collection outline selection always match the collection tab selection (to make sure Fred doesn't make any mistake)
     - Fix: a blank query will not remove documents anymore. Please use at least '{}'
     - Fix: problem to import documents with array in it https://github.com/fotonauts/MongoHub-Mac/issues/39
+    - Adding multiple document selection
+    - Adding document drag
 
 ## History
 

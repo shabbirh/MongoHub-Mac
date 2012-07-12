@@ -11,14 +11,14 @@
 
 @interface MHResultsOutlineViewController : NSObject
 {
-    IBOutlet NSOutlineView *_outlineView;
-    NSMutableArray *_results;
+    IBOutlet NSOutlineView      *_outlineView;
+    NSMutableArray              *_results;
+    BOOL                        _checkingSelection;
 }
 
 @property (nonatomic, retain, readonly) NSOutlineView *outlineView;
 @property (nonatomic, retain, readwrite) NSArray *results;
-@property (nonatomic, assign, readonly) id selectedItem;
-@property (nonatomic, assign, readonly) id selectedDocument;
+@property (nonatomic, assign, readonly) NSArray *selectedDocuments;
 
 - (id)rootForItem:(id)item;
 

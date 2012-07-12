@@ -385,14 +385,19 @@
 
 - (IBAction) dropIndex:(id)sender
 {
+    NSArray *indexes;
+    
     [indexLoaderIndicator start];
-    [_mongoCollection dropIndex:[[indexesOutlineViewController.selectedDocument objectForKey:@"objectvalue"] objectForKey:@"key"] callback:^(MODQuery *mongoQuery) {
-        if (mongoQuery.error) {
-            NSRunAlertPanel(@"Error", [mongoQuery.error localizedDescription], @"OK", nil, nil);
-        }
-        [indexLoaderIndicator stop];
-        [self indexQuery:nil];
-    }];
+    indexes = indexesOutlineViewController.selectedDocuments;
+    if (indexes.count == 1) {
+        [_mongoCollection dropIndex:[[[indexes objectAtIndex:0] objectForKey:@"objectvalue"] objectForKey:@"key"] callback:^(MODQuery *mongoQuery) {
+            if (mongoQuery.error) {
+                NSRunAlertPanel(@"Error", [mongoQuery.error localizedDescription], @"OK", nil, nil);
+            }
+            [indexLoaderIndicator stop];
+            [self indexQuery:nil];
+        }];
+    }
 }
 
 - (IBAction) mapReduce:(id)sender
@@ -406,25 +411,30 @@
 
 - (IBAction)removeRecord:(id)sender
 {
-    id selectedItem;
+    NSMutableArray *documentIds;
+    MODSortedMutableDictionary *criteria;
+    MODSortedMutableDictionary *inCriteria;
     
-    selectedItem = findResultsViewController.selectedItem;
-    if (selectedItem != nil)
-    {
-        MODSortedMutableDictionary *criteria;
-        //NSLog(@"%@", [findResultsViewController rootForItem:selectedItem]);
-        [removeQueryLoaderIndicator start];
-        
-        criteria = [[MODSortedMutableDictionary alloc] initWithObjectsAndKeys:[selectedItem objectForKey:@"objectvalueid"], @"_id", nil];
-        [_mongoCollection removeWithCriteria:criteria callback:^(MODQuery *mongoQuery) {
-            if (mongoQuery.error) {
-                NSRunAlertPanel(@"Error", [mongoQuery.error localizedDescription], @"OK", nil, nil);
-            }
-            [removeQueryLoaderIndicator stop];
-            [self findQuery:nil];
-        }];
-        [criteria release];
+    [removeQueryLoaderIndicator start];
+    documentIds = [[NSMutableArray alloc] init];
+    for (NSDictionary *document in findResultsViewController.selectedDocuments) {
+        [documentIds addObject:[document objectForKey:@"objectvalueid"]];
     }
+    
+    inCriteria = [[MODSortedMutableDictionary alloc] initWithObjectsAndKeys:documentIds, @"$in", nil];
+    criteria = [[MODSortedMutableDictionary alloc] initWithObjectsAndKeys:inCriteria, @"_id", nil];
+    [_mongoCollection removeWithCriteria:criteria callback:^(MODQuery *mongoQuery) {
+        if (mongoQuery.error) {
+            NSRunAlertPanel(@"Error", [mongoQuery.error localizedDescription], @"OK", nil, nil);
+        } else {
+            
+        }
+        [removeQueryLoaderIndicator stop];
+        [self findQuery:nil];
+    }];
+    [criteria release];
+    [documentIds release];
+    [inCriteria release];
 }
 
 - (void)controlTextDidChange:(NSNotification *)nd
@@ -570,28 +580,23 @@
 
 - (void)showEditWindow:(id)sender
 {
-    id selectedItem;
-    
-    selectedItem = findResultsViewController.selectedItem;
-    if (selectedItem != nil) {
+    for (NSDictionary *document in findResultsViewController.selectedDocuments) {
         id idValue;
-        NSDictionary *jsonDict;
         id jsonWindowControllerKey;
         
         MHJsonWindowController *jsonWindowController;
         
-        jsonDict = [findResultsViewController rootForItem:selectedItem];
-        idValue = [jsonDict objectForKey:@"objectvalueid"];
+        idValue = [document objectForKey:@"objectvalueid"];
         if (idValue) {
             jsonWindowControllerKey = [MODServer convertObjectToJson:[MODSortedMutableDictionary sortedDictionaryWithObject:idValue forKey:@"_id"] pretty:NO];
         } else {
-            jsonWindowControllerKey = jsonDict;
+            jsonWindowControllerKey = document;
         }
         jsonWindowController = [_jsonWindowControllers objectForKey:jsonWindowControllerKey];
         if (!jsonWindowController) {
             jsonWindowController = [[MHJsonWindowController alloc] init];
             jsonWindowController.mongoCollection = _mongoCollection;
-            jsonWindowController.jsonDict = jsonDict;
+            jsonWindowController.jsonDict = document;
             [jsonWindowController showWindow:sender];
             [_jsonWindowControllers setObject:jsonWindowController forKey:jsonWindowControllerKey];
             [jsonWindowController release];

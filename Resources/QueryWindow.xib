@@ -491,6 +491,7 @@
 						<string key="NSFrame">{{22, 41}, {530, 22}}</string>
 						<reference key="NSSuperview" ref="460177029"/>
 						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="17262602">
 							<int key="NSCellFlags">68288064</int>
@@ -1076,6 +1077,7 @@
 						<string key="NSFrame">{{22, 39}, {530, 22}}</string>
 						<reference key="NSSuperview" ref="468870748"/>
 						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="205924935">
 							<int key="NSCellFlags">68288064</int>
@@ -1189,6 +1191,7 @@
 						<string key="NSFrame">{{20, 0}, {584, 455}}</string>
 						<reference key="NSSuperview" ref="92685492"/>
 						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView" ref="222084738"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<object class="NSMutableArray" key="NSTabViewItems">
 							<bool key="EncodedWithXMLCoder">YES</bool>
@@ -1343,7 +1346,7 @@
 																</object>
 															</object>
 															<double key="NSRowHeight">17</double>
-															<int key="NSTvFlags">-205520896</int>
+															<int key="NSTvFlags">-71303168</int>
 															<reference key="NSDelegate"/>
 															<reference key="NSDataSource"/>
 															<string key="NSAutosaveName">data-result-outlineview</string>
@@ -1404,6 +1407,7 @@
 											<string key="NSFrame">{{489, 5}, {75, 18}}</string>
 											<reference key="NSSuperview" ref="222084738"/>
 											<reference key="NSWindow"/>
+											<reference key="NSNextKeyView"/>
 											<bool key="NSEnabled">YES</bool>
 											<object class="NSButtonCell" key="NSCell" id="263057689">
 												<int key="NSCellFlags">-2080244224</int>
@@ -1528,7 +1532,7 @@
 											<reference key="NSNextKeyView" ref="801002076"/>
 											<bool key="NSEnabled">YES</bool>
 											<object class="NSTextFieldCell" key="NSCell" id="141517712">
-												<int key="NSCellFlags">68288064</int>
+												<int key="NSCellFlags">70385217</int>
 												<int key="NSCellFlags2">272761856</int>
 												<string key="NSContents"/>
 												<reference key="NSSupport" ref="26"/>

@@ -1,5 +1,5 @@
 //
-//  ConnectionWindowController.h
+//  MHConnectionWindowController.h
 //  MongoHub
 //
 //  Created by Syd on 10-4-25.
@@ -9,6 +9,7 @@
 #import <Cocoa/Cocoa.h>
 #import "MHServerItem.h"
 #import "MHTunnel.h"
+#import "MHTabViewController.h"
 
 @class BWSheetController;
 @class DatabasesArrayController;
@@ -18,18 +19,25 @@
 @class AuthWindowController;
 @class MHMysqlImportWindowController;
 @class MHMysqlExportWindowController;
-@class ResultsOutlineViewController;
+@class MHResultsOutlineViewController;
 @class MHConnectionStore;
 @class MODServer;
 @class MODDatabase;
 @class MODCollection;
 @class MODSortedMutableDictionary;
+@class MHTabTitleView;
+@class MHStatusViewController;
 
-@interface ConnectionWindowController : NSWindowController <MHTunnelDelegate>
+@interface MHConnectionWindowController : NSWindowController <MHTunnelDelegate>
 {
+    NSMutableDictionary *_tabItemControllers;
     IBOutlet NSMenu *createCollectionOrDatabaseMenu;
     IBOutlet DatabasesArrayController *_databaseStoreArrayController;
-    IBOutlet ResultsOutlineViewController *resultsOutlineViewController;
+    
+    MHStatusViewController *_statusViewController;
+    IBOutlet MHTabViewController *_tabViewController;
+    IBOutlet NSSplitView *_splitView;
+    
     MHServerItem *_serverItem;
     MHConnectionStore *_connectionStore;
     MODServer *_mongoServer;
@@ -53,10 +61,12 @@
     BOOL exitThread;
     BOOL monitorStopped;
     
+    IBOutlet NSView *_mainTabView;
+    IBOutlet MHTabTitleView *_tabTitleView;
+    
     MODSortedMutableDictionary *previousServerStatusForDelta;
 }
 
-@property (nonatomic, retain) ResultsOutlineViewController *resultsOutlineViewController;
 @property (nonatomic, retain) MHConnectionStore *connectionStore;
 @property (nonatomic, retain) MODServer *mongoServer;
 @property (nonatomic, retain) NSMutableArray *databases;
@@ -100,8 +110,11 @@
 - (IBAction)stopMonitor:(id)sender;
 @end
 
-@interface ConnectionWindowController(NSOutlineViewDataSource) <NSOutlineViewDataSource>
+@interface MHConnectionWindowController(NSOutlineViewDataSource) <NSOutlineViewDataSource>
 @end
 
-@interface ConnectionWindowController(MHServerItemDelegateCategory)<MHServerItemDelegate>
+@interface MHConnectionWindowController(MHServerItemDelegateCategory)<MHServerItemDelegate>
+@end
+
+@interface MHConnectionWindowController(MHTabViewControllerDelegate)<MHTabViewControllerDelegate>
 @end

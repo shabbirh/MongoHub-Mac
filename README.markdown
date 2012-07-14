@@ -30,11 +30,49 @@ This project is very new. Any issues or bug reports are welcome. And I still don
     - Should manage a list of database/user/password for each connections
     - Should save the password into the keychain
     - Create a document editor to edit using an outline view (like the plist editor in Xcode)
-    - Need a better UI to replace the tabs in a collection window
     
 ** Current **
 
+    - Fix: Some UTF8 characters became invisible while editing a document
+    - Fix: Some problems with updating colors while editing
+    - Open only one document window for each document
+    - Close all document windows when close a collection
+    - Fix: Making sure the collection outline selection always match the collection tab selection (to make sure Fred doesn't make any mistake)
+    - Fix: a blank query will not remove documents anymore. Please use at least '{}'
+    - Fix: problem to import documents with array in it https://github.com/fotonauts/MongoHub-Mac/issues/39
+    - Adding multiple document selection
+    - Adding document drag
+
 ## History
+
+** 2.5.1(95) - june 21, 2012 **
+
+    - Fix for https://github.com/fotonauts/MongoHub-Mac/issues/36 (open a second time the same database tab)
+    - Trying to make sure we don't make a mistake between the tab opened and the selection in the database outline view (special for fred)
+
+** 2.5(94) - may 27, 2012 **
+
+    - Fix for the limit and skip field (limited to 9999) https://github.com/fotonauts/MongoHub-Mac/issues/30
+    - Adding tabs
+
+** 2.4.19(93) - may 23, 2012 **
+
+    - Trying to keep type (integer and float) the same as much as possible (when editing a document) https://github.com/fotonauts/MongoHub-Mac/issues/35
+    - Crash fixed when opening a collection with documents that has no "_id" and "name" https://github.com/fotonauts/MongoHub-Mac/issues/24
+
+** 2.4.18(92) - may 10, 2012 **
+
+    - Fix crasher when error https://github.com/fotonauts/MongoHub-Mac/issues/31
+    - Fix to use an authenticated database
+
+** 2.4.17(91) - may 5, 2012 **
+
+    - Fix to parse binary values
+    - Fix to parse an hash with $type
+    - Changing "upset" to "upsert"
+    - Fix from billybobuk to get the database list when having auth
+    - Adding header in the data outline view
+    - Fix to add a document with structures inside an array (https://github.com/fotonauts/MongoHub-Mac/issues/28)
 
 ** 2.4.16(90) - jan 29, 2012 **
 

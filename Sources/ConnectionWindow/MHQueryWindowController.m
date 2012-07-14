@@ -10,13 +10,14 @@
 #import "NSProgressIndicator+Extras.h"
 #import "MHQueryWindowController.h"
 #import "DatabasesArrayController.h"
-#import "ResultsOutlineViewController.h"
+#import "MHResultsOutlineViewController.h"
 #import "NSString+Extras.h"
-#import "JsonWindowController.h"
+#import "MHJsonWindowController.h"
 #import "MOD_public.h"
 #import "MODHelper.h"
 #import "MODJsonParser.h"
 #import "MHConnectionStore.h"
+#import "NSViewHelpers.h"
 
 @implementation MHQueryWindowController
 
@@ -84,16 +85,14 @@
 @synthesize impProgressIndicator;
 
 
-- (id)init
++ (id)loadQueryController
 {
-    if (self = [super initWithWindowNibName:@"QueryWindow"]) {
-        
-    }
-    return self;
+    return [[[MHQueryWindowController alloc] initWithNibName:@"QueryWindow" bundle:nil] autorelease];
 }
 
 - (void)dealloc
 {
+    [_jsonWindowControllers release];
     [databasesArrayController release];
     [findResultsViewController release];
     [_mongoCollection release];
@@ -200,15 +199,10 @@
     return query;
 }
 
-- (void)windowDidLoad {
-    [super windowDidLoad];
-    NSString *title = [[NSString alloc] initWithFormat:@"Query in %@", _mongoCollection.absoluteCollectionName];
-    [self.window setTitle:title];
-    [title release];
-}
-
-- (void)windowWillClose:(NSNotification *)notification {
-    [self release];
+- (void)awakeFromNib
+{
+    self.title = _mongoCollection.absoluteCollectionName;
+    _jsonWindowControllers = [[NSMutableDictionary alloc] init];
 }
 
 - (IBAction)findQuery:(id)sender
@@ -233,6 +227,8 @@
     }
     [findQueryLoaderIndicator start];
     [_mongoCollection findWithCriteria:criteria fields:fields skip:[_skipTextField intValue] limit:limit sort:sort callback:^(NSArray *documents, MODQuery *mongoQuery) {
+        NSColor *currentColor;
+        
         if (mongoQuery.error) {
             [findQueryLoaderIndicator stop];
             NSRunAlertPanel(@"Error", [mongoQuery.error localizedDescription], @"OK", nil, nil);
@@ -240,14 +236,16 @@
             if ([queryTitle length] > 0) {
                 [_connectionStore addNewQuery:[NSDictionary dictionaryWithObjectsAndKeys:queryTitle, @"title", [_sortTextField stringValue], @"sort", [_fieldsTextField stringValue], @"fields", [_limitTextField stringValue], @"limit", [_skipTextField stringValue], @"skip", nil] withDatabaseName:_mongoCollection.databaseName collectionName:_mongoCollection.collectionName];
             }
-            [findResultsViewController.results removeAllObjects];
-            [findResultsViewController.results addObjectsFromArray:[MODHelper convertForOutlineWithObjects:documents]];
-            [findResultsViewController.myOutlineView reloadData];
+            findResultsViewController.results = [MODHelper convertForOutlineWithObjects:documents];
             [_mongoCollection countWithCriteria:criteria callback:^(int64_t count, MODQuery *mongoQuery) {
                 [findQueryLoaderIndicator stop];
                 [totalResultsTextField setStringValue:[NSString stringWithFormat:@"Total Results: %lld (%0.2fs)", count, [[mongoQuery.userInfo objectForKey:@"timequery"] duration]]];
             }];
         }
+        [NSViewHelpers cancelColorForTarget:totalResultsTextField selector:@selector(setTextColor:)];
+        currentColor = totalResultsTextField.textColor;
+        totalResultsTextField.textColor = [NSColor redColor];
+        [NSViewHelpers setColor:currentColor fromColor:[NSColor redColor] toTarget:totalResultsTextField withSelector:@selector(setTextColor:) delay:1];
     }];
     [fields release];
     [queryTitle release];
@@ -269,7 +267,13 @@
     
     [updateQueryLoaderIndicator start];
     [_mongoCollection countWithCriteria:criteria callback:^(int64_t count, MODQuery *mongoQuery) {
+        NSColor *currentColor;
+        
         [updateResultsTextField setStringValue:[NSString stringWithFormat:@"Affected Rows: %lld", count]];
+        [NSViewHelpers cancelColorForTarget:updateResultsTextField selector:@selector(setTextColor:)];
+        currentColor = updateResultsTextField.textColor;
+        updateResultsTextField.textColor = [NSColor redColor];
+        [NSViewHelpers setColor:currentColor fromColor:[NSColor redColor] toTarget:updateResultsTextField withSelector:@selector(setTextColor:) delay:1];
     }];
     [_mongoCollection updateWithCriteria:criteria update:[updateSetTextField stringValue] upsert:[upsetCheckBox state] multiUpdate:YES callback:^(MODQuery *mongoQuery) {
         [updateQueryLoaderIndicator stop];
@@ -278,15 +282,28 @@
 
 - (IBAction)removeQuery:(id)sender
 {
-    [removeQueryLoaderIndicator start];
-    NSString *criteria = [removeCriticalTextField stringValue];
-    
-    [_mongoCollection countWithCriteria:criteria callback:^(int64_t count, MODQuery *mongoQuery) {
-        [removeResultsTextField setStringValue:[NSString stringWithFormat:@"Affected Rows: %lld", count]];
-    }];
-    [_mongoCollection removeWithCriteria:criteria callback:^(MODQuery *mongoQuery) {
-        [removeQueryLoaderIndicator stop];
-    }];
+    if ([[removeCriticalTextField stringValue] stringByTrimmingWhitespace].length == 0) {
+        NSAlert *alert;
+        
+        alert = [NSAlert alertWithMessageText:@"If you want to remove all documents, write at least \"{}\"" defaultButton:@"OK" alternateButton:nil otherButton:nil informativeTextWithFormat:@"This is to make sure you don't do any mistakes too easily"];
+        [alert beginSheetModalForWindow:self.view.window modalDelegate:nil didEndSelector:nil contextInfo:nil];
+    } else {
+        [removeQueryLoaderIndicator start];
+        NSString *criteria = [removeCriticalTextField stringValue];
+        
+        [_mongoCollection countWithCriteria:criteria callback:^(int64_t count, MODQuery *mongoQuery) {
+            NSColor *currentColor;
+            
+            [removeResultsTextField setStringValue:[NSString stringWithFormat:@"Affected Rows: %lld", count]];
+            [NSViewHelpers cancelColorForTarget:removeResultsTextField selector:@selector(setTextColor:)];
+            currentColor = removeResultsTextField.textColor;
+            removeResultsTextField.textColor = [NSColor redColor];
+            [NSViewHelpers setColor:currentColor fromColor:[NSColor redColor] toTarget:removeResultsTextField withSelector:@selector(setTextColor:) delay:1];
+        }];
+        [_mongoCollection removeWithCriteria:criteria callback:^(MODQuery *mongoQuery) {
+            [removeQueryLoaderIndicator stop];
+        }];
+    }
 }
 
 - (IBAction)insertQuery:(id)sender
@@ -297,13 +314,22 @@
     [insertLoaderIndicator start];
     objects = [MODJsonToObjectParser objectsFromJson:[insertDataTextView string] error:&error];
     if (error) {
+        NSColor *currentColor;
+        
         [insertLoaderIndicator stop];
         NSRunAlertPanel(@"Error", [error localizedDescription], @"OK", nil, nil);
+        insertResultsTextField.stringValue = @"Parsing error";
+        [NSViewHelpers cancelColorForTarget:insertResultsTextField selector:@selector(setTextColor:)];
+        currentColor = insertResultsTextField.textColor;
+        insertResultsTextField.textColor = [NSColor redColor];
+        [NSViewHelpers setColor:currentColor fromColor:[NSColor redColor] toTarget:insertResultsTextField withSelector:@selector(setTextColor:) delay:1];
     } else {
         if ([objects isKindOfClass:[MODSortedMutableDictionary class]]) {
             objects = [NSArray arrayWithObject:objects];
         }
         [_mongoCollection insertWithDocuments:objects callback:^(MODQuery *mongoQuery) {
+            NSColor *currentColor;
+            
             [insertLoaderIndicator stop];
             if (mongoQuery.error) {
                 NSRunAlertPanel(@"Error", [mongoQuery.error localizedDescription], @"OK", nil, nil);
@@ -311,6 +337,10 @@
             } else {
                 [insertResultsTextField setStringValue:@"Completed!"];
             }
+            [NSViewHelpers cancelColorForTarget:insertResultsTextField selector:@selector(setTextColor:)];
+            currentColor = insertResultsTextField.textColor;
+            insertResultsTextField.textColor = [NSColor redColor];
+            [NSViewHelpers setColor:currentColor fromColor:[NSColor redColor] toTarget:insertResultsTextField withSelector:@selector(setTextColor:) delay:1];
         }];
     }
 }
@@ -321,9 +351,7 @@
         if (mongoQuery.error) {
             NSRunAlertPanel(@"Error", [mongoQuery.error localizedDescription], @"OK", nil, nil);
         }
-        [indexesOutlineViewController.results removeAllObjects];
-        [indexesOutlineViewController.results addObjectsFromArray:[MODHelper convertForOutlineWithObjects:indexes]];
-        [indexesOutlineViewController.myOutlineView reloadData];
+        indexesOutlineViewController.results = [MODHelper convertForOutlineWithObjects:indexes];
     }];
 }
 
@@ -357,14 +385,19 @@
 
 - (IBAction) dropIndex:(id)sender
 {
+    NSArray *indexes;
+    
     [indexLoaderIndicator start];
-    [_mongoCollection dropIndex:[[indexesOutlineViewController.selectedDocument objectForKey:@"objectvalue"] objectForKey:@"key"] callback:^(MODQuery *mongoQuery) {
-        if (mongoQuery.error) {
-            NSRunAlertPanel(@"Error", [mongoQuery.error localizedDescription], @"OK", nil, nil);
-        }
-        [indexLoaderIndicator stop];
-        [self indexQuery:nil];
-    }];
+    indexes = indexesOutlineViewController.selectedDocuments;
+    if (indexes.count == 1) {
+        [_mongoCollection dropIndex:[[[indexes objectAtIndex:0] objectForKey:@"objectvalue"] objectForKey:@"key"] callback:^(MODQuery *mongoQuery) {
+            if (mongoQuery.error) {
+                NSRunAlertPanel(@"Error", [mongoQuery.error localizedDescription], @"OK", nil, nil);
+            }
+            [indexLoaderIndicator stop];
+            [self indexQuery:nil];
+        }];
+    }
 }
 
 - (IBAction) mapReduce:(id)sender
@@ -378,23 +411,30 @@
 
 - (IBAction)removeRecord:(id)sender
 {
-    if ([findResultsViewController.myOutlineView selectedRow] != -1)
-    {
-        MODSortedMutableDictionary *criteria;
-        id currentItem = [findResultsViewController.myOutlineView itemAtRow:[findResultsViewController.myOutlineView selectedRow]];
-        //NSLog(@"%@", [findResultsViewController rootForItem:currentItem]);
-        [removeQueryLoaderIndicator start];
-        
-        criteria = [[MODSortedMutableDictionary alloc] initWithObjectsAndKeys:[currentItem objectForKey:@"objectvalueid"], @"_id", nil];
-        [_mongoCollection removeWithCriteria:criteria callback:^(MODQuery *mongoQuery) {
-            if (mongoQuery.error) {
-                NSRunAlertPanel(@"Error", [mongoQuery.error localizedDescription], @"OK", nil, nil);
-            }
-            [removeQueryLoaderIndicator stop];
-            [self findQuery:nil];
-        }];
-        [criteria release];
+    NSMutableArray *documentIds;
+    MODSortedMutableDictionary *criteria;
+    MODSortedMutableDictionary *inCriteria;
+    
+    [removeQueryLoaderIndicator start];
+    documentIds = [[NSMutableArray alloc] init];
+    for (NSDictionary *document in findResultsViewController.selectedDocuments) {
+        [documentIds addObject:[document objectForKey:@"objectvalueid"]];
     }
+    
+    inCriteria = [[MODSortedMutableDictionary alloc] initWithObjectsAndKeys:documentIds, @"$in", nil];
+    criteria = [[MODSortedMutableDictionary alloc] initWithObjectsAndKeys:inCriteria, @"_id", nil];
+    [_mongoCollection removeWithCriteria:criteria callback:^(MODQuery *mongoQuery) {
+        if (mongoQuery.error) {
+            NSRunAlertPanel(@"Error", [mongoQuery.error localizedDescription], @"OK", nil, nil);
+        } else {
+            
+        }
+        [removeQueryLoaderIndicator stop];
+        [self findQuery:nil];
+    }];
+    [criteria release];
+    [documentIds release];
+    [inCriteria release];
 }
 
 - (void)controlTextDidChange:(NSNotification *)nd
@@ -540,27 +580,46 @@
 
 - (void)showEditWindow:(id)sender
 {
-    switch([findResultsViewController.myOutlineView selectedRow])
-    {
-        case -1:
-            break;
-        default:{
-            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(findQuery:) name:kJsonWindowSaved object:nil];
-            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(jsonWindowWillClose:) name:kJsonWindowWillClose object:nil];
-            id currentItem = [findResultsViewController.myOutlineView itemAtRow:[findResultsViewController.myOutlineView selectedRow]];
-            //NSLog(@"%@", [findResultsViewController rootForItem:currentItem]);
-            JsonWindowController *jsonWindowController = [[JsonWindowController alloc] init];
+    for (NSDictionary *document in findResultsViewController.selectedDocuments) {
+        id idValue;
+        id jsonWindowControllerKey;
+        
+        MHJsonWindowController *jsonWindowController;
+        
+        idValue = [document objectForKey:@"objectvalueid"];
+        if (idValue) {
+            jsonWindowControllerKey = [MODServer convertObjectToJson:[MODSortedMutableDictionary sortedDictionaryWithObject:idValue forKey:@"_id"] pretty:NO];
+        } else {
+            jsonWindowControllerKey = document;
+        }
+        jsonWindowController = [_jsonWindowControllers objectForKey:jsonWindowControllerKey];
+        if (!jsonWindowController) {
+            jsonWindowController = [[MHJsonWindowController alloc] init];
             jsonWindowController.mongoCollection = _mongoCollection;
-            jsonWindowController.jsonDict = [findResultsViewController rootForItem:currentItem];
+            jsonWindowController.jsonDict = document;
             [jsonWindowController showWindow:sender];
-            break;
+            [_jsonWindowControllers setObject:jsonWindowController forKey:jsonWindowControllerKey];
+            [jsonWindowController release];
+            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(findQuery:) name:kJsonWindowSaved object:jsonWindowController];
+            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(jsonWindowWillClose:) name:kJsonWindowWillClose object:jsonWindowController];
+        } else {
+            [jsonWindowController showWindow:self];
         }
     }
 }
 
-- (void)jsonWindowWillClose:(id)sender
+- (void)jsonWindowWillClose:(NSNotification *)notification
 {
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    MHJsonWindowController *jsonWindowController = notification.object;
+    id idValue;
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:nil object:notification.object];
+    idValue = [jsonWindowController.jsonDict objectForKey:@"objectvalueid"];
+    if (idValue) {
+        [_jsonWindowControllers removeObjectForKey:[MODServer convertObjectToJson:[MODSortedMutableDictionary sortedDictionaryWithObject:idValue forKey:@"_id"] pretty:NO]];
+    } else {
+        [_jsonWindowControllers removeObjectForKey:jsonWindowController.jsonDict];
+    }
 }
 
 - (IBAction)chooseExportPath:(id)sender
@@ -623,9 +682,7 @@
         if (errorMessage) {
             NSRunAlertPanel(@"Error", errorMessage, @"OK", nil, nil);
         } else {
-            [findResultsViewController.results removeAllObjects];
-            [findResultsViewController.results addObjectsFromArray:result];
-            [findResultsViewController.myOutlineView reloadData];
+            findResultsViewController.results = result;
         }
     }
 }

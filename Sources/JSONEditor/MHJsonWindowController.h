@@ -1,5 +1,5 @@
 //
-//  JsonWindowController.h
+//  MHJsonWindowController.h
 //  MongoHub
 //
 //  Created by Syd on 10-12-27.
@@ -18,7 +18,7 @@
 #define UKSCTD_DEFAULT_TEXTENCODING     NSUTF8StringEncoding
 #endif
 
-@interface JsonWindowController : NSWindowController <UKSyntaxColoredTextViewDelegate, MODQueryCallbackTarget>
+@interface MHJsonWindowController : NSWindowController <UKSyntaxColoredTextViewDelegate, MODQueryCallbackTarget>
 {
     DatabasesArrayController *databasesArrayController;
     MODServer *mongoServer;

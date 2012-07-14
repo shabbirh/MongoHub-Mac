@@ -1,19 +1,19 @@
 //
-//  JsonWindowController.m
+//  MHJsonWindowController.m
 //  MongoHub
 //
 //  Created by Syd on 10-12-27.
 //  Copyright 2010 ThePeppersStudio.COM. All rights reserved.
 //
 
-#import "JsonWindowController.h"
+#import "MHJsonWindowController.h"
 #import "Configure.h"
 #import "NSProgressIndicator+Extras.h"
 #import "DatabasesArrayController.h"
 #import "NSString+Extras.h"
 #import "MODCollection.h"
 
-@implementation JsonWindowController
+@implementation MHJsonWindowController
 @synthesize databasesArrayController;
 @synthesize mongoServer;
 @synthesize mongoCollection;
@@ -24,7 +24,7 @@
 
 - (id)init
 {
-    self = [super initWithWindowNibName:@"JsonWindow"];
+    self = [super initWithWindowNibName:@"MHJsonWindow"];
     return self;
 }
 
@@ -36,18 +36,15 @@
     [dbname release];
     [collectionname release];
     [jsonDict release];
-    [myTextView release];
     [syntaxColoringController setDelegate: nil];
     [syntaxColoringController release];
     syntaxColoringController = nil;
-    [progress release];
     [super dealloc];
 }
 
 - (void)windowWillClose:(NSNotification *)notification
 {
-    [[NSNotificationCenter defaultCenter] postNotificationName:kJsonWindowWillClose object:nil];
-    [super release];
+    [[NSNotificationCenter defaultCenter] postNotificationName:kJsonWindowWillClose object:self];
 }
 
 - (void)windowDidLoad {

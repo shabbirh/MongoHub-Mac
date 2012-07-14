@@ -804,10 +804,20 @@ static BOOL			sSyntaxColoredTextDocPrefsInited = NO;
 	if( syntaxColoringBusy )	// Prevent endless loop when recoloring's replacement of text causes processEditing to fire again.
 		return;
 	
+    [self performSelector:@selector(recolorAfterDelayWithRange:) withObject:NSStringFromRange(range) afterDelay:0];
+}
+
+- (void)recolorAfterDelayWithRange:(NSString *)string
+{
+    NSRange range;
+    NSArray *selectedRanges;
+	
+    range = NSRangeFromString(string);
 	if( TEXTVIEW == nil || range.length == 0	// Don't like doing useless stuff.
        || recolorTimer )						// And don't like recoloring partially if a full recolorization is pending.
 		return;
 	
+    selectedRanges = [TEXTVIEW selectedRanges];
 	@try
 	{
 		syntaxColoringBusy = YES;
@@ -913,8 +923,7 @@ static BOOL			sSyntaxColoredTextDocPrefsInited = NO;
 		if( [delegate respondsToSelector: @selector(textViewControllerDidFinishSyntaxRecoloring:)] )
 			[delegate textViewControllerDidFinishSyntaxRecoloring: self];
 		syntaxColoringBusy = NO;
-		[self textView: TEXTVIEW willChangeSelectionFromCharacterRange: [TEXTVIEW selectedRange]
-      toCharacterRange: [TEXTVIEW selectedRange]];
+        [TEXTVIEW setSelectedRanges:selectedRanges];
 	}
 }
 
@@ -1235,9 +1244,9 @@ static BOOL			sSyntaxColoredTextDocPrefsInited = NO;
 		{
 			// Look for start of identifier:
 			[vScanner scanUpToString: ident intoString: nil];
-			vStartOffs = [vScanner scanLocation];
 			if( ![vScanner scanString:ident intoString:nil] )
 				return;
+			vStartOffs = [vScanner scanLocation] - ident.length;
 			
 			if( vStartOffs > 0 )	// Check that we're not in the middle of an identifier:
 			{

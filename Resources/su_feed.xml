@@ -6,14 +6,12 @@
       <description>Most recent changes with links to updates.</description>
       <language>en</language>      
          <item>
-            <title>Version 2.4.16</title>
-            <enclosure url="http://cloud.github.com/downloads/fotonauts/MongoHub-Mac/MongoHub.zip" sparkle:version="90" sparkle:shortVersionString="2.4.16" length="3071327" sparkle:dsaSignature="MC0CFQC21jS0LEbfxr0D+NqwMFIy6lznsQIUC82usGRQ+F/rWY6PnzxpwzkSb3Q=" type="application/octet-stream" />
+            <title>Version 2.5.1</title>
+            <enclosure url="http://cloud.github.com/downloads/fotonauts/MongoHub-Mac/MongoHub.zip" sparkle:version="95" sparkle:shortVersionString="2.5.1" length="3128078" sparkle:dsaSignature="MC0CFQCowI1hnc5sD5sMynKMR3ZRuNazAQIUR94vilFocTOTvdObL6dtCh0q+xQ=" type="application/octet-stream" />
             <description><![CDATA[
 <ul>
-<li>Adding autosave for the connection list window</li>
-<li>Adding back the index icon</li>
-<li>Better error message when not having the authorization to get the server status</li>
-<li>Crash fixed when not having the authorization to get the server status</li>
+<li>Fix for <a href='https://github.com/fotonauts/MongoHub-Mac/issues/36'>https://github.com/fotonauts/MongoHub-Mac/issues/36</a> (open a second time the same database tab)</li>
+<li>Trying to make sure we don't make a mistake between the tab opened and the selection in the database outline view (special for fred)</li>
 </ul>
             ]]>
             </description>

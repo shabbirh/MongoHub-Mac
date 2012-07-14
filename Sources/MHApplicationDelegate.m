@@ -12,7 +12,7 @@
 #import "EditConnectionController.h"
 #import "ConnectionsArrayController.h"
 #import "ConnectionsCollectionView.h"
-#import "ConnectionWindowController.h"
+#import "MHConnectionWindowController.h"
 #import "MHConnectionStore.h"
 #import <Sparkle/Sparkle.h>
 
@@ -381,7 +381,7 @@
     if ([self isOpenedConnection:sender]) {
         return;
     }
-    ConnectionWindowController *connectionWindowController = [[ConnectionWindowController alloc] init];
+    MHConnectionWindowController *connectionWindowController = [[MHConnectionWindowController alloc] init];
     connectionWindowController.connectionStore = sender;
     [connectionWindowController showWindow:sender];
 }
@@ -391,7 +391,7 @@
     for (aWindow in [[NSApplication sharedApplication] windows])
     {
         id aDelegate = [aWindow delegate];
-        if ([aDelegate isKindOfClass:[ConnectionWindowController class]] && [aDelegate connectionStore] == aConnection) {
+        if ([aDelegate isKindOfClass:[MHConnectionWindowController class]] && [aDelegate connectionStore] == aConnection) {
             [aWindow makeKeyAndOrderFront:nil];
             return YES;
         }

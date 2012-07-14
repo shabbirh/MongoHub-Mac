@@ -1,5 +1,5 @@
 //
-//  ConnectionWindowController.m
+//  MHConnectionWindowController.m
 //  MongoHub
 //
 //  Created by Syd on 10-4-25.
@@ -9,14 +9,13 @@
 #import "Configure.h"
 #import "NSString+Extras.h"
 #import "NSProgressIndicator+Extras.h"
-#import "ConnectionWindowController.h"
+#import "MHConnectionWindowController.h"
 #import "MHQueryWindowController.h"
 #import "AddDBController.h"
 #import "AddCollectionController.h"
 #import "AuthWindowController.h"
 #import "MHMysqlImportWindowController.h"
 #import "MHMysqlExportWindowController.h"
-#import "ResultsOutlineViewController.h"
 #import "DatabasesArrayController.h"
 #import "StatMonitorTableController.h"
 #import "MHTunnel.h"
@@ -30,6 +29,8 @@
 #import "MHFileImporter.h"
 #import "MODHelper.h"
 #import "MOD_public.h"
+#import "MHStatusViewController.h"
+#import "MHTabViewController.h"
 
 #define SERVER_STATUS_TOOLBAR_ITEM_TAG              0
 #define DATABASE_STATUS_TOOLBAR_ITEM_TAG            1
@@ -40,7 +41,7 @@
 #define FILE_IMPORT_TOOLBAR_ITEM_TAG                6
 #define FILE_EXPORT_TOOLBAR_ITEM_TAG                7
 
-@interface ConnectionWindowController()
+@interface MHConnectionWindowController()
 - (void)updateToolbarItems;
 
 - (void)closeMongoDB;
@@ -52,14 +53,12 @@
 - (MODQuery *)getDatabaseList;
 - (MODQuery *)getCollectionListForDatabaseItem:(MHDatabaseItem *)databaseItem;
 
-- (MODQuery *)showServerStatus;
-- (MODQuery *)showDatabaseStatusWithDatabaseItem:(MHDatabaseItem *)databaseItem;
-- (MODQuery *)showCollectionStatusWithCollectionItem:(MHCollectionItem *)collectionItem;
+- (void)showDatabaseStatusWithDatabaseItem:(MHDatabaseItem *)databaseItem;
+- (void)showCollectionStatusWithCollectionItem:(MHCollectionItem *)collectionItem;
 @end
 
-@implementation ConnectionWindowController
+@implementation MHConnectionWindowController
 
-@synthesize resultsOutlineViewController;
 @synthesize connectionStore = _connectionStore;
 @synthesize mongoServer = _mongoServer;
 @synthesize loaderIndicator;
@@ -79,16 +78,19 @@
 
 - (id)init
 {
-    if (self = [super initWithWindowNibName:@"ConnectionWindow"]) {
+    if (self = [super initWithWindowNibName:@"MHConnectionWindow"]) {
         _databases = [[NSMutableArray alloc] init];
+        _tabItemControllers = [[NSMutableDictionary alloc] init];
     }
     return self;
 }
 
 - (void)dealloc
 {
+    [self.window removeObserver:self forKeyPath:@"firstResponder"];
+    [_tabViewController removeObserver:self forKeyPath:@"selectedTabIndex"];
+    [_tabItemControllers release];
     [self closeMongoDB];
-    [resultsOutlineViewController release];
     [_connectionStore release];
     [_databases release];
     [sshTunnel release];
@@ -103,6 +105,7 @@
     [authWindowController release];
     [_mysqlImportWindowController release];
     [_mysqlExportWindowController release];
+    [_statusViewController release];
     [super dealloc];
 }
 
@@ -119,6 +122,12 @@
 
 - (void)awakeFromNib
 {
+    NSView *tabView = _tabViewController.view;
+    
+    [[_splitView.subviews objectAtIndex:1] addSubview:tabView];
+    tabView.frame = tabView.superview.bounds;
+    _statusViewController = [[MHStatusViewController loadNewViewController] retain];
+    [_tabViewController addTabItemViewController:_statusViewController];
     [_databaseCollectionOutlineView setDoubleAction:@selector(outlineViewDoubleClickAction:)];
     [self updateToolbarItems];
     
@@ -127,12 +136,45 @@
     } else {
         self.window.title = [NSString stringWithFormat:@"%@ [%@:%@]", [_connectionStore alias], [_connectionStore host], [_connectionStore hostport] ];
     }
+    [_tabViewController addObserver:self forKeyPath:@"selectedTabIndex" options:NSKeyValueObservingOptionNew context:nil];
+    [self.window addObserver:self forKeyPath:@"firstResponder" options:NSKeyValueObservingOptionNew context:nil];
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+    if ((object == _tabViewController && [keyPath isEqualToString:@"selectedTabIndex"])
+        || (object == self.window && [keyPath isEqualToString:@"firstResponder"] && self.window.firstResponder != _databaseCollectionOutlineView && self.window.firstResponder != self.window)) {
+// update the outline view selection if the tab changed, or if the first responder changed
+// don't do it if the first responder is the outline view or the windw, other we will lose the new user selection
+        id selectedTab = _tabViewController.selectedTabItemViewController;
+        
+        if ([selectedTab isKindOfClass:[MHQueryWindowController class]]) {
+            NSIndexSet *indexes = nil;
+            MHDatabaseItem *databaseOutlineViewItem;
+            MHCollectionItem *collectionOutlineViewItem;
+            
+            databaseOutlineViewItem = [_serverItem databaseItemWithName:[selectedTab mongoCollection].databaseName];
+            collectionOutlineViewItem = [databaseOutlineViewItem collectionItemWithName:[selectedTab mongoCollection].collectionName];
+            if (collectionOutlineViewItem) {
+                [_databaseCollectionOutlineView expandItem:databaseOutlineViewItem];
+                indexes = [[NSIndexSet alloc] initWithIndex:[_databaseCollectionOutlineView rowForItem:collectionOutlineViewItem]];
+            } else if (databaseOutlineViewItem) {
+                indexes = [[NSIndexSet alloc] initWithIndex:[_databaseCollectionOutlineView rowForItem:databaseOutlineViewItem]];
+            }
+            if (indexes) {
+                [_databaseCollectionOutlineView selectRowIndexes:indexes byExtendingSelection:NO];
+                [indexes release];
+            }
+        } else if ([selectedTab isKindOfClass:[MHStatusViewController class]]) {
+            
+        }
+    }
 }
 
 - (void)tunnelStatusChanged:(MHTunnel *)tunnel status:(NSString *)status
 {
     NSLog(@"SSH TUNNEL STATUS: %@", status);
-    if( [status isEqualToString: @"CONNECTED"] ){
+    if ([status isEqualToString: @"CONNECTED"]) {
         exitThread = YES;
         [self connect:YES];
     }
@@ -188,6 +230,8 @@
         [self closeMongoDB];
         _mongoServer = [[MODServer alloc] init];
         _serverItem = [[MHServerItem alloc] initWithMongoServer:_mongoServer delegate:self];
+        _statusViewController.mongoServer = _mongoServer;
+        _statusViewController.connectionStore = _connectionStore;
         if ([_connectionStore.adminuser length] > 0 && [_connectionStore.adminpass length] > 0) {
             _mongoServer.userName = _connectionStore.adminuser;
             _mongoServer.password = _connectionStore.adminpass;
@@ -289,7 +333,6 @@
         [sshTunnel stop];
     }
     //exitThread = YES;
-    resultsOutlineViewController = nil;
     [super release];
 }
 
@@ -302,6 +345,10 @@
         [loaderIndicator stop];
         if (list != nil) {
             if ([_serverItem updateChildrenWithList:list]) {
+                [_databaseCollectionOutlineView reloadData];
+            }
+        } else if (_connectionStore.defaultdb) {
+            if ([_serverItem updateChildrenWithList:[NSArray arrayWithObject:_connectionStore.defaultdb]]) {
                 [_databaseCollectionOutlineView reloadData];
             }
         } else if (mongoQuery.error) {
@@ -346,73 +393,37 @@
     return result;
 }
 
-- (MODQuery *)showServerStatus
+- (void)showDatabaseStatusWithDatabaseItem:(MHDatabaseItem *)databaseItem
 {
-    MODQuery *result;
-    
-    [loaderIndicator start];
-    [resultsTitle setStringValue:[NSString stringWithFormat:@"Server %@:%@ stats", _connectionStore.host, _connectionStore.hostport]];
-    result = [_mongoServer fetchServerStatusWithCallback:^(MODSortedMutableDictionary *serverStatus, MODQuery *mongoQuery) {
-        [loaderIndicator stop];
-        if (_mongoServer == [mongoQuery.parameters objectForKey:@"mongoserver"]) {
-            [resultsOutlineViewController.results removeAllObjects];
-            if (serverStatus) {
-                [resultsOutlineViewController.results addObjectsFromArray:[MODHelper convertForOutlineWithObject:serverStatus]];
-            } else if (mongoQuery.error) {
-                [resultsOutlineViewController.results addObjectsFromArray:[NSArray arrayWithObject:[NSDictionary dictionaryWithObjectsAndKeys:[mongoQuery.error localizedDescription], @"value", @"error", @"name", nil]]];
-            }
-            [resultsOutlineViewController.myOutlineView reloadData];
-        }
-    }];
-    return result;
+    if (_statusViewController == nil) {
+        _statusViewController = [[MHStatusViewController loadNewViewController] retain];
+        _statusViewController.mongoServer = _mongoServer;
+        _statusViewController.connectionStore = _connectionStore;
+        [_tabViewController addTabItemViewController:_statusViewController];
+    }
+    [_statusViewController showDatabaseStatusWithDatabaseItem:databaseItem];
 }
 
-- (MODQuery *)showDatabaseStatusWithDatabaseItem:(MHDatabaseItem *)databaseItem
+- (void)showCollectionStatusWithCollectionItem:(MHCollectionItem *)collectionItem
 {
-    MODQuery *result;
-    
-    if (databaseItem) {
-        [loaderIndicator start];
-        [resultsTitle setStringValue:[NSString stringWithFormat:@"Database %@ stats", databaseItem.name]];
-        
-        result = [databaseItem.mongoDatabase fetchDatabaseStatsWithCallback:^(MODSortedMutableDictionary *databaseStats, MODQuery *mongoQuery) {
-            [loaderIndicator stop];
-            [resultsOutlineViewController.results removeAllObjects];
-            if (databaseStats) {
-                [resultsOutlineViewController.results addObjectsFromArray:[MODHelper convertForOutlineWithObject:databaseStats]];
-            } else if (mongoQuery.error) {
-                [resultsOutlineViewController.results addObjectsFromArray:[NSArray arrayWithObject:[NSDictionary dictionaryWithObjectsAndKeys:[mongoQuery.error localizedDescription], @"value", @"error", @"name", nil]]];
-            }
-            [resultsOutlineViewController.myOutlineView reloadData];
-        }];
+    if (_statusViewController == nil) {
+        _statusViewController = [[MHStatusViewController loadNewViewController] retain];
+        _statusViewController.mongoServer = _mongoServer;
+        _statusViewController.connectionStore = _connectionStore;
+        [_tabViewController addTabItemViewController:_statusViewController];
     }
-    return result;
-}
-
-- (MODQuery *)showCollectionStatusWithCollectionItem:(MHCollectionItem *)collectionItem
-{
-    MODQuery *result = nil;
-    
-    if (collectionItem) {
-        [loaderIndicator start];
-        [resultsTitle setStringValue:[NSString stringWithFormat:@"Collection %@.%@ stats", collectionItem.databaseItem.name, collectionItem.name]];
-        result = [collectionItem.mongoCollection fetchCollectionStatsWithCallback:^(MODSortedMutableDictionary *stats, MODQuery *mongoQuery) {
-            [loaderIndicator stop];
-            [resultsOutlineViewController.results removeAllObjects];
-            if (stats) {
-                [resultsOutlineViewController.results addObjectsFromArray:[MODHelper convertForOutlineWithObject:stats]];
-            } else if (mongoQuery.error) {
-                [resultsOutlineViewController.results addObjectsFromArray:[NSArray arrayWithObject:[NSDictionary dictionaryWithObjectsAndKeys:[mongoQuery.error localizedDescription], @"value", @"error", @"name", nil]]];
-            }
-            [resultsOutlineViewController.myOutlineView reloadData];
-        }];
-    }
-    return result;
+    [_statusViewController showCollectionStatusWithCollectionItem:collectionItem];
 }
 
 - (IBAction)showServerStatus:(id)sender 
 {
-    [self showServerStatus];
+    if (_statusViewController == nil) {
+        _statusViewController = [[MHStatusViewController loadNewViewController] retain];
+        _statusViewController.mongoServer = _mongoServer;
+        _statusViewController.connectionStore = _connectionStore;
+        [_tabViewController addTabItemViewController:_statusViewController];
+    }
+    [_statusViewController showServerStatus];
 }
 
 - (IBAction)showDatabaseStatus:(id)sender 
@@ -499,7 +510,7 @@
 - (IBAction)dropDBorCollection:(id)sender
 {
     if ([self selectedCollectionItem]) {
-        [self dropWarning:[NSString stringWithFormat:@"COLLECTION:%@", [[[self selectedCollectionItem] mongoCollection] collectionName]]];
+        [self dropWarning:[NSString stringWithFormat:@"COLLECTION:%@", [[[self selectedCollectionItem] mongoCollection] absoluteCollectionName]]];
     }else {
         [self dropWarning:[NSString stringWithFormat:@"DB:%@", [[self selectedDatabaseItem].mongoDatabase databaseName]]];
     }
@@ -520,6 +531,24 @@
                 [self getCollectionListForDatabaseName:dbname];
             }
         }];
+    }
+}
+
+- (void)keyDown:(NSEvent *)theEvent
+{
+    if ([theEvent.charactersIgnoringModifiers isEqualToString:@"w"] && (theEvent.modifierFlags & NSDeviceIndependentModifierFlagsMask) == (NSUInteger)(NSCommandKeyMask | NSControlKeyMask)) {
+        MHTabItemViewController *tabItemViewController;
+        
+        tabItemViewController = _tabViewController.selectedTabItemViewController;
+        if ([tabItemViewController isKindOfClass:[MHQueryWindowController class]]) {
+            [_tabItemControllers removeObjectForKey:[[(MHQueryWindowController *)tabItemViewController mongoCollection] absoluteCollectionName]];
+        } else if (tabItemViewController == _statusViewController) {
+            [_statusViewController release];
+            _statusViewController = nil;
+        }
+        [_tabViewController removeTabItemViewController:tabItemViewController];
+    } else {
+        [super keyDown:theEvent];
     }
 }
 
@@ -544,10 +573,17 @@
             [_databaseCollectionOutlineView collapseItem:[_databaseCollectionOutlineView itemAtRow:[_databaseCollectionOutlineView selectedRow]]];
         }
     } else {
-        MHQueryWindowController *queryWindowController = [[MHQueryWindowController alloc] init];
-        queryWindowController.mongoCollection = [self selectedCollectionItem].mongoCollection;
-        queryWindowController.connectionStore = _connectionStore;
-        [queryWindowController showWindow:sender];
+        MHQueryWindowController *queryWindowController;
+        
+        queryWindowController = [_tabItemControllers objectForKey:[[[self selectedCollectionItem] mongoCollection] absoluteCollectionName]];
+        if (queryWindowController == nil) {
+            queryWindowController = [MHQueryWindowController loadQueryController];
+            [_tabItemControllers setObject:queryWindowController forKey:[[[self selectedCollectionItem] mongoCollection] absoluteCollectionName]];
+            queryWindowController.mongoCollection = [self selectedCollectionItem].mongoCollection;
+            queryWindowController.connectionStore = _connectionStore;
+            [_tabViewController addTabItemViewController:queryWindowController];
+        }
+        [queryWindowController select];
     }
 }
 
@@ -811,7 +847,7 @@ static int percentage(NSNumber *previousValue, NSNumber *previousOutOfValue, NSN
 
 @end
 
-@implementation ConnectionWindowController(NSOutlineViewDataSource)
+@implementation MHConnectionWindowController(NSOutlineViewDataSource)
 
 - (NSInteger)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(id)item
 {
@@ -840,7 +876,7 @@ static int percentage(NSNumber *previousValue, NSNumber *previousOutOfValue, NSN
     return !item || [item isKindOfClass:[MHDatabaseItem class]];
 }
 
-- (id)outlineView:(NSOutlineView *)outlineView objectValueForTableColumn:(NSTableColumn *)tableColumn byItem:(id)item;
+- (id)outlineView:(NSOutlineView *)outlineView objectValueForTableColumn:(NSTableColumn *)tableColumn byItem:(id)item
 {
     return [item name];
 }
@@ -852,6 +888,11 @@ static int percentage(NSNumber *previousValue, NSNumber *previousOutOfValue, NSN
         
         [self getCollectionListForDatabaseItem:collectionItem.databaseItem];
         [self showCollectionStatusWithCollectionItem:collectionItem];
+        if ([_tabItemControllers objectForKey:[collectionItem.mongoCollection absoluteCollectionName]]) {
+            [[_tabItemControllers objectForKey:[collectionItem.mongoCollection absoluteCollectionName]] select];
+        } else {
+            [_statusViewController select];
+        }
     } else if ([self selectedDatabaseItem]) {
         MHDatabaseItem *databaseItem = [self selectedDatabaseItem];
         
@@ -883,7 +924,7 @@ static int percentage(NSNumber *previousValue, NSNumber *previousOutOfValue, NSN
 @end
 
 
-@implementation ConnectionWindowController (MHServerItemDelegateCategory)
+@implementation MHConnectionWindowController (MHServerItemDelegateCategory)
 
 - (id)mongoDatabaseWithDatabaseItem:(MHDatabaseItem *)item
 {
@@ -893,6 +934,20 @@ static int percentage(NSNumber *previousValue, NSNumber *previousOutOfValue, NSN
 - (id)mongoCollectionWithCollectionItem:(MHCollectionItem *)item
 {
     return [[self mongoDatabaseWithDatabaseItem:item.databaseItem] collectionForName:item.name];
+}
+
+@end
+
+@implementation MHConnectionWindowController(MHTabViewControllerDelegate)
+
+- (void)tabViewController:(MHTabViewController *)tabViewController didRemoveTabItem:(MHTabItemViewController *)tabItemViewController
+{
+    if (tabItemViewController == _statusViewController) {
+        [_statusViewController release];
+        _statusViewController = nil;
+    } else {
+        [_tabItemControllers removeObjectForKey:[(MHQueryWindowController *)tabItemViewController mongoCollection].absoluteCollectionName];
+    }
 }
 
 @end

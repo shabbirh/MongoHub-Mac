@@ -9,7 +9,7 @@
 #import "MHFileImporter.h"
 #import "MOD_public.h"
 
-#define BUFFER_SIZE (1024*1024*1024)
+#define BUFFER_SIZE (100*1024*1024)
 
 @implementation MHFileImporter
 

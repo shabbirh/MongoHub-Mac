@@ -30,8 +30,13 @@ This project is very new. Any issues or bug reports are welcome. And I still don
     - Should manage a list of database/user/password for each connections
     - Should save the password into the keychain
     - Create a document editor to edit using an outline view (like the plist editor in Xcode)
+    - Adding a progress bar for file export/import
     
 ** Current **
+
+## History
+
+** 2.5.2(96) - july 15, 2012 **
 
     - Fix: Some UTF8 characters became invisible while editing a document
     - Fix: Some problems with updating colors while editing
@@ -42,8 +47,6 @@ This project is very new. Any issues or bug reports are welcome. And I still don
     - Fix: problem to import documents with array in it https://github.com/fotonauts/MongoHub-Mac/issues/39
     - Adding multiple document selection
     - Adding document drag
-
-## History
 
 ** 2.5.1(95) - june 21, 2012 **
 

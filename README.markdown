@@ -30,7 +30,7 @@ This project is very new. Any issues or bug reports are welcome. And I still don
     - Should manage a list of database/user/password for each connections
     - Should save the password into the keychain
     - Create a document editor to edit using an outline view (like the plist editor in Xcode)
-    - Adding a progress bar for file export/import
+    - Need a progress bar for file export/import to know when it is done
     
 ** Current **
 

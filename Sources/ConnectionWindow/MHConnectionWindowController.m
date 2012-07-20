@@ -66,7 +66,7 @@
 @synthesize reconnectButton;
 @synthesize statMonitorTableController;
 @synthesize databases = _databases;
-@synthesize sshTunnel;
+@synthesize sshTunnel = _sshTunnel;
 @synthesize addDBController;
 @synthesize addCollectionController;
 @synthesize resultsTitle;
@@ -93,7 +93,7 @@
     [self closeMongoDB];
     [_connectionStore release];
     [_databases release];
-    [sshTunnel release];
+    [_sshTunnel release];
     [addDBController release];
     [addCollectionController release];
     [resultsTitle release];
@@ -171,15 +171,6 @@
     }
 }
 
-- (void)tunnelStatusChanged:(MHTunnel *)tunnel status:(NSString *)status
-{
-    NSLog(@"SSH TUNNEL STATUS: %@", status);
-    if ([status isEqualToString: @"CONNECTED"]) {
-        exitThread = YES;
-        [self connect:YES];
-    }
-}
-
 - (void)didConnect
 {
     [loaderIndicator stop];
@@ -205,25 +196,22 @@
     [reconnectButton setEnabled:NO];
     [monitorButton setEnabled:NO];
     if (!haveHostAddress && [_connectionStore.usessh intValue] == 1) {
-        NSString *portForward = [[NSString alloc] initWithFormat:@"L:%@:%@:%@:%@", _connectionStore.bindaddress, _connectionStore.bindport, _connectionStore.host, _connectionStore.hostport];
-        NSMutableArray *portForwardings = [[NSMutableArray alloc] initWithObjects:portForward, nil];
-        [portForward release];
-        if (!sshTunnel) {
-            sshTunnel =[[MHTunnel alloc] init];
+        _sshTunnelPort = [MHTunnel findFreeTCPPort];
+        if (!_sshTunnel) {
+            _sshTunnel = [[MHTunnel alloc] init];
         }
-        [sshTunnel setDelegate:self];
-        [sshTunnel setUser:_connectionStore.sshuser];
-        [sshTunnel setHost:_connectionStore.sshhost];
-        [sshTunnel setPassword:_connectionStore.sshpassword];
-        [sshTunnel setKeyfile:_connectionStore.sshkeyfile];
-        [sshTunnel setPort:[_connectionStore.sshport intValue]];
-        [sshTunnel setPortForwardings:portForwardings];
-        [sshTunnel setAliveCountMax:3];
-        [sshTunnel setAliveInterval:30];
-        [sshTunnel setTcpKeepAlive:YES];
-        [sshTunnel setCompression:YES];
-        [sshTunnel start];
-        [portForwardings release];
+        [_sshTunnel setDelegate:self];
+        [_sshTunnel setUser:_connectionStore.sshuser];
+        [_sshTunnel setHost:_connectionStore.sshhost];
+        [_sshTunnel setPassword:_connectionStore.sshpassword];
+        [_sshTunnel setKeyfile:_connectionStore.sshkeyfile];
+        [_sshTunnel setPort:[_connectionStore.sshport intValue]];
+        [_sshTunnel setAliveCountMax:3];
+        [_sshTunnel setAliveInterval:30];
+        [_sshTunnel setTcpKeepAlive:YES];
+        [_sshTunnel setCompression:YES];
+        [_sshTunnel addForwardingPortWithBindAddress:nil bindPort:_sshTunnelPort hostAddress:_connectionStore.host hostPort:[_connectionStore.hostport intValue] reverseForwarding:NO];
+        [_sshTunnel start];
         [pool drain];
         return;
     } else {
@@ -263,7 +251,7 @@
             NSString *hostaddress;
             
             if ([_connectionStore.usessh intValue] == 1) {
-                hostaddress = [[NSString alloc] initWithFormat:@"127.0.0.1:%@", _connectionStore.bindport];
+                hostaddress = [[NSString alloc] initWithFormat:@"127.0.0.1:%d", (int)_sshTunnelPort];
             } else {
                 hostaddress = [[NSString alloc] initWithFormat:@"%@:%@", _connectionStore.host, _connectionStore.hostport];
             }
@@ -283,7 +271,6 @@
 - (void)windowDidLoad
 {
     [super windowDidLoad];
-    exitThread = NO;
     NSString *appVersion = [[NSString alloc] initWithFormat:@"version(%@[%@])", [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"], [[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString*)kCFBundleVersionKey] ];
     [bundleVersion setStringValue: appVersion];
     [appVersion release];
@@ -310,17 +297,17 @@
 - (void)checkTunnel
 {
     NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-    while (!exitThread) {
+    while (!_exitThread) {
         [NSThread sleepForTimeInterval:3];
         @synchronized(self) {
-            if ([sshTunnel running] == NO){
-                [sshTunnel start];
-            } else if( [sshTunnel running] == YES && [sshTunnel checkProcess] == NO ){
-                [sshTunnel stop];
+            if (!_sshTunnel.isRunning) {
+                [_sshTunnel start];
+            } else if ( _sshTunnel.isRunning && [_sshTunnel checkProcess] == NO ){
+                [_sshTunnel stop];
                 [NSThread sleepForTimeInterval:2];
-                [sshTunnel start];
+                [_sshTunnel start];
             }
-            [sshTunnel readStatus];
+            [_sshTunnel readStatus];
         }
     }
     [pool drain];
@@ -329,11 +316,10 @@
 
 - (void)windowWillClose:(NSNotification *)notification
 {
-    if ([sshTunnel running]) {
-        [sshTunnel stop];
+    if (_sshTunnel.isRunning) {
+        [_sshTunnel stop];
     }
-    //exitThread = YES;
-    [super release];
+    [self release];
 }
 
 - (MODQuery *)getDatabaseList
@@ -948,6 +934,22 @@ static int percentage(NSNumber *previousValue, NSNumber *previousOutOfValue, NSN
     } else {
         [_tabItemControllers removeObjectForKey:[(MHQueryWindowController *)tabItemViewController mongoCollection].absoluteCollectionName];
     }
+}
+
+@end
+
+@implementation MHConnectionWindowController(MHTunnelDelegate)
+
+- (void)tunnelDidConnect:(MHTunnel *)tunnel
+{
+    NSLog(@"SSH TUNNEL STATUS: CONNECTED");
+    _exitThread = YES;
+    [self connect:YES];
+}
+
+- (void)tunnelDidFailToConnect:(MHTunnel *)tunnel withError:(NSError *)error;
+{
+    NSLog(@"SSH TUNNEL ERROR: %@", error);
 }
 
 @end

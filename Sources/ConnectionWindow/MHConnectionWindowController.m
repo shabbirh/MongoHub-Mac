@@ -272,9 +272,6 @@
     [bundleVersion setStringValue: appVersion];
     [appVersion release];
     [self connect:NO];
-    if ([_connectionStore.usessh intValue]==1) {
-        [NSThread detachNewThreadSelector: @selector(checkTunnel) toTarget:self withObject:nil ];
-    }
     [_databaseCollectionOutlineView setDoubleAction:@selector(sidebarDoubleAction:)];
 }
 
@@ -286,29 +283,6 @@
 - (IBAction)reconnect:(id)sender
 {
     [self connect:NO];
-    if ([_connectionStore.usessh intValue]==1) {
-        [NSThread detachNewThreadSelector: @selector(checkTunnel) toTarget:self withObject:nil ];
-    }
-}
-
-- (void)checkTunnel
-{
-    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-    while (!_exitThread) {
-        [NSThread sleepForTimeInterval:3];
-        @synchronized(self) {
-            if (!_sshTunnel.isRunning) {
-                [_sshTunnel start];
-            } else if ( _sshTunnel.isRunning && [_sshTunnel checkProcess] == NO ){
-                [_sshTunnel stop];
-                [NSThread sleepForTimeInterval:2];
-                [_sshTunnel start];
-            }
-            [_sshTunnel readStatus];
-        }
-    }
-    [pool drain];
-    [NSThread exit];
 }
 
 - (void)windowWillClose:(NSNotification *)notification
@@ -866,6 +840,7 @@ static int percentage(NSNumber *previousValue, NSNumber *previousOutOfValue, NSN
 
 - (void)outlineViewSelectionDidChange:(NSNotification *)notification
 {
+    NSLog(@"test 1");
     if ([self selectedCollectionItem]) {
         MHCollectionItem *collectionItem = [self selectedCollectionItem];
         
@@ -884,6 +859,7 @@ static int percentage(NSNumber *previousValue, NSNumber *previousOutOfValue, NSN
     }
     [self updateToolbarItems];
     [self getDatabaseList];
+    NSLog(@"test 2");
 }
 
 - (void)outlineView:(NSOutlineView *)outlineView willDisplayCell:(id)cell forTableColumn:(NSTableColumn *)tableColumn item:(id)item
@@ -940,7 +916,6 @@ static int percentage(NSNumber *previousValue, NSNumber *previousOutOfValue, NSN
 - (void)tunnelDidConnect:(MHTunnel *)tunnel
 {
     NSLog(@"SSH TUNNEL STATUS: CONNECTED");
-    _exitThread = YES;
     [self connect:YES];
 }
 

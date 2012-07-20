@@ -59,7 +59,6 @@
     MHMysqlImportWindowController *_mysqlImportWindowController;
     MHMysqlExportWindowController *_mysqlExportWindowController;
     IBOutlet NSTextField *bundleVersion;
-    BOOL _exitThread;
     BOOL monitorStopped;
     
     IBOutlet NSView *_mainTabView;
@@ -102,7 +101,6 @@
 - (void)dropDB;
 - (IBAction)query:(id)sender;
 - (IBAction)showAuth:(id)sender;
-- (void)checkTunnel;
 - (void)connect:(BOOL)haveHostAddress;
 - (void)dropWarning:(NSString *)msg;
 

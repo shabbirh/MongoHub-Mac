@@ -33,7 +33,6 @@ typedef enum {
 	
 	NSTask                          *_task;
     NSFileHandle                    *_fileHandle;
-	NSMutableString                 *_pipeData;
     MHTunnelError                   _tunnelError;
 	BOOL                            _running;
 	
@@ -71,10 +70,8 @@ typedef enum {
 
 + (unsigned short)findFreeTCPPort;
 
-- (BOOL)checkProcess;
 - (void)start;
 - (void)stop;
-- (void)readStatus;
 
 - (void)tunnelLoaded;
 - (void)tunnelSaved;

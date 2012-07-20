@@ -22,6 +22,7 @@ typedef struct kinfo_proc kinfo_proc;
 
 @interface MHTunnel ()
 @property(nonatomic, assign, readwrite) MHTunnelError tunnelError;
+@property(nonatomic, assign, readwrite, getter = isRunning) BOOL running;
 @end
 
 static int GetBSDProcessList(kinfo_proc **procList, size_t *procCount)
@@ -195,9 +196,7 @@ static int GetFirstChildPID(int pid)
 {
     if (self = [super init]) {
         uid = [[NSString UUIDString] retain];
-        
         portForwardings = [[NSMutableArray alloc] init];
-        _running = NO;
     }
     
     return (self);
@@ -261,15 +260,17 @@ static int GetFirstChildPID(int pid)
 
 - (void)start
 {
-    @synchronized(self) {
+    if (!self.isRunning) {
         NSPipe *pipe;
-        _running = YES;
+        
+        self.running = YES;
         
         _task = [[NSTask alloc] init];
         pipe = [NSPipe pipe];
         
         _fileHandle = [[pipe fileHandleForReading] retain];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(fileHandleNotification:) name:nil object:_fileHandle];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(taskNotification:) name:NSTaskDidTerminateNotification object:_task];
         [_task setLaunchPath:[[NSBundle bundleForClass:[self class]] pathForResource:@"SSHCommand" ofType:@"sh"]];
         [_task setArguments:[self prepareSSHCommandArgs]];
         [_task setStandardOutput:pipe];
@@ -281,95 +282,75 @@ static int GetFirstChildPID(int pid)
         NSString *string = [[[NSString alloc] initWithData:output encoding:NSUTF8StringEncoding] autorelease];
         
         NSLog(@"\n%@\n", string);*/
-        _pipeData = [[NSMutableString alloc] init];
         self.tunnelError = MHNoTunnelError;
+        [_fileHandle waitForDataInBackgroundAndNotify];
         if ([_delegate respondsToSelector:@selector(tunnelDidStart:)]) [_delegate tunnelDidStart:self];
     }
 }
 
 - (void)stop
 {
-    @synchronized(self) {
-        _running = NO;
-        
-        if ([_task isRunning]) {
-            int chpid = GetFirstChildPID([_task processIdentifier]);
-            if(chpid != -1) {
-                kill(chpid,  SIGTERM);
-            }
-            [_task terminate];
-            [_task release];
-            _task = nil;
-            [_fileHandle release];
-            _fileHandle = nil;
-            [_pipeData release];
-            _pipeData = nil;
-        }
-        if ([_delegate respondsToSelector:@selector(tunnelDidStop:)]) [_delegate tunnelDidStop:self];
-    }
+    [_task terminate];
 }
 
 - (void)fileHandleNotification:(NSNotification *)notification
 {
-    NSLog(@"notif %@", notification.name);
+    NSLog(@"notif1 %@", notification.name);
     if ([notification.name isEqualToString:NSFileHandleDataAvailableNotification]) {
         [self readStatus];
+        [_fileHandle waitForDataInBackgroundAndNotify];
     }
+}
+
+- (void)taskNotification:(NSNotification *)notification
+{
+    NSLog(@"notif2 %@", notification.name);
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:nil object:_task];
+    [_task release];
+    _task = nil;
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:nil object:_fileHandle];
+    [_fileHandle release];
+    _fileHandle = nil;
+    self.running = NO;
+    _tunnelError = MHNoTunnelError;
+    if ([_delegate respondsToSelector:@selector(tunnelDidStop:)]) [_delegate tunnelDidStop:self];
 }
 
 - (void)readStatus
 {
-    @synchronized(self) {
-        if (_running && self.tunnelError == MHNoTunnelError) {
-            NSString *pipeStr = [[NSString alloc] initWithData:[_fileHandle availableData] encoding:NSASCIIStringEncoding];
-            //NSLog(@"%@", pipeStr);
-            [_pipeData appendString:pipeStr];
-            NSLog(@"_pipeData %@", _pipeData);
-            [pipeStr release];
-            NSRange r = [_pipeData rangeOfString:@"CONNECTED"];
-            if (r.location != NSNotFound) {
-                if ([_delegate respondsToSelector:@selector(tunnelDidConnect:)]) [_delegate tunnelDidConnect:self];
-                return;
-            }
+    if (_running && self.tunnelError == MHNoTunnelError) {
+        NSString *pipeStr = [[[NSString alloc] initWithData:[_fileHandle availableData] encoding:NSASCIIStringEncoding] autorelease];
+        NSLog(@"%@", pipeStr);
+        NSRange r = [pipeStr rangeOfString:@"CONNECTED"];
+        if (r.location != NSNotFound) {
+            if ([_delegate respondsToSelector:@selector(tunnelDidConnect:)]) [_delegate tunnelDidConnect:self];
+            return;
+        }
+        
+        r = [pipeStr rangeOfString:@"CONNECTION_ERROR"];
+        if (r.location != NSNotFound) {
+            self.tunnelError = MHConnectionErrorTunnelError;
             
-            r = [_pipeData rangeOfString:@"CONNECTION_ERROR"];
-            if (r.location != NSNotFound) {
-                self.tunnelError = MHConnectionErrorTunnelError;
-                
-                if ([_delegate respondsToSelector:@selector(tunnelDidFailToConnect:withError:)]) [_delegate tunnelDidFailToConnect:self withError:[NSError errorWithDomain:MHTunnelDomain code:_tunnelError userInfo:nil]];
-                return;
-            }
+            if ([_delegate respondsToSelector:@selector(tunnelDidFailToConnect:withError:)]) [_delegate tunnelDidFailToConnect:self withError:[NSError errorWithDomain:MHTunnelDomain code:_tunnelError userInfo:nil]];
+            return;
+        }
+        
+        r = [pipeStr rangeOfString:@"CONNECTION_REFUSED"];
+        if (r.location != NSNotFound) {
+            self.tunnelError = MHConnectionRefusedTunnelError;
             
-            r = [_pipeData rangeOfString:@"CONNECTION_REFUSED"];
-            if (r.location != NSNotFound) {
-                self.tunnelError = MHConnectionRefusedTunnelError;
-                
-                if ([_delegate respondsToSelector:@selector(tunnelDidFailToConnect:withError:)]) [_delegate tunnelDidFailToConnect:self withError:[NSError errorWithDomain:MHTunnelDomain code:_tunnelError userInfo:nil]];
-                return;
-            }
+            if ([_delegate respondsToSelector:@selector(tunnelDidFailToConnect:withError:)]) [_delegate tunnelDidFailToConnect:self withError:[NSError errorWithDomain:MHTunnelDomain code:_tunnelError userInfo:nil]];
+            return;
+        }
+        
+        r = [pipeStr rangeOfString:@"WRONG_PASSWORD"];
+        if (r.location != NSNotFound) {
+            self.tunnelError = MHConnectionWrongPasswordTunnelError;
             
-            r = [_pipeData rangeOfString:@"WRONG_PASSWORD"];
-            if (r.location != NSNotFound) {
-                self.tunnelError = MHConnectionWrongPasswordTunnelError;
-                
-                if ([_delegate respondsToSelector:@selector(tunnelDidFailToConnect:withError:)]) [_delegate tunnelDidFailToConnect:self withError:[NSError errorWithDomain:MHTunnelDomain code:_tunnelError userInfo:nil]];
-                return;
-            }
+            if ([_delegate respondsToSelector:@selector(tunnelDidFailToConnect:withError:)]) [_delegate tunnelDidFailToConnect:self withError:[NSError errorWithDomain:MHTunnelDomain code:_tunnelError userInfo:nil]];
+            return;
         }
     }
-}
-
-- (BOOL)checkProcess
-{
-    BOOL ret = NO;
-    @synchronized(self) {
-        ret = _running;
-        if (ret) {
-            ret = GetFirstChildPID([_task processIdentifier]) != -1;
-        }
-    }
-    
-    return ret;
 }
 
 - (NSArray *)prepareSSHCommandArgs

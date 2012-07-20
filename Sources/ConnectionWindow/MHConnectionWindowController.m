@@ -204,7 +204,7 @@
         [_sshTunnel setUser:_connectionStore.sshuser];
         [_sshTunnel setHost:_connectionStore.sshhost];
         [_sshTunnel setPassword:_connectionStore.sshpassword];
-        [_sshTunnel setKeyfile:_connectionStore.sshkeyfile];
+        [_sshTunnel setKeyfile:[_connectionStore.sshkeyfile stringByExpandingTildeInPath]];
         [_sshTunnel setPort:[_connectionStore.sshport intValue]];
         [_sshTunnel setAliveCountMax:3];
         [_sshTunnel setAliveInterval:30];

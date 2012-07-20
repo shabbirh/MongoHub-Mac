@@ -191,7 +191,6 @@
 
 - (void)connect:(BOOL)haveHostAddress
 {
-    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
     [loaderIndicator start];
     [reconnectButton setEnabled:NO];
     [monitorButton setEnabled:NO];
@@ -212,7 +211,6 @@
         [_sshTunnel setCompression:YES];
         [_sshTunnel addForwardingPortWithBindAddress:nil bindPort:_sshTunnelPort hostAddress:_connectionStore.host hostPort:[_connectionStore.hostport intValue] reverseForwarding:NO];
         [_sshTunnel start];
-        [pool drain];
         return;
     } else {
         [self closeMongoDB];
@@ -265,7 +263,6 @@
             [hostaddress release];
         }
     }
-    [pool drain];
 }
 
 - (void)windowDidLoad

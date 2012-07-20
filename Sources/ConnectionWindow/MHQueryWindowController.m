@@ -616,7 +616,8 @@
     MHJsonWindowController *jsonWindowController = notification.object;
     id idValue;
     
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:nil object:notification.object];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:kJsonWindowSaved object:notification.object];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:kJsonWindowWillClose object:notification.object];
     idValue = [jsonWindowController.jsonDict objectForKey:@"objectvalueid"];
     if (idValue) {
         [_jsonWindowControllers removeObjectForKey:[MODServer convertObjectToJson:[MODSortedMutableDictionary sortedDictionaryWithObject:idValue forKey:@"_id"] pretty:NO]];

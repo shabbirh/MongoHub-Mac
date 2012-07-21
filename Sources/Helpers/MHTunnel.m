@@ -295,7 +295,6 @@ static int GetFirstChildPID(int pid)
 
 - (void)fileHandleNotification:(NSNotification *)notification
 {
-    NSLog(@"notif1 %@", notification.name);
     if ([notification.name isEqualToString:NSFileHandleDataAvailableNotification]) {
         [self readStatus];
         [_fileHandle waitForDataInBackgroundAndNotify];
@@ -304,8 +303,7 @@ static int GetFirstChildPID(int pid)
 
 - (void)taskNotification:(NSNotification *)notification
 {
-    NSLog(@"notif2 %@", notification.name);
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:nil object:_task];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:NSTaskDidTerminateNotification object:_task];
     [_task release];
     _task = nil;
     [[NSNotificationCenter defaultCenter] removeObserver:self name:nil object:_fileHandle];

@@ -840,7 +840,6 @@ static int percentage(NSNumber *previousValue, NSNumber *previousOutOfValue, NSN
 
 - (void)outlineViewSelectionDidChange:(NSNotification *)notification
 {
-    NSLog(@"test 1");
     if ([self selectedCollectionItem]) {
         MHCollectionItem *collectionItem = [self selectedCollectionItem];
         
@@ -859,7 +858,6 @@ static int percentage(NSNumber *previousValue, NSNumber *previousOutOfValue, NSN
     }
     [self updateToolbarItems];
     [self getDatabaseList];
-    NSLog(@"test 2");
 }
 
 - (void)outlineView:(NSOutlineView *)outlineView willDisplayCell:(id)cell forTableColumn:(NSTableColumn *)tableColumn item:(id)item

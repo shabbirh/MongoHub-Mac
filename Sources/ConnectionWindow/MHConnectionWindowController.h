@@ -28,7 +28,7 @@
 @class MHTabTitleView;
 @class MHStatusViewController;
 
-@interface MHConnectionWindowController : NSWindowController <MHTunnelDelegate>
+@interface MHConnectionWindowController : NSWindowController
 {
     NSMutableDictionary *_tabItemControllers;
     IBOutlet NSMenu *createCollectionOrDatabaseMenu;
@@ -51,14 +51,14 @@
     IBOutlet StatMonitorTableController *statMonitorTableController;
     IBOutlet NSToolbar *_toolbar;
     NSMutableArray *_databases;
-    MHTunnel *sshTunnel;
+    MHTunnel                                *_sshTunnel;
+    unsigned short                          _sshTunnelPort;
     AddDBController *addDBController;
     AddCollectionController *addCollectionController;
     AuthWindowController *authWindowController;
     MHMysqlImportWindowController *_mysqlImportWindowController;
     MHMysqlExportWindowController *_mysqlExportWindowController;
     IBOutlet NSTextField *bundleVersion;
-    BOOL exitThread;
     BOOL monitorStopped;
     
     IBOutlet NSView *_mainTabView;
@@ -101,9 +101,7 @@
 - (void)dropDB;
 - (IBAction)query:(id)sender;
 - (IBAction)showAuth:(id)sender;
-- (void)checkTunnel;
 - (void)connect:(BOOL)haveHostAddress;
-- (void)tunnelStatusChanged:(MHTunnel *)tunnel status:(NSString *)status;
 - (void)dropWarning:(NSString *)msg;
 
 - (IBAction)startMonitor:(id)sender;
@@ -118,3 +116,7 @@
 
 @interface MHConnectionWindowController(MHTabViewControllerDelegate)<MHTabViewControllerDelegate>
 @end
+
+@interface MHConnectionWindowController(MHTunnelDelegate)<MHTunnelDelegate>
+@end
+

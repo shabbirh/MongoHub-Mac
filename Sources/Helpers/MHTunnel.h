@@ -10,19 +10,31 @@
 
 @class MHTunnel;
 
+#define MHTunnelDomain @"MHTunnelDomain"
+
+typedef enum {
+    MHNoTunnelError = 0,
+    MHConnectionRefusedTunnelError,
+    MHConnectionErrorTunnelError,
+    MHConnectionWrongPasswordTunnelError
+} MHTunnelError;
+
 @protocol MHTunnelDelegate<NSObject>
-- (void)tunnelStatusChanged:(MHTunnel *)tunnel status:(NSString *)status;
+@optional
+- (void)tunnelDidStart:(MHTunnel *)tunnel;
+- (void)tunnelDidConnect:(MHTunnel *)tunnel;
+- (void)tunnelDidStop:(MHTunnel *)tunnel;
+- (void)tunnelDidFailToConnect:(MHTunnel *)tunnel withError:(NSError *)error;
 @end
 
 @interface MHTunnel : NSObject <NSCoding>
 {
-	id<MHTunnelDelegate> delegate;
+	id<MHTunnelDelegate>            _delegate;
 	
-	NSTask *_task;
-    NSFileHandle *_fileHandle;
-	NSMutableString* pipeData;
-	NSString* retStatus;
-	BOOL isRunning;
+	NSTask                          *_task;
+    NSFileHandle                    *_fileHandle;
+    MHTunnelError                   _tunnelError;
+	BOOL                            _running;
 	
 	NSString* uid;
 	NSString* name;
@@ -53,17 +65,19 @@
 @property(retain) NSString* additionalArgs;
 @property(retain) NSMutableArray* portForwardings;
 @property(nonatomic, assign, readwrite) id<MHTunnelDelegate> delegate;
+@property(nonatomic, assign, readonly, getter = isRunning) BOOL running;
+@property(nonatomic, assign, readonly) MHTunnelError tunnelError;
 
-- (BOOL)running; 
-- (BOOL)checkProcess;
++ (unsigned short)findFreeTCPPort;
+
 - (void)start;
 - (void)stop;
-- (void)readStatus;
-- (NSArray *)prepareSSHCommandArgs;
 
 - (void)tunnelLoaded;
 - (void)tunnelSaved;
 - (void)tunnelRemoved;
+
+- (void)addForwardingPortWithBindAddress:(NSString *)bindAddress bindPort:(unsigned short)bindPort hostAddress:(NSString *)hostAddress hostPort:(unsigned short)hostPort reverseForwarding:(BOOL)reverseForwarding;
 
 - (BOOL)keychainItemExists;
 - (BOOL)keychainAddItem;

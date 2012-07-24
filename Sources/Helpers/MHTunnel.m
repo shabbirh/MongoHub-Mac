@@ -10,14 +10,20 @@
 #import <Security/Security.h>
 #import "NSString+Extras.h"
 
-#include <assert.h>
-#include <errno.h>
-#include <stdbool.h>
-#include <stdlib.h>
-#include <stdio.h>
-#include <sys/sysctl.h>
+#import <assert.h>
+#import <errno.h>
+#import <stdbool.h>
+#import <stdlib.h>
+#import <stdio.h>
+#import <sys/sysctl.h>
+#import <netinet/in.h>
 
 typedef struct kinfo_proc kinfo_proc;
+
+@interface MHTunnel ()
+@property(nonatomic, assign, readwrite) MHTunnelError tunnelError;
+@property(nonatomic, assign, readwrite, getter = isRunning) BOOL running;
+@end
 
 static int GetBSDProcessList(kinfo_proc **procList, size_t *procCount)
 // Returns a list of all BSD processes on the system.  This routine
@@ -153,15 +159,44 @@ static int GetFirstChildPID(int pid)
 @synthesize compression;
 @synthesize additionalArgs;
 @synthesize portForwardings;
-@synthesize delegate;
+@synthesize delegate = _delegate;
+@synthesize running = _running;
+@synthesize tunnelError = _tunnelError;
+
++ (unsigned short)findFreeTCPPort
+{
+    unsigned short result = 40000;
+    CFSocketRef socket;
+    BOOL freePort = NO;
+    
+    CFSocketContext socketCtxt = {0, self, (const void*(*)(const void*))&CFRetain, (void(*)(const void*))&CFRelease, (CFStringRef(*)(const void *))&CFCopyDescription };
+    socket = CFSocketCreate(kCFAllocatorDefault, PF_INET, SOCK_STREAM, IPPROTO_TCP, kCFSocketAcceptCallBack, (CFSocketCallBack)NULL, &socketCtxt);
+    struct sockaddr_in addr4;
+	CFDataRef addressData;
+    
+    while (result != 0 && !freePort) {
+        result++;
+        memset(&addr4, 0, sizeof(addr4));
+        addr4.sin_len = sizeof(addr4);
+        addr4.sin_family = AF_INET;
+        addr4.sin_addr.s_addr = htonl(INADDR_LOOPBACK);
+        addr4.sin_port = htons(result);
+        addressData = CFDataCreateWithBytesNoCopy(NULL, (const UInt8*)&addr4, sizeof(addr4), kCFAllocatorNull);
+        freePort = CFSocketSetAddress(socket, addressData) == kCFSocketSuccess;
+	    CFRelease(addressData);
+    }
+    if (socket) {
+        CFSocketInvalidate(socket);
+        CFRelease(socket);
+    }
+    return result;
+}
 
 - (id)init
 {
     if (self = [super init]) {
         uid = [[NSString UUIDString] retain];
-        
         portForwardings = [[NSMutableArray alloc] init];
-        isRunning = NO;
     }
     
     return (self);
@@ -225,16 +260,19 @@ static int GetFirstChildPID(int pid)
 
 - (void)start
 {
-    @synchronized(self) {
+    if (!self.isRunning) {
         NSPipe *pipe;
-        isRunning = YES;
+        
+        self.running = YES;
         
         _task = [[NSTask alloc] init];
         pipe = [NSPipe pipe];
         
         _fileHandle = [[pipe fileHandleForReading] retain];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(fileHandleNotification:) name:nil object:_fileHandle];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(taskNotification:) name:NSTaskDidTerminateNotification object:_task];
         [_task setLaunchPath:[[NSBundle bundleForClass:[self class]] pathForResource:@"SSHCommand" ofType:@"sh"]];
-        [_task setArguments:[self prepareSSHCommandArgs] ];
+        [_task setArguments:[self prepareSSHCommandArgs]];
         [_task setStandardOutput:pipe];
         //The magic line that keeps your log where it belongs
         [_task setStandardInput:[NSPipe pipe]];
@@ -244,100 +282,73 @@ static int GetFirstChildPID(int pid)
         NSString *string = [[[NSString alloc] initWithData:output encoding:NSUTF8StringEncoding] autorelease];
         
         NSLog(@"\n%@\n", string);*/
-        pipeData = [[NSMutableString alloc] init];
-        retStatus = @"";
-        [delegate tunnelStatusChanged:self status:@"START"];
+        self.tunnelError = MHNoTunnelError;
+        [_fileHandle waitForDataInBackgroundAndNotify];
+        if ([_delegate respondsToSelector:@selector(tunnelDidStart:)]) [_delegate tunnelDidStart:self];
     }
 }
 
 - (void)stop
 {
-    @synchronized(self) {
-        isRunning = NO;
-        
-        if ([_task isRunning]) {
-            int chpid = GetFirstChildPID([_task processIdentifier]);
-            if(chpid != -1) {
-                kill(chpid,  SIGTERM);
-            }
-            [_task terminate];
-            [_task release];
-            _task = nil;
-            [_fileHandle release];
-            _fileHandle = nil;
-            [pipeData release];
-            pipeData = nil;
-        }
-        [delegate tunnelStatusChanged:self status:@"STOP"];
+    [_task terminate];
+}
+
+- (void)fileHandleNotification:(NSNotification *)notification
+{
+    if ([notification.name isEqualToString:NSFileHandleDataAvailableNotification]) {
+        [self readStatus];
+        [_fileHandle waitForDataInBackgroundAndNotify];
     }
 }
 
-- (BOOL)running
+- (void)taskNotification:(NSNotification *)notification
 {
-    return isRunning;
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:NSTaskDidTerminateNotification object:_task];
+    [_task release];
+    _task = nil;
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:nil object:_fileHandle];
+    [_fileHandle release];
+    _fileHandle = nil;
+    self.running = NO;
+    _tunnelError = MHNoTunnelError;
+    if ([_delegate respondsToSelector:@selector(tunnelDidStop:)]) [_delegate tunnelDidStop:self];
 }
 
 - (void)readStatus
 {
-    @synchronized(self) {
-        if (isRunning && [retStatus isEqualToString:@""]) {
-            NSString *pipeStr = [[NSString alloc] initWithData:[_fileHandle availableData] encoding:NSASCIIStringEncoding];
-            //NSLog(@"%@", pipeStr);
-            [pipeData appendString:pipeStr];
-            [pipeStr release];
-            NSRange r = [pipeData rangeOfString:@"CONNECTED"];
-            if (r.location != NSNotFound) {
-                retStatus = @"CONNECTED";
-                
-                [delegate tunnelStatusChanged:self status:retStatus];
-                return;
-            }
+    if (_running && self.tunnelError == MHNoTunnelError) {
+        NSString *pipeStr = [[[NSString alloc] initWithData:[_fileHandle availableData] encoding:NSASCIIStringEncoding] autorelease];
+        NSLog(@"%@", pipeStr);
+        NSRange r = [pipeStr rangeOfString:@"CONNECTED"];
+        if (r.location != NSNotFound) {
+            if ([_delegate respondsToSelector:@selector(tunnelDidConnect:)]) [_delegate tunnelDidConnect:self];
+            return;
+        }
+        
+        r = [pipeStr rangeOfString:@"CONNECTION_ERROR"];
+        if (r.location != NSNotFound) {
+            self.tunnelError = MHConnectionErrorTunnelError;
             
-            r = [pipeData rangeOfString:@"CONNECTION_ERROR"];
-            if (r.location != NSNotFound) {
-                retStatus = @"CONNECTION_ERROR";
-                
-                [delegate tunnelStatusChanged:self status:retStatus];
-                return;
-            }
+            if ([_delegate respondsToSelector:@selector(tunnelDidFailToConnect:withError:)]) [_delegate tunnelDidFailToConnect:self withError:[NSError errorWithDomain:MHTunnelDomain code:_tunnelError userInfo:nil]];
+            return;
+        }
+        
+        r = [pipeStr rangeOfString:@"CONNECTION_REFUSED"];
+        if (r.location != NSNotFound) {
+            self.tunnelError = MHConnectionRefusedTunnelError;
             
-            r = [pipeData rangeOfString:@"CONNECTION_REFUSED"];
-            if (r.location != NSNotFound) {
-                retStatus = @"CONNECTION_REFUSED";
-                
-                [delegate tunnelStatusChanged:self status:retStatus];
-                return;
-            }
+            if ([_delegate respondsToSelector:@selector(tunnelDidFailToConnect:withError:)]) [_delegate tunnelDidFailToConnect:self withError:[NSError errorWithDomain:MHTunnelDomain code:_tunnelError userInfo:nil]];
+            return;
+        }
+        
+        r = [pipeStr rangeOfString:@"WRONG_PASSWORD"];
+        if (r.location != NSNotFound) {
+            self.tunnelError = MHConnectionWrongPasswordTunnelError;
             
-            r = [pipeData rangeOfString:@"WRONG_PASSWORD"];
-            if (r.location != NSNotFound) {
-                retStatus = @"WRONG_PASSWORD";
-                
-                [delegate tunnelStatusChanged:self status:retStatus];
-                return;
-            }
-            /*if( [[NSDate date] timeIntervalSinceDate:startDate] > 30 ){
-                retStatus = @"TIME_OUT";
-                
-                [delegate tunnelStatusChanged:self status:retStatus];
-                
-                return;
-            }*/
+            if ([_delegate respondsToSelector:@selector(tunnelDidFailToConnect:withError:)]) [_delegate tunnelDidFailToConnect:self withError:[NSError errorWithDomain:MHTunnelDomain code:_tunnelError userInfo:nil]];
+            return;
         }
     }
-}
-
-- (BOOL)checkProcess
-{
-    BOOL ret = NO;
-    @synchronized(self) {
-        ret = isRunning;
-        if (ret) {
-            ret = GetFirstChildPID([_task processIdentifier]) != -1;
-        }
-    }
-    
-    return ret;
 }
 
 - (NSArray *)prepareSSHCommandArgs
@@ -347,8 +358,10 @@ static int GetFirstChildPID(int pid)
     
     for (NSString *pf in portForwardings) {
         NSArray* pfa = [pf componentsSeparatedByString:@":"];
-        if ([[pfa objectAtIndex:1] length] == 0) {
-            [pfs appendFormat:@"%@ -%@ %@:%@:%@", pfs, [pfa objectAtIndex:0], [pfa objectAtIndex:2], [pfa objectAtIndex:3], [pfa objectAtIndex:4]];
+        if (pfa.count == 4) {
+            [pfs appendFormat:@"%@ -%@ %@:%@:%@", pfs, [pfa objectAtIndex:0], [pfa objectAtIndex:1], [pfa objectAtIndex:2], [pfa objectAtIndex:3]];
+        } else if ([[pfa objectAtIndex:1] length] == 0) {
+                [pfs appendFormat:@"%@ -%@ %@:%@:%@", pfs, [pfa objectAtIndex:0], [pfa objectAtIndex:2], [pfa objectAtIndex:3], [pfa objectAtIndex:4]];
         } else {
             [pfs appendFormat:@"%@ -%@ %@:%@:%@:%@", pfs, [pfa objectAtIndex:0], [pfa objectAtIndex:1], [pfa objectAtIndex:2], [pfa objectAtIndex:3], [pfa objectAtIndex:4]];
         }
@@ -381,6 +394,15 @@ static int GetFirstChildPID(int pid)
     [pfs release];
     [cmd release];
     return result;
+}
+
+- (void)addForwardingPortWithBindAddress:(NSString *)bindAddress bindPort:(unsigned short)bindPort hostAddress:(NSString *)hostAddress hostPort:(unsigned short)hostPort reverseForwarding:(BOOL)reverseForwarding
+{
+    NSString *forwardPort;
+    
+    forwardPort = [[NSString alloc] initWithFormat:@"%@%@%@:%d:%@:%d", reverseForwarding?@"R":@"L", bindAddress?bindAddress:@"", bindAddress?@":":@"", (int)bindPort, hostAddress, (int)hostPort];
+    [portForwardings addObject:forwardPort];
+    [forwardPort release];
 }
 
 - (void)tunnelLoaded

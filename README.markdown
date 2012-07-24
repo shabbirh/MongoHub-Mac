@@ -1,7 +1,3 @@
-## What is MongoHub
-**[MongoHub](http://mongohub.todayclose.com/)** is a **[mongodb](http://mongodb.org)** GUI application.
-This repository is a fork of [MongoHub](https://github.com/bububa/MongoHub-Mac).
-
 ## System Requirements
 
 Mac OS X(10.6.x or 10.7.x), intel(64bit/32bit) based.
@@ -30,8 +26,15 @@ This project is very new. Any issues or bug reports are welcome. And I still don
     - Should manage a list of database/user/password for each connections
     - Should save the password into the keychain
     - Create a document editor to edit using an outline view (like the plist editor in Xcode)
+    - Need a progress bar for file export/import to know when it is done
     
 ** Current **
+
+    - No more setting for bind address and bind port (bind address is 127.0.0.1 and bind port will be choosen automatically from 40000 or higher) https://github.com/fotonauts/MongoHub-Mac/issues/19
+
+## History
+
+** 2.5.2(96) - july 15, 2012 **
 
     - Fix: Some UTF8 characters became invisible while editing a document
     - Fix: Some problems with updating colors while editing
@@ -42,8 +45,6 @@ This project is very new. Any issues or bug reports are welcome. And I still don
     - Fix: problem to import documents with array in it https://github.com/fotonauts/MongoHub-Mac/issues/39
     - Adding multiple document selection
     - Adding document drag
-
-## History
 
 ** 2.5.1(95) - june 21, 2012 **
 

@@ -6,12 +6,19 @@
       <description>Most recent changes with links to updates.</description>
       <language>en</language>      
          <item>
-            <title>Version 2.5.1</title>
-            <enclosure url="http://cloud.github.com/downloads/fotonauts/MongoHub-Mac/MongoHub.zip" sparkle:version="95" sparkle:shortVersionString="2.5.1" length="3128078" sparkle:dsaSignature="MC0CFQCowI1hnc5sD5sMynKMR3ZRuNazAQIUR94vilFocTOTvdObL6dtCh0q+xQ=" type="application/octet-stream" />
+            <title>Version 2.5.2</title>
+            <enclosure url="http://cloud.github.com/downloads/fotonauts/MongoHub-Mac/MongoHub.zip" sparkle:version="96" sparkle:shortVersionString="2.5.2" length="3142332" sparkle:dsaSignature="MCwCFBypS5hicEN6knv5hvybew94pWx2AhRMkB+4XhGxIFsvFZ81uhhKraRs8g==" type="application/octet-stream" />
             <description><![CDATA[
 <ul>
-<li>Fix for <a href='https://github.com/fotonauts/MongoHub-Mac/issues/36'>https://github.com/fotonauts/MongoHub-Mac/issues/36</a> (open a second time the same database tab)</li>
-<li>Trying to make sure we don't make a mistake between the tab opened and the selection in the database outline view (special for fred)</li>
+<li>Fix: Some UTF8 characters became invisible while editing a document</li>
+<li>Fix: Some problems with updating colors while editing</li>
+<li>Open only one document window for each document</li>
+<li>Close all document windows when close a collection</li>
+<li>Fix: Making sure the collection outline selection always match the collection tab selection (to make sure Fred doesn't make any mistake)</li>
+<li>Fix: a blank query will not remove documents anymore. Please use at least '{}'</li>
+<li>Fix: problem to import documents with array in it <a href="https://github.com/fotonauts/MongoHub-Mac/issues/39">https://github.com/fotonauts/MongoHub-Mac/issues/39</a></li>
+<li>Adding multiple document selection</li>
+<li>Adding document drag</li>
 </ul>
             ]]>
             </description>

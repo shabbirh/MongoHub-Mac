@@ -120,7 +120,7 @@
             long long ii = 0;
             
             while (ii < total) {
-                NSString *query = [[NSString alloc] initWithFormat:@"select * from %@ limit %lld, %lld", tableName, ii, chunkSize];
+                NSString *query = [[NSString alloc] initWithFormat:@"select * from %@ limit %lld, %d", tableName, ii, chunkSize];
                 MCPResult *theResult = [db queryString:query];
                 NSDictionary *row;
                 NSMutableArray *documents;

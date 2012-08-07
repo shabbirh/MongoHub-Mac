@@ -563,7 +563,7 @@
     
     NSString *sort;
     if ([[expSortTextField stringValue] length] > 0) {
-        sort = [[NSString alloc] initWithFormat:@".sort(%@)"];
+        sort = [[NSString alloc] initWithFormat:@".sort(%@)", [expSortTextField stringValue]];
     }else {
         sort = [[NSString alloc] initWithString:@""];
     }

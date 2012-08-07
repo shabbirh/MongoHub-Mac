@@ -539,7 +539,7 @@ static int GetFirstChildPID(int pid)
     list.attr = attributes;
     
     result = SecKeychainSearchCreateFromAttributes(NULL, kSecGenericPasswordItemClass, &list, &search);
-    NSLog(@"%@", result);
+    NSLog(@"%hd", result);
     SecKeychainSearchCopyNext (search, &item);
     status = SecKeychainItemModifyContent(item, &list, [password length], [password UTF8String]);
     
@@ -582,7 +582,7 @@ static int GetFirstChildPID(int pid)
     list.attr = attributes;
     
     result = SecKeychainSearchCreateFromAttributes(NULL, kSecGenericPasswordItemClass, &list, &search);
-    NSLog(@"%@", result);
+    NSLog(@"%hd", result);
     while (SecKeychainSearchCopyNext (search, &item) == noErr) {
         itemsFound++;
     }

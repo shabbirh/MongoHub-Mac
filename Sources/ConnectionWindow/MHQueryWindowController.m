@@ -283,29 +283,50 @@
     }];
 }
 
+- (void)_removeQuery
+{
+    [removeQueryLoaderIndicator start];
+    NSString *criteria = [removeCriticalTextField stringValue];
+    
+    [_mongoCollection countWithCriteria:criteria callback:^(int64_t count, MODQuery *mongoQuery) {
+        NSColor *currentColor;
+        
+        [removeResultsTextField setStringValue:[NSString stringWithFormat:@"Affected Rows: %lld", count]];
+        [NSViewHelpers cancelColorForTarget:removeResultsTextField selector:@selector(setTextColor:)];
+        currentColor = removeResultsTextField.textColor;
+        removeResultsTextField.textColor = [NSColor redColor];
+        [NSViewHelpers setColor:currentColor fromColor:[NSColor redColor] toTarget:removeResultsTextField withSelector:@selector(setTextColor:) delay:1];
+    }];
+    [_mongoCollection removeWithCriteria:criteria callback:^(MODQuery *mongoQuery) {
+        [removeQueryLoaderIndicator stop];
+    }];
+}
+
 - (IBAction)removeQuery:(id)sender
 {
-    if ([[removeCriticalTextField stringValue] stringByTrimmingWhitespace].length == 0) {
+    id objects;
+    
+    objects = [MODJsonToObjectParser objectsFromJson:[removeCriticalTextField stringValue] error:NULL];
+    if (([[removeCriticalTextField stringValue] stringByTrimmingWhitespace].length == 0) || (objects && [objects count] == 0)) {
         NSAlert *alert;
         
-        alert = [NSAlert alertWithMessageText:@"If you want to remove all documents, write at least \"{}\"" defaultButton:@"OK" alternateButton:nil otherButton:nil informativeTextWithFormat:@"This is to make sure you don't do any mistakes too easily"];
-        [alert beginSheetModalForWindow:self.view.window modalDelegate:nil didEndSelector:nil contextInfo:nil];
+        alert = [NSAlert alertWithMessageText:[NSString stringWithFormat:@"Are you sure you want to remove all documents in %@", _mongoCollection.absoluteCollectionName] defaultButton:@"Cancel" alternateButton:@"Remove All" otherButton:nil informativeTextWithFormat:@"This action cannot be undone"];
+        [alert setAlertStyle:NSCriticalAlertStyle];
+        [alert beginSheetModalForWindow:self.view.window modalDelegate:self didEndSelector:@selector(removeAllDocumentsPanelDidEnd:returnCode:contextInfo:) contextInfo:nil];
     } else {
-        [removeQueryLoaderIndicator start];
-        NSString *criteria = [removeCriticalTextField stringValue];
-        
-        [_mongoCollection countWithCriteria:criteria callback:^(int64_t count, MODQuery *mongoQuery) {
-            NSColor *currentColor;
+        [self _removeQuery];
+    }
+}
+
+- (void)removeAllDocumentsPanelDidEnd:(NSAlert *)alert returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo
+{
+    switch (returnCode) {
+        case NSAlertAlternateReturn:
+            [self _removeQuery];
+            break;
             
-            [removeResultsTextField setStringValue:[NSString stringWithFormat:@"Affected Rows: %lld", count]];
-            [NSViewHelpers cancelColorForTarget:removeResultsTextField selector:@selector(setTextColor:)];
-            currentColor = removeResultsTextField.textColor;
-            removeResultsTextField.textColor = [NSColor redColor];
-            [NSViewHelpers setColor:currentColor fromColor:[NSColor redColor] toTarget:removeResultsTextField withSelector:@selector(setTextColor:) delay:1];
-        }];
-        [_mongoCollection removeWithCriteria:criteria callback:^(MODQuery *mongoQuery) {
-            [removeQueryLoaderIndicator stop];
-        }];
+        default:
+            break;
     }
 }
 

@@ -133,7 +133,7 @@
             id arrayDataValue;
             
             arrayDataValue = [dataValue objectAtIndex:ii];
-            arrayDataKey = [[NSString alloc] initWithFormat:@"%ld", ii];
+            arrayDataKey = [[NSString alloc] initWithFormat:@"%ld", (long)ii];
             [(NSMutableArray *)child addObject:[self convertForOutlineWithValue:arrayDataValue dataKey:arrayDataKey]];
             [arrayDataKey release];
         }

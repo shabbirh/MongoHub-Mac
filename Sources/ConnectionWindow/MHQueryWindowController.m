@@ -670,7 +670,7 @@
 {
     NSString *identifier;
     
-    identifier = [[NSString alloc] initWithFormat:@"%ld", [segmentedControl selectedSegment]];
+    identifier = [[NSString alloc] initWithFormat:@"%ld", (long)[segmentedControl selectedSegment]];
     [tabView selectTabViewItemWithIdentifier:identifier];
     [identifier release];
 }

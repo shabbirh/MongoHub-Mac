@@ -244,8 +244,8 @@
         }
         [NSViewHelpers cancelColorForTarget:totalResultsTextField selector:@selector(setTextColor:)];
         currentColor = totalResultsTextField.textColor;
-        totalResultsTextField.textColor = [NSColor redColor];
-        [NSViewHelpers setColor:currentColor fromColor:[NSColor redColor] toTarget:totalResultsTextField withSelector:@selector(setTextColor:) delay:1];
+        totalResultsTextField.textColor = [NSColor greenColor];
+        [NSViewHelpers setColor:currentColor fromColor:[NSColor greenColor] toTarget:totalResultsTextField withSelector:@selector(setTextColor:) delay:1];
         [findQueryLoaderIndicator stopAnimation:self];
 
         
@@ -275,8 +275,8 @@
         [updateResultsTextField setStringValue:[NSString stringWithFormat:@"Affected Rows: %lld", count]];
         [NSViewHelpers cancelColorForTarget:updateResultsTextField selector:@selector(setTextColor:)];
         currentColor = updateResultsTextField.textColor;
-        updateResultsTextField.textColor = [NSColor redColor];
-        [NSViewHelpers setColor:currentColor fromColor:[NSColor redColor] toTarget:updateResultsTextField withSelector:@selector(setTextColor:) delay:1];
+        updateResultsTextField.textColor = [NSColor greenColor];
+        [NSViewHelpers setColor:currentColor fromColor:[NSColor greenColor] toTarget:updateResultsTextField withSelector:@selector(setTextColor:) delay:1];
     }];
     [_mongoCollection updateWithCriteria:criteria update:[updateSetTextField stringValue] upsert:[upsetCheckBox state] multiUpdate:YES callback:^(MODQuery *mongoQuery) {
         [updateQueryLoaderIndicator stop];
@@ -324,8 +324,8 @@
         insertResultsTextField.stringValue = @"Parsing error";
         [NSViewHelpers cancelColorForTarget:insertResultsTextField selector:@selector(setTextColor:)];
         currentColor = insertResultsTextField.textColor;
-        insertResultsTextField.textColor = [NSColor redColor];
-        [NSViewHelpers setColor:currentColor fromColor:[NSColor redColor] toTarget:insertResultsTextField withSelector:@selector(setTextColor:) delay:1];
+        insertResultsTextField.textColor = [NSColor greenColor];
+        [NSViewHelpers setColor:currentColor fromColor:[NSColor greenColor] toTarget:insertResultsTextField withSelector:@selector(setTextColor:) delay:1];
     } else {
         if ([objects isKindOfClass:[MODSortedMutableDictionary class]]) {
             objects = [NSArray arrayWithObject:objects];
@@ -342,8 +342,8 @@
             }
             [NSViewHelpers cancelColorForTarget:insertResultsTextField selector:@selector(setTextColor:)];
             currentColor = insertResultsTextField.textColor;
-            insertResultsTextField.textColor = [NSColor redColor];
-            [NSViewHelpers setColor:currentColor fromColor:[NSColor redColor] toTarget:insertResultsTextField withSelector:@selector(setTextColor:) delay:1];
+            insertResultsTextField.textColor = [NSColor greenColor];
+            [NSViewHelpers setColor:currentColor fromColor:[NSColor greenColor] toTarget:insertResultsTextField withSelector:@selector(setTextColor:) delay:1];
         }];
     }
 }

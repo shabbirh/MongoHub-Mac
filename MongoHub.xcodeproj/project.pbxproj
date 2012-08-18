@@ -361,7 +361,6 @@
 		02D5A89A144207CF00C7768C /* errors.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = errors.c; sourceTree = "<group>"; };
 		02D5A89B144207CF00C7768C /* examples.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = examples.c; sourceTree = "<group>"; };
 		02D5A89C144207CF00C7768C /* functions.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = functions.c; sourceTree = "<group>"; };
-		02D5A89D144207CF00C7768C /* gridfs.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = gridfs.c; sourceTree = "<group>"; };
 		02D5A89E144207CF00C7768C /* helpers.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = helpers.c; sourceTree = "<group>"; };
 		02D5A89F144207CF00C7768C /* json.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = json.c; sourceTree = "<group>"; };
 		02D5A8A0144207CF00C7768C /* oid.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = oid.c; sourceTree = "<group>"; };
@@ -818,7 +817,6 @@
 				02D5A89A144207CF00C7768C /* errors.c */,
 				02D5A89B144207CF00C7768C /* examples.c */,
 				02D5A89C144207CF00C7768C /* functions.c */,
-				02D5A89D144207CF00C7768C /* gridfs.c */,
 				02D5A89E144207CF00C7768C /* helpers.c */,
 				02D5A89F144207CF00C7768C /* json.c */,
 				02D5A8A0144207CF00C7768C /* oid.c */,

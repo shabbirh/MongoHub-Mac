@@ -32,6 +32,7 @@ This project is very new. Any issues or bug reports are welcome. And I still don
 
     - No more setting for bind address and bind port (bind address is 127.0.0.1 and bind port will be choosen automatically from 40000 or higher) https://github.com/fotonauts/MongoHub-Mac/issues/19
     - Fix for a crasher when the network goes down https://github.com/fotonauts/MongoHub-Mac/issues/42
+    - Changing from red to green (except for remove) https://github.com/fotonauts/MongoHub-Mac/issues/44
 
 ## History
 

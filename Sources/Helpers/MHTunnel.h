@@ -32,23 +32,24 @@ typedef enum {
 	id<MHTunnelDelegate>            _delegate;
 	
 	NSTask                          *_task;
-    NSFileHandle                    *_fileHandle;
-    MHTunnelError                   _tunnelError;
+	NSFileHandle                    *_fileHandle;
+	MHTunnelError                   _tunnelError;
 	BOOL                            _running;
+	BOOL                            _connected;
 	
 	NSString* uid;
-	NSString* name;
-	NSString* host;
-	int port;
-	NSString* user;
-	NSString* password;
-    NSString* keyfile;
-	int aliveInterval;
-	int aliveCountMax;
-	BOOL tcpKeepAlive;
-	BOOL compression;
-	NSString* additionalArgs;
-	NSMutableArray* portForwardings;
+	NSString                        *_name;
+	NSString                        *_host;
+	int                             _port;
+	NSString                        *_user;
+	NSString                        *_password;
+	NSString                        *_keyfile;
+	int                             _aliveInterval;
+	int                             _aliveCountMax;
+	BOOL                            _tcpKeepAlive;
+	BOOL                            _compression;
+	NSString                        *_additionalArgs;
+	NSMutableArray                  *_portForwardings;
 }
 
 @property(retain) NSString* uid;
@@ -66,6 +67,7 @@ typedef enum {
 @property(retain) NSMutableArray* portForwardings;
 @property(nonatomic, assign, readwrite) id<MHTunnelDelegate> delegate;
 @property(nonatomic, assign, readonly, getter = isRunning) BOOL running;
+@property(nonatomic, assign, readonly, getter = isConnected) BOOL connected;
 @property(nonatomic, assign, readonly) MHTunnelError tunnelError;
 
 + (unsigned short)findFreeTCPPort;

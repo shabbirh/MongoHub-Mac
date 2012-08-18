@@ -23,6 +23,7 @@ typedef struct kinfo_proc kinfo_proc;
 @interface MHTunnel ()
 @property(nonatomic, assign, readwrite) MHTunnelError tunnelError;
 @property(nonatomic, assign, readwrite, getter = isRunning) BOOL running;
+@property(nonatomic, assign, readwrite, getter = isConnected) BOOL connected;
 @end
 
 static int GetBSDProcessList(kinfo_proc **procList, size_t *procCount)
@@ -147,56 +148,69 @@ static int GetFirstChildPID(int pid)
 @implementation MHTunnel
 
 @synthesize uid;
-@synthesize name;
-@synthesize host;
-@synthesize port;
-@synthesize user;
-@synthesize password;
-@synthesize keyfile;
-@synthesize aliveInterval;
-@synthesize aliveCountMax;
-@synthesize tcpKeepAlive;
-@synthesize compression;
-@synthesize additionalArgs;
-@synthesize portForwardings;
+@synthesize name = _name;
+@synthesize host = _host;
+@synthesize port = _port;
+@synthesize user = _user;
+@synthesize password = _password;
+@synthesize keyfile = _keyfile;
+@synthesize aliveInterval = _aliveInterval;
+@synthesize aliveCountMax = _aliveCountMax;
+@synthesize tcpKeepAlive = _tcpKeepAlive;
+@synthesize compression = _compression;
+@synthesize additionalArgs = _additionalArgs;
+@synthesize portForwardings = _portForwardings;
 @synthesize delegate = _delegate;
 @synthesize running = _running;
 @synthesize tunnelError = _tunnelError;
+@synthesize connected = _connected;
 
-+ (unsigned short)findFreeTCPPort
+static BOOL testLocalPortAvailable(unsigned short port)
 {
-    unsigned short result = 40000;
     CFSocketRef socket;
-    BOOL freePort = NO;
-    
-    CFSocketContext socketCtxt = {0, self, (const void*(*)(const void*))&CFRetain, (void(*)(const void*))&CFRelease, (CFStringRef(*)(const void *))&CFCopyDescription };
-    socket = CFSocketCreate(kCFAllocatorDefault, PF_INET, SOCK_STREAM, IPPROTO_TCP, kCFSocketAcceptCallBack, (CFSocketCallBack)NULL, &socketCtxt);
     struct sockaddr_in addr4;
 	CFDataRef addressData;
+    BOOL freePort;
     
-    while (result != 0 && !freePort) {
-        result++;
-        memset(&addr4, 0, sizeof(addr4));
-        addr4.sin_len = sizeof(addr4);
-        addr4.sin_family = AF_INET;
-        addr4.sin_addr.s_addr = htonl(INADDR_LOOPBACK);
-        addr4.sin_port = htons(result);
-        addressData = CFDataCreateWithBytesNoCopy(NULL, (const UInt8*)&addr4, sizeof(addr4), kCFAllocatorNull);
-        freePort = CFSocketSetAddress(socket, addressData) == kCFSocketSuccess;
-	    CFRelease(addressData);
-    }
+    NSLog(@"test %d", (int)port);
+    CFSocketContext socketCtxt = {0, [MHTunnel class], (const void*(*)(const void*))&CFRetain, (void(*)(const void*))&CFRelease, (CFStringRef(*)(const void *))&CFCopyDescription };
+    socket = CFSocketCreate(kCFAllocatorDefault, PF_INET, SOCK_STREAM, IPPROTO_TCP, kCFSocketAcceptCallBack, (CFSocketCallBack)NULL, &socketCtxt);
+    
+    memset(&addr4, 0, sizeof(addr4));
+    addr4.sin_len = sizeof(addr4);
+    addr4.sin_family = AF_INET;
+    addr4.sin_addr.s_addr = htonl(INADDR_LOOPBACK);
+    addr4.sin_port = htons(port);
+    addressData = CFDataCreateWithBytesNoCopy(NULL, (const UInt8*)&addr4, sizeof(addr4), kCFAllocatorNull);
+    freePort = CFSocketSetAddress(socket, addressData) == kCFSocketSuccess;
+    CFRelease(addressData);
+
     if (socket) {
         CFSocketInvalidate(socket);
         CFRelease(socket);
     }
-    return result;
+    NSLog(@"\tresult %@", freePort?@"available":@"used");
+    
+    return freePort;
+}
+
++ (unsigned short)findFreeTCPPort
+{
+    unsigned short port = 40000;
+    BOOL freePort = NO;
+    
+    while (port != 0 && !freePort) {
+        port++;
+        freePort = testLocalPortAvailable(port);
+    }
+    return port;
 }
 
 - (id)init
 {
     if (self = [super init]) {
         uid = [[NSString UUIDString] retain];
-        portForwardings = [[NSMutableArray alloc] init];
+        _portForwardings = [[NSMutableArray alloc] init];
     }
     
     return (self);
@@ -206,18 +220,18 @@ static int GetFirstChildPID(int pid)
 {
     if (self = [self init]) {
         uid = [coder decodeObjectForKey:@"uid"];
-        name = [coder decodeObjectForKey:@"name"];
-        host = [coder decodeObjectForKey:@"host"];
-        port = [coder decodeIntForKey:@"port"];
-        user = [coder decodeObjectForKey:@"user"];
-        password = [coder decodeObjectForKey:@"password"];
-        keyfile = [coder decodeObjectForKey:@"keyfile"];
-        aliveInterval = [coder decodeIntForKey:@"aliveInterval"];
-        aliveCountMax = [coder decodeIntForKey:@"aliveCountMax"];
-        tcpKeepAlive = [coder decodeBoolForKey:@"tcpKeepAlive"];
-        compression = [coder decodeBoolForKey:@"compression"];
-        additionalArgs = [coder decodeObjectForKey:@"additionalArgs"];
-        portForwardings = [coder decodeObjectForKey:@"portForwardings"];
+        _name = [coder decodeObjectForKey:@"name"];
+        _host = [coder decodeObjectForKey:@"host"];
+        _port = [coder decodeIntForKey:@"port"];
+        _user = [coder decodeObjectForKey:@"user"];
+        _password = [coder decodeObjectForKey:@"password"];
+        _keyfile = [coder decodeObjectForKey:@"keyfile"];
+        _aliveInterval = [coder decodeIntForKey:@"aliveInterval"];
+        _aliveCountMax = [coder decodeIntForKey:@"aliveCountMax"];
+        _tcpKeepAlive = [coder decodeBoolForKey:@"tcpKeepAlive"];
+        _compression = [coder decodeBoolForKey:@"compression"];
+        _additionalArgs = [coder decodeObjectForKey:@"additionalArgs"];
+        _portForwardings = [coder decodeObjectForKey:@"portForwardings"];
         
         [self tunnelLoaded];
     }
@@ -242,20 +256,28 @@ static int GetFirstChildPID(int pid)
 - (void)encodeWithCoder:(NSCoder *)coder
 {
     [coder encodeObject:uid forKey:@"uid"];
-    [coder encodeObject:name forKey:@"name"];
-    [coder encodeObject:host forKey:@"host"];
-    [coder encodeInt:port forKey:@"port"];
-    [coder encodeObject:user forKey:@"user"];
-    [coder encodeObject:password forKey:@"password"];
-    [coder encodeObject:keyfile forKey:@"keyfile"];
-    [coder encodeInt:aliveInterval forKey:@"aliveInterval"];
-    [coder encodeInt:aliveCountMax forKey:@"aliveCountMax"];
-    [coder encodeBool:tcpKeepAlive forKey:@"tcpKeepAlive"];
-    [coder encodeBool:compression forKey:@"compression"];
-    [coder encodeObject:additionalArgs forKey:@"additionalArgs"];
-    [coder encodeObject:portForwardings forKey:@"portForwardings"];
+    [coder encodeObject:_name forKey:@"name"];
+    [coder encodeObject:_host forKey:@"host"];
+    [coder encodeInt:_port forKey:@"port"];
+    [coder encodeObject:_user forKey:@"user"];
+    [coder encodeObject:_password forKey:@"password"];
+    [coder encodeObject:_keyfile forKey:@"keyfile"];
+    [coder encodeInt:_aliveInterval forKey:@"aliveInterval"];
+    [coder encodeInt:_aliveCountMax forKey:@"aliveCountMax"];
+    [coder encodeBool:_tcpKeepAlive forKey:@"tcpKeepAlive"];
+    [coder encodeBool:_compression forKey:@"compression"];
+    [coder encodeObject:_additionalArgs forKey:@"additionalArgs"];
+    [coder encodeObject:_portForwardings forKey:@"portForwardings"];
     
     [self tunnelSaved];
+}
+
+- (void)_connected
+{
+    if (!_connected) {
+        if ([_delegate respondsToSelector:@selector(tunnelDidConnect:)]) [_delegate tunnelDidConnect:self];
+        self.connected = YES;
+    }
 }
 
 - (void)start
@@ -310,6 +332,7 @@ static int GetFirstChildPID(int pid)
     [_fileHandle release];
     _fileHandle = nil;
     self.running = NO;
+    self.connected = NO;
     _tunnelError = MHNoTunnelError;
     if ([_delegate respondsToSelector:@selector(tunnelDidStop:)]) [_delegate tunnelDidStop:self];
 }
@@ -321,7 +344,7 @@ static int GetFirstChildPID(int pid)
         NSLog(@"%@", pipeStr);
         NSRange r = [pipeStr rangeOfString:@"CONNECTED"];
         if (r.location != NSNotFound) {
-            if ([_delegate respondsToSelector:@selector(tunnelDidConnect:)]) [_delegate tunnelDidConnect:self];
+            [self _connected];
             return;
         }
         
@@ -356,7 +379,7 @@ static int GetFirstChildPID(int pid)
     NSMutableString *pfs = [[NSMutableString alloc] init];
     NSArray *result;
     
-    for (NSString *pf in portForwardings) {
+    for (NSString *pf in _portForwardings) {
         NSArray* pfa = [pf componentsSeparatedByString:@":"];
         if (pfa.count == 4) {
             [pfs appendFormat:@"%@ -%@ %@:%@:%@", pfs, [pfa objectAtIndex:0], [pfa objectAtIndex:1], [pfa objectAtIndex:2], [pfa objectAtIndex:3]];
@@ -368,29 +391,29 @@ static int GetFirstChildPID(int pid)
     }
     
     NSString* cmd;
-    if ([password isNotEqualTo:@""]|| [keyfile isEqualToString:@""]) {
+    if ([_password isNotEqualTo:@""]|| [_keyfile isEqualToString:@""]) {
         cmd = [[NSString alloc] initWithFormat:@"ssh -N -o ConnectTimeout=28 %@%@%@%@%@%@-p %d %@@%@",
-               [additionalArgs length] > 0 ? [NSString stringWithFormat:@"%@ ", additionalArgs] :@"",
+               [_additionalArgs length] > 0 ? [NSString stringWithFormat:@"%@ ", _additionalArgs] :@"",
                [pfs length] > 0 ? [NSString stringWithFormat:@"%@ ",pfs] : @"",
-               aliveInterval > 0 ? [NSString stringWithFormat:@"-o ServerAliveInterval=%d ",aliveInterval] : @"",
-               aliveCountMax > 0 ? [NSString stringWithFormat:@"-o ServerAliveCountMax=%d ",aliveCountMax] : @"",
-               tcpKeepAlive == YES ? @"-o TCPKeepAlive=yes " : @"",
-               compression == YES ? @"-C " : @"",
-               port,user,host];
+               _aliveInterval > 0 ? [NSString stringWithFormat:@"-o ServerAliveInterval=%d ",_aliveInterval] : @"",
+               _aliveCountMax > 0 ? [NSString stringWithFormat:@"-o ServerAliveCountMax=%d ",_aliveCountMax] : @"",
+               _tcpKeepAlive == YES ? @"-o TCPKeepAlive=yes " : @"",
+               _compression == YES ? @"-C " : @"",
+               _port, _user, _host];
     } else {
         cmd = [[NSString alloc] initWithFormat:@"ssh -N -o ConnectTimeout=28 %@%@%@%@%@%@-p %d -i %@ %@@%@",
-               [additionalArgs length] > 0 ? [NSString stringWithFormat:@"%@ ", additionalArgs] : @"",
+               [_additionalArgs length] > 0 ? [NSString stringWithFormat:@"%@ ", _additionalArgs] : @"",
                [pfs length] > 0 ? [NSString stringWithFormat:@"%@ ",pfs] : @"",
-               aliveInterval > 0 ? [NSString stringWithFormat:@"-o ServerAliveInterval=%d ",aliveInterval] : @"",
-               aliveCountMax > 0 ? [NSString stringWithFormat:@"-o ServerAliveCountMax=%d ",aliveCountMax] : @"",
-               tcpKeepAlive == YES ? @"-o TCPKeepAlive=yes " : @"",
-               compression == YES ? @"-C " : @"",
-               port,keyfile,user,host];
+               _aliveInterval > 0 ? [NSString stringWithFormat:@"-o ServerAliveInterval=%d ",_aliveInterval] : @"",
+               _aliveCountMax > 0 ? [NSString stringWithFormat:@"-o ServerAliveCountMax=%d ",_aliveCountMax] : @"",
+               _tcpKeepAlive == YES ? @"-o TCPKeepAlive=yes " : @"",
+               _compression == YES ? @"-C " : @"",
+               _port, _keyfile, _user, _host];
     }
 
     
     NSLog(@"cmd: %@", cmd);
-    result = [NSArray arrayWithObjects:cmd, password, nil];
+    result = [NSArray arrayWithObjects:cmd, _password, nil];
     [pfs release];
     [cmd release];
     return result;
@@ -401,7 +424,7 @@ static int GetFirstChildPID(int pid)
     NSString *forwardPort;
     
     forwardPort = [[NSString alloc] initWithFormat:@"%@%@%@:%d:%@:%d", reverseForwarding?@"R":@"L", bindAddress?bindAddress:@"", bindAddress?@":":@"", (int)bindPort, hostAddress, (int)hostPort];
-    [portForwardings addObject:forwardPort];
+    [_portForwardings addObject:forwardPort];
     [forwardPort release];
 }
 
@@ -414,9 +437,9 @@ static int GetFirstChildPID(int pid)
     }
     
     if ([self keychainItemExists]) {
-        password = [self keychainGetPassword];
+        _password = [self keychainGetPassword];
     } else {
-        password = @"";
+        _password = @"";
     }
 }
 
@@ -503,7 +526,7 @@ static int GetFirstChildPID(int pid)
     list.count = 3;
     list.attr = attributes;
     
-    OSStatus status = SecKeychainItemCreateFromContent(kSecGenericPasswordItemClass, &list, [password length], [password UTF8String], NULL,NULL,&item);
+    OSStatus status = SecKeychainItemCreateFromContent(kSecGenericPasswordItemClass, &list, [_password length], [_password UTF8String], NULL,NULL,&item);
     if (status != 0) {
         NSLog(@"Error creating new item: %d for %@\n", (int)status, keychainItemName);
     }
@@ -541,7 +564,7 @@ static int GetFirstChildPID(int pid)
     result = SecKeychainSearchCreateFromAttributes(NULL, kSecGenericPasswordItemClass, &list, &search);
     NSLog(@"%hd", result);
     SecKeychainSearchCopyNext (search, &item);
-    status = SecKeychainItemModifyContent(item, &list, [password length], [password UTF8String]);
+    status = SecKeychainItemModifyContent(item, &list, [_password length], [_password UTF8String]);
     
     if (status != 0) {
         NSLog(@"Error modifying item: %d", (int)status);

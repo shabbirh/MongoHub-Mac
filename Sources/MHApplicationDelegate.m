@@ -8,11 +8,10 @@
 
 #import "Configure.h"
 #import "MHApplicationDelegate.h"
-#import "AddConnectionController.h"
-#import "EditConnectionController.h"
+#import "MHConnectionWindowController.h"
 #import "ConnectionsArrayController.h"
 #import "ConnectionsCollectionView.h"
-#import "MHConnectionWindowController.h"
+#import "MHConnectionEditorWindowController.h"
 #import "MHConnectionStore.h"
 #import <Sparkle/Sparkle.h>
 
@@ -21,16 +20,31 @@
 
 @implementation MHApplicationDelegate
 
-@synthesize window;
+@synthesize window = _window;
 @synthesize connectionsCollectionView;
 @synthesize connectionsArrayController;
-@synthesize addConnectionController;
-@synthesize editConnectionController;
 @synthesize bundleVersion;
 
 - (void)awakeFromNib
 {
+    _editConnectionWindowControllers = [[NSMutableArray alloc] init];
     [connectionsArrayController setSortDescriptors:[NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"alias" ascending:YES selector:@selector(caseInsensitiveCompare:)]]];
+}
+
+- (void)dealloc
+{
+    [_editConnectionWindowControllers release];
+    [_window release];
+    [managedObjectContext release];
+    [persistentStoreCoordinator release];
+    [managedObjectModel release];
+    
+    [connectionsCollectionView release];
+    [connectionsArrayController release];
+    
+    [bundleVersion release];
+    
+    [super dealloc];
 }
 
 /**
@@ -40,7 +54,8 @@
     former cannot be found), the system's temporary directory.
  */
 
-- (NSString *)applicationSupportDirectory {
+- (NSString *)applicationSupportDirectory
+{
 
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES);
     NSString *basePath = ([paths count] > 0) ? [paths objectAtIndex:0] : NSTemporaryDirectory();
@@ -54,8 +69,8 @@
     former cannot be found), the system's temporary directory.
  */
 
-- (NSString *)externalRecordsDirectory {
-
+- (NSString *)externalRecordsDirectory
+{
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
     NSString *basePath = ([paths count] > 0) ? [paths objectAtIndex:0] : NSTemporaryDirectory();
     return [basePath stringByAppendingPathComponent:@"Metadata/CoreData/MongoHub"];
@@ -66,8 +81,8 @@
     by merging all of the models found in the application bundle.
  */
  
-- (NSManagedObjectModel *)managedObjectModel {
-
+- (NSManagedObjectModel *)managedObjectModel
+{
     if (managedObjectModel) {
         return managedObjectModel;
     }
@@ -84,8 +99,8 @@
     if necessary.)
  */
 
-- (NSPersistentStoreCoordinator *) persistentStoreCoordinator {
-
+- (NSPersistentStoreCoordinator *) persistentStoreCoordinator
+{
     if (persistentStoreCoordinator) return persistentStoreCoordinator;
 
     NSManagedObjectModel *mom = [self managedObjectModel];
@@ -144,8 +159,8 @@
     bound to the persistent store coordinator for the application.) 
  */
  
-- (NSManagedObjectContext *) managedObjectContext {
-
+- (NSManagedObjectContext *) managedObjectContext
+{
     if (managedObjectContext) return managedObjectContext;
 
     NSPersistentStoreCoordinator *coordinator = [self persistentStoreCoordinator];
@@ -169,7 +184,8 @@
     returned is that of the managed object context for the application.
  */
  
-- (NSUndoManager *)windowWillReturnUndoManager:(NSWindow *)window {
+- (NSUndoManager *)windowWillReturnUndoManager:(NSWindow *)window
+{
     return [[self managedObjectContext] undoManager];
 }
 
@@ -184,8 +200,8 @@
     are presented to the user.
  */
  
-- (IBAction) saveAction:(id)sender {
-
+- (void)saveConnections
+{
     NSError *error = nil;
     
     if (![[self managedObjectContext] commitEditing]) {
@@ -204,8 +220,8 @@
     before the application terminates.
  */
  
-- (NSApplicationTerminateReply)applicationShouldTerminate:(NSApplication *)sender {
-
+- (NSApplicationTerminateReply)applicationShouldTerminate:(NSApplication *)sender
+{
     if (!managedObjectContext) return NSTerminateNow;
 
     if (![managedObjectContext commitEditing]) {
@@ -254,8 +270,8 @@
 /**
     Implementation of application:openFiles:, to respond to an open file request from an external record file
  */
-- (void)application:(NSApplication *)theApplication openFiles:(NSArray *)files {
-    
+- (void)application:(NSApplication *)theApplication openFiles:(NSArray *)files
+{
     NSString *aPath = [files lastObject]; // just an example to get at one of the paths
 
     if (aPath && [aPath hasSuffix:YOUR_EXTERNAL_RECORD_EXTENSION]) {
@@ -275,29 +291,8 @@
     
 }
 
-/**
-    Implementation of dealloc, to release the retained variables.
- */
- 
-- (void)dealloc {
-
-    [window release];
-    [managedObjectContext release];
-    [persistentStoreCoordinator release];
-    [managedObjectModel release];
-    
-    [connectionsCollectionView release];
-    [connectionsArrayController release];
-    [addConnectionController release];
-    [editConnectionController release];
-    
-    [bundleVersion release];
-    
-    [super dealloc];
-}
-
-
-- (void)applicationDidFinishLaunching:(NSNotification *)notification {
+- (void)applicationDidFinishLaunching:(NSNotification *)notification
+{
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(addConection:) name:kNewConnectionWindowWillClose object:nil];
     NSString *appVersion = [[NSString alloc] initWithFormat:@"version(%@[%@])", [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"], [[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString*)kCFBundleVersionKey] ];
     [bundleVersion setStringValue: appVersion];
@@ -306,63 +301,49 @@
 }
 
 #pragma mark connections related method
-- (IBAction)showAddConnectionPanel:(id)sender {
-    if (!addConnectionController) {
-        addConnectionController = [[AddConnectionController alloc] init];
-        addConnectionController.managedObjectContext = self.managedObjectContext;
+- (IBAction)showAddConnectionPanel:(id)sender
+{
+    if (!_addConnectionWindowController) {
+        _addConnectionWindowController = [[MHConnectionEditorWindowController alloc] init];
+        _addConnectionWindowController.managedObjectContext = self.managedObjectContext;
+        _addConnectionWindowController.delegate = self;
     }
-    [addConnectionController showWindow:self];
+    [_addConnectionWindowController showWindow:self];
 }
 
-- (IBAction)addConection:(id)sender {
-    if (![sender object]) {
-        return;
-    }
-    MHConnectionStore *newObj = [[connectionsArrayController newObject] autorelease];
-    [newObj setValue:[[sender object] objectForKey:@"host"] forKey:@"host"];
-    [newObj setValue:[[sender object] objectForKey:@"hostport"] forKey:@"hostport"];
-    [newObj setValue:[[sender object] objectForKey:@"alias"] forKey:@"alias"];
-    [newObj setValue:[[sender object] objectForKey:@"adminuser"] forKey:@"adminuser"];
-    [newObj setValue:[[sender object] objectForKey:@"adminpass"] forKey:@"adminpass"];
-    [newObj setValue:[[sender object] objectForKey:@"defaultdb"] forKey:@"defaultdb"];
-    [newObj setValue:[[sender object] objectForKey:@"usessh"] forKey:@"usessh"];
-    [newObj setValue:[[sender object] objectForKey:@"bindaddress"] forKey:@"bindaddress"];
-    [newObj setValue:[[sender object] objectForKey:@"bindport"] forKey:@"bindport"];
-    [newObj setValue:[[sender object] objectForKey:@"sshhost"] forKey:@"sshhost"];
-    [newObj setValue:[[sender object] objectForKey:@"sshport"] forKey:@"sshport"];
-    [newObj setValue:[[sender object] objectForKey:@"sshkeyfile"] forKey:@"sshkeyfile"];
-    [newObj setValue:[[sender object] objectForKey:@"sshuser"] forKey:@"sshuser"];
-    [newObj setValue:[[sender object] objectForKey:@"sshpassword"] forKey:@"sshpassword"];
-    [connectionsArrayController addObject:newObj];
-    [self saveAction:sender];
-}
-
-- (IBAction)deleteConnection:(id)sender {
+- (IBAction)deleteConnection:(id)sender
+{
     [connectionsArrayController remove:sender];
-    [self saveAction:sender];
+    [self saveConnections];
 }
 
-- (IBAction)showEditConnectionPanel:(id)sender {
+- (IBAction)showEditConnectionPanel:(id)sender
+{
     if (![connectionsArrayController selectedObjects]) {
         return;
     }
     MHConnectionStore *connection = [[connectionsArrayController selectedObjects] objectAtIndex:0];
-    if (!editConnectionController) {
-        editConnectionController = [[EditConnectionController alloc] init];
+    MHConnectionEditorWindowController *editor = NULL;
+    
+    for (MHConnectionEditorWindowController *element in _editConnectionWindowControllers) {
+        if (element.connectionStore == connection) {
+            editor = element;
+            break;
+        }
     }
-    editConnectionController.connection = connection;
-    editConnectionController.managedObjectContext = self.managedObjectContext;
-    [editConnectionController showWindow:self];
+    if (!editor) {
+        editor = [[MHConnectionEditorWindowController alloc] init];
+        [_editConnectionWindowControllers addObject:editor];
+        editor.managedObjectContext = self.managedObjectContext;
+        editor.delegate = self;
+        editor.connectionStore = connection;
+        [editor autorelease];
+    }
+    [editor showWindow:self];
 }
 
-- (IBAction)editConnection:(id)sender {
-    if (![sender object]) {
-        return;
-    }
-    [self saveAction:sender];
-}
-
-- (IBAction)resizeConnectionItemView:(id)sender {
+- (IBAction)resizeConnectionItemView:(id)sender
+{
     CGFloat theSize = [sender floatValue]/100.0f*360.0f;
     [connectionsCollectionView setSubviewSize:theSize];
 }
@@ -374,7 +355,8 @@
     [self doubleClick:[[connectionsArrayController selectedObjects] objectAtIndex:0]];
 }
 
-- (void)doubleClick:(id)sender {
+- (void)doubleClick:(id)sender
+{
     if (![sender isKindOfClass:[MHConnectionStore class]]) {
         sender = [[connectionsArrayController selectedObjects] objectAtIndex:0];
     }
@@ -386,7 +368,8 @@
     [connectionWindowController showWindow:sender];
 }
 
-- (BOOL)isOpenedConnection:(MHConnectionStore *)aConnection {
+- (BOOL)isOpenedConnection:(MHConnectionStore *)aConnection
+{
     NSWindow *aWindow;
     for (aWindow in [[NSApplication sharedApplication] windows])
     {
@@ -401,7 +384,7 @@
 
 - (void)openSupportPanel:(id)sender
 {
-    [NSApp beginSheet:supportPanel modalForWindow:window modalDelegate:self didEndSelector:@selector(supportPanelDidEnd:returnCode:contextInfo:) contextInfo:nil];
+    [NSApp beginSheet:supportPanel modalForWindow:_window modalDelegate:self didEndSelector:@selector(supportPanelDidEnd:returnCode:contextInfo:) contextInfo:nil];
 }
 
 - (void)supportPanelDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo
@@ -412,6 +395,28 @@
 - (IBAction)closeSupportPanel:(id)sender
 {
     [NSApp endSheet:supportPanel];
+}
+@end
+
+@implementation MHApplicationDelegate(MHConnectionEditorWindowControllerDelegate)
+
+- (void)connectionWindowControllerDidCancel:(MHConnectionEditorWindowController *)controller
+{
+    [_editConnectionWindowControllers removeObject:controller];
+    if (_addConnectionWindowController == controller) {
+        [_addConnectionWindowController release];
+        _addConnectionWindowController = NULL;
+    }
+}
+
+- (void)connectionWindowControllerDidValidate:(MHConnectionEditorWindowController *)controller
+{
+    [_editConnectionWindowControllers removeObject:controller];
+    [self saveConnections];
+    if (_addConnectionWindowController == controller) {
+        [_addConnectionWindowController release];
+        _addConnectionWindowController = NULL;
+    }
 }
 
 @end

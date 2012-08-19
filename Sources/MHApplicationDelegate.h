@@ -7,32 +7,33 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import "MHConnectionEditorWindowController.h"
+
 @class ConnectionsCollectionView;
 @class ConnectionsArrayController;
 @class MHConnectionStore;
-@class AddConnectionController;
-@class EditConnectionController;
+@class MHConnectionEditorWindowController;
 @class SUUpdater;
 
 @interface MHApplicationDelegate : NSObject <NSApplicationDelegate, NSCollectionViewDelegate>
 {
-    NSWindow *window;
+    IBOutlet NSWindow                       *_window;
     
-    NSPersistentStoreCoordinator *persistentStoreCoordinator;
-    NSManagedObjectModel *managedObjectModel;
-    NSManagedObjectContext *managedObjectContext;
+    NSPersistentStoreCoordinator            *persistentStoreCoordinator;
+    NSManagedObjectModel                    *managedObjectModel;
+    NSManagedObjectContext                  *managedObjectContext;
+    MHConnectionEditorWindowController      *_addConnectionWindowController;
+    NSMutableArray                          *_editConnectionWindowControllers;
     
-    IBOutlet ConnectionsCollectionView *connectionsCollectionView;
-    IBOutlet ConnectionsArrayController *connectionsArrayController;
-    AddConnectionController *addConnectionController;
-    EditConnectionController *editConnectionController;
-    IBOutlet NSTextField *bundleVersion;
+    IBOutlet ConnectionsCollectionView      *connectionsCollectionView;
+    IBOutlet ConnectionsArrayController     *connectionsArrayController;
+    IBOutlet NSTextField                    *bundleVersion;
   
-    IBOutlet NSPanel *supportPanel;
-    IBOutlet SUUpdater *updater;
+    IBOutlet NSPanel                        *supportPanel;
+    IBOutlet SUUpdater                      *updater;
 }
 
-@property (nonatomic, retain) IBOutlet NSWindow *window;
+@property (nonatomic, retain, readonly) NSWindow *window;
 
 @property (nonatomic, retain, readonly) NSPersistentStoreCoordinator *persistentStoreCoordinator;
 @property (nonatomic, retain, readonly) NSManagedObjectModel *managedObjectModel;
@@ -40,15 +41,11 @@
 
 @property (nonatomic, retain) ConnectionsCollectionView *connectionsCollectionView;
 @property (nonatomic, retain) ConnectionsArrayController *connectionsArrayController;
-@property (nonatomic, retain) AddConnectionController *addConnectionController;
-@property (nonatomic, retain) EditConnectionController *editConnectionController;
 @property (nonatomic, retain) NSTextField *bundleVersion;
 
-- (IBAction)saveAction:sender;
+- (void)saveConnections;
 - (IBAction)showAddConnectionPanel:(id)sender;
-- (IBAction)addConection:(id)sender;
 - (IBAction)showEditConnectionPanel:(id)sender;
-- (IBAction)editConnection:(id)sender;
 - (IBAction)deleteConnection:(id)sender;
 - (IBAction)resizeConnectionItemView:(id)sender;
 - (IBAction)showConnectionWindow:(id)sender;
@@ -58,4 +55,7 @@
 - (IBAction)openSupportPanel:(id)sender;
 - (IBAction)closeSupportPanel:(id)sender;
 
+@end
+
+@interface MHApplicationDelegate (MHConnectionEditorWindowControllerDelegate) <MHConnectionEditorWindowControllerDelegate>
 @end

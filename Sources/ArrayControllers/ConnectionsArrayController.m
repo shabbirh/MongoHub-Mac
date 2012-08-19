@@ -19,14 +19,6 @@
     [self setClearsFilterPredicateOnInsertion:NO];
 }
 
-- (id)newObject
-{
-    id newObj = [super newObject];
-    //NSDate *now = [NSDate date];
-    //[newObj setValue:now forKey:@"createdDatetime"];
-    return newObj;
-}
-
 - (void)remove:(id)sender
 {
     if (![self selectedObjects]){

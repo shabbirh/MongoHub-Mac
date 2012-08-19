@@ -3,26 +3,26 @@
 	<data>
 		<int key="IBDocument.SystemTarget">1070</int>
 		<string key="IBDocument.SystemVersion">11E53</string>
-		<string key="IBDocument.InterfaceBuilderVersion">2182</string>
+		<string key="IBDocument.InterfaceBuilderVersion">2549</string>
 		<string key="IBDocument.AppKitVersion">1138.47</string>
 		<string key="IBDocument.HIToolboxVersion">569.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin</string>
-			<string key="NS.object.0">2182</string>
+			<string key="NS.object.0">2549</string>
 		</object>
 		<object class="NSArray" key="IBDocument.IntegratedClassDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
+			<string>NSArrayController</string>
+			<string>NSBox</string>
+			<string>NSButton</string>
+			<string>NSButtonCell</string>
+			<string>NSCustomObject</string>
+			<string>NSSecureTextField</string>
+			<string>NSSecureTextFieldCell</string>
 			<string>NSTextField</string>
+			<string>NSTextFieldCell</string>
 			<string>NSView</string>
 			<string>NSWindowTemplate</string>
-			<string>NSCustomObject</string>
-			<string>NSArrayController</string>
-			<string>NSSecureTextField</string>
-			<string>NSBox</string>
-			<string>NSButtonCell</string>
-			<string>NSButton</string>
-			<string>NSSecureTextFieldCell</string>
-			<string>NSTextFieldCell</string>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -35,7 +35,7 @@
 		<object class="NSMutableArray" key="IBDocument.RootObjects" id="1000">
 			<bool key="EncodedWithXMLCoder">YES</bool>
 			<object class="NSCustomObject" id="1001">
-				<string key="NSClassName">AddConnectionController</string>
+				<string key="NSClassName">MHConnectionEditorWindowController</string>
 			</object>
 			<object class="NSCustomObject" id="1003">
 				<string key="NSClassName">FirstResponder</string>
@@ -163,7 +163,7 @@
 								<int key="NSButtonFlags">-2038152961</int>
 								<int key="NSButtonFlags2">163</int>
 								<string key="NSAlternateContents"/>
-								<string key="NSKeyEquivalent"/>
+								<string type="base64-UTF8" key="NSKeyEquivalent">DQ</string>
 								<int key="NSPeriodicDelay">400</int>
 								<int key="NSPeriodicInterval">75</int>
 							</object>
@@ -185,7 +185,7 @@
 								<int key="NSButtonFlags">-2038152961</int>
 								<int key="NSButtonFlags2">163</int>
 								<string key="NSAlternateContents"/>
-								<string key="NSKeyEquivalent"/>
+								<string type="base64-UTF8" key="NSKeyEquivalent">Gw</string>
 								<int key="NSPeriodicDelay">400</int>
 								<int key="NSPeriodicInterval">75</int>
 							</object>
@@ -203,7 +203,7 @@
 								<int key="NSCellFlags2">272630016</int>
 								<string key="NSContents"/>
 								<reference key="NSSupport" ref="625640474"/>
-								<string key="NSPlaceholderString">localhost</string>
+								<string key="NSPlaceholderString">Label</string>
 								<reference key="NSControlView" ref="140042863"/>
 								<bool key="NSDrawsBackground">YES</bool>
 								<reference key="NSBackgroundColor" ref="514943928"/>
@@ -583,12 +583,13 @@
 									<string key="NSFrameSize">{384, 1}</string>
 									<reference key="NSSuperview" ref="183730265"/>
 									<reference key="NSWindow"/>
+									<reference key="NSNextKeyView" ref="166628829"/>
 								</object>
 							</object>
 							<string key="NSFrame">{{0, 335}, {384, 1}}</string>
 							<reference key="NSSuperview" ref="1006"/>
 							<reference key="NSWindow"/>
-							<reference key="NSNextKeyView" ref="166628829"/>
+							<reference key="NSNextKeyView" ref="1069568174"/>
 							<string key="NSOffsets">{0, 0}</string>
 							<object class="NSTextFieldCell" key="NSTitleCell">
 								<int key="NSCellFlags">67239424</int>
@@ -626,11 +627,13 @@
 									<string key="NSFrameSize">{384, 1}</string>
 									<reference key="NSSuperview" ref="895502435"/>
 									<reference key="NSWindow"/>
+									<reference key="NSNextKeyView" ref="408554184"/>
 								</object>
 							</object>
 							<string key="NSFrame">{{0, 226}, {384, 1}}</string>
 							<reference key="NSSuperview" ref="1006"/>
 							<reference key="NSWindow"/>
+							<reference key="NSNextKeyView" ref="232190868"/>
 							<string key="NSOffsets">{0, 0}</string>
 							<object class="NSTextFieldCell" key="NSTitleCell">
 								<int key="NSCellFlags">67239424</int>
@@ -688,7 +691,7 @@
 								<int key="NSCellFlags2">272630016</int>
 								<string key="NSContents"/>
 								<reference key="NSSupport" ref="625640474"/>
-								<string key="NSPlaceholderString">host1:port1,host2:port2...</string>
+								<string key="NSPlaceholderString">host1:port1,host2:port2…</string>
 								<reference key="NSControlView" ref="728461863"/>
 								<bool key="NSDrawsBackground">YES</bool>
 								<reference key="NSBackgroundColor" ref="514943928"/>
@@ -719,7 +722,7 @@
 							<string key="NSFrame">{{82, 241}, {247, 22}}</string>
 							<reference key="NSSuperview" ref="1006"/>
 							<reference key="NSWindow"/>
-							<reference key="NSNextKeyView"/>
+							<reference key="NSNextKeyView" ref="895502435"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSTextFieldCell" key="NSCell" id="1010744146">
 								<int key="NSCellFlags">-1267597759</int>
@@ -799,7 +802,7 @@
 					<reference key="NSWindow"/>
 					<reference key="NSNextKeyView" ref="804787260"/>
 				</object>
-				<string key="NSScreenRect">{{0, 0}, {1280, 778}}</string>
+				<string key="NSScreenRect">{{0, 0}, {1440, 878}}</string>
 				<string key="NSMaxSize">{10000000000000, 10000000000000}</string>
 				<bool key="NSWindowIsRestorable">YES</bool>
 			</object>
@@ -823,83 +826,11 @@
 				<bool key="EncodedWithXMLCoder">YES</bool>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
-						<string key="label">hostTextField</string>
-						<reference key="source" ref="1001"/>
-						<reference key="destination" ref="385098847"/>
-					</object>
-					<int key="connectionID">15</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">cancel:</string>
-						<reference key="source" ref="1001"/>
-						<reference key="destination" ref="984110756"/>
-					</object>
-					<int key="connectionID">18</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
 						<string key="label">window</string>
 						<reference key="source" ref="1001"/>
 						<reference key="destination" ref="1005"/>
 					</object>
 					<int key="connectionID">19</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">connectionsArrayController</string>
-						<reference key="source" ref="1001"/>
-						<reference key="destination" ref="164731811"/>
-					</object>
-					<int key="connectionID">22</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">add:</string>
-						<reference key="source" ref="1001"/>
-						<reference key="destination" ref="596433416"/>
-					</object>
-					<int key="connectionID">26</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">aliasTextField</string>
-						<reference key="source" ref="1001"/>
-						<reference key="destination" ref="140042863"/>
-					</object>
-					<int key="connectionID">29</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">hostportTextField</string>
-						<reference key="source" ref="1001"/>
-						<reference key="destination" ref="882441313"/>
-					</object>
-					<int key="connectionID">57</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">usesshCheckBox</string>
-						<reference key="source" ref="1001"/>
-						<reference key="destination" ref="408554184"/>
-					</object>
-					<int key="connectionID">58</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">sshhostTextField</string>
-						<reference key="source" ref="1001"/>
-						<reference key="destination" ref="284987309"/>
-					</object>
-					<int key="connectionID">61</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">sshuserTextField</string>
-						<reference key="source" ref="1001"/>
-						<reference key="destination" ref="843934097"/>
-					</object>
-					<int key="connectionID">64</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
@@ -910,70 +841,6 @@
 					<int key="connectionID">70</int>
 				</object>
 				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">sshpasswordTextField</string>
-						<reference key="source" ref="1001"/>
-						<reference key="destination" ref="712071201"/>
-					</object>
-					<int key="connectionID">73</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">sshportTextField</string>
-						<reference key="source" ref="1001"/>
-						<reference key="destination" ref="560730068"/>
-					</object>
-					<int key="connectionID">78</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">adminuserTextField</string>
-						<reference key="source" ref="1001"/>
-						<reference key="destination" ref="332482545"/>
-					</object>
-					<int key="connectionID">87</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">adminpassTextField</string>
-						<reference key="source" ref="1001"/>
-						<reference key="destination" ref="88230749"/>
-					</object>
-					<int key="connectionID">88</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">defaultdbTextField</string>
-						<reference key="source" ref="1001"/>
-						<reference key="destination" ref="323900807"/>
-					</object>
-					<int key="connectionID">93</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">usereplCheckBox</string>
-						<reference key="source" ref="1001"/>
-						<reference key="destination" ref="166628829"/>
-					</object>
-					<int key="connectionID">96</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">serversTextField</string>
-						<reference key="source" ref="1001"/>
-						<reference key="destination" ref="728461863"/>
-					</object>
-					<int key="connectionID">102</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">replnameTextField</string>
-						<reference key="source" ref="1001"/>
-						<reference key="destination" ref="221760659"/>
-					</object>
-					<int key="connectionID">107</int>
-				</object>
-				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
 						<string key="label">enableRepl:</string>
 						<reference key="source" ref="1001"/>
@@ -982,20 +849,172 @@
 					<int key="connectionID">108</int>
 				</object>
 				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">sshkeyfileTextField</string>
+					<object class="IBActionConnection" key="connection">
+						<string key="label">cancelAction:</string>
 						<reference key="source" ref="1001"/>
-						<reference key="destination" ref="655720239"/>
+						<reference key="destination" ref="984110756"/>
 					</object>
-					<int key="connectionID">113</int>
+					<int key="connectionID">118</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
-						<string key="label">chooseKeyPath:</string>
+						<string key="label">addSaveAction:</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="596433416"/>
+					</object>
+					<int key="connectionID">119</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">_addSaveButton</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="596433416"/>
+					</object>
+					<int key="connectionID">120</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">chooseKeyPathAction:</string>
 						<reference key="source" ref="1001"/>
 						<reference key="destination" ref="1390614"/>
 					</object>
-					<int key="connectionID">116</int>
+					<int key="connectionID">122</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">_connectionsArrayController</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="164731811"/>
+					</object>
+					<int key="connectionID">123</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">_aliasTextField</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="140042863"/>
+					</object>
+					<int key="connectionID">128</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">_hostTextField</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="385098847"/>
+					</object>
+					<int key="connectionID">129</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">_hostportTextField</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="882441313"/>
+					</object>
+					<int key="connectionID">130</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">_adminuserTextField</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="332482545"/>
+					</object>
+					<int key="connectionID">131</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">_adminpassTextField</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="88230749"/>
+					</object>
+					<int key="connectionID">132</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">_defaultdbTextField</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="323900807"/>
+					</object>
+					<int key="connectionID">133</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">_usereplCheckBox</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="166628829"/>
+					</object>
+					<int key="connectionID">134</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">_usesshCheckBox</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="408554184"/>
+					</object>
+					<int key="connectionID">135</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">_serversTextField</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="728461863"/>
+					</object>
+					<int key="connectionID">136</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">_replnameTextField</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="221760659"/>
+					</object>
+					<int key="connectionID">137</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">_sshhostTextField</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="284987309"/>
+					</object>
+					<int key="connectionID">138</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">_sshportTextField</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="560730068"/>
+					</object>
+					<int key="connectionID">139</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">_sshuserTextField</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="843934097"/>
+					</object>
+					<int key="connectionID">140</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">_sshpasswordTextField</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="712071201"/>
+					</object>
+					<int key="connectionID">141</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">_sshkeyfileTextField</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="655720239"/>
+					</object>
+					<int key="connectionID">142</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">_selectKeyFileButton</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="1390614"/>
+					</object>
+					<int key="connectionID">162</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
@@ -1009,9 +1028,33 @@
 					<object class="IBOutletConnection" key="connection">
 						<string key="label">initialFirstResponder</string>
 						<reference key="source" ref="1005"/>
+						<reference key="destination" ref="140042863"/>
+					</object>
+					<int key="connectionID">143</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">nextKeyView</string>
+						<reference key="source" ref="385098847"/>
+						<reference key="destination" ref="882441313"/>
+					</object>
+					<int key="connectionID">145</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">nextKeyView</string>
+						<reference key="source" ref="596433416"/>
+						<reference key="destination" ref="385098847"/>
+					</object>
+					<int key="connectionID">161</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">nextKeyView</string>
+						<reference key="source" ref="984110756"/>
 						<reference key="destination" ref="596433416"/>
 					</object>
-					<int key="connectionID">25</int>
+					<int key="connectionID">160</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
@@ -1027,7 +1070,127 @@
 							<int key="NSNibBindingConnectorVersion">2</int>
 						</object>
 					</object>
-					<int key="connectionID">23</int>
+					<int key="connectionID">127</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">nextKeyView</string>
+						<reference key="source" ref="140042863"/>
+						<reference key="destination" ref="385098847"/>
+					</object>
+					<int key="connectionID">144</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">nextKeyView</string>
+						<reference key="source" ref="882441313"/>
+						<reference key="destination" ref="332482545"/>
+					</object>
+					<int key="connectionID">146</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">nextKeyView</string>
+						<reference key="source" ref="408554184"/>
+						<reference key="destination" ref="284987309"/>
+					</object>
+					<int key="connectionID">153</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">nextKeyView</string>
+						<reference key="source" ref="284987309"/>
+						<reference key="destination" ref="560730068"/>
+					</object>
+					<int key="connectionID">154</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">nextKeyView</string>
+						<reference key="source" ref="843934097"/>
+						<reference key="destination" ref="712071201"/>
+					</object>
+					<int key="connectionID">156</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">nextKeyView</string>
+						<reference key="source" ref="712071201"/>
+						<reference key="destination" ref="655720239"/>
+					</object>
+					<int key="connectionID">157</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">nextKeyView</string>
+						<reference key="source" ref="560730068"/>
+						<reference key="destination" ref="843934097"/>
+					</object>
+					<int key="connectionID">155</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">nextKeyView</string>
+						<reference key="source" ref="332482545"/>
+						<reference key="destination" ref="88230749"/>
+					</object>
+					<int key="connectionID">147</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">nextKeyView</string>
+						<reference key="source" ref="88230749"/>
+						<reference key="destination" ref="323900807"/>
+					</object>
+					<int key="connectionID">148</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">nextKeyView</string>
+						<reference key="source" ref="323900807"/>
+						<reference key="destination" ref="166628829"/>
+					</object>
+					<int key="connectionID">149</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">nextKeyView</string>
+						<reference key="source" ref="166628829"/>
+						<reference key="destination" ref="728461863"/>
+					</object>
+					<int key="connectionID">150</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">nextKeyView</string>
+						<reference key="source" ref="728461863"/>
+						<reference key="destination" ref="221760659"/>
+					</object>
+					<int key="connectionID">151</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">nextKeyView</string>
+						<reference key="source" ref="221760659"/>
+						<reference key="destination" ref="408554184"/>
+					</object>
+					<int key="connectionID">152</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">nextKeyView</string>
+						<reference key="source" ref="655720239"/>
+						<reference key="destination" ref="1390614"/>
+					</object>
+					<int key="connectionID">158</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">nextKeyView</string>
+						<reference key="source" ref="1390614"/>
+						<reference key="destination" ref="984110756"/>
+					</object>
+					<int key="connectionID">159</int>
 				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -1727,28 +1890,32 @@
 				<reference key="dict.values" ref="0"/>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">117</int>
+			<int key="maxID">162</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
 				<bool key="EncodedWithXMLCoder">YES</bool>
 				<object class="IBPartialClassDescription">
-					<string key="className">AddConnectionController</string>
+					<string key="className">ConnectionsArrayController</string>
+					<string key="superclassName">NSArrayController</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/ConnectionsArrayController.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">MHConnectionEditorWindowController</string>
 					<string key="superclassName">NSWindowController</string>
 					<object class="NSMutableDictionary" key="actions">
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>add:</string>
-							<string>cancel:</string>
-							<string>chooseKeyPath:</string>
-							<string>enableRepl:</string>
-							<string>enableSSH:</string>
+							<string>addSaveAction:</string>
+							<string>cancelAction:</string>
+							<string>chooseKeyPathAction:</string>
 						</object>
 						<object class="NSArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>id</string>
-							<string>id</string>
 							<string>id</string>
 							<string>id</string>
 							<string>id</string>
@@ -1758,32 +1925,22 @@
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>add:</string>
-							<string>cancel:</string>
-							<string>chooseKeyPath:</string>
-							<string>enableRepl:</string>
-							<string>enableSSH:</string>
+							<string>addSaveAction:</string>
+							<string>cancelAction:</string>
+							<string>chooseKeyPathAction:</string>
 						</object>
 						<object class="NSArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<object class="IBActionInfo">
-								<string key="name">add:</string>
+								<string key="name">addSaveAction:</string>
 								<string key="candidateClassName">id</string>
 							</object>
 							<object class="IBActionInfo">
-								<string key="name">cancel:</string>
+								<string key="name">cancelAction:</string>
 								<string key="candidateClassName">id</string>
 							</object>
 							<object class="IBActionInfo">
-								<string key="name">chooseKeyPath:</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBActionInfo">
-								<string key="name">enableRepl:</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBActionInfo">
-								<string key="name">enableSSH:</string>
+								<string key="name">chooseKeyPathAction:</string>
 								<string key="candidateClassName">id</string>
 							</object>
 						</object>
@@ -1792,30 +1949,29 @@
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>adminpassTextField</string>
-							<string>adminuserTextField</string>
-							<string>aliasTextField</string>
-							<string>bindaddressTextField</string>
-							<string>bindportTextField</string>
-							<string>connectionsArrayController</string>
-							<string>defaultdbTextField</string>
-							<string>hostTextField</string>
-							<string>hostportTextField</string>
-							<string>replnameTextField</string>
-							<string>serversTextField</string>
-							<string>sshhostTextField</string>
-							<string>sshkeyfileTextField</string>
-							<string>sshpasswordTextField</string>
-							<string>sshportTextField</string>
-							<string>sshuserTextField</string>
-							<string>usereplCheckBox</string>
-							<string>usesshCheckBox</string>
+							<string>_addSaveButton</string>
+							<string>_adminpassTextField</string>
+							<string>_adminuserTextField</string>
+							<string>_aliasTextField</string>
+							<string>_connectionsArrayController</string>
+							<string>_defaultdbTextField</string>
+							<string>_hostTextField</string>
+							<string>_hostportTextField</string>
+							<string>_replnameTextField</string>
+							<string>_selectKeyFileButton</string>
+							<string>_serversTextField</string>
+							<string>_sshhostTextField</string>
+							<string>_sshkeyfileTextField</string>
+							<string>_sshpasswordTextField</string>
+							<string>_sshportTextField</string>
+							<string>_sshuserTextField</string>
+							<string>_usereplCheckBox</string>
+							<string>_usesshCheckBox</string>
 						</object>
 						<object class="NSArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>NSButton</string>
 							<string>NSSecureTextField</string>
-							<string>NSTextField</string>
-							<string>NSTextField</string>
 							<string>NSTextField</string>
 							<string>NSTextField</string>
 							<string>ConnectionsArrayController</string>
@@ -1823,6 +1979,7 @@
 							<string>NSTextField</string>
 							<string>NSTextField</string>
 							<string>NSTextField</string>
+							<string>NSButton</string>
 							<string>NSTextField</string>
 							<string>NSTextField</string>
 							<string>NSTextField</string>
@@ -1837,112 +1994,104 @@
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>adminpassTextField</string>
-							<string>adminuserTextField</string>
-							<string>aliasTextField</string>
-							<string>bindaddressTextField</string>
-							<string>bindportTextField</string>
-							<string>connectionsArrayController</string>
-							<string>defaultdbTextField</string>
-							<string>hostTextField</string>
-							<string>hostportTextField</string>
-							<string>replnameTextField</string>
-							<string>serversTextField</string>
-							<string>sshhostTextField</string>
-							<string>sshkeyfileTextField</string>
-							<string>sshpasswordTextField</string>
-							<string>sshportTextField</string>
-							<string>sshuserTextField</string>
-							<string>usereplCheckBox</string>
-							<string>usesshCheckBox</string>
+							<string>_addSaveButton</string>
+							<string>_adminpassTextField</string>
+							<string>_adminuserTextField</string>
+							<string>_aliasTextField</string>
+							<string>_connectionsArrayController</string>
+							<string>_defaultdbTextField</string>
+							<string>_hostTextField</string>
+							<string>_hostportTextField</string>
+							<string>_replnameTextField</string>
+							<string>_selectKeyFileButton</string>
+							<string>_serversTextField</string>
+							<string>_sshhostTextField</string>
+							<string>_sshkeyfileTextField</string>
+							<string>_sshpasswordTextField</string>
+							<string>_sshportTextField</string>
+							<string>_sshuserTextField</string>
+							<string>_usereplCheckBox</string>
+							<string>_usesshCheckBox</string>
 						</object>
 						<object class="NSArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<object class="IBToOneOutletInfo">
-								<string key="name">adminpassTextField</string>
-								<string key="candidateClassName">NSSecureTextField</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">adminuserTextField</string>
-								<string key="candidateClassName">NSTextField</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">aliasTextField</string>
-								<string key="candidateClassName">NSTextField</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">bindaddressTextField</string>
-								<string key="candidateClassName">NSTextField</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">bindportTextField</string>
-								<string key="candidateClassName">NSTextField</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">connectionsArrayController</string>
-								<string key="candidateClassName">ConnectionsArrayController</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">defaultdbTextField</string>
-								<string key="candidateClassName">NSTextField</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">hostTextField</string>
-								<string key="candidateClassName">NSTextField</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">hostportTextField</string>
-								<string key="candidateClassName">NSTextField</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">replnameTextField</string>
-								<string key="candidateClassName">NSTextField</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">serversTextField</string>
-								<string key="candidateClassName">NSTextField</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">sshhostTextField</string>
-								<string key="candidateClassName">NSTextField</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">sshkeyfileTextField</string>
-								<string key="candidateClassName">NSTextField</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">sshpasswordTextField</string>
-								<string key="candidateClassName">NSSecureTextField</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">sshportTextField</string>
-								<string key="candidateClassName">NSTextField</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">sshuserTextField</string>
-								<string key="candidateClassName">NSTextField</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">usereplCheckBox</string>
+								<string key="name">_addSaveButton</string>
 								<string key="candidateClassName">NSButton</string>
 							</object>
 							<object class="IBToOneOutletInfo">
-								<string key="name">usesshCheckBox</string>
+								<string key="name">_adminpassTextField</string>
+								<string key="candidateClassName">NSSecureTextField</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">_adminuserTextField</string>
+								<string key="candidateClassName">NSTextField</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">_aliasTextField</string>
+								<string key="candidateClassName">NSTextField</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">_connectionsArrayController</string>
+								<string key="candidateClassName">ConnectionsArrayController</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">_defaultdbTextField</string>
+								<string key="candidateClassName">NSTextField</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">_hostTextField</string>
+								<string key="candidateClassName">NSTextField</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">_hostportTextField</string>
+								<string key="candidateClassName">NSTextField</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">_replnameTextField</string>
+								<string key="candidateClassName">NSTextField</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">_selectKeyFileButton</string>
+								<string key="candidateClassName">NSButton</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">_serversTextField</string>
+								<string key="candidateClassName">NSTextField</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">_sshhostTextField</string>
+								<string key="candidateClassName">NSTextField</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">_sshkeyfileTextField</string>
+								<string key="candidateClassName">NSTextField</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">_sshpasswordTextField</string>
+								<string key="candidateClassName">NSSecureTextField</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">_sshportTextField</string>
+								<string key="candidateClassName">NSTextField</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">_sshuserTextField</string>
+								<string key="candidateClassName">NSTextField</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">_usereplCheckBox</string>
+								<string key="candidateClassName">NSButton</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">_usesshCheckBox</string>
 								<string key="candidateClassName">NSButton</string>
 							</object>
 						</object>
 					</object>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/AddConnectionController.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">ConnectionsArrayController</string>
-					<string key="superclassName">NSArrayController</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/ConnectionsArrayController.h</string>
+						<string key="minorKey">./Classes/MHConnectionEditorWindowController.h</string>
 					</object>
 				</object>
 			</object>

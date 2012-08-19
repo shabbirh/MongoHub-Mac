@@ -34,7 +34,7 @@ This project is very new. Any issues or bug reports are welcome. And I still don
     - Fix for a crasher when the network goes down https://github.com/fotonauts/MongoHub-Mac/issues/42
     - Changing from red to green (except for remove) https://github.com/fotonauts/MongoHub-Mac/issues/44
     - Adding a confirmation dialog correctly when removing all documents https://github.com/fotonauts/MongoHub-Mac/issues/33
-    - Some cleanup for the connection editor (thanks to Alex Shteinikov)
+    - Some cleanup for the connection editor, thanks to Alex Shteinikov (idooo)
 
 ## History
 

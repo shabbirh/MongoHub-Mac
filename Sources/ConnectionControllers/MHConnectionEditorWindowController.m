@@ -23,7 +23,7 @@
 
 - (id)init
 {
-    self = [super initWithWindowNibName:@"NewConnection"];
+    self = [super initWithWindowNibName:@"MHConnectionEditorWindowController"];
     return self;
 }
 

@@ -305,7 +305,6 @@
 {
     if (!_addConnectionWindowController) {
         _addConnectionWindowController = [[MHConnectionEditorWindowController alloc] init];
-        _addConnectionWindowController.managedObjectContext = self.managedObjectContext;
         _addConnectionWindowController.delegate = self;
     }
     [_addConnectionWindowController showWindow:self];
@@ -334,7 +333,6 @@
     if (!editor) {
         editor = [[MHConnectionEditorWindowController alloc] init];
         [_editConnectionWindowControllers addObject:editor];
-        editor.managedObjectContext = self.managedObjectContext;
         editor.delegate = self;
         editor.connectionStore = connection;
         [editor autorelease];

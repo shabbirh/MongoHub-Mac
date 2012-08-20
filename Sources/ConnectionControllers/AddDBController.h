@@ -14,9 +14,11 @@
     IBOutlet NSTextField *dbname;
     IBOutlet NSTextField *user;
     IBOutlet NSSecureTextField *password;
+    IBOutlet DatabasesArrayController   *_databasesArrayController;
+    
     NSMutableDictionary *dbInfo;
     MHConnectionStore *conn;
-    IBOutlet DatabasesArrayController *databasesArrayController;
+    NSManagedObjectContext              *_managedObjectContext;
 }
 
 @property (nonatomic, retain) NSTextField *dbname;
@@ -25,6 +27,7 @@
 @property (nonatomic, retain) NSMutableDictionary *dbInfo;
 @property (nonatomic, retain) MHConnectionStore *conn;
 @property (nonatomic, retain) DatabasesArrayController *databasesArrayController;
+@property(nonatomic, retain, readonly) NSManagedObjectContext *managedObjectContext;
 
 - (IBAction)add:(id)sender;
 - (IBAction)cancel:(id)sender;

@@ -19,7 +19,7 @@
 @synthesize password;
 @synthesize dbInfo;
 @synthesize conn;
-@synthesize databasesArrayController;
+@synthesize databasesArrayController = _databasesArrayController;
 
 - (id)init {
     self = [super initWithWindowNibName:@"NewDB"];
@@ -31,7 +31,7 @@
     [user release];
     [password release];
     [dbInfo release];
-    [databasesArrayController release];
+    [_databasesArrayController release];
     [conn release];
     [super dealloc];
 }
@@ -39,6 +39,11 @@
 - (void)windowWillClose:(NSNotification *)notification {
     [[NSNotificationCenter defaultCenter] postNotificationName:kNewDBWindowWillClose object:dbInfo];
     dbInfo = nil;
+}
+
+- (NSManagedObjectContext *)managedObjectContext
+{
+    return [conn managedObjectContext];
 }
 
 - (IBAction)cancel:(id)sender {
@@ -66,11 +71,11 @@
     [objs release];
     [keys release];
     if (([[dbInfo objectForKey:@"user"] length] > 0) || ([[dbInfo objectForKey:@"password"] length] > 0)) {
-        MHDatabaseStore *dbobj = [databasesArrayController dbInfo:conn name:[dbname stringValue]];
+        MHDatabaseStore *dbobj = [_databasesArrayController dbInfo:conn name:[dbname stringValue]];
         if (dbobj==nil) {
             //[dbobj release];
-            dbobj = [databasesArrayController newObjectWithConn:conn name:[dbname stringValue] user:[dbInfo objectForKey:@"user"] password:[dbInfo objectForKey:@"password"]];
-            [databasesArrayController addObject:dbobj];
+            dbobj = [_databasesArrayController newObjectWithConn:conn name:[dbname stringValue] user:[dbInfo objectForKey:@"user"] password:[dbInfo objectForKey:@"password"]];
+            [_databasesArrayController addObject:dbobj];
             [dbobj release];
         }
         [self saveAction];
@@ -82,11 +87,11 @@
     
     NSError *error = nil;
     
-    if (![[conn managedObjectContext] commitEditing]) {
+    if (![self.managedObjectContext commitEditing]) {
         NSLog(@"%@:%@ unable to commit editing before saving", [self class], NSStringFromSelector(_cmd));
     }
     
-    if (![[conn managedObjectContext] save:&error]) {
+    if (![self.managedObjectContext save:&error]) {
         [[NSApplication sharedApplication] presentError:error];
     }
 }

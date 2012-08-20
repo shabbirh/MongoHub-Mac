@@ -18,7 +18,6 @@
 
 @synthesize connectionStore = _connectionStore;
 @synthesize delegate = _delegate;
-@synthesize managedObjectContext = _managedObjectContext;
 @synthesize newConnection = _newConnection;
 
 - (id)init
@@ -30,7 +29,6 @@
 - (void)dealloc
 {
     [_connectionStore release];
-    [_managedObjectContext release];
     [super dealloc];
 }
 
@@ -92,6 +90,11 @@
     [_serversTextField setEnabled:_usereplCheckBox.state == NSOnState];
     [_replnameTextField setEnabled:_usereplCheckBox.state == NSOnState];
     [super windowDidLoad];
+}
+
+- (NSManagedObjectContext *)managedObjectContext
+{
+    return _delegate.managedObjectContext;
 }
 
 - (IBAction)cancelAction:(id)sender

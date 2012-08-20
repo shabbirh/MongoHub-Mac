@@ -12,6 +12,7 @@
 @class ConnectionsArrayController;
 
 @protocol MHConnectionEditorWindowControllerDelegate <NSObject>
+@property (nonatomic, retain, readonly) NSManagedObjectContext *managedObjectContext;
 - (void)connectionWindowControllerDidCancel:(MHConnectionEditorWindowController *)controller;
 - (void)connectionWindowControllerDidValidate:(MHConnectionEditorWindowController *)controller;
 @end
@@ -37,14 +38,13 @@
     IBOutlet NSButton                   *_selectKeyFileButton;
     IBOutlet NSButton                   *_addSaveButton;
     
-    NSManagedObjectContext              *_managedObjectContext;
     MHConnectionStore                   *_connectionStore;
     BOOL                                _newConnection;
     id<MHConnectionEditorWindowControllerDelegate> _delegate;
 }
 @property(nonatomic, retain, readwrite) MHConnectionStore *connectionStore;
 @property(nonatomic, assign, readwrite) id<MHConnectionEditorWindowControllerDelegate> delegate;
-@property(nonatomic, retain, readwrite) NSManagedObjectContext *managedObjectContext;
+@property(nonatomic, retain, readonly) NSManagedObjectContext *managedObjectContext;
 @property(nonatomic, assign, readonly, getter=isNewConnetion) BOOL newConnection;
 
 - (IBAction)cancelAction:(id)sender;

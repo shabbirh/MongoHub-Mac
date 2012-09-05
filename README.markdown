@@ -32,6 +32,8 @@ This project is very new. Any issues or bug reports are welcome. And I still don
 
 ## History
 
+    - Use ⌘ to avoid the confirmation panel in the remove tab (either while clicking or pressing the return key)
+
 ** 2.5.3(97) - september 4, 2012 **
 
     - No more setting for bind address and bind port (bind address is 127.0.0.1 and bind port will be choosen automatically from 40000 or higher) https://github.com/fotonauts/MongoHub-Mac/issues/19

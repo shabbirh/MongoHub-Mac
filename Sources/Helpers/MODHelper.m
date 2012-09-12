@@ -24,7 +24,7 @@
     for (MODSortedMutableDictionary *object in mongoObjects) {
         id idValue = nil;
         NSString *idValueName = nil;
-        NSMutableDictionary *dict;
+        NSMutableDictionary *dict = nil;
         
         idValue = [object objectForKey:@"_id"];
         idValueName = @"_id";

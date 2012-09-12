@@ -203,6 +203,10 @@
 {
     self.title = _mongoCollection.absoluteCollectionName;
     _jsonWindowControllers = [[NSMutableDictionary alloc] init];
+    [self findQueryComposer:nil];
+    [self updateQueryComposer:nil];
+    [self removeQueryComposer:nil];
+    [self exportQueryComposer:nil];
 }
 
 - (IBAction)findQuery:(id)sender
@@ -307,7 +311,8 @@
     id objects;
     
     objects = [MODJsonToObjectParser objectsFromJson:[removeCriticalTextField stringValue] error:NULL];
-    if (([[removeCriticalTextField stringValue] stringByTrimmingWhitespace].length == 0) || (objects && [objects count] == 0)) {
+    if ((([[removeCriticalTextField stringValue] stringByTrimmingWhitespace].length == 0) || (objects && [objects count] == 0))
+        && ((self.view.window.currentEvent.modifierFlags & NSCommandKeyMask) != NSCommandKeyMask)) {
         NSAlert *alert;
         
         alert = [NSAlert alertWithMessageText:[NSString stringWithFormat:@"Are you sure you want to remove all documents in %@", _mongoCollection.absoluteCollectionName] defaultButton:@"Cancel" alternateButton:@"Remove All" otherButton:nil informativeTextWithFormat:@"This action cannot be undone"];

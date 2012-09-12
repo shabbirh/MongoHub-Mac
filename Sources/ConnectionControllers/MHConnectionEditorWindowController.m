@@ -41,22 +41,22 @@
         } else {
             [_hostportTextField setStringValue:_connectionStore.hostport.stringValue];
         }
-        [_serversTextField setStringValue:_connectionStore.servers];
-        [_replnameTextField setStringValue:_connectionStore.repl_name];
+        if (_connectionStore.servers) [_serversTextField setStringValue:_connectionStore.servers];
+        if (_connectionStore.repl_name) [_replnameTextField setStringValue:_connectionStore.repl_name];
         [_usereplCheckBox setState:_connectionStore.userepl.boolValue?NSOnState:NSOffState];
         [_aliasTextField setStringValue:_connectionStore.alias];
-        [_adminuserTextField setStringValue:_connectionStore.adminuser];
-        [_adminpassTextField setStringValue:_connectionStore.adminpass];
-        [_defaultdbTextField setStringValue:_connectionStore.defaultdb];
-        [_sshhostTextField setStringValue:_connectionStore.sshhost];
+        if (_connectionStore.adminuser) [_adminuserTextField setStringValue:_connectionStore.adminuser];
+        if (_connectionStore.adminpass) [_adminpassTextField setStringValue:_connectionStore.adminpass];
+        if (_connectionStore.defaultdb) [_defaultdbTextField setStringValue:_connectionStore.defaultdb];
+        if (_connectionStore.sshhost) [_sshhostTextField setStringValue:_connectionStore.sshhost];
         if (_connectionStore.sshport.stringValue.longLongValue == 0) {
             [_sshportTextField setStringValue:@""];
         } else {
             [_sshportTextField setStringValue:_connectionStore.sshport.stringValue];
         }
-        [_sshuserTextField setStringValue:_connectionStore.sshuser];
-        [_sshpasswordTextField setStringValue:_connectionStore.sshpassword];
-        [_sshkeyfileTextField setStringValue:_connectionStore.sshkeyfile];
+        if (_connectionStore.sshuser) [_sshuserTextField setStringValue:_connectionStore.sshuser];
+        if (_connectionStore.sshpassword) [_sshpasswordTextField setStringValue:_connectionStore.sshpassword];
+        if (_connectionStore.sshkeyfile) [_sshkeyfileTextField setStringValue:_connectionStore.sshkeyfile];
         [_usesshCheckBox setState:_connectionStore.usessh.boolValue?NSOnState:NSOffState];
         _addSaveButton.title = NSLocalizedString(@"Save", @"Save connection (after updating)");
         _newConnection = NO;

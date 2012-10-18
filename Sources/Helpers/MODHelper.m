@@ -137,6 +137,9 @@
             [(NSMutableArray *)child addObject:[self convertForOutlineWithValue:arrayDataValue dataKey:arrayDataKey]];
             [arrayDataKey release];
         }
+    } else if ([dataValue isKindOfClass:[MODUndefined class]]) {
+        type = @"Undefined";
+      value = [dataValue tengenString];
     } else {
         NSLog(@"type %@ value %@", [dataValue class], dataValue);
         NSAssert(NO, @"unknown type type %@ value %@", [dataValue class], dataValue);

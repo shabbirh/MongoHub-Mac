@@ -310,9 +310,24 @@ static BOOL testLocalPortAvailable(unsigned short port)
     }
 }
 
+- (void)_releaseFileHandleAndTask
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:NSTaskDidTerminateNotification object:_task];
+    [_task release];
+    _task = nil;
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:nil object:_fileHandle];
+    [_fileHandle release];
+    _fileHandle = nil;
+    self.running = NO;
+    self.connected = NO;
+    _tunnelError = MHNoTunnelError;
+    if ([_delegate respondsToSelector:@selector(tunnelDidStop:)]) [_delegate tunnelDidStop:self];
+}
+
 - (void)stop
 {
     [_task terminate];
+    [self _releaseFileHandleAndTask];
 }
 
 - (void)fileHandleNotification:(NSNotification *)notification
@@ -325,16 +340,7 @@ static BOOL testLocalPortAvailable(unsigned short port)
 
 - (void)taskNotification:(NSNotification *)notification
 {
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:NSTaskDidTerminateNotification object:_task];
-    [_task release];
-    _task = nil;
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:nil object:_fileHandle];
-    [_fileHandle release];
-    _fileHandle = nil;
-    self.running = NO;
-    self.connected = NO;
-    _tunnelError = MHNoTunnelError;
-    if ([_delegate respondsToSelector:@selector(tunnelDidStop:)]) [_delegate tunnelDidStop:self];
+    [self _releaseFileHandleAndTask];
 }
 
 - (void)readStatus

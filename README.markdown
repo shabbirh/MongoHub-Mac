@@ -30,6 +30,9 @@ This project is very new. Any issues or bug reports are welcome. And I still don
     
 ** Current **
 
+    - Fix to display Undefined values https://github.com/fotonauts/MongoHub-Mac/issues/49
+    - Fix to avoid a crasher with disconnecting from a server while using ssh tunneling https://github.com/fotonauts/MongoHub-Mac/issues/48
+
 ## History
 
     - Use ⌘ to avoid the confirmation panel in the remove tab (either while clicking or pressing the return key)

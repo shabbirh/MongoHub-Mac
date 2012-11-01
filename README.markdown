@@ -17,8 +17,6 @@ This project is very new. Any issues or bug reports are welcome. And I still don
 
 ** Known bugs **
     
-    - Don't trust the grey default value in textfields
-    - Most of errors are not handled correctly
     - Simple quote is not supported yet for json
 
 ** To do list **
@@ -30,11 +28,13 @@ This project is very new. Any issues or bug reports are welcome. And I still don
     
 ** Current **
 
+## History
+
+** 2.5.4(98) - november 1, 2012 **
+
     - Fix to display Undefined values https://github.com/fotonauts/MongoHub-Mac/issues/49
     - Fix to avoid a crasher with disconnecting from a server while using ssh tunneling https://github.com/fotonauts/MongoHub-Mac/issues/48
     - Use ⌘ to avoid the confirmation panel in the remove tab (either while clicking or pressing the return key)
-
-## History
 
 ** 2.5.3(97) - september 4, 2012 **
 

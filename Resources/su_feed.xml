@@ -6,15 +6,13 @@
       <description>Most recent changes with links to updates.</description>
       <language>en</language>      
          <item>
-            <title>Version 2.5.3</title>
-            <enclosure url="http://cloud.github.com/downloads/fotonauts/MongoHub-Mac/MongoHub.zip" sparkle:version="97" sparkle:shortVersionString="2.5.3" length="3131145" sparkle:dsaSignature="MC0CFBKS8yYc+YdZFx0rkv6CMEOUCzKuAhUAgT4j+Au1G6nGe6feys/QfQjtD94=" type="application/octet-stream" />
+            <title>Version 2.5.4</title>
+            <enclosure url="http://cloud.github.com/downloads/fotonauts/MongoHub-Mac/MongoHub.zip" sparkle:version="98" sparkle:shortVersionString="2.5.4" length="3133407" sparkle:dsaSignature="MC0CFFE0fNx2QV5IDMLSdfSJbesHNbkuAhUArvD+xMUQ5m/BHtf0pI0qA9GFsUo=" type="application/octet-stream" />
             <description><![CDATA[
 <ul>
-<li>No more setting for bind address and bind port (bind address is 127.0.0.1 and bind port will be choosen automatically from 40000 or higher) <a href="https://github.com/fotonauts/MongoHub-Mac/issues/19">issue 19</a></li>
-<li>Fix for a crasher when the network goes down <a href="https://github.com/fotonauts/MongoHub-Mac/issues/42">issue 42</a></li>
-<li>Changing from red to green (except for remove) <a href="https://github.com/fotonauts/MongoHub-Mac/issues/44">issue 44</a></li>
-<li>Adding a confirmation dialog correctly when removing all documents <a href="https://github.com/fotonauts/MongoHub-Mac/issues/33">issue 33</a></li>
-<li>Some cleanup for the connection editor, thanks to Alex Shteinikov (idooo)</li>
+<li>Fix to display Undefined values <a href="https://github.com/fotonauts/MongoHub-Mac/issues/49">issue 49</a></li>
+<li>Fix to avoid a crasher with disconnecting from a server while using ssh tunneling <a href="https://github.com/fotonauts/MongoHub-Mac/issues/48">issue 48</a></li>
+<li>Use ⌘ to avoid the confirmation panel in the remove tab (either while clicking or pressing the return key)</li>
 </ul>
             ]]>
             </description>

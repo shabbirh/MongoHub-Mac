@@ -54,6 +54,7 @@
 
 - (IBAction)openSupportPanel:(id)sender;
 - (IBAction)closeSupportPanel:(id)sender;
+- (IBAction)openFeatureRequestBugReport:(id)sender;
 
 @end
 

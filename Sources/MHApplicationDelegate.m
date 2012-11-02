@@ -394,6 +394,12 @@
 {
     [NSApp endSheet:supportPanel];
 }
+
+- (IBAction)openFeatureRequestBugReport:(id)sender
+{
+    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"https://github.com/fotonauts/MongoHub-Mac/issues"]];
+}
+
 @end
 
 @implementation MHApplicationDelegate(MHConnectionEditorWindowControllerDelegate)

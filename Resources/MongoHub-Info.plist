@@ -48,7 +48,7 @@
 	<key>NSHumanReadableCopyright</key>
 	<string>© 2010, The Peppers Studio</string>
 	<key>NSMainNibFile</key>
-	<string>MainMenu</string>
+	<string>MHMainMenu</string>
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
 	<key>SUFeedURL</key>

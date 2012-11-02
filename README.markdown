@@ -28,6 +28,8 @@ This project is very new. Any issues or bug reports are welcome. And I still don
     
 ** Current **
 
+    - Problem to modify ssh parameters while editing an existing connection (fields were disabled)
+
 ## History
 
 ** 2.5.4(98) - november 1, 2012 **

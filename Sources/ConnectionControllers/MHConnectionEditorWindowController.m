@@ -11,7 +11,8 @@
 #import "DatabasesArrayController.h"
 
 @interface MHConnectionEditorWindowController ()
-
+- (void)_updateSSHFields;
+- (void)_updateReplFields;
 @end
 
 @implementation MHConnectionEditorWindowController
@@ -89,6 +90,8 @@
     [_selectKeyFileButton setEnabled:_usereplCheckBox.state == NSOnState];
     [_serversTextField setEnabled:_usereplCheckBox.state == NSOnState];
     [_replnameTextField setEnabled:_usereplCheckBox.state == NSOnState];
+    [self _updateSSHFields];
+    [self _updateReplFields];
     [super windowDidLoad];
 }
 
@@ -184,24 +187,12 @@
 
 - (IBAction)enableSSH:(id)sender
 {
-    BOOL useSSH;
-    
-    useSSH = [_usesshCheckBox state] == NSOnState;
-    [_sshhostTextField setEnabled:useSSH];
-    [_sshuserTextField setEnabled:useSSH];
-    [_sshportTextField setEnabled:useSSH];
-    [_sshpasswordTextField setEnabled:useSSH];
-    [_sshkeyfileTextField setEnabled:useSSH];
-    [_selectKeyFileButton setEnabled:useSSH];
+    [self _updateSSHFields];
 }
 
 - (IBAction)enableRepl:(id)sender
 {
-    BOOL useRepl;
-    
-    useRepl = _usereplCheckBox.state == NSOnState;
-    [_serversTextField setEnabled:useRepl];
-    [_replnameTextField setEnabled:useRepl];
+    [self _updateReplFields];
 }
 
 - (IBAction)chooseKeyPathAction:(id)sender
@@ -222,6 +213,28 @@
         NSLog(@"doOpen tvarInt not equal 1 or zero = %ld",(long int)tvarNSInteger);
         return;
     } // end if
+}
+
+- (void)_updateSSHFields
+{
+    BOOL useSSH;
+    
+    useSSH = [_usesshCheckBox state] == NSOnState;
+    [_sshhostTextField setEnabled:useSSH];
+    [_sshuserTextField setEnabled:useSSH];
+    [_sshportTextField setEnabled:useSSH];
+    [_sshpasswordTextField setEnabled:useSSH];
+    [_sshkeyfileTextField setEnabled:useSSH];
+    [_selectKeyFileButton setEnabled:useSSH];
+}
+
+- (void)_updateReplFields
+{
+    BOOL useRepl;
+    
+    useRepl = _usereplCheckBox.state == NSOnState;
+    [_serversTextField setEnabled:useRepl];
+    [_replnameTextField setEnabled:useRepl];
 }
 
 @end

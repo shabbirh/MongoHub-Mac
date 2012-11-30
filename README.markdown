@@ -29,6 +29,7 @@ This project is very new. Any issues or bug reports are welcome. And I still don
 ** Current **
 
     - Problem to modify ssh parameters while editing an existing connection (fields were disabled)
+    - Multi update checkbox added for updates (thanks to Tom Bocklisch)
 
 ## History
 

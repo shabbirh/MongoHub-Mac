@@ -37,6 +37,8 @@
 		02216ECD14128D1200789BD1 /* MODDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 02216EB814128CBF00789BD1 /* MODDatabase.m */; };
 		02216ECE14128D1200789BD1 /* MODQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = 02216EBA14128CBF00789BD1 /* MODQuery.m */; };
 		02216ECF14128D1200789BD1 /* MODServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 02216EBC14128CBF00789BD1 /* MODServer.m */; };
+		022F8C48169B5E580024D20C /* bcon.c in Sources */ = {isa = PBXBuildFile; fileRef = 022F8C45169B5E580024D20C /* bcon.c */; };
+		022F8C49169B5E580024D20C /* env.c in Sources */ = {isa = PBXBuildFile; fileRef = 022F8C47169B5E580024D20C /* env.c */; };
 		023230AE15E051300075498C /* MHConnectionEditorWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 023230AD15E051300075498C /* MHConnectionEditorWindowController.m */; };
 		023ED002148526E700185781 /* MODSymbol.m in Sources */ = {isa = PBXBuildFile; fileRef = 023ED001148526E700185781 /* MODSymbol.m */; };
 		024F67901427F3DE00956BF6 /* MODHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 024F678F1427F3DE00956BF6 /* MODHelper.m */; };
@@ -57,7 +59,6 @@
 		02A7C40E1482DF080099CDD1 /* MHMysqlExporter.m in Sources */ = {isa = PBXBuildFile; fileRef = 02A7C40D1482DF080099CDD1 /* MHMysqlExporter.m */; };
 		02AA29931477F8BD0041865F /* MHFileExporter.m in Sources */ = {isa = PBXBuildFile; fileRef = 02AA29921477F8BD0041865F /* MHFileExporter.m */; };
 		02AB057C142971CE00B7CD19 /* MODObjectId.m in Sources */ = {isa = PBXBuildFile; fileRef = 02AB057A142971CE00B7CD19 /* MODObjectId.m */; };
-		02AC8E23151C6E7300F7531B /* env_posix.c in Sources */ = {isa = PBXBuildFile; fileRef = 02AC8E1F151C6E5700F7531B /* env_posix.c */; };
 		02B143DC147C720D005AB320 /* MHFileImporter.m in Sources */ = {isa = PBXBuildFile; fileRef = 02B143DB147C720D005AB320 /* MHFileImporter.m */; };
 		02B2427D147D2BBC008A15A3 /* MODSortedMutableDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = 02B2427C147D2BBC008A15A3 /* MODSortedMutableDictionary.m */; };
 		02CEE9BE1486DD7A00E488DA /* MHTabTitleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 02CEE9BD1486DD7A00E488DA /* MHTabTitleView.m */; };
@@ -273,6 +274,9 @@
 		02216EBB14128CBF00789BD1 /* MODServer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MODServer.h; sourceTree = "<group>"; };
 		02216EBC14128CBF00789BD1 /* MODServer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MODServer.m; sourceTree = "<group>"; };
 		02216EBD14128CBF00789BD1 /* mongo-objc-driver-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "mongo-objc-driver-Info.plist"; sourceTree = "<group>"; };
+		022F8C45169B5E580024D20C /* bcon.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = bcon.c; sourceTree = "<group>"; };
+		022F8C46169B5E580024D20C /* bcon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = bcon.h; sourceTree = "<group>"; };
+		022F8C47169B5E580024D20C /* env.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = env.c; sourceTree = "<group>"; };
 		023230AC15E051300075498C /* MHConnectionEditorWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MHConnectionEditorWindowController.h; sourceTree = "<group>"; };
 		023230AD15E051300075498C /* MHConnectionEditorWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MHConnectionEditorWindowController.m; sourceTree = "<group>"; };
 		023ED000148526E700185781 /* MODSymbol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MODSymbol.h; sourceTree = "<group>"; };
@@ -313,7 +317,6 @@
 		02AA29921477F8BD0041865F /* MHFileExporter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MHFileExporter.m; sourceTree = "<group>"; };
 		02AB057A142971CE00B7CD19 /* MODObjectId.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MODObjectId.m; sourceTree = "<group>"; };
 		02AB057B142971CE00B7CD19 /* MODObjectId.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MODObjectId.h; sourceTree = "<group>"; };
-		02AC8E1F151C6E5700F7531B /* env_posix.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = env_posix.c; sourceTree = "<group>"; };
 		02AC8E21151C6E5700F7531B /* env.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = env.h; sourceTree = "<group>"; };
 		02B143DA147C720D005AB320 /* MHFileImporter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MHFileImporter.h; sourceTree = "<group>"; };
 		02B143DB147C720D005AB320 /* MHFileImporter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MHFileImporter.m; sourceTree = "<group>"; };
@@ -834,11 +837,13 @@
 		02D5A87E144207CF00C7768C /* src */ = {
 			isa = PBXGroup;
 			children = (
+				022F8C45169B5E580024D20C /* bcon.c */,
+				022F8C46169B5E580024D20C /* bcon.h */,
+				022F8C47169B5E580024D20C /* env.c */,
 				02D5A87F144207CF00C7768C /* bson.c */,
 				02D5A880144207CF00C7768C /* bson.h */,
 				02D5A881144207CF00C7768C /* encoding.c */,
 				02D5A882144207CF00C7768C /* encoding.h */,
-				02AC8E1F151C6E5700F7531B /* env_posix.c */,
 				02AC8E21151C6E5700F7531B /* env.h */,
 				02D5A883144207CF00C7768C /* gridfs.c */,
 				02D5A884144207CF00C7768C /* gridfs.h */,
@@ -1507,10 +1512,11 @@
 				0262CA3C148C14A8009033F9 /* MHTabItemViewController.m in Sources */,
 				0262CA3F148C1838009033F9 /* MHConnectionWindowController.m in Sources */,
 				026B949814BC214800BA0688 /* MODUndefined.m in Sources */,
-				02AC8E23151C6E7300F7531B /* env_posix.c in Sources */,
 				025B8F0C1531C76E00849A71 /* MHTabTitleContainerView.m in Sources */,
 				025F635215AE21F300CD0EB4 /* NSViewHelpers.m in Sources */,
 				023230AE15E051300075498C /* MHConnectionEditorWindowController.m in Sources */,
+				022F8C48169B5E580024D20C /* bcon.c in Sources */,
+				022F8C49169B5E580024D20C /* env.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -31,6 +31,7 @@ This project is very new. Any issues or bug reports are welcome. And I still don
     - Problem to modify ssh parameters while editing an existing connection (fields were disabled)
     - Multi update checkbox added for updates (thanks to Tom Bocklisch)
     - Bug fix to export mongo to sql: crash while exporting https://github.com/fotonauts/MongoHub-Mac/issues/58
+    - ObjectId should be in lower case https://github.com/fotonauts/MongoHub-Mac/issues/55
 
 ## History
 

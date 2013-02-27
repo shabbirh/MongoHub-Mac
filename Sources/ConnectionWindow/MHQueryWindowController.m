@@ -363,18 +363,21 @@
         }
         [_mongoCollection insertWithDocuments:objects callback:^(MODQuery *mongoQuery) {
             NSColor *currentColor;
-            
+            NSColor *flashColor;
+          
             [insertLoaderIndicator stop];
             if (mongoQuery.error) {
-                NSRunAlertPanel(@"Error", [mongoQuery.error localizedDescription], @"OK", nil, nil);
+                flashColor = [NSColor redColor];
                 [insertResultsTextField setStringValue:@"Error!"];
+                NSRunAlertPanel(@"Error", [mongoQuery.error localizedDescription], @"OK", nil, nil);
             } else {
+                flashColor = [NSColor greenColor];
                 [insertResultsTextField setStringValue:@"Completed!"];
             }
             [NSViewHelpers cancelColorForTarget:insertResultsTextField selector:@selector(setTextColor:)];
             currentColor = insertResultsTextField.textColor;
             insertResultsTextField.textColor = [NSColor greenColor];
-            [NSViewHelpers setColor:currentColor fromColor:[NSColor greenColor] toTarget:insertResultsTextField withSelector:@selector(setTextColor:) delay:1];
+            [NSViewHelpers setColor:currentColor fromColor:flashColor toTarget:insertResultsTextField withSelector:@selector(setTextColor:) delay:1];
         }];
     }
 }

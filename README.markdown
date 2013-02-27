@@ -32,6 +32,7 @@ This project is very new. Any issues or bug reports are welcome. And I still don
     - Multi update checkbox added for updates (thanks to Tom Bocklisch)
     - Bug fix to export mongo to sql: crash while exporting https://github.com/fotonauts/MongoHub-Mac/issues/58
     - ObjectId should be in lower case https://github.com/fotonauts/MongoHub-Mac/issues/55
+    - Confirm dialog before connection delete (thanks to falsecz) https://github.com/fotonauts/MongoHub-Mac/pull/57
 
 ## History
 

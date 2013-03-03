@@ -6,13 +6,15 @@
       <description>Most recent changes with links to updates.</description>
       <language>en</language>      
          <item>
-            <title>Version 2.5.4</title>
-            <enclosure url="http://cloud.github.com/downloads/fotonauts/MongoHub-Mac/MongoHub.zip" sparkle:version="98" sparkle:shortVersionString="2.5.4" length="3133407" sparkle:dsaSignature="MC0CFFE0fNx2QV5IDMLSdfSJbesHNbkuAhUArvD+xMUQ5m/BHtf0pI0qA9GFsUo=" type="application/octet-stream" />
+            <title>Version 2.5.5</title>
+            <enclosure url="http://cloud.github.com/downloads/fotonauts/MongoHub-Mac/MongoHub.zip" sparkle:version="99" sparkle:shortVersionString="2.5.5" length="3168806" sparkle:dsaSignature="MC0CFQDXrHBLtj3nM53qNo4CONM0dlErUwIUFe1byGpNNt24KBkabLCucnf91HM=" type="application/octet-stream" />
             <description><![CDATA[
 <ul>
-<li>Fix to display Undefined values <a href="https://github.com/fotonauts/MongoHub-Mac/issues/49">issue 49</a></li>
-<li>Fix to avoid a crasher with disconnecting from a server while using ssh tunneling <a href="https://github.com/fotonauts/MongoHub-Mac/issues/48">issue 48</a></li>
-<li>Use ⌘ to avoid the confirmation panel in the remove tab (either while clicking or pressing the return key)</li>
+<li>Problem to modify ssh parameters while editing an existing connection (fields were disabled)</li>
+<li>Multi update checkbox added for updates (thanks to Tom Bocklisch)</li>
+<li>Bug fix to export mongo to sql: crash while exporting <a href="https://github.com/fotonauts/MongoHub-Mac/issues/58">issue #58</a></li>
+<li>ObjectId should be in lower case <a href="https://github.com/fotonauts/MongoHub-Mac/issues/55">issue #55</a></li>
+<li>Confirm dialog before connection delete (thanks to falsecz) <a href="https://github.com/fotonauts/MongoHub-Mac/pull/57">issue #57</a></li>
 </ul>
             ]]>
             </description>

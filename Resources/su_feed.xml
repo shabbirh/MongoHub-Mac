@@ -2,12 +2,12 @@
 <rss version="2.0" xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle"  xmlns:dc="http://purl.org/dc/elements/1.1/">
    <channel>
       <title>MongoHub</title>
-      <link>http://cloud.github.com/downloads/fotonauts/MongoHub-Mac/su_feed.xml</link>
+      <link>https://mongohub.s3.amazonaws.com/su_feed.xml</link>
       <description>Most recent changes with links to updates.</description>
       <language>en</language>      
          <item>
             <title>Version 2.5.5</title>
-            <enclosure url="http://cloud.github.com/downloads/fotonauts/MongoHub-Mac/MongoHub.zip" sparkle:version="99" sparkle:shortVersionString="2.5.5" length="3168806" sparkle:dsaSignature="MC0CFQDXrHBLtj3nM53qNo4CONM0dlErUwIUFe1byGpNNt24KBkabLCucnf91HM=" type="application/octet-stream" />
+            <enclosure url="https://mongohub.s3.amazonaws.com/MongoHub.zip" sparkle:version="99" sparkle:shortVersionString="2.5.5" length="3160222" type="application/octet-stream" />
             <description><![CDATA[
 <ul>
 <li>Problem to modify ssh parameters while editing an existing connection (fields were disabled)</li>

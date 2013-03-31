@@ -52,8 +52,6 @@
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
 	<key>SUFeedURL</key>
-	<string>http://cloud.github.com/downloads/fotonauts/MongoHub-Mac/su_feed.xml</string>
-	<key>SUPublicDSAKeyFile</key>
-	<string>dsa_pub.pem</string>
+	<string>https://mongohub.s3.amazonaws.com/su_feed.xml</string>
 </dict>
 </plist>

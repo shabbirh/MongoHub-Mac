@@ -4,7 +4,7 @@ Mac OS X (10.6.x, 10.7.x, 10.8.x), intel(64bit/32bit) based.
 
 ## Installation
 
-You can either download the compiled executable file from [here](https://github.com/downloads/fotonauts/MongoHub-Mac/MongoHub.zip) 
+You can either download the compiled executable file from [here](https://mongohub.s3.amazonaws.com/MongoHub.zip)
 or clone the source code and compile it on your own system.
 
 ## Build

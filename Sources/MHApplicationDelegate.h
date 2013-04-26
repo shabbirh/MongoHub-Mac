@@ -55,6 +55,7 @@
 - (IBAction)openSupportPanel:(id)sender;
 - (IBAction)closeSupportPanel:(id)sender;
 - (IBAction)openFeatureRequestBugReport:(id)sender;
+- (IBAction)openConnectionWindow:(id)sender;
 
 @end
 

@@ -27,6 +27,9 @@ This project is very new. Any issues or bug reports are welcome. And I still don
     - Need a progress bar for file export/import to know when it is done
     
 ** Current **
+    
+    - Unable to reopen connection window after it is closed https://github.com/fotonauts/MongoHub-Mac/issues/63
+    - Horizontal and vertical paddings between "New connection" button and window border must be equal https://github.com/fotonauts/MongoHub-Mac/issues/68
 
 ## History
 

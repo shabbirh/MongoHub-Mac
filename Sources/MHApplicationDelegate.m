@@ -412,6 +412,11 @@
     [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"https://github.com/fotonauts/MongoHub-Mac/issues"]];
 }
 
+- (IBAction)openConnectionWindow:(id)sender
+{
+    [_window makeKeyAndOrderFront:sender];
+}
+
 @end
 
 @implementation MHApplicationDelegate(MHConnectionEditorWindowControllerDelegate)

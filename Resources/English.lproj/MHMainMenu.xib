@@ -277,6 +277,7 @@
 							<string key="NSFrame">{{417, 5}, {173, 21}}</string>
 							<reference key="NSSuperview" ref="823886803"/>
 							<reference key="NSWindow"/>
+							<reference key="NSNextKeyView"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSSliderCell" key="NSCell" id="163406566">
 								<int key="NSCellFlags">-2080374784</int>
@@ -936,7 +937,7 @@
 									<reference key="NSOnImage" ref="893455832"/>
 									<reference key="NSMixedImage" ref="424226900"/>
 								</object>
-								<object class="NSMenuItem" id="199919113">
+								<object class="NSMenuItem" id="643324211">
 									<reference key="NSMenu" ref="747245393"/>
 									<bool key="NSIsDisabled">YES</bool>
 									<bool key="NSIsSeparator">YES</bool>
@@ -946,7 +947,7 @@
 									<reference key="NSOnImage" ref="893455832"/>
 									<reference key="NSMixedImage" ref="424226900"/>
 								</object>
-								<object class="NSMenuItem" id="701177698">
+								<object class="NSMenuItem" id="563166580">
 									<reference key="NSMenu" ref="747245393"/>
 									<string key="NSTitle">Connection List</string>
 									<string key="NSKeyEquiv">l</string>
@@ -1043,6 +1044,7 @@
 						<string key="NSFrame">{{17, 36}, {142, 105}}</string>
 						<reference key="NSSuperview" ref="126490163"/>
 						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView"/>
 						<object class="NSArray" key="NSViewContentFilters">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<object class="CISpotLight">
@@ -1087,6 +1089,7 @@
 						<string key="NSFrame">{{14, 17}, {145, 17}}</string>
 						<reference key="NSSuperview" ref="126490163"/>
 						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="733634740">
 							<int key="NSCellFlags">68157504</int>
@@ -1132,6 +1135,7 @@
 				<string key="NSFrameSize">{0, 0}</string>
 				<reference key="NSSuperview"/>
 				<reference key="NSWindow"/>
+				<reference key="NSNextKeyView"/>
 			</object>
 			<object class="NSWindowTemplate" id="19594474">
 				<int key="NSWindowStyleMask">17</int>
@@ -1236,6 +1240,7 @@
 							<string key="NSFrame">{{127, 18}, {76, 25}}</string>
 							<reference key="NSSuperview" ref="1023384553"/>
 							<reference key="NSWindow"/>
+							<reference key="NSNextKeyView"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSButtonCell" key="NSCell" id="150698888">
 								<int key="NSCellFlags">-2080374784</int>
@@ -1702,7 +1707,7 @@
 					<object class="IBActionConnection" key="connection">
 						<string key="label">openConnectionWindow:</string>
 						<reference key="source" ref="612578685"/>
-						<reference key="destination" ref="701177698"/>
+						<reference key="destination" ref="563166580"/>
 					</object>
 					<int key="connectionID">741</int>
 				</object>
@@ -2387,8 +2392,8 @@
 							<reference ref="1042829312"/>
 							<reference ref="814052996"/>
 							<reference ref="101771636"/>
-							<reference ref="199919113"/>
-							<reference ref="701177698"/>
+							<reference ref="643324211"/>
+							<reference ref="563166580"/>
 						</object>
 						<reference key="parent" ref="560112995"/>
 					</object>
@@ -2781,12 +2786,12 @@
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">738</int>
-						<reference key="object" ref="199919113"/>
+						<reference key="object" ref="643324211"/>
 						<reference key="parent" ref="747245393"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">739</int>
-						<reference key="object" ref="701177698"/>
+						<reference key="object" ref="563166580"/>
 						<reference key="parent" ref="747245393"/>
 					</object>
 				</object>
@@ -2978,7 +2983,7 @@
 						<object class="IBToolTipAttribute" key="NS.object.0">
 							<string key="name">ToolTip</string>
 							<reference key="object" ref="509105330"/>
-							<string key="toolTip">Add Server</string>
+							<string key="toolTip">Add Connection</string>
 						</object>
 					</object>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -2988,7 +2993,7 @@
 						<object class="IBToolTipAttribute" key="NS.object.0">
 							<string key="name">ToolTip</string>
 							<reference key="object" ref="377730458"/>
-							<string key="toolTip">Remove Server</string>
+							<string key="toolTip">Remove Connection</string>
 						</object>
 					</object>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -2998,7 +3003,7 @@
 						<object class="IBToolTipAttribute" key="NS.object.0">
 							<string key="name">ToolTip</string>
 							<reference key="object" ref="726254851"/>
-							<string key="toolTip">Edit Server</string>
+							<string key="toolTip">Edit Connection</string>
 						</object>
 					</object>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>

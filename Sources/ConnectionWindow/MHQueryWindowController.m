@@ -19,6 +19,8 @@
 #import "MHConnectionStore.h"
 #import "NSViewHelpers.h"
 
+#define IS_OBJECT_ID(value) ([value length] == 24 && [[value stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"1234567890abcdefABCDEF"]] length] == 0)
+
 @implementation MHQueryWindowController
 
 @synthesize databasesArrayController;
@@ -173,11 +175,20 @@
 {
     NSString *query = @"";
     NSString *value;
-    
+    NSString *valueWithoutDoubleQuotes = nil;
+  
     value = [[_criteriaComboBox stringValue] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-    if ([value length] == 24 && [[value stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"1234567890abcdefABCDEF"]] length] == 0) {
+    if ([value hasPrefix:@"\""] && [value hasSuffix:@"\""] && ![value isEqualToString:@"\""]) {
+      NSLog(@"%@", value);
+        valueWithoutDoubleQuotes = [value substringWithRange:NSMakeRange(1, value.length - 2)];
+    }
+    if (IS_OBJECT_ID(value) || IS_OBJECT_ID(valueWithoutDoubleQuotes)) {
         // 24 char length and only hex char... it must be an objectid
-        query = [NSString stringWithFormat:@"{\"_id\": { \"$oid\": \"%@\" }}",value];
+        if (valueWithoutDoubleQuotes) {
+            query = [NSString stringWithFormat:@"{\"_id\": { \"$oid\": \"%@\" }}", valueWithoutDoubleQuotes];
+        } else {
+            query = [NSString stringWithFormat:@"{\"_id\": { \"$oid\": \"%@\" }}", value];
+        }
     } else if ([value length] > 0) {
         if ([value hasPrefix:@"{"]) {
             NSString *innerValue;

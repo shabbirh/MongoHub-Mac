@@ -31,6 +31,7 @@ This project is very new. Any issues or bug reports are welcome. And I still don
     - Unable to reopen connection window after it is closed https://github.com/fotonauts/MongoHub-Mac/issues/63
     - Horizontal and vertical paddings between "New connection" button and window border must be equal https://github.com/fotonauts/MongoHub-Mac/issues/68
     - Binary should be imported and exported as base64 (instead of hexa)
+    - Accept queries with objectid between double quotes
 
 ## History
 

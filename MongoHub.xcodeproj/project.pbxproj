@@ -1430,7 +1430,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if [ -d \".git\" ] ; then\n  git submodule update --init\n  cd Libraries/mongo-objc-driver\n  git submodule update --init\nfi\n";
+			shellScript = "if [ -d \".git\" ] ; then\n  /usr/bin/git submodule update --init\n  cd Libraries/mongo-objc-driver\n  /usr/bin/git submodule update --init\nfi\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 

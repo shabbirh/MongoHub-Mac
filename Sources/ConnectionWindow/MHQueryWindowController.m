@@ -366,8 +366,8 @@
         insertResultsTextField.stringValue = @"Parsing error";
         [NSViewHelpers cancelColorForTarget:insertResultsTextField selector:@selector(setTextColor:)];
         currentColor = insertResultsTextField.textColor;
-        insertResultsTextField.textColor = [NSColor greenColor];
-        [NSViewHelpers setColor:currentColor fromColor:[NSColor greenColor] toTarget:insertResultsTextField withSelector:@selector(setTextColor:) delay:1];
+        insertResultsTextField.textColor = [NSColor redColor];
+        [NSViewHelpers setColor:currentColor fromColor:[NSColor redColor] toTarget:insertResultsTextField withSelector:@selector(setTextColor:) delay:1];
     } else {
         if ([objects isKindOfClass:[MODSortedMutableDictionary class]]) {
             objects = [NSArray arrayWithObject:objects];
@@ -387,7 +387,7 @@
             }
             [NSViewHelpers cancelColorForTarget:insertResultsTextField selector:@selector(setTextColor:)];
             currentColor = insertResultsTextField.textColor;
-            insertResultsTextField.textColor = [NSColor greenColor];
+            insertResultsTextField.textColor = flashColor;
             [NSViewHelpers setColor:currentColor fromColor:flashColor toTarget:insertResultsTextField withSelector:@selector(setTextColor:) delay:1];
         }];
     }

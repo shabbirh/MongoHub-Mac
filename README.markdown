@@ -32,6 +32,7 @@ This project is very new. Any issues or bug reports are welcome. And I still don
     - Horizontal and vertical paddings between "New connection" button and window border must be equal https://github.com/fotonauts/MongoHub-Mac/issues/68
     - Binary should be imported and exported as base64 (instead of hexa)
     - Accept queries with objectid between double quotes
+    - Bug fix when the mongo host port was left with the default value (while using ssh tunneling) https://github.com/fotonauts/MongoHub-Mac/issues/78
 
 ## History
 

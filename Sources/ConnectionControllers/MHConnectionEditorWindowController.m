@@ -9,6 +9,7 @@
 #import "MHConnectionEditorWindowController.h"
 #import "MHConnectionStore.h"
 #import "DatabasesArrayController.h"
+#import "mongo.h"
 
 @interface MHConnectionEditorWindowController ()
 - (void)_updateSSHFields;
@@ -35,6 +36,7 @@
 
 - (void)windowDidLoad
 {
+    [_hostportTextField.cell setPlaceholderString:[NSString stringWithFormat:@"%d", MONGO_DEFAULT_PORT]];
     if (_connectionStore) {
         [_hostTextField setStringValue:_connectionStore.host];
         if (_connectionStore.hostport.stringValue.longLongValue == 0) {

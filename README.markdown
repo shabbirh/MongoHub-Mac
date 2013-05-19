@@ -28,6 +28,9 @@ This project is very new. Any issues or bug reports are welcome. And I still don
     
 ** Current **
 
+    - Drop database/collection default action must be "No" https://github.com/fotonauts/MongoHub-Mac/issues/65
+    - New Connection window doesn't use 127.0.0.1:27017 by default https://github.com/fotonauts/MongoHub-Mac/issues/60
+
 ## History
 
 ** 2.5.6(100) - may 19, 2013 **

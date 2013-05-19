@@ -218,6 +218,9 @@ static BOOL testLocalPortAvailable(unsigned short port)
         case MHConnectionRefusedTunnelError:
             result = @"The ssh server refused the connection";
             break;
+        case MHConnectionBadHostnameTunnelError:
+            result = @"The host name cannot be resolved";
+            break;
         case MHConnectionTimeOutTunnelError:
             result = @"The ssh server did not answer";
             break;
@@ -230,6 +233,8 @@ static BOOL testLocalPortAvailable(unsigned short port)
         case MHConnectionWrongPasswordTunnelError:
             result = @"Wrong password";
             break;
+        case MHConnectionHostIdentificationChangedTunnelError:
+            result = @"REMOTE HOST IDENTIFICATION HAS CHANGED";
     }
     return result;
 }
@@ -410,11 +415,19 @@ static BOOL testLocalPortAvailable(unsigned short port)
             
             if ([_delegate respondsToSelector:@selector(tunnelDidFailToConnect:withError:)]) [_delegate tunnelDidFailToConnect:self withError:[NSError errorWithDomain:MHTunnelDomain code:self.tunnelError userInfo:nil]];
         } else if ([pipeStr rangeOfString:@"Operation timed out"].location != NSNotFound) {
-            self.tunnelError = MHConnectionRefusedTunnelError;
+            self.tunnelError = MHConnectionTimeOutTunnelError;
+            
+            if ([_delegate respondsToSelector:@selector(tunnelDidFailToConnect:withError:)]) [_delegate tunnelDidFailToConnect:self withError:[NSError errorWithDomain:MHTunnelDomain code:self.tunnelError userInfo:nil]];
+        } else if ([pipeStr rangeOfString:@"Could not resolve hostname"].location != NSNotFound) {
+            self.tunnelError = MHConnectionBadHostnameTunnelError;
             
             if ([_delegate respondsToSelector:@selector(tunnelDidFailToConnect:withError:)]) [_delegate tunnelDidFailToConnect:self withError:[NSError errorWithDomain:MHTunnelDomain code:self.tunnelError userInfo:nil]];
         } else if ([pipeStr rangeOfString:@"Permission denied"].location != NSNotFound) {
             self.tunnelError = MHConnectionWrongPasswordTunnelError;
+            
+            if ([_delegate respondsToSelector:@selector(tunnelDidFailToConnect:withError:)]) [_delegate tunnelDidFailToConnect:self withError:[NSError errorWithDomain:MHTunnelDomain code:self.tunnelError userInfo:nil]];
+        } else if ([pipeStr rangeOfString:@"REMOTE HOST IDENTIFICATION HAS CHANGED"].location != NSNotFound) {
+            self.tunnelError = MHConnectionHostIdentificationChangedTunnelError;
             
             if ([_delegate respondsToSelector:@selector(tunnelDidFailToConnect:withError:)]) [_delegate tunnelDidFailToConnect:self withError:[NSError errorWithDomain:MHTunnelDomain code:self.tunnelError userInfo:nil]];
         }
@@ -452,6 +465,8 @@ static BOOL testLocalPortAvailable(unsigned short port)
     [result addObject:@"ConnectionAttempts=1"];
 	[result addObject:@"-o"];
     [result addObject:@"ExitOnForwardFailure=yes"];
+	[result addObject:@"-o"];
+    [result addObject:@"StrictHostKeyChecking=no"];
     if (self.additionalArgs) {
         [result addObjectsFromArray:self.additionalArgs];
     }

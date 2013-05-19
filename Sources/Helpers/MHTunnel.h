@@ -17,8 +17,10 @@ typedef enum {
     MHConnectionRefusedTunnelError,
     MHConnectionTimeOutTunnelError,
     MHConnectionErrorTunnelError,
+    MHConnectionBadHostnameTunnelError,
     MHConnectionHostKeyErrorTunnelError,
-    MHConnectionWrongPasswordTunnelError
+    MHConnectionWrongPasswordTunnelError,
+    MHConnectionHostIdentificationChangedTunnelError,
 } MHTunnelError;
 
 @protocol MHTunnelDelegate<NSObject>

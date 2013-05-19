@@ -649,7 +649,7 @@
 
 - (void)alertDidEnd:(NSAlert *)alert returnCode:(int)returnCode contextInfo:(void *)contextInfo
 {
-    if (returnCode == NSAlertFirstButtonReturn)
+    if (returnCode == NSAlertSecondButtonReturn)
     {
         if ([self selectedCollectionItem]) {
             [self dropCollection:[[self selectedCollectionItem].mongoCollection collectionName] ForDB:[[self selectedDatabaseItem].mongoDatabase databaseName]];
@@ -662,8 +662,8 @@
 - (void)dropWarning:(NSString *)msg
 {
     NSAlert *alert = [[[NSAlert alloc] init] autorelease];
-    [alert addButtonWithTitle:@"OK"];
     [alert addButtonWithTitle:@"Cancel"];
+    [alert addButtonWithTitle:@"OK"];
     [alert setMessageText:[NSString stringWithFormat:@"Drop this %@?", msg]];
     [alert setInformativeText:[NSString stringWithFormat:@"Dropped %@ cannot be restored.", msg]];
     [alert setAlertStyle:NSWarningAlertStyle];

@@ -173,7 +173,6 @@ static BOOL testLocalPortAvailable(unsigned short port)
 	CFDataRef addressData;
     BOOL freePort;
     
-    NSLog(@"test %d", (int)port);
     CFSocketContext socketCtxt = {0, [MHTunnel class], (const void*(*)(const void*))&CFRetain, (void(*)(const void*))&CFRelease, (CFStringRef(*)(const void *))&CFCopyDescription };
     socket = CFSocketCreate(kCFAllocatorDefault, PF_INET, SOCK_STREAM, IPPROTO_TCP, kCFSocketAcceptCallBack, (CFSocketCallBack)NULL, &socketCtxt);
     
@@ -190,14 +189,13 @@ static BOOL testLocalPortAvailable(unsigned short port)
         CFSocketInvalidate(socket);
         CFRelease(socket);
     }
-    NSLog(@"\tresult %@", freePort?@"available":@"used");
     
     return freePort;
 }
 
 + (unsigned short)findFreeTCPPort
 {
-    unsigned short port = 40000;
+    static unsigned short port = 40000;
     BOOL freePort = NO;
     
     while (port != 0 && !freePort) {

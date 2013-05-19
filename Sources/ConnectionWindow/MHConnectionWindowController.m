@@ -935,7 +935,10 @@ static int percentage(NSNumber *previousValue, NSNumber *previousOutOfValue, NSN
 - (void)tunnelDidFailToConnect:(MHTunnel *)tunnel withError:(NSError *)error;
 {
     NSLog(@"SSH TUNNEL ERROR: %@", error);
-    [self didFailToConnectWithError:error];
+    if (!tunnel.connected) {
+        // after being connected, we don't really care about errors
+        [self didFailToConnectWithError:error];
+    }
 }
 
 @end

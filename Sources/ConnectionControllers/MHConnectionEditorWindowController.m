@@ -37,6 +37,7 @@
 - (void)windowDidLoad
 {
     [_hostportTextField.cell setPlaceholderString:[NSString stringWithFormat:@"%d", MONGO_DEFAULT_PORT]];
+    [_sshuserTextField.cell setPlaceholderString:[NSProcessInfo.processInfo.environment objectForKey:@"USER" ]];
     if (_connectionStore) {
         [_hostTextField setStringValue:_connectionStore.host];
         if (_connectionStore.hostport.stringValue.longLongValue == 0) {

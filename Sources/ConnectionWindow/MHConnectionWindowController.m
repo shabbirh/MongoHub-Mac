@@ -42,6 +42,8 @@
 #define FILE_IMPORT_TOOLBAR_ITEM_TAG                6
 #define FILE_EXPORT_TOOLBAR_ITEM_TAG                7
 
+#define DEFAULT_MONGO_IP                            @"127.0.0.1"
+
 @interface MHConnectionWindowController()
 - (void)updateToolbarItems;
 
@@ -136,11 +138,15 @@
         self.window.title = [NSString stringWithFormat:@"%@ [%@]", [_connectionStore alias], [_connectionStore repl_name]];
     } else {
         unsigned short hostPort = _connectionStore.hostport.intValue;
+        NSString *host = [[_connectionStore host] stringByTrimmingWhitespace];
         
+        if (host.length == 0) {
+            host = DEFAULT_MONGO_IP;
+        }
         if (hostPort == 0 || hostPort == MONGO_DEFAULT_PORT) {
-            self.window.title = [NSString stringWithFormat:@"%@ [%@]", [_connectionStore alias], [_connectionStore host]];
+            self.window.title = [NSString stringWithFormat:@"%@ [%@]", [_connectionStore alias], host];
         } else {
-            self.window.title = [NSString stringWithFormat:@"%@ [%@:%d]", [_connectionStore alias], [_connectionStore host], hostPort];
+            self.window.title = [NSString stringWithFormat:@"%@ [%@:%d]", [_connectionStore alias], host, hostPort];
         }
     }
     [_tabViewController addObserver:self forKeyPath:@"selectedTabIndex" options:NSKeyValueObservingOptionNew context:nil];
@@ -205,6 +211,7 @@
     [monitorButton setEnabled:NO];
     if ((_sshTunnel == nil || !_sshTunnel.connected) && [_connectionStore.usessh intValue] == 1) {
         unsigned short hostPort;
+        NSString *hostAddress;
         
         _sshTunnelPort = [MHTunnel findFreeTCPPort];
         if (!_sshTunnel) {
@@ -224,7 +231,11 @@
         if (hostPort == 0) {
             hostPort = MONGO_DEFAULT_PORT;
         }
-        [_sshTunnel addForwardingPortWithBindAddress:nil bindPort:_sshTunnelPort hostAddress:_connectionStore.host hostPort:hostPort reverseForwarding:NO];
+        hostAddress = [_connectionStore.host stringByTrimmingWhitespace];
+        if (hostAddress.length == 0) {
+            hostAddress = @"127.0.0.1";
+        }
+        [_sshTunnel addForwardingPortWithBindAddress:nil bindPort:_sshTunnelPort hostAddress:hostAddress hostPort:hostPort reverseForwarding:NO];
         [_sshTunnel start];
         return;
     } else {
@@ -266,7 +277,12 @@
             if ([_connectionStore.usessh intValue] == 1) {
                 hostaddress = [[NSString alloc] initWithFormat:@"127.0.0.1:%d", (int)_sshTunnelPort];
             } else {
-                hostaddress = [[NSString alloc] initWithFormat:@"%@:%@", _connectionStore.host, _connectionStore.hostport];
+                NSString *host = [_connectionStore.host stringByTrimmingWhitespace];
+                
+                if (host.length == 0) {
+                    host = DEFAULT_MONGO_IP;
+                }
+                hostaddress = [[NSString alloc] initWithFormat:@"%@:%@", host, _connectionStore.hostport];
             }
             [_mongoServer connectWithHostName:hostaddress callback:^(BOOL connected, MODQuery *mongoQuery) {
                 if (connected) {

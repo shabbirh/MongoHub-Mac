@@ -122,7 +122,7 @@
     for(FieldMapDataObject *field in fieldMapping)
     {
         id value;
-        id mongoValue = [mongoDocument valueForKeyPath:field.mongoKey];
+        id mongoValue = [mongoDocument objectForKey:field.mongoKey];
         if (mongoValue == nil) {
             continue;
         } else if ([mongoValue isKindOfClass:[NSArray class]]) {

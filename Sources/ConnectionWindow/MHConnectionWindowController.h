@@ -101,7 +101,7 @@
 - (void)dropDB;
 - (IBAction)query:(id)sender;
 - (IBAction)showAuth:(id)sender;
-- (void)connect:(BOOL)haveHostAddress;
+- (void)connectToServer;
 - (void)dropWarning:(NSString *)msg;
 
 - (IBAction)startMonitor:(id)sender;

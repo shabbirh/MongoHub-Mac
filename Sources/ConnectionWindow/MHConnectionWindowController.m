@@ -31,6 +31,7 @@
 #import "MOD_public.h"
 #import "MHStatusViewController.h"
 #import "MHTabViewController.h"
+#import "mongo.h"
 
 #define SERVER_STATUS_TOOLBAR_ITEM_TAG              0
 #define DATABASE_STATUS_TOOLBAR_ITEM_TAG            1
@@ -132,12 +133,19 @@
     [self updateToolbarItems];
     
     if ([[_connectionStore userepl] intValue] == 1) {
-        self.window.title = [NSString stringWithFormat:@"%@ [%@]", [_connectionStore alias], [_connectionStore repl_name] ];
+        self.window.title = [NSString stringWithFormat:@"%@ [%@]", [_connectionStore alias], [_connectionStore repl_name]];
     } else {
-        self.window.title = [NSString stringWithFormat:@"%@ [%@:%@]", [_connectionStore alias], [_connectionStore host], [_connectionStore hostport] ];
+        unsigned short hostPort = _connectionStore.hostport.intValue;
+        
+        if (hostPort == 0 || hostPort == MONGO_DEFAULT_PORT) {
+            self.window.title = [NSString stringWithFormat:@"%@ [%@]", [_connectionStore alias], [_connectionStore host]];
+        } else {
+            self.window.title = [NSString stringWithFormat:@"%@ [%@:%d]", [_connectionStore alias], [_connectionStore host], hostPort];
+        }
     }
     [_tabViewController addObserver:self forKeyPath:@"selectedTabIndex" options:NSKeyValueObservingOptionNew context:nil];
     [self.window addObserver:self forKeyPath:@"firstResponder" options:NSKeyValueObservingOptionNew context:nil];
+    _statusViewController.title = @"Connecting…";
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
@@ -186,15 +194,18 @@
 - (void)didFailToConnectWithError:(NSError *)error
 {
     [loaderIndicator stop];
+    _statusViewController.title = [NSString stringWithFormat:@"Error: %@", error.localizedDescription];
     NSRunAlertPanel(@"Error", [error localizedDescription], @"OK", nil, nil);
 }
 
-- (void)connect:(BOOL)haveHostAddress
+- (void)connectToServer
 {
     [loaderIndicator start];
     [reconnectButton setEnabled:NO];
     [monitorButton setEnabled:NO];
-    if (!haveHostAddress && [_connectionStore.usessh intValue] == 1) {
+    if ((_sshTunnel == nil || !_sshTunnel.connected) && [_connectionStore.usessh intValue] == 1) {
+        unsigned short hostPort;
+        
         _sshTunnelPort = [MHTunnel findFreeTCPPort];
         if (!_sshTunnel) {
             _sshTunnel = [[MHTunnel alloc] init];
@@ -209,7 +220,11 @@
         [_sshTunnel setAliveInterval:30];
         [_sshTunnel setTcpKeepAlive:YES];
         [_sshTunnel setCompression:YES];
-        [_sshTunnel addForwardingPortWithBindAddress:nil bindPort:_sshTunnelPort hostAddress:_connectionStore.host hostPort:[_connectionStore.hostport intValue] reverseForwarding:NO];
+        hostPort = (unsigned short)[_connectionStore.hostport intValue];
+        if (hostPort == 0) {
+            hostPort = MONGO_DEFAULT_PORT;
+        }
+        [_sshTunnel addForwardingPortWithBindAddress:nil bindPort:_sshTunnelPort hostAddress:_connectionStore.host hostPort:hostPort reverseForwarding:NO];
         [_sshTunnel start];
         return;
     } else {
@@ -271,7 +286,7 @@
     NSString *appVersion = [[NSString alloc] initWithFormat:@"version(%@[%@])", [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"], [[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString*)kCFBundleVersionKey] ];
     [bundleVersion setStringValue: appVersion];
     [appVersion release];
-    [self connect:NO];
+    [self connectToServer];
     [_databaseCollectionOutlineView setDoubleAction:@selector(sidebarDoubleAction:)];
 }
 
@@ -282,7 +297,7 @@
 
 - (IBAction)reconnect:(id)sender
 {
-    [self connect:NO];
+    [self connectToServer];
 }
 
 - (void)windowWillClose:(NSNotification *)notification
@@ -914,12 +929,16 @@ static int percentage(NSNumber *previousValue, NSNumber *previousOutOfValue, NSN
 - (void)tunnelDidConnect:(MHTunnel *)tunnel
 {
     NSLog(@"SSH TUNNEL STATUS: CONNECTED");
-    [self connect:YES];
+    [self connectToServer];
 }
 
 - (void)tunnelDidFailToConnect:(MHTunnel *)tunnel withError:(NSError *)error;
 {
     NSLog(@"SSH TUNNEL ERROR: %@", error);
+    if (!tunnel.connected) {
+        // after being connected, we don't really care about errors
+        [self didFailToConnectWithError:error];
+    }
 }
 
 @end

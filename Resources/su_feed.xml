@@ -2,19 +2,20 @@
 <rss version="2.0" xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle"  xmlns:dc="http://purl.org/dc/elements/1.1/">
    <channel>
       <title>MongoHub</title>
-      <link>http://cloud.github.com/downloads/fotonauts/MongoHub-Mac/su_feed.xml</link>
+      <link>https://mongohub.s3.amazonaws.com/su_feed.xml</link>
       <description>Most recent changes with links to updates.</description>
       <language>en</language>      
          <item>
-            <title>Version 2.5.3</title>
-            <enclosure url="http://cloud.github.com/downloads/fotonauts/MongoHub-Mac/MongoHub.zip" sparkle:version="97" sparkle:shortVersionString="2.5.3" length="3131145" sparkle:dsaSignature="MC0CFBKS8yYc+YdZFx0rkv6CMEOUCzKuAhUAgT4j+Au1G6nGe6feys/QfQjtD94=" type="application/octet-stream" />
+            <title>Version 2.5.6</title>
+            <enclosure url="https://mongohub.s3.amazonaws.com/MongoHub.zip" sparkle:version="100" sparkle:shortVersionString="2.5.6" length="3163004" type="application/octet-stream" />
             <description><![CDATA[
 <ul>
-<li>No more setting for bind address and bind port (bind address is 127.0.0.1 and bind port will be choosen automatically from 40000 or higher) <a href="https://github.com/fotonauts/MongoHub-Mac/issues/19">issue 19</a></li>
-<li>Fix for a crasher when the network goes down <a href="https://github.com/fotonauts/MongoHub-Mac/issues/42">issue 42</a></li>
-<li>Changing from red to green (except for remove) <a href="https://github.com/fotonauts/MongoHub-Mac/issues/44">issue 44</a></li>
-<li>Adding a confirmation dialog correctly when removing all documents <a href="https://github.com/fotonauts/MongoHub-Mac/issues/33">issue 33</a></li>
-<li>Some cleanup for the connection editor, thanks to Alex Shteinikov (idooo)</li>
+<li>Unable to reopen connection window after it is closed <a href="https://github.com/fotonauts/MongoHub-Mac/issues/63">issue #63</a></li>
+<li>Horizontal and vertical paddings between "New connection" button and window border must be equal <a href="https://github.com/fotonauts/MongoHub-Mac/issues/68">issue #68</a></li>
+<li>Binary should be imported and exported as base64 (instead of hexa)</li>
+<li>Accept queries with objectid between double quotes</li>
+<li>Bug fix when the mongo host port was left with the default value (while using ssh tunneling) <a href="https://github.com/fotonauts/MongoHub-Mac/issues/78">issue #78</a></li>
+<li>ssh tunnel is a lot faster to open the connection now</li>
 </ul>
             ]]>
             </description>

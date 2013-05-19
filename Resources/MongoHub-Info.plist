@@ -38,22 +38,20 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>2.5.3</string>
+	<string>2.5.6</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>97</string>
+	<string>100</string>
 	<key>LSMinimumSystemVersion</key>
 	<string>${MACOSX_DEPLOYMENT_TARGET}</string>
 	<key>NSHumanReadableCopyright</key>
 	<string>© 2010, The Peppers Studio</string>
 	<key>NSMainNibFile</key>
-	<string>MainMenu</string>
+	<string>MHMainMenu</string>
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
 	<key>SUFeedURL</key>
-	<string>http://cloud.github.com/downloads/fotonauts/MongoHub-Mac/su_feed.xml</string>
-	<key>SUPublicDSAKeyFile</key>
-	<string>dsa_pub.pem</string>
+	<string>https://mongohub.s3.amazonaws.com/su_feed.xml</string>
 </dict>
 </plist>

@@ -1,10 +1,10 @@
 ## System Requirements
 
-Mac OS X(10.6.x or 10.7.x), intel(64bit/32bit) based.
+Mac OS X (10.6.x, 10.7.x, 10.8.x), intel(64bit/32bit) based.
 
 ## Installation
 
-You can either download the compiled executable file from [here](https://github.com/downloads/fotonauts/MongoHub-Mac/MongoHub.zip) 
+You can either download the compiled executable file from [here](https://mongohub.s3.amazonaws.com/MongoHub.zip)
 or clone the source code and compile it on your own system.
 
 ## Build
@@ -17,8 +17,6 @@ This project is very new. Any issues or bug reports are welcome. And I still don
 
 ** Known bugs **
     
-    - Don't trust the grey default value in textfields
-    - Most of errors are not handled correctly
     - Simple quote is not supported yet for json
 
 ** To do list **
@@ -32,6 +30,27 @@ This project is very new. Any issues or bug reports are welcome. And I still don
 
 ## History
 
+** 2.5.6(100) - may 19, 2013 **
+
+    - Unable to reopen connection window after it is closed https://github.com/fotonauts/MongoHub-Mac/issues/63
+    - Horizontal and vertical paddings between "New connection" button and window border must be equal https://github.com/fotonauts/MongoHub-Mac/issues/68
+    - Binary should be imported and exported as base64 (instead of hexa)
+    - Accept queries with objectid between double quotes
+    - Bug fix when the mongo host port was left with the default value (while using ssh tunneling) https://github.com/fotonauts/MongoHub-Mac/issues/78
+    - ssh tunnel is a lot faster to open the connection now
+
+** 2.5.5(99) - march 3, 2013 **
+
+    - Problem to modify ssh parameters while editing an existing connection (fields were disabled)
+    - Multi update checkbox added for updates (thanks to Tom Bocklisch)
+    - Bug fix to export mongo to sql: crash while exporting https://github.com/fotonauts/MongoHub-Mac/issues/58
+    - ObjectId should be in lower case https://github.com/fotonauts/MongoHub-Mac/issues/55
+    - Confirm dialog before connection delete (thanks to falsecz) https://github.com/fotonauts/MongoHub-Mac/pull/57
+
+** 2.5.4(98) - november 1, 2012 **
+
+    - Fix to display Undefined values https://github.com/fotonauts/MongoHub-Mac/issues/49
+    - Fix to avoid a crasher with disconnecting from a server while using ssh tunneling https://github.com/fotonauts/MongoHub-Mac/issues/48
     - Use ⌘ to avoid the confirmation panel in the remove tab (either while clicking or pressing the return key)
 
 ** 2.5.3(97) - september 4, 2012 **

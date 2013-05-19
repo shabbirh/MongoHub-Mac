@@ -15,8 +15,12 @@
 typedef enum {
     MHNoTunnelError = 0,
     MHConnectionRefusedTunnelError,
-    MHConnectionErrorTunnelError,
-    MHConnectionWrongPasswordTunnelError
+    MHConnectionTimedOutTunnelError,
+    MHUnknownErrorTunnelError,
+    MHBadHostnameTunnelError,
+    MHHostKeyErrorTunnelError,
+    MHWrongPasswordTunnelError,
+    MHHostIdentificationChangedTunnelError,
 } MHTunnelError;
 
 @protocol MHTunnelDelegate<NSObject>
@@ -32,12 +36,12 @@ typedef enum {
 	id<MHTunnelDelegate>            _delegate;
 	
 	NSTask                          *_task;
-	NSFileHandle                    *_fileHandle;
+	NSFileHandle                    *_errorFileHandle;
 	MHTunnelError                   _tunnelError;
 	BOOL                            _running;
 	BOOL                            _connected;
 	
-	NSString* uid;
+	NSString                        *uid;
 	NSString                        *_name;
 	NSString                        *_host;
 	int                             _port;
@@ -48,29 +52,30 @@ typedef enum {
 	int                             _aliveCountMax;
 	BOOL                            _tcpKeepAlive;
 	BOOL                            _compression;
-	NSString                        *_additionalArgs;
+	NSArray                         *_additionalArgs;
 	NSMutableArray                  *_portForwardings;
 }
 
-@property(retain) NSString* uid;
-@property(retain) NSString* name;
-@property(retain) NSString* host;
-@property(assign) int port;
-@property(retain) NSString* user;
-@property(retain) NSString* password;
-@property(retain) NSString* keyfile;
-@property(assign) int aliveInterval;
-@property(assign) int aliveCountMax;
-@property(assign) BOOL tcpKeepAlive;
-@property(assign) BOOL compression;
-@property(retain) NSString* additionalArgs;
-@property(retain) NSMutableArray* portForwardings;
-@property(nonatomic, assign, readwrite) id<MHTunnelDelegate> delegate;
-@property(nonatomic, assign, readonly, getter = isRunning) BOOL running;
-@property(nonatomic, assign, readonly, getter = isConnected) BOOL connected;
-@property(nonatomic, assign, readonly) MHTunnelError tunnelError;
+@property (nonatomic, retain, readwrite) NSString* uid;
+@property (nonatomic, retain, readwrite) NSString* name;
+@property (nonatomic, retain, readwrite) NSString* host;
+@property (nonatomic, assign, readwrite) int port;
+@property (nonatomic, retain, readwrite) NSString* user;
+@property (nonatomic, retain, readwrite) NSString* password;
+@property (nonatomic, retain, readwrite) NSString* keyfile;
+@property (nonatomic, assign, readwrite) int aliveInterval;
+@property (nonatomic, assign, readwrite) int aliveCountMax;
+@property (nonatomic, assign, readwrite) BOOL tcpKeepAlive;
+@property (nonatomic, assign, readwrite) BOOL compression;
+@property (nonatomic, retain, readwrite) NSArray* additionalArgs;
+@property (nonatomic, retain, readwrite) NSMutableArray* portForwardings;
+@property (nonatomic, assign, readwrite) id<MHTunnelDelegate> delegate;
+@property (nonatomic, assign, readonly, getter = isRunning) BOOL running;
+@property (nonatomic, assign, readonly, getter = isConnected) BOOL connected;
+@property (nonatomic, assign, readonly) MHTunnelError tunnelError;
 
 + (unsigned short)findFreeTCPPort;
++ (NSString *)errorMessageForTunnelError:(MHTunnelError)error;
 
 - (void)start;
 - (void)stop;

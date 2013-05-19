@@ -19,6 +19,8 @@
 #import "MHConnectionStore.h"
 #import "NSViewHelpers.h"
 
+#define IS_OBJECT_ID(value) ([value length] == 24 && [[value stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"1234567890abcdefABCDEF"]] length] == 0)
+
 @implementation MHQueryWindowController
 
 @synthesize databasesArrayController;
@@ -37,6 +39,7 @@
 @synthesize updateCriticalTextField;
 @synthesize updateSetTextField;
 @synthesize upsetCheckBox;
+@synthesize multiCheckBox;
 @synthesize updateResultsTextField;
 @synthesize updateQueryTextField;
 @synthesize updateQueryLoaderIndicator;
@@ -106,6 +109,7 @@
     [updateCriticalTextField release];
     [updateSetTextField release];
     [upsetCheckBox release];
+    [multiCheckBox release];
     [updateResultsTextField release];
     [updateQueryTextField release];
     [updateQueryLoaderIndicator release];
@@ -171,11 +175,20 @@
 {
     NSString *query = @"";
     NSString *value;
-    
+    NSString *valueWithoutDoubleQuotes = nil;
+  
     value = [[_criteriaComboBox stringValue] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-    if ([value length] == 24 && [[value stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"1234567890abcdefABCDEF"]] length] == 0) {
+    if ([value hasPrefix:@"\""] && [value hasSuffix:@"\""] && ![value isEqualToString:@"\""]) {
+      NSLog(@"%@", value);
+        valueWithoutDoubleQuotes = [value substringWithRange:NSMakeRange(1, value.length - 2)];
+    }
+    if (IS_OBJECT_ID(value) || IS_OBJECT_ID(valueWithoutDoubleQuotes)) {
         // 24 char length and only hex char... it must be an objectid
-        query = [NSString stringWithFormat:@"{\"_id\": { \"$oid\": \"%@\" }}",value];
+        if (valueWithoutDoubleQuotes) {
+            query = [NSString stringWithFormat:@"{\"_id\": { \"$oid\": \"%@\" }}", valueWithoutDoubleQuotes];
+        } else {
+            query = [NSString stringWithFormat:@"{\"_id\": { \"$oid\": \"%@\" }}", value];
+        }
     } else if ([value length] > 0) {
         if ([value hasPrefix:@"{"]) {
             NSString *innerValue;
@@ -232,10 +245,13 @@
     [findQueryLoaderIndicator start];
     [_mongoCollection findWithCriteria:criteria fields:fields skip:[_skipTextField intValue] limit:limit sort:sort callback:^(NSArray *documents, MODQuery *mongoQuery) {
         NSColor *currentColor;
+        NSColor *flashColor;
         
         if (mongoQuery.error) {
             [findQueryLoaderIndicator stop];
             NSRunAlertPanel(@"Error", [mongoQuery.error localizedDescription], @"OK", nil, nil);
+            flashColor = [NSColor redColor];
+            [totalResultsTextField setStringValue:@"Error"];
         } else {
             if ([queryTitle length] > 0) {
                 [_connectionStore addNewQuery:[NSDictionary dictionaryWithObjectsAndKeys:queryTitle, @"title", [_sortTextField stringValue], @"sort", [_fieldsTextField stringValue], @"fields", [_limitTextField stringValue], @"limit", [_skipTextField stringValue], @"skip", nil] withDatabaseName:_mongoCollection.databaseName collectionName:_mongoCollection.collectionName];
@@ -245,11 +261,12 @@
                 [findQueryLoaderIndicator stop];
                 [totalResultsTextField setStringValue:[NSString stringWithFormat:@"Total Results: %lld (%0.2fs)", count, [[mongoQuery.userInfo objectForKey:@"timequery"] duration]]];
             }];
+            flashColor = [NSColor greenColor];
         }
         [NSViewHelpers cancelColorForTarget:totalResultsTextField selector:@selector(setTextColor:)];
         currentColor = totalResultsTextField.textColor;
-        totalResultsTextField.textColor = [NSColor greenColor];
-        [NSViewHelpers setColor:currentColor fromColor:[NSColor greenColor] toTarget:totalResultsTextField withSelector:@selector(setTextColor:) delay:1];
+        totalResultsTextField.textColor = flashColor;
+        [NSViewHelpers setColor:currentColor fromColor:flashColor toTarget:totalResultsTextField withSelector:@selector(setTextColor:) delay:1];
         [findQueryLoaderIndicator stopAnimation:self];
 
         
@@ -274,6 +291,9 @@
     
     [updateQueryLoaderIndicator start];
     [_mongoCollection countWithCriteria:criteria callback:^(int64_t count, MODQuery *mongoQuery) {
+        if ([multiCheckBox state] == 0 && count > 0) {
+            count = 1;
+        }
         NSColor *currentColor;
         
         [updateResultsTextField setStringValue:[NSString stringWithFormat:@"Affected Rows: %lld", count]];
@@ -282,7 +302,7 @@
         updateResultsTextField.textColor = [NSColor greenColor];
         [NSViewHelpers setColor:currentColor fromColor:[NSColor greenColor] toTarget:updateResultsTextField withSelector:@selector(setTextColor:) delay:1];
     }];
-    [_mongoCollection updateWithCriteria:criteria update:[updateSetTextField stringValue] upsert:[upsetCheckBox state] multiUpdate:YES callback:^(MODQuery *mongoQuery) {
+    [_mongoCollection updateWithCriteria:criteria update:[updateSetTextField stringValue] upsert:[upsetCheckBox state] multiUpdate:[multiCheckBox state] callback:^(MODQuery *mongoQuery) {
         [updateQueryLoaderIndicator stop];
     }];
 }
@@ -350,26 +370,29 @@
         insertResultsTextField.stringValue = @"Parsing error";
         [NSViewHelpers cancelColorForTarget:insertResultsTextField selector:@selector(setTextColor:)];
         currentColor = insertResultsTextField.textColor;
-        insertResultsTextField.textColor = [NSColor greenColor];
-        [NSViewHelpers setColor:currentColor fromColor:[NSColor greenColor] toTarget:insertResultsTextField withSelector:@selector(setTextColor:) delay:1];
+        insertResultsTextField.textColor = [NSColor redColor];
+        [NSViewHelpers setColor:currentColor fromColor:[NSColor redColor] toTarget:insertResultsTextField withSelector:@selector(setTextColor:) delay:1];
     } else {
         if ([objects isKindOfClass:[MODSortedMutableDictionary class]]) {
             objects = [NSArray arrayWithObject:objects];
         }
         [_mongoCollection insertWithDocuments:objects callback:^(MODQuery *mongoQuery) {
             NSColor *currentColor;
-            
+            NSColor *flashColor;
+          
             [insertLoaderIndicator stop];
             if (mongoQuery.error) {
-                NSRunAlertPanel(@"Error", [mongoQuery.error localizedDescription], @"OK", nil, nil);
+                flashColor = [NSColor redColor];
                 [insertResultsTextField setStringValue:@"Error!"];
+                NSRunAlertPanel(@"Error", [mongoQuery.error localizedDescription], @"OK", nil, nil);
             } else {
+                flashColor = [NSColor greenColor];
                 [insertResultsTextField setStringValue:@"Completed!"];
             }
             [NSViewHelpers cancelColorForTarget:insertResultsTextField selector:@selector(setTextColor:)];
             currentColor = insertResultsTextField.textColor;
-            insertResultsTextField.textColor = [NSColor greenColor];
-            [NSViewHelpers setColor:currentColor fromColor:[NSColor greenColor] toTarget:insertResultsTextField withSelector:@selector(setTextColor:) delay:1];
+            insertResultsTextField.textColor = flashColor;
+            [NSViewHelpers setColor:currentColor fromColor:flashColor toTarget:insertResultsTextField withSelector:@selector(setTextColor:) delay:1];
         }];
     }
 }
@@ -542,11 +565,19 @@
     }else {
         upset = [[NSString alloc] initWithString:@", false"];
     }
+    
+    NSString *multi;
+    if ([multiCheckBox state] == 1) {
+        multi = [[NSString alloc] initWithString:@", true"];
+    }else {
+        multi = [[NSString alloc] initWithString:@", false"];
+    }
 
-    NSString *query = [NSString stringWithFormat:@"db.%@.update(%@%@%@)", col, critical, sets, upset];
+    NSString *query = [NSString stringWithFormat:@"db.%@.update(%@%@%@%@)", col, critical, sets, upset, multi];
     [critical release];
     [sets release];
     [upset release];
+    [multi release];
     [updateQueryTextField setStringValue:query];
 }
 

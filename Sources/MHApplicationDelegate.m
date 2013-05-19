@@ -312,8 +312,20 @@
 
 - (IBAction)deleteConnection:(id)sender
 {
-    [connectionsArrayController remove:sender];
-    [self saveConnections];
+    NSAlert *alert = [[[NSAlert alloc] init] autorelease];
+    [alert addButtonWithTitle:@"OK"];
+    [alert addButtonWithTitle:@"Cancel"];
+    [alert setMessageText:@"Delete the connection?"];
+    [alert setInformativeText:@"Deleted connections cannot be restored."];
+    [alert setAlertStyle:NSWarningAlertStyle];
+
+    NSInteger answer = [alert runModal];
+    alert = nil;
+    
+    if (answer == NSAlertFirstButtonReturn) {
+        [connectionsArrayController remove:sender];
+        [self saveConnections];
+    }
 }
 
 - (IBAction)showEditConnectionPanel:(id)sender
@@ -394,6 +406,17 @@
 {
     [NSApp endSheet:supportPanel];
 }
+
+- (IBAction)openFeatureRequestBugReport:(id)sender
+{
+    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"https://github.com/fotonauts/MongoHub-Mac/issues"]];
+}
+
+- (IBAction)openConnectionWindow:(id)sender
+{
+    [_window makeKeyAndOrderFront:sender];
+}
+
 @end
 
 @implementation MHApplicationDelegate(MHConnectionEditorWindowControllerDelegate)

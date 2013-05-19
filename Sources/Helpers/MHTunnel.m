@@ -321,7 +321,6 @@ static BOOL testLocalPortAvailable(unsigned short port)
     [result setObject:[[NSBundle mainBundle] pathForResource:@"SSHCommand" ofType:@"sh"] forKey:@"SSH_ASKPASS"];
     [result setObject:@":0" forKey:@"DISPLAY"];
     [result setObject:_password forKey:@"SSHPASSWORD"];
-    NSLog(@"%@", result);
     return [result autorelease];
 }
 
@@ -371,60 +370,45 @@ static BOOL testLocalPortAvailable(unsigned short port)
 
 - (void)fileHandleNotification:(NSNotification *)notification
 {
-    NSLog(@"---- %@", notification.name);
-    if ([notification.name isEqualToString:NSFileHandleDataAvailableNotification]) {
-        [self readStatusWithFileHandle:notification.object];
+    if ([notification.name isEqualToString:NSFileHandleDataAvailableNotification] && notification.object == _errorFileHandle) {
+        [self readStatusFromErrorPipe];
+        [_errorFileHandle waitForDataInBackgroundAndNotify];
     }
 }
 
 - (void)taskNotification:(NSNotification *)notification
 {
-    NSLog(@"----- task notif %@", notification.name);
-    NSLog(@"@@ %@", [_errorFileHandle availableData]);
-    [_task terminate];
-    [_task release];
-    _task = nil;
-//    [self _releaseFileHandleAndTask];
+    [self readStatusFromErrorPipe];
+    [self stop];
 }
 
-- (void)readStatusWithFileHandle:(NSFileHandle *)fileHandle
+- (void)readStatusFromErrorPipe
 {
     if (_running && self.tunnelError == MHNoTunnelError) {
-        NSString *pipeStr = [[NSString alloc] initWithData:fileHandle.availableData encoding:NSASCIIStringEncoding];
-
-        NSLog(@"%@", pipeStr);
-        if ([pipeStr rangeOfString:@"Entering interactive session"].location != NSNotFound) {
+        NSString *string = [[NSString alloc] initWithData:_errorFileHandle.availableData encoding:NSASCIIStringEncoding];
+        if ([string rangeOfString:@"Entering interactive session"].location != NSNotFound) {
             [self _connected];
             return;
-        } else if ([pipeStr rangeOfString:@"Host key verification failed"].location != NSNotFound) {
+        } else if ([string rangeOfString:@"Host key verification failed"].location != NSNotFound) {
             self.tunnelError = MHHostKeyErrorTunnelError;
-            
-            if ([_delegate respondsToSelector:@selector(tunnelDidFailToConnect:withError:)]) [_delegate tunnelDidFailToConnect:self withError:[NSError errorWithDomain:MHTunnelDomain code:self.tunnelError userInfo:nil]];
-        } else if ([pipeStr rangeOfString:@"Connection refused"].location != NSNotFound) {
+        } else if ([string rangeOfString:@"Connection refused"].location != NSNotFound) {
             self.tunnelError = MHConnectionRefusedTunnelError;
-            
-            if ([_delegate respondsToSelector:@selector(tunnelDidFailToConnect:withError:)]) [_delegate tunnelDidFailToConnect:self withError:[NSError errorWithDomain:MHTunnelDomain code:self.tunnelError userInfo:nil]];
-        } else if ([pipeStr rangeOfString:@"Operation timed out"].location != NSNotFound) {
+        } else if ([string rangeOfString:@"Operation timed out"].location != NSNotFound) {
             self.tunnelError = MHConnectionTimedOutTunnelError;
-            
-            if ([_delegate respondsToSelector:@selector(tunnelDidFailToConnect:withError:)]) [_delegate tunnelDidFailToConnect:self withError:[NSError errorWithDomain:MHTunnelDomain code:self.tunnelError userInfo:nil]];
-        } else if ([pipeStr rangeOfString:@"Could not resolve hostname"].location != NSNotFound) {
+        } else if ([string rangeOfString:@"Could not resolve hostname"].location != NSNotFound) {
             self.tunnelError = MHBadHostnameTunnelError;
-            
-            if ([_delegate respondsToSelector:@selector(tunnelDidFailToConnect:withError:)]) [_delegate tunnelDidFailToConnect:self withError:[NSError errorWithDomain:MHTunnelDomain code:self.tunnelError userInfo:nil]];
-        } else if ([pipeStr rangeOfString:@"Permission denied"].location != NSNotFound) {
+        } else if ([string rangeOfString:@"Permission denied"].location != NSNotFound) {
             self.tunnelError = MHWrongPasswordTunnelError;
-            
-            if ([_delegate respondsToSelector:@selector(tunnelDidFailToConnect:withError:)]) [_delegate tunnelDidFailToConnect:self withError:[NSError errorWithDomain:MHTunnelDomain code:self.tunnelError userInfo:nil]];
-        } else if ([pipeStr rangeOfString:@"REMOTE HOST IDENTIFICATION HAS CHANGED"].location != NSNotFound) {
+        } else if ([string rangeOfString:@"REMOTE HOST IDENTIFICATION HAS CHANGED"].location != NSNotFound) {
             self.tunnelError = MHHostIdentificationChangedTunnelError;
-            
-            if ([_delegate respondsToSelector:@selector(tunnelDidFailToConnect:withError:)]) [_delegate tunnelDidFailToConnect:self withError:[NSError errorWithDomain:MHTunnelDomain code:self.tunnelError userInfo:nil]];
         }
-        [fileHandle waitForDataInBackgroundAndNotify];
-        [pipeStr release];
+        if (self.tunnelError != MHNoTunnelError) {
+            if ([_delegate respondsToSelector:@selector(tunnelDidFailToConnect:withError:)]) {
+                [_delegate tunnelDidFailToConnect:self withError:[NSError errorWithDomain:MHTunnelDomain code:self.tunnelError userInfo:@{ NSLocalizedDescriptionKey: [self.class errorMessageForTunnelError:self.tunnelError] }]];
+            }
+        }
+        [string release];
     }
-    NSLog(@"ok error %d", self.tunnelError);
 }
 
 - (NSArray *)prepareSSHCommandArgs
@@ -485,7 +469,6 @@ static BOOL testLocalPortAvailable(unsigned short port)
         [result addObject:_keyfile];
     }
 
-    NSLog(@"%@", result);
     return result;
 }
 

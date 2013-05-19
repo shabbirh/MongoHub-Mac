@@ -196,12 +196,12 @@
     NSRunAlertPanel(@"Error", [error localizedDescription], @"OK", nil, nil);
 }
 
-- (void)connect:(BOOL)haveHostAddress
+- (void)connectToServer
 {
     [loaderIndicator start];
     [reconnectButton setEnabled:NO];
     [monitorButton setEnabled:NO];
-    if (!haveHostAddress && [_connectionStore.usessh intValue] == 1) {
+    if ((_sshTunnel == nil || !_sshTunnel.connected) && [_connectionStore.usessh intValue] == 1) {
         unsigned short hostPort;
         
         _sshTunnelPort = [MHTunnel findFreeTCPPort];
@@ -284,7 +284,7 @@
     NSString *appVersion = [[NSString alloc] initWithFormat:@"version(%@[%@])", [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"], [[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString*)kCFBundleVersionKey] ];
     [bundleVersion setStringValue: appVersion];
     [appVersion release];
-    [self connect:NO];
+    [self connectToServer];
     [_databaseCollectionOutlineView setDoubleAction:@selector(sidebarDoubleAction:)];
 }
 
@@ -295,7 +295,7 @@
 
 - (IBAction)reconnect:(id)sender
 {
-    [self connect:NO];
+    [self connectToServer];
 }
 
 - (void)windowWillClose:(NSNotification *)notification
@@ -927,12 +927,13 @@ static int percentage(NSNumber *previousValue, NSNumber *previousOutOfValue, NSN
 - (void)tunnelDidConnect:(MHTunnel *)tunnel
 {
     NSLog(@"SSH TUNNEL STATUS: CONNECTED");
-    [self connect:YES];
+    [self connectToServer];
 }
 
 - (void)tunnelDidFailToConnect:(MHTunnel *)tunnel withError:(NSError *)error;
 {
     NSLog(@"SSH TUNNEL ERROR: %@", error);
+    [self didFailToConnectWithError:error];
 }
 
 @end

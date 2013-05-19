@@ -6,15 +6,16 @@
       <description>Most recent changes with links to updates.</description>
       <language>en</language>      
          <item>
-            <title>Version 2.5.5</title>
-            <enclosure url="https://mongohub.s3.amazonaws.com/MongoHub.zip" sparkle:version="99" sparkle:shortVersionString="2.5.5" length="3160222" type="application/octet-stream" />
+            <title>Version 2.5.6</title>
+            <enclosure url="https://mongohub.s3.amazonaws.com/MongoHub.zip" sparkle:version="100" sparkle:shortVersionString="2.5.6" length="3163004" type="application/octet-stream" />
             <description><![CDATA[
 <ul>
-<li>Problem to modify ssh parameters while editing an existing connection (fields were disabled)</li>
-<li>Multi update checkbox added for updates (thanks to Tom Bocklisch)</li>
-<li>Bug fix to export mongo to sql: crash while exporting <a href="https://github.com/fotonauts/MongoHub-Mac/issues/58">issue #58</a></li>
-<li>ObjectId should be in lower case <a href="https://github.com/fotonauts/MongoHub-Mac/issues/55">issue #55</a></li>
-<li>Confirm dialog before connection delete (thanks to falsecz) <a href="https://github.com/fotonauts/MongoHub-Mac/pull/57">issue #57</a></li>
+<li>Unable to reopen connection window after it is closed <a href="https://github.com/fotonauts/MongoHub-Mac/issues/63">issue #63</a></li>
+<li>Horizontal and vertical paddings between "New connection" button and window border must be equal <a href="https://github.com/fotonauts/MongoHub-Mac/issues/68">issue #68</a></li>
+<li>Binary should be imported and exported as base64 (instead of hexa)</li>
+<li>Accept queries with objectid between double quotes</li>
+<li>Bug fix when the mongo host port was left with the default value (while using ssh tunneling) <a href="https://github.com/fotonauts/MongoHub-Mac/issues/78">issue #78</a></li>
+<li>ssh tunnel is a lot faster to open the connection now</li>
 </ul>
             ]]>
             </description>

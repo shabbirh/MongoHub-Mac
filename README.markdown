@@ -27,15 +27,17 @@ This project is very new. Any issues or bug reports are welcome. And I still don
     - Need a progress bar for file export/import to know when it is done
     
 ** Current **
-    
+
+## History
+
+** 2.5.6(100) - may 19, 2013 **
+
     - Unable to reopen connection window after it is closed https://github.com/fotonauts/MongoHub-Mac/issues/63
     - Horizontal and vertical paddings between "New connection" button and window border must be equal https://github.com/fotonauts/MongoHub-Mac/issues/68
     - Binary should be imported and exported as base64 (instead of hexa)
     - Accept queries with objectid between double quotes
     - Bug fix when the mongo host port was left with the default value (while using ssh tunneling) https://github.com/fotonauts/MongoHub-Mac/issues/78
     - ssh tunnel is a lot faster to open the connection now
-
-## History
 
 ** 2.5.5(99) - march 3, 2013 **
 

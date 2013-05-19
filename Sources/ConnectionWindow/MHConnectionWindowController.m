@@ -145,6 +145,7 @@
     }
     [_tabViewController addObserver:self forKeyPath:@"selectedTabIndex" options:NSKeyValueObservingOptionNew context:nil];
     [self.window addObserver:self forKeyPath:@"firstResponder" options:NSKeyValueObservingOptionNew context:nil];
+    _statusViewController.title = @"Connecting…";
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
@@ -193,6 +194,7 @@
 - (void)didFailToConnectWithError:(NSError *)error
 {
     [loaderIndicator stop];
+    _statusViewController.title = [NSString stringWithFormat:@"Error: %@", error.localizedDescription];
     NSRunAlertPanel(@"Error", [error localizedDescription], @"OK", nil, nil);
 }
 

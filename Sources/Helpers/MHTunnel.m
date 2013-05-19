@@ -357,9 +357,11 @@ static BOOL testLocalPortAvailable(unsigned short port)
     [[NSNotificationCenter defaultCenter] removeObserver:self name:NSFileHandleDataAvailableNotification object:_errorFileHandle];
     [_errorFileHandle release];
     _errorFileHandle = nil;
-    self.running = NO;
-    self.connected = NO;
-    if ([_delegate respondsToSelector:@selector(tunnelDidStop:)]) [_delegate tunnelDidStop:self];
+    if (self.running) {
+        self.running = NO;
+        self.connected = NO;
+        if ([_delegate respondsToSelector:@selector(tunnelDidStop:)]) [_delegate tunnelDidStop:self];
+    }
 }
 
 - (void)stop
@@ -463,7 +465,11 @@ static BOOL testLocalPortAvailable(unsigned short port)
         [result addObject:@"-p"];
         [result addObject:[NSString stringWithFormat:@"%d", _port]];
     }
-    [result addObject:[NSString stringWithFormat:@"%@@%@", _user, _host]];
+    if (_user.length > 0) {
+        [result addObject:@"-l"];
+        [result addObject:_user];
+    }
+    [result addObject:[NSString stringWithFormat:@"%@", _host]];
     if (![_keyfile isEqualToString:@""]) {
         [result addObject:@"-i"];
         [result addObject:_keyfile];

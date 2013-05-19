@@ -15,12 +15,12 @@
 typedef enum {
     MHNoTunnelError = 0,
     MHConnectionRefusedTunnelError,
-    MHConnectionTimeOutTunnelError,
-    MHConnectionErrorTunnelError,
-    MHConnectionBadHostnameTunnelError,
-    MHConnectionHostKeyErrorTunnelError,
-    MHConnectionWrongPasswordTunnelError,
-    MHConnectionHostIdentificationChangedTunnelError,
+    MHConnectionTimedOutTunnelError,
+    MHUnknownErrorTunnelError,
+    MHBadHostnameTunnelError,
+    MHHostKeyErrorTunnelError,
+    MHWrongPasswordTunnelError,
+    MHHostIdentificationChangedTunnelError,
 } MHTunnelError;
 
 @protocol MHTunnelDelegate<NSObject>
@@ -36,8 +36,6 @@ typedef enum {
 	id<MHTunnelDelegate>            _delegate;
 	
 	NSTask                          *_task;
-	NSFileHandle                    *_inputFileHandle;
-	NSFileHandle                    *_outputFileHandle;
 	NSFileHandle                    *_errorFileHandle;
 	MHTunnelError                   _tunnelError;
 	BOOL                            _running;

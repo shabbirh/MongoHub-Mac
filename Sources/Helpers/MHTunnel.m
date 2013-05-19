@@ -19,6 +19,7 @@
 #import <netinet/in.h>
 
 typedef struct kinfo_proc kinfo_proc;
+#define SSH_PATH                    @"/usr/bin/ssh"
 
 @interface MHTunnel ()
 @property(nonatomic, assign, readwrite) MHTunnelError tunnelError;
@@ -206,11 +207,38 @@ static BOOL testLocalPortAvailable(unsigned short port)
     return port;
 }
 
++ (NSString *)errorMessageForTunnelError:(MHTunnelError)error
+{
+    NSString *result = nil;
+    
+    switch (error) {
+        case MHNoTunnelError:
+            result = @"No error";
+            break;
+        case MHConnectionRefusedTunnelError:
+            result = @"The ssh server refused the connection";
+            break;
+        case MHConnectionTimeOutTunnelError:
+            result = @"The ssh server did not answer";
+            break;
+        case MHConnectionErrorTunnelError:
+            result = @"Unknown error";
+            break;
+        case MHConnectionHostKeyErrorTunnelError:
+            result = @"Host key verification failed";
+            break;
+        case MHConnectionWrongPasswordTunnelError:
+            result = @"Wrong password";
+            break;
+    }
+    return result;
+}
+
 - (id)init
 {
     if (self = [super init]) {
         uid = [[NSString UUIDString] retain];
-        _portForwardings = [[NSMutableArray alloc] init];
+        self.portForwardings = [[NSMutableArray alloc] init];
     }
     
     return (self);
@@ -228,10 +256,10 @@ static BOOL testLocalPortAvailable(unsigned short port)
         _keyfile = [coder decodeObjectForKey:@"keyfile"];
         _aliveInterval = [coder decodeIntForKey:@"aliveInterval"];
         _aliveCountMax = [coder decodeIntForKey:@"aliveCountMax"];
-        _tcpKeepAlive = [coder decodeBoolForKey:@"tcpKeepAlive"];
-        _compression = [coder decodeBoolForKey:@"compression"];
-        _additionalArgs = [coder decodeObjectForKey:@"additionalArgs"];
-        _portForwardings = [coder decodeObjectForKey:@"portForwardings"];
+        self.tcpKeepAlive = [coder decodeBoolForKey:@"tcpKeepAlive"];
+        self.compression = [coder decodeBoolForKey:@"compression"];
+        self.additionalArgs = [coder decodeObjectForKey:@"additionalArgs"];
+        self.portForwardings = [[[coder decodeObjectForKey:@"portForwardings"] mutableCopy] autorelease];
         
         [self tunnelLoaded];
     }
@@ -264,10 +292,10 @@ static BOOL testLocalPortAvailable(unsigned short port)
     [coder encodeObject:_keyfile forKey:@"keyfile"];
     [coder encodeInt:_aliveInterval forKey:@"aliveInterval"];
     [coder encodeInt:_aliveCountMax forKey:@"aliveCountMax"];
-    [coder encodeBool:_tcpKeepAlive forKey:@"tcpKeepAlive"];
-    [coder encodeBool:_compression forKey:@"compression"];
-    [coder encodeObject:_additionalArgs forKey:@"additionalArgs"];
-    [coder encodeObject:_portForwardings forKey:@"portForwardings"];
+    [coder encodeBool:self.tcpKeepAlive forKey:@"tcpKeepAlive"];
+    [coder encodeBool:self.compression forKey:@"compression"];
+    [coder encodeObject:self.additionalArgs forKey:@"additionalArgs"];
+    [coder encodeObject:self.portForwardings forKey:@"portForwardings"];
     
     [self tunnelSaved];
 }
@@ -275,37 +303,50 @@ static BOOL testLocalPortAvailable(unsigned short port)
 - (void)_connected
 {
     if (!_connected) {
-        if ([_delegate respondsToSelector:@selector(tunnelDidConnect:)]) [_delegate tunnelDidConnect:self];
         self.connected = YES;
+        if ([_delegate respondsToSelector:@selector(tunnelDidConnect:)]) [_delegate tunnelDidConnect:self];
     }
+}
+
+- (NSDictionary *)environment
+{
+    NSMutableDictionary *result;
+    
+    result = [[NSMutableDictionary alloc] init];
+    [result setObject:[[NSBundle mainBundle] pathForResource:@"SSHCommand" ofType:@"sh"] forKey:@"SSH_ASKPASS"];
+    [result setObject:@":0" forKey:@"DISPLAY"];
+    [result setObject:_password forKey:@"SSHPASSWORD"];
+    NSLog(@"%@", result);
+    return [result autorelease];
 }
 
 - (void)start
 {
     if (!self.isRunning) {
-        NSPipe *pipe;
+        NSPipe *inputPipe = [NSPipe pipe];
+        NSPipe *outputPipe = [NSPipe pipe];
+        NSPipe *errorPipe = [NSPipe pipe];
         
+        self.tunnelError = MHNoTunnelError;
         self.running = YES;
         
         _task = [[NSTask alloc] init];
-        pipe = [NSPipe pipe];
-        
-        _fileHandle = [[pipe fileHandleForReading] retain];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(fileHandleNotification:) name:nil object:_fileHandle];
+        _inputFileHandle = [[inputPipe fileHandleForWriting] retain];
+        _errorFileHandle = [[errorPipe fileHandleForReading] retain];
+        [_errorFileHandle waitForDataInBackgroundAndNotify];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(fileHandleNotification:) name:NSFileHandleDataAvailableNotification object:_errorFileHandle];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(taskNotification:) name:NSTaskDidTerminateNotification object:_task];
-        [_task setLaunchPath:[[NSBundle bundleForClass:[self class]] pathForResource:@"SSHCommand" ofType:@"sh"]];
+        [_task setLaunchPath:SSH_PATH];
         [_task setArguments:[self prepareSSHCommandArgs]];
-        [_task setStandardOutput:pipe];
+        [_task setEnvironment:[self environment]];
+        [_task setStandardOutput:outputPipe];
         //The magic line that keeps your log where it belongs
-        [_task setStandardInput:[NSPipe pipe]];
+        [_task setStandardInput:inputPipe];
+        [_task setStandardError:errorPipe];
+        
+        NSLog(@"%@ %@", _task.launchPath, [_task.arguments componentsJoinedByString:@" "]);
         
         [_task launch];
-        /*NSData *output = [[pipe fileHandleForReading] readDataToEndOfFile];
-        NSString *string = [[[NSString alloc] initWithData:output encoding:NSUTF8StringEncoding] autorelease];
-        
-        NSLog(@"\n%@\n", string);*/
-        self.tunnelError = MHNoTunnelError;
-        [_fileHandle waitForDataInBackgroundAndNotify];
         if ([_delegate respondsToSelector:@selector(tunnelDidStart:)]) [_delegate tunnelDidStart:self];
     }
 }
@@ -315,12 +356,11 @@ static BOOL testLocalPortAvailable(unsigned short port)
     [[NSNotificationCenter defaultCenter] removeObserver:self name:NSTaskDidTerminateNotification object:_task];
     [_task release];
     _task = nil;
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:nil object:_fileHandle];
-    [_fileHandle release];
-    _fileHandle = nil;
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:NSFileHandleDataAvailableNotification object:_errorFileHandle];
+    [_errorFileHandle release];
+    _errorFileHandle = nil;
     self.running = NO;
     self.connected = NO;
-    _tunnelError = MHNoTunnelError;
     if ([_delegate respondsToSelector:@selector(tunnelDidStop:)]) [_delegate tunnelDidStop:self];
 }
 
@@ -333,95 +373,114 @@ static BOOL testLocalPortAvailable(unsigned short port)
 - (void)fileHandleNotification:(NSNotification *)notification
 {
     if ([notification.name isEqualToString:NSFileHandleDataAvailableNotification]) {
-        [self readStatus];
-        [_fileHandle waitForDataInBackgroundAndNotify];
+        [self readStatusWithFileHandle:notification.object];
     }
 }
 
 - (void)taskNotification:(NSNotification *)notification
 {
-    [self _releaseFileHandleAndTask];
+    NSLog(@"task notif %@", notification.name);
+//    [self _releaseFileHandleAndTask];
 }
 
-- (void)readStatus
+- (void)readStatusWithFileHandle:(NSFileHandle *)fileHandle
 {
+    if (fileHandle == _outputFileHandle) {
+        NSLog(@"== reading");
+    } else if (fileHandle == _inputFileHandle) {
+        NSLog(@"== writing");
+    } else if (fileHandle == _errorFileHandle) {
+        NSLog(@"== error");
+    } else {
+        NSLog(@"== unknown %@", fileHandle.class);
+    }
     if (_running && self.tunnelError == MHNoTunnelError) {
-        NSString *pipeStr = [[[NSString alloc] initWithData:[_fileHandle availableData] encoding:NSASCIIStringEncoding] autorelease];
+        NSString *pipeStr = [[NSString alloc] initWithData:fileHandle.availableData encoding:NSASCIIStringEncoding];
+
         NSLog(@"%@", pipeStr);
-        NSRange r = [pipeStr rangeOfString:@"CONNECTED"];
-        if (r.location != NSNotFound) {
+        if ([pipeStr rangeOfString:@"Entering interactive session"].location != NSNotFound) {
             [self _connected];
             return;
-        }
-        
-        r = [pipeStr rangeOfString:@"CONNECTION_ERROR"];
-        if (r.location != NSNotFound) {
-            self.tunnelError = MHConnectionErrorTunnelError;
+        } else if ([pipeStr rangeOfString:@"Host key verification failed"].location != NSNotFound) {
+            self.tunnelError = MHConnectionHostKeyErrorTunnelError;
             
-            if ([_delegate respondsToSelector:@selector(tunnelDidFailToConnect:withError:)]) [_delegate tunnelDidFailToConnect:self withError:[NSError errorWithDomain:MHTunnelDomain code:_tunnelError userInfo:nil]];
-            return;
-        }
-        
-        r = [pipeStr rangeOfString:@"CONNECTION_REFUSED"];
-        if (r.location != NSNotFound) {
+            if ([_delegate respondsToSelector:@selector(tunnelDidFailToConnect:withError:)]) [_delegate tunnelDidFailToConnect:self withError:[NSError errorWithDomain:MHTunnelDomain code:self.tunnelError userInfo:nil]];
+        } else if ([pipeStr rangeOfString:@"Connection refused"].location != NSNotFound) {
             self.tunnelError = MHConnectionRefusedTunnelError;
             
-            if ([_delegate respondsToSelector:@selector(tunnelDidFailToConnect:withError:)]) [_delegate tunnelDidFailToConnect:self withError:[NSError errorWithDomain:MHTunnelDomain code:_tunnelError userInfo:nil]];
-            return;
-        }
-        
-        r = [pipeStr rangeOfString:@"WRONG_PASSWORD"];
-        if (r.location != NSNotFound) {
+            if ([_delegate respondsToSelector:@selector(tunnelDidFailToConnect:withError:)]) [_delegate tunnelDidFailToConnect:self withError:[NSError errorWithDomain:MHTunnelDomain code:self.tunnelError userInfo:nil]];
+        } else if ([pipeStr rangeOfString:@"Operation timed out"].location != NSNotFound) {
+            self.tunnelError = MHConnectionRefusedTunnelError;
+            
+            if ([_delegate respondsToSelector:@selector(tunnelDidFailToConnect:withError:)]) [_delegate tunnelDidFailToConnect:self withError:[NSError errorWithDomain:MHTunnelDomain code:self.tunnelError userInfo:nil]];
+        } else if ([pipeStr rangeOfString:@"Permission denied"].location != NSNotFound) {
             self.tunnelError = MHConnectionWrongPasswordTunnelError;
             
-            if ([_delegate respondsToSelector:@selector(tunnelDidFailToConnect:withError:)]) [_delegate tunnelDidFailToConnect:self withError:[NSError errorWithDomain:MHTunnelDomain code:_tunnelError userInfo:nil]];
-            return;
+            if ([_delegate respondsToSelector:@selector(tunnelDidFailToConnect:withError:)]) [_delegate tunnelDidFailToConnect:self withError:[NSError errorWithDomain:MHTunnelDomain code:self.tunnelError userInfo:nil]];
         }
+        [fileHandle waitForDataInBackgroundAndNotify];
+        [pipeStr release];
     }
+    NSLog(@"ok");
 }
 
 - (NSArray *)prepareSSHCommandArgs
 {
-    NSMutableString *pfs = [[NSMutableString alloc] init];
-    NSArray *result;
+    NSMutableArray *result;
     
-    for (NSString *pf in _portForwardings) {
+    result = [NSMutableArray array];
+    for (NSString *pf in self.portForwardings) {
         NSArray* pfa = [pf componentsSeparatedByString:@":"];
+
+        [result addObject:[NSString stringWithFormat:@"-%@", [pfa objectAtIndex:0]]];
         if (pfa.count == 4) {
-            [pfs appendFormat:@"%@ -%@ %@:%@:%@", pfs, [pfa objectAtIndex:0], [pfa objectAtIndex:1], [pfa objectAtIndex:2], [pfa objectAtIndex:3]];
+            [result addObject:[NSString stringWithFormat:@"%@:%@:%@", [pfa objectAtIndex:1], [pfa objectAtIndex:2], [pfa objectAtIndex:3]]];
         } else if ([[pfa objectAtIndex:1] length] == 0) {
-                [pfs appendFormat:@"%@ -%@ %@:%@:%@", pfs, [pfa objectAtIndex:0], [pfa objectAtIndex:2], [pfa objectAtIndex:3], [pfa objectAtIndex:4]];
+            [result addObject:[NSString stringWithFormat:@"%@:%@:%@", [pfa objectAtIndex:2], [pfa objectAtIndex:3], [pfa objectAtIndex:4]]];
         } else {
-            [pfs appendFormat:@"%@ -%@ %@:%@:%@:%@", pfs, [pfa objectAtIndex:0], [pfa objectAtIndex:1], [pfa objectAtIndex:2], [pfa objectAtIndex:3], [pfa objectAtIndex:4]];
+            [result addObject:[NSString stringWithFormat:@"%@:%@:%@:%@", [pfa objectAtIndex:1], [pfa objectAtIndex:2], [pfa objectAtIndex:3], [pfa objectAtIndex:4]]];
         }
     }
     
-    NSString* cmd;
-    if ([_password isNotEqualTo:@""]|| [_keyfile isEqualToString:@""]) {
-        cmd = [[NSString alloc] initWithFormat:@"ssh -N -o ConnectTimeout=28 %@%@%@%@%@%@-p %d %@@%@",
-               [_additionalArgs length] > 0 ? [NSString stringWithFormat:@"%@ ", _additionalArgs] :@"",
-               [pfs length] > 0 ? [NSString stringWithFormat:@"%@ ",pfs] : @"",
-               _aliveInterval > 0 ? [NSString stringWithFormat:@"-o ServerAliveInterval=%d ",_aliveInterval] : @"",
-               _aliveCountMax > 0 ? [NSString stringWithFormat:@"-o ServerAliveCountMax=%d ",_aliveCountMax] : @"",
-               _tcpKeepAlive == YES ? @"-o TCPKeepAlive=yes " : @"",
-               _compression == YES ? @"-C " : @"",
-               _port, _user, _host];
-    } else {
-        cmd = [[NSString alloc] initWithFormat:@"ssh -N -o ConnectTimeout=28 %@%@%@%@%@%@-p %d -i %@ %@@%@",
-               [_additionalArgs length] > 0 ? [NSString stringWithFormat:@"%@ ", _additionalArgs] : @"",
-               [pfs length] > 0 ? [NSString stringWithFormat:@"%@ ",pfs] : @"",
-               _aliveInterval > 0 ? [NSString stringWithFormat:@"-o ServerAliveInterval=%d ",_aliveInterval] : @"",
-               _aliveCountMax > 0 ? [NSString stringWithFormat:@"-o ServerAliveCountMax=%d ",_aliveCountMax] : @"",
-               _tcpKeepAlive == YES ? @"-o TCPKeepAlive=yes " : @"",
-               _compression == YES ? @"-C " : @"",
-               _port, _keyfile, _user, _host];
+    [result addObject:@"-v"];
+    [result addObject:@"-N"];
+    [result addObject:@"-o"];
+    [result addObject:@"ConnectTimeout=28"];
+    [result addObject:@"-o"];
+    [result addObject:@"NumberOfPasswordPrompts=1"];
+	[result addObject:@"-o"];
+    [result addObject:@"ConnectionAttempts=1"];
+	[result addObject:@"-o"];
+    [result addObject:@"ExitOnForwardFailure=yes"];
+    if (self.additionalArgs) {
+        [result addObjectsFromArray:self.additionalArgs];
+    }
+    if (_aliveInterval > 0) {
+        [result addObject:@"-o"];
+        [result addObject:[NSString stringWithFormat:@"ServerAliveInterval=%d",_aliveInterval]];
+    }
+    if (_aliveCountMax > 0) {
+        [result addObject:@"-o"];
+        [result addObject:[NSString stringWithFormat:@"ServerAliveCountMax=%d",_aliveCountMax]];
+    }
+    if (self.tcpKeepAlive) {
+        [result addObject:@"-o"];
+        [result addObject:@"TCPKeepAlive=yes"];
+    }
+    if (self.compression) {
+        [result addObject:@"-C"];
+    }
+    if (_port > 0) {
+        [result addObject:@"-p"];
+        [result addObject:[NSString stringWithFormat:@"%d", _port]];
+    }
+    [result addObject:[NSString stringWithFormat:@"%@@%@", _user, _host]];
+    if (![_keyfile isEqualToString:@""]) {
+        [result addObject:@"-i"];
+        [result addObject:_keyfile];
     }
 
-    
-    NSLog(@"cmd: %@", cmd);
-    result = [NSArray arrayWithObjects:cmd, _password, nil];
-    [pfs release];
-    [cmd release];
+    NSLog(@"%@", result);
     return result;
 }
 
@@ -430,7 +489,7 @@ static BOOL testLocalPortAvailable(unsigned short port)
     NSString *forwardPort;
     
     forwardPort = [[NSString alloc] initWithFormat:@"%@%@%@:%d:%@:%d", reverseForwarding?@"R":@"L", bindAddress?bindAddress:@"", bindAddress?@":":@"", (int)bindPort, hostAddress, (int)hostPort];
-    [_portForwardings addObject:forwardPort];
+    [self.portForwardings addObject:forwardPort];
     [forwardPort release];
 }
 

@@ -284,6 +284,7 @@
                 }
                 hostaddress = [[NSString alloc] initWithFormat:@"%@:%@", host, _connectionStore.hostport];
             }
+            NSLog(@"connecting to %@", hostaddress);
             [_mongoServer connectWithHostName:hostaddress callback:^(BOOL connected, MODQuery *mongoQuery) {
                 if (connected) {
                     [self didConnect];

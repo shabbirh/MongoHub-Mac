@@ -30,6 +30,7 @@ This project is very new. Any issues or bug reports are welcome. And I still don
 
     - Drop database/collection default action must be "No" https://github.com/fotonauts/MongoHub-Mac/issues/65
     - New Connection window doesn't use 127.0.0.1:27017 by default https://github.com/fotonauts/MongoHub-Mac/issues/60
+    - Double values are truncated while being edited
 
 ## History
 

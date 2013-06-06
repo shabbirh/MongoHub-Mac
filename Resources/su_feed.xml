@@ -7,7 +7,7 @@
       <language>en</language>      
          <item>
             <title>Version 2.5.7</title>
-            <enclosure url="https://mongohub.s3.amazonaws.com/MongoHub.zip" sparkle:version="101" sparkle:shortVersionString="2.5.7" length="3163045" type="application/octet-stream" />
+            <enclosure url="https://mongohub.s3.amazonaws.com/MongoHub.zip" sparkle:version="101" sparkle:shortVersionString="2.5.7" length="3162940" type="application/octet-stream" />
             <description><![CDATA[
 <ul>
 <li>Drop database/collection default action must be "No" <a href="https://github.com/fotonauts/MongoHub-Mac/issues/65">65</a>"</li>

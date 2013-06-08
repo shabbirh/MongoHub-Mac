@@ -12,6 +12,7 @@
 #import "DatabasesArrayController.h"
 #import "NSString+Extras.h"
 #import "MODCollection.h"
+#import "MODServer.h"
 
 @implementation MHJsonWindowController
 @synthesize databasesArrayController;
@@ -56,6 +57,8 @@
     syntaxColoringController = [[UKSyntaxColoredTextViewController alloc] init];
     [syntaxColoringController setDelegate: self];
     [syntaxColoringController setView: myTextView];
+    
+    [MODServer compareJson:[jsonDict objectForKey:@"beautified"] document:[jsonDict objectForKey:@"objectvalue"]];
 }
 
 

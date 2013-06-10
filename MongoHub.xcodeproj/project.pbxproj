@@ -24,6 +24,12 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		02057D2A1765BE1B00E153FC /* ParseKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 02057D291765BE1B00E153FC /* ParseKit.framework */; };
+		02057D2C1765BE6A00E153FC /* ParseKit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 02057D291765BE1B00E153FC /* ParseKit.framework */; };
+		02057D351765BEA800E153FC /* MODJsonToObjectAssembler.m in Sources */ = {isa = PBXBuildFile; fileRef = 02057D2E1765BEA800E153FC /* MODJsonToObjectAssembler.m */; };
+		02057D361765BEA800E153FC /* MODPKJsonParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 02057D301765BEA800E153FC /* MODPKJsonParser.m */; };
+		02057D371765BEA800E153FC /* NSData+Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = 02057D321765BEA800E153FC /* NSData+Base64.m */; };
+		02057D381765BEA800E153FC /* NSString+Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = 02057D341765BEA800E153FC /* NSString+Base64.m */; };
 		020F511A14896DE700D4B54B /* MHTabViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 020F511814896DE700D4B54B /* MHTabViewController.m */; };
 		020F511B14896DE700D4B54B /* MHTabViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 020F511914896DE700D4B54B /* MHTabViewController.xib */; };
 		020F5128148973BA00D4B54B /* MHStatusViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 020F5126148973BA00D4B54B /* MHStatusViewController.m */; };
@@ -62,7 +68,6 @@
 		02B143DC147C720D005AB320 /* MHFileImporter.m in Sources */ = {isa = PBXBuildFile; fileRef = 02B143DB147C720D005AB320 /* MHFileImporter.m */; };
 		02B2427D147D2BBC008A15A3 /* MODSortedMutableDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = 02B2427C147D2BBC008A15A3 /* MODSortedMutableDictionary.m */; };
 		02CEE9BE1486DD7A00E488DA /* MHTabTitleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 02CEE9BD1486DD7A00E488DA /* MHTabTitleView.m */; };
-		02CF87E4142F7316000C4C7F /* MODJsonParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 02CF87E1142F7316000C4C7F /* MODJsonParser.m */; };
 		02CF87E5142F7316000C4C7F /* MODTimestamp.m in Sources */ = {isa = PBXBuildFile; fileRef = 02CF87E3142F7316000C4C7F /* MODTimestamp.m */; };
 		02D5A8E41442087F00C7768C /* bson.c in Sources */ = {isa = PBXBuildFile; fileRef = 02D5A87F144207CF00C7768C /* bson.c */; };
 		02D5A8E51442087F00C7768C /* encoding.c in Sources */ = {isa = PBXBuildFile; fileRef = 02D5A881144207CF00C7768C /* encoding.c */; };
@@ -195,15 +200,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		1D317F0A12F0A8C600255AF7 /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		1D58BE3A118EFF840045A044 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -213,24 +209,7 @@
 				02FCD3D913BCC7D200316A9F /* RegexKit.framework in CopyFiles */,
 				02FCD3DA13BCC81700316A9F /* Sparkle.framework in CopyFiles */,
 				02FCD3DB13BCC83200316A9F /* MCPKit.framework in CopyFiles */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		1DF8661511C8FF2600DF7493 /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		1DFC2A8B11970A4A006AA167 /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
+				02057D2C1765BE6A00E153FC /* ParseKit.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -247,6 +226,15 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		02057D291765BE1B00E153FC /* ParseKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ParseKit.framework; sourceTree = "<group>"; };
+		02057D2D1765BEA800E153FC /* MODJsonToObjectAssembler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MODJsonToObjectAssembler.h; sourceTree = "<group>"; };
+		02057D2E1765BEA800E153FC /* MODJsonToObjectAssembler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MODJsonToObjectAssembler.m; sourceTree = "<group>"; };
+		02057D2F1765BEA800E153FC /* MODPKJsonParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MODPKJsonParser.h; sourceTree = "<group>"; };
+		02057D301765BEA800E153FC /* MODPKJsonParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MODPKJsonParser.m; sourceTree = "<group>"; };
+		02057D311765BEA800E153FC /* NSData+Base64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+Base64.h"; sourceTree = "<group>"; };
+		02057D321765BEA800E153FC /* NSData+Base64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+Base64.m"; sourceTree = "<group>"; };
+		02057D331765BEA800E153FC /* NSString+Base64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Base64.h"; sourceTree = "<group>"; };
+		02057D341765BEA800E153FC /* NSString+Base64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Base64.m"; sourceTree = "<group>"; };
 		020F511714896DE700D4B54B /* MHTabViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MHTabViewController.h; sourceTree = "<group>"; };
 		020F511814896DE700D4B54B /* MHTabViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MHTabViewController.m; sourceTree = "<group>"; };
 		020F511914896DE700D4B54B /* MHTabViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MHTabViewController.xib; sourceTree = "<group>"; };
@@ -324,8 +312,6 @@
 		02B2427C147D2BBC008A15A3 /* MODSortedMutableDictionary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MODSortedMutableDictionary.m; sourceTree = "<group>"; };
 		02CEE9BC1486DD7A00E488DA /* MHTabTitleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MHTabTitleView.h; sourceTree = "<group>"; };
 		02CEE9BD1486DD7A00E488DA /* MHTabTitleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MHTabTitleView.m; sourceTree = "<group>"; };
-		02CF87E0142F7316000C4C7F /* MODJsonParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MODJsonParser.h; sourceTree = "<group>"; };
-		02CF87E1142F7316000C4C7F /* MODJsonParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MODJsonParser.m; sourceTree = "<group>"; };
 		02CF87E2142F7316000C4C7F /* MODTimestamp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MODTimestamp.h; sourceTree = "<group>"; };
 		02CF87E3142F7316000C4C7F /* MODTimestamp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MODTimestamp.m; sourceTree = "<group>"; };
 		02D5A86A144207CF00C7768C /* APACHE-2.0.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = "APACHE-2.0.txt"; sourceTree = "<group>"; };
@@ -579,12 +565,21 @@
 				1DEC7FF112B7EDB900FC804E /* Security.framework in Frameworks */,
 				02FCD3CF13BB9EA400316A9F /* Sparkle.framework in Frameworks */,
 				02FCD3D813BBA4A300316A9F /* MCPKit.framework in Frameworks */,
+				02057D2A1765BE1B00E153FC /* ParseKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		02057D281765BE1B00E153FC /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				02057D291765BE1B00E153FC /* ParseKit.framework */,
+			);
+			path = Frameworks;
+			sourceTree = "<group>";
+		};
 		02216E5F14128CBF00789BD1 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
@@ -596,6 +591,7 @@
 		02216EA414128CBF00789BD1 /* mongo-objc-driver */ = {
 			isa = PBXGroup;
 			children = (
+				02057D281765BE1B00E153FC /* Frameworks */,
 				02216EB114128CBF00789BD1 /* Sources */,
 				02216EA714128CBF00789BD1 /* Libraries */,
 				02216EAC14128CBF00789BD1 /* mongo-test */,
@@ -625,6 +621,14 @@
 		02216EB114128CBF00789BD1 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				02057D2D1765BEA800E153FC /* MODJsonToObjectAssembler.h */,
+				02057D2E1765BEA800E153FC /* MODJsonToObjectAssembler.m */,
+				02057D2F1765BEA800E153FC /* MODPKJsonParser.h */,
+				02057D301765BEA800E153FC /* MODPKJsonParser.m */,
+				02057D311765BEA800E153FC /* NSData+Base64.h */,
+				02057D321765BEA800E153FC /* NSData+Base64.m */,
+				02057D331765BEA800E153FC /* NSString+Base64.h */,
+				02057D341765BEA800E153FC /* NSString+Base64.m */,
 				02411ABC1432D55900A5FFCA /* MOD_public.h */,
 				02216EB414128CBF00789BD1 /* MOD_internal.h */,
 				02216EBB14128CBF00789BD1 /* MODServer.h */,
@@ -654,8 +658,6 @@
 				026B949714BC214800BA0688 /* MODUndefined.m */,
 				02B2427B147D2BBC008A15A3 /* MODSortedMutableDictionary.h */,
 				02B2427C147D2BBC008A15A3 /* MODSortedMutableDictionary.m */,
-				02CF87E1142F7316000C4C7F /* MODJsonParser.m */,
-				02CF87E0142F7316000C4C7F /* MODJsonParser.h */,
 				02216EB214128CBF00789BD1 /* InfoPlist.strings */,
 				02216EBD14128CBF00789BD1 /* mongo-objc-driver-Info.plist */,
 			);
@@ -1249,9 +1251,6 @@
 				8D11072E0486CEB800E47090 /* Frameworks */,
 				7905130A0DDD0A660070760D /* CopyFiles */,
 				1D58BE3A118EFF840045A044 /* CopyFiles */,
-				1DFC2A8B11970A4A006AA167 /* CopyFiles */,
-				1DF8661511C8FF2600DF7493 /* CopyFiles */,
-				1D317F0A12F0A8C600255AF7 /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -1491,7 +1490,6 @@
 				021DB3891425819D0033E77C /* MODServer_utils.m in Sources */,
 				024F67901427F3DE00956BF6 /* MODHelper.m in Sources */,
 				02AB057C142971CE00B7CD19 /* MODObjectId.m in Sources */,
-				02CF87E4142F7316000C4C7F /* MODJsonParser.m in Sources */,
 				02CF87E5142F7316000C4C7F /* MODTimestamp.m in Sources */,
 				025C563214350DEF0064B010 /* MODRegex.m in Sources */,
 				025C563414350DEF0064B010 /* MODDBRef.m in Sources */,
@@ -1517,6 +1515,10 @@
 				023230AE15E051300075498C /* MHConnectionEditorWindowController.m in Sources */,
 				022F8C48169B5E580024D20C /* bcon.c in Sources */,
 				022F8C49169B5E580024D20C /* env.c in Sources */,
+				02057D351765BEA800E153FC /* MODJsonToObjectAssembler.m in Sources */,
+				02057D361765BEA800E153FC /* MODPKJsonParser.m in Sources */,
+				02057D371765BEA800E153FC /* NSData+Base64.m in Sources */,
+				02057D381765BEA800E153FC /* NSString+Base64.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1588,6 +1590,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"/Frameworks",
+					"\"$(SRCROOT)/Libraries/mongo-objc-driver/Frameworks\"",
 				);
 				GCC_OPTIMIZATION_LEVEL = 0;
 				INFOPLIST_FILE = "Resources/MongoHub-Info.plist";
@@ -1603,6 +1606,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"/Frameworks",
+					"\"$(SRCROOT)/Libraries/mongo-objc-driver/Frameworks\"",
 				);
 				INFOPLIST_FILE = "Resources/MongoHub-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";

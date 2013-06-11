@@ -30,6 +30,10 @@ This project is very new. Any issues or bug reports are welcome. And I still don
 
 ## History
 
+** 2.5.9(103) - june 11, 2013 **
+
+    - Problem to convert a double from bson to json and back to bson
+
 ** 2.5.8(102) - june 11, 2013 **
 
     - Crash while opening a collection that contains a data (introduced in 2.5.6)

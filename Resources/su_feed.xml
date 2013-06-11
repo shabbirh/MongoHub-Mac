@@ -6,11 +6,11 @@
       <description>Most recent changes with links to updates.</description>
       <language>en</language>      
          <item>
-            <title>Version 2.5.8</title>
-            <enclosure url="https://mongohub.s3.amazonaws.com/MongoHub.zip" sparkle:version="102" sparkle:shortVersionString="2.5.8" length="3165697" type="application/octet-stream" />
+            <title>Version 2.5.9</title>
+            <enclosure url="https://mongohub.s3.amazonaws.com/MongoHub.zip" sparkle:version="103" sparkle:shortVersionString="2.5.9" length="3167571" type="application/octet-stream" />
             <description><![CDATA[
 <ul>
-<li>Crash while opening a collection that contains a data (introduced in 2.5.6)</li>
+<li>Problem to convert a double from bson to json and back to bson</li>
 </ul>
             ]]>
             </description>

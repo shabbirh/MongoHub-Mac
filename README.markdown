@@ -28,6 +28,8 @@ This project is very new. Any issues or bug reports are welcome. And I still don
     
 ** Current **
 
+    - Adding support to minKey and maxKey (thanks for castiel's help)
+
 ## History
 
 ** 2.5.9(103) - june 11, 2013 **

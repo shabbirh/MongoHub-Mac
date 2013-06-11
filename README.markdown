@@ -30,6 +30,10 @@ This project is very new. Any issues or bug reports are welcome. And I still don
 
 ## History
 
+** 2.5.8(102) - june 11, 2013 **
+
+    - Crash while opening a collection that contains a data (introduced in 2.5.6)
+
 ** 2.5.7(101) - june 6, 2013 **
 
     - Drop database/collection default action must be "No" https://github.com/fotonauts/MongoHub-Mac/issues/65

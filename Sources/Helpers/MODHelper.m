@@ -95,19 +95,19 @@
         value = [dataValue description];
     } else if ([dataValue isKindOfClass:[MODObjectId class]]) {
         type = @"Object id";
-        value = [dataValue tengenString];
+        value = [dataValue jsonValueWithPretty:YES strictJSON:NO];
     } else if ([dataValue isKindOfClass:[MODRegex class]]) {
         type = @"Regex";
-        value = [dataValue tengenString];
+        value = [dataValue jsonValueWithPretty:YES strictJSON:NO];
     } else if ([dataValue isKindOfClass:[MODTimestamp class]]) {
         type = @"Timestamp";
-        value = [dataValue tengenString];
+        value = [dataValue jsonValueWithPretty:YES strictJSON:NO];
     } else if ([dataValue isKindOfClass:[MODBinary class]]) {
         type = @"Binary";
-        value = [dataValue tengenString];
+        value = [dataValue jsonValueWithPretty:YES strictJSON:NO];
     } else if ([dataValue isKindOfClass:[MODDBRef class]]) {
         type = @"Ref";
-        value = [dataValue tengenString];
+        value = [dataValue jsonValueWithPretty:YES strictJSON:NO];
     } else if ([dataValue isKindOfClass:[NSString class]]) {
         type = @"String";
         value = dataValue;
@@ -139,7 +139,7 @@
         }
     } else if ([dataValue isKindOfClass:[MODUndefined class]]) {
         type = @"Undefined";
-      value = [dataValue tengenString];
+      value = [dataValue jsonValueWithPretty:YES strictJSON:NO];
     } else {
         NSLog(@"type %@ value %@", [dataValue class], dataValue);
         NSAssert(NO, @"unknown type type %@ value %@", [dataValue class], dataValue);

@@ -7,7 +7,7 @@
       <language>en</language>      
          <item>
             <title>Version 2.5.10</title>
-            <enclosure url="https://mongohub.s3.amazonaws.com/MongoHub.zip" sparkle:version="104" sparkle:shortVersionString="2.5.10" length="3167571" type="application/octet-stream" />
+            <enclosure url="https://mongohub.s3.amazonaws.com/MongoHub.zip" sparkle:version="104" sparkle:shortVersionString="2.5.10" length="3170865" type="application/octet-stream" />
             <description><![CDATA[
 <ul>
 <li>Problem to convert a double from bson to json and back to bson (bis)</li>

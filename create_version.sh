@@ -1,5 +1,5 @@
 #!/bin/sh
-VERSION="2.5.9(103)"
+VERSION="2.5.10(104)"
 git commit -m "software update $VERSION" .
 git tag -a "$VERSION" -m "software update $VERSION"
 git push --tags

@@ -20,6 +20,10 @@
 
 #define IS_OBJECT_ID(value) ([value length] == 24 && [[value stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"1234567890abcdefABCDEF"]] length] == 0)
 
+@interface MHQueryWindowController()
+- (void)selectBestTextField;
+@end
+
 @implementation MHQueryWindowController
 
 @synthesize databasesArrayController;
@@ -282,6 +286,12 @@
 - (IBAction)collapseFindResults:(id)sender
 {
     [findResultsOutlineView collapseItem:nil collapseChildren:YES];
+}
+
+- (void)select
+{
+    [super select];
+    [self selectBestTextField];
 }
 
 - (IBAction)updateQuery:(id)sender
@@ -729,6 +739,12 @@
     identifier = [[NSString alloc] initWithFormat:@"%ld", (long)[segmentedControl selectedSegment]];
     [tabView selectTabViewItemWithIdentifier:identifier];
     [identifier release];
+    [self selectBestTextField];
+}
+
+- (void)selectBestTextField
+{
+    [self.findQueryTextField.window makeFirstResponder:tabView.selectedTabViewItem.initialFirstResponder ];
 }
 
 @end

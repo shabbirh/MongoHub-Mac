@@ -28,6 +28,7 @@ This project is very new. Any issues or bug reports are welcome. And I still don
     
 ** Current **
 
+    - Default port was not set (thanks to undancer) https://github.com/fotonauts/MongoHub-Mac/issues/89
 
 ## History
 

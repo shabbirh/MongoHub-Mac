@@ -30,6 +30,10 @@ This project is very new. Any issues or bug reports are welcome. And I still don
 
 ## History
 
+** 2.5.12(106) - september 8, 2013 **
+    
+    - New build to fix the font problem in the query window https://github.com/fotonauts/MongoHub-Mac/issues/91
+
 ** 2.5.11(105) - september 7, 2013 **
 
     - Default port was not set (thanks to undancer) https://github.com/fotonauts/MongoHub-Mac/issues/89

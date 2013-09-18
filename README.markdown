@@ -29,6 +29,7 @@ This project is very new. Any issues or bug reports are welcome. And I still don
 ** Current **
 
     - Can type any value without double quote in the search field, it will be replaced by { "_id": "<value>" }
+    - Adding support for retina display (thanks to Patryk Kasperski)
 
 ## History
 

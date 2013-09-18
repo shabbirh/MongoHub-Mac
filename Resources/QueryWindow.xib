@@ -481,15 +481,15 @@
                                 <rect key="frame" x="0.0" y="0.0" width="584" height="455"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <subviews>
-                                    <scrollView focusRingType="none" borderType="none" autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" id="67">
+                                    <scrollView focusRingType="none" autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" id="67">
                                         <rect key="frame" x="0.0" y="27" width="584" height="345"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                         <clipView key="contentView" id="Nyl-Gu-50U">
-                                            <rect key="frame" x="0.0" y="0.0" width="584" height="345"/>
+                                            <rect key="frame" x="1" y="1" width="582" height="343"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <subviews>
                                                 <outlineView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="sequential" alternatingRowBackgroundColors="YES" autosaveName="data-result-outlineview" indentationPerLevel="16" autoresizesOutlineColumn="YES" outlineTableColumn="73" id="69">
-                                                    <rect key="frame" x="0.0" y="0.0" width="584" height="345"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="582" height="343"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <size key="intercellSpacing" width="3" height="2"/>
                                                     <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -509,7 +509,7 @@
                                                             </textFieldCell>
                                                             <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                         </tableColumn>
-                                                        <tableColumn identifier="value" editable="NO" width="340" minWidth="40" maxWidth="1000" id="72">
+                                                        <tableColumn identifier="value" editable="NO" width="338" minWidth="40" maxWidth="1000" id="72">
                                                             <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Value">
                                                                 <font key="font" metaFont="smallSystem"/>
                                                                 <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>

@@ -183,7 +183,6 @@
   
     value = [[_criteriaComboBox stringValue] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     if ([value hasPrefix:@"\""] && [value hasSuffix:@"\""] && ![value isEqualToString:@"\""]) {
-      NSLog(@"%@", value);
         valueWithoutDoubleQuotes = [value substringWithRange:NSMakeRange(1, value.length - 2)];
     }
     if (IS_OBJECT_ID(value) || IS_OBJECT_ID(valueWithoutDoubleQuotes)) {
@@ -205,8 +204,10 @@
             }
         } else if ([value hasPrefix:@"\"$oid\""] || [value hasPrefix:@"'$iod'"]) {
             query = [NSString stringWithFormat:@"{\"_id\": {%@}}",value];
-        } else {
+        } else if ([value hasPrefix:@"\""]) {
             query = [NSString stringWithFormat:@"{\"_id\": %@}",value];
+        } else {
+            query = [NSString stringWithFormat:@"{\"_id\": \"%@\"}",value];
         }
     }
     if (replace) {

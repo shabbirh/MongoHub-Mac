@@ -43,7 +43,7 @@
             dict = [NSMutableDictionary dictionary];
         }
         [dict setObject:[self convertForOutlineWithObject:object] forKey:@"child"];
-        [dict setObject:[MODServer convertObjectToJson:object pretty:YES] forKey:@"beautified"];
+        [dict setObject:[MODServer convertObjectToJson:object pretty:YES strictJson:YES] forKey:@"beautified"];
         [dict setObject:object forKey:@"objectvalue"];
         [result addObject:dict];
     }

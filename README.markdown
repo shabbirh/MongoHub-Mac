@@ -30,6 +30,7 @@ This project is very new. Any issues or bug reports are welcome. And I still don
 
     - Can type any value without double quote in the search field, it will be replaced by { "_id": "<value>" }
     - Adding support for retina display (thanks to Patryk Kasperski)
+    - Following the strict json for undefined value according to http://docs.mongodb.org/manual/reference/mongodb-extended-json/ (now, exporting and parsing undefined as { "$undefined": true }
 
 ## History
 

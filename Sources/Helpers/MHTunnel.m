@@ -402,6 +402,7 @@ static BOOL testLocalPortAvailable(unsigned short port)
         } else if ([string rangeOfString:@"REMOTE HOST IDENTIFICATION HAS CHANGED"].location != NSNotFound) {
             self.tunnelError = MHHostIdentificationChangedTunnelError;
         }
+        NSLog(@"%@", string);
         if (self.tunnelError != MHNoTunnelError) {
             if ([_delegate respondsToSelector:@selector(tunnelDidFailToConnect:withError:)]) {
                 [_delegate tunnelDidFailToConnect:self withError:[NSError errorWithDomain:MHTunnelDomain code:self.tunnelError userInfo:@{ NSLocalizedDescriptionKey: [self.class errorMessageForTunnelError:self.tunnelError] }]];

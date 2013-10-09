@@ -66,7 +66,6 @@
 		02B143DC147C720D005AB320 /* MHFileImporter.m in Sources */ = {isa = PBXBuildFile; fileRef = 02B143DB147C720D005AB320 /* MHFileImporter.m */; };
 		02B2427D147D2BBC008A15A3 /* MODSortedMutableDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = 02B2427C147D2BBC008A15A3 /* MODSortedMutableDictionary.m */; };
 		02CEE9BE1486DD7A00E488DA /* MHTabTitleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 02CEE9BD1486DD7A00E488DA /* MHTabTitleView.m */; };
-		02CF87E4142F7316000C4C7F /* MODJsonParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 02CF87E1142F7316000C4C7F /* MODJsonParser.m */; };
 		02CF87E5142F7316000C4C7F /* MODTimestamp.m in Sources */ = {isa = PBXBuildFile; fileRef = 02CF87E3142F7316000C4C7F /* MODTimestamp.m */; };
 		02D5A8E41442087F00C7768C /* bson.c in Sources */ = {isa = PBXBuildFile; fileRef = 02D5A87F144207CF00C7768C /* bson.c */; };
 		02D5A8E51442087F00C7768C /* encoding.c in Sources */ = {isa = PBXBuildFile; fileRef = 02D5A881144207CF00C7768C /* encoding.c */; };
@@ -1511,7 +1510,6 @@
 				021DB3891425819D0033E77C /* MODServer_utils.m in Sources */,
 				024F67901427F3DE00956BF6 /* MODHelper.m in Sources */,
 				02AB057C142971CE00B7CD19 /* MODObjectId.m in Sources */,
-				02CF87E4142F7316000C4C7F /* MODJsonParser.m in Sources */,
 				02CF87E5142F7316000C4C7F /* MODTimestamp.m in Sources */,
 				025C563214350DEF0064B010 /* MODRegex.m in Sources */,
 				025C563414350DEF0064B010 /* MODDBRef.m in Sources */,

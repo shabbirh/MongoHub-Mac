@@ -341,7 +341,7 @@
 {
     id objects;
     
-    objects = [MODJsonToObjectParser objectsFromJson:[removeCriticalTextField stringValue] error:NULL];
+    objects = [MODRagelJsonParser objectsFromJson:[removeCriticalTextField stringValue] withError:NULL];
     if ((([[removeCriticalTextField stringValue] stringByTrimmingWhitespace].length == 0) || (objects && [objects count] == 0))
         && ((self.view.window.currentEvent.modifierFlags & NSCommandKeyMask) != NSCommandKeyMask)) {
         NSAlert *alert;
@@ -372,7 +372,7 @@
     NSError *error;
     
     [insertLoaderIndicator start];
-    objects = [MODJsonToObjectParser objectsFromJson:[insertDataTextView string] error:&error];
+    objects = [MODRagelJsonParser objectsFromJson:[insertDataTextView string] withError:&error];
     if (error) {
         NSColor *currentColor;
         

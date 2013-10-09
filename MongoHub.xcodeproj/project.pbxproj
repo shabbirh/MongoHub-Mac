@@ -59,6 +59,7 @@
 		029D30A5145613420021B9C9 /* MHDatabaseItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 029D30A4145613420021B9C9 /* MHDatabaseItem.m */; };
 		029D30A9145613580021B9C9 /* MHCollectionItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 029D30A8145613580021B9C9 /* MHCollectionItem.m */; };
 		029D30AC145613C30021B9C9 /* MHServerItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 029D30AB145613C30021B9C9 /* MHServerItem.m */; };
+		02A3F5181804D59100C04D36 /* MODRagelJsonParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 02A3F5161804D58C00C04D36 /* MODRagelJsonParser.m */; };
 		02A7C40A1482DEDD0099CDD1 /* MHMysqlImporter.m in Sources */ = {isa = PBXBuildFile; fileRef = 02A7C4091482DEDD0099CDD1 /* MHMysqlImporter.m */; };
 		02A7C40E1482DF080099CDD1 /* MHMysqlExporter.m in Sources */ = {isa = PBXBuildFile; fileRef = 02A7C40D1482DF080099CDD1 /* MHMysqlExporter.m */; };
 		02AA29931477F8BD0041865F /* MHFileExporter.m in Sources */ = {isa = PBXBuildFile; fileRef = 02AA29921477F8BD0041865F /* MHFileExporter.m */; };
@@ -320,6 +321,9 @@
 		029D30A8145613580021B9C9 /* MHCollectionItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MHCollectionItem.m; sourceTree = "<group>"; };
 		029D30AA145613C30021B9C9 /* MHServerItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MHServerItem.h; sourceTree = "<group>"; };
 		029D30AB145613C30021B9C9 /* MHServerItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MHServerItem.m; sourceTree = "<group>"; };
+		02A3F5151804D58C00C04D36 /* MODRagelJsonParser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MODRagelJsonParser.h; sourceTree = "<group>"; };
+		02A3F5161804D58C00C04D36 /* MODRagelJsonParser.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MODRagelJsonParser.m; sourceTree = "<group>"; };
+		02A3F5171804D58C00C04D36 /* MODRagelJsonParser.rl */ = {isa = PBXFileReference; lastKnownFileType = text; path = MODRagelJsonParser.rl; sourceTree = "<group>"; };
 		02A7C4081482DEDD0099CDD1 /* MHMysqlImporter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MHMysqlImporter.h; sourceTree = "<group>"; };
 		02A7C4091482DEDD0099CDD1 /* MHMysqlImporter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MHMysqlImporter.m; sourceTree = "<group>"; };
 		02A7C40C1482DF080099CDD1 /* MHMysqlExporter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MHMysqlExporter.h; sourceTree = "<group>"; };
@@ -636,6 +640,9 @@
 		02216EB114128CBF00789BD1 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				02A3F5151804D58C00C04D36 /* MODRagelJsonParser.h */,
+				02A3F5161804D58C00C04D36 /* MODRagelJsonParser.m */,
+				02A3F5171804D58C00C04D36 /* MODRagelJsonParser.rl */,
 				02411ABC1432D55900A5FFCA /* MOD_public.h */,
 				02216EB414128CBF00789BD1 /* MOD_internal.h */,
 				02216EBB14128CBF00789BD1 /* MODServer.h */,
@@ -1533,6 +1540,7 @@
 				025B8F0C1531C76E00849A71 /* MHTabTitleContainerView.m in Sources */,
 				025F635215AE21F300CD0EB4 /* NSViewHelpers.m in Sources */,
 				023230AE15E051300075498C /* MHConnectionEditorWindowController.m in Sources */,
+				02A3F5181804D59100C04D36 /* MODRagelJsonParser.m in Sources */,
 				022F8C48169B5E580024D20C /* bcon.c in Sources */,
 				022F8C49169B5E580024D20C /* env.c in Sources */,
 				0280706917675D8D00653483 /* NSData+Base64.m in Sources */,

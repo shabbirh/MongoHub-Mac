@@ -11,6 +11,12 @@
 
 #define BUFFER_SIZE (100*1024*1024)
 
+@interface MHFileImporter()
+@property (nonatomic, assign, readwrite) NSUInteger importedDocumentCount;
+@property (nonatomic, assign, readwrite) NSUInteger fileSize;
+@property (nonatomic, assign, readwrite) NSUInteger fileRead;
+@end
+
 @implementation MHFileImporter
 
 @synthesize collection = _collection, importPath = _importPath;
@@ -55,15 +61,50 @@
         size_t parsedCount = 0;
         size_t totalCount = 0;
         size_t documentStarting = 0;
-        MODJsonToObjectParser *parser = nil;
+        MODRagelJsonParser *parser = [[MODRagelJsonParser alloc] init];
+        NSMutableString *line = [[NSMutableString alloc] init];
+        NSMutableArray *documents = [[NSMutableArray alloc] init];
         
         buffer = malloc(BUFFER_SIZE);
         readCount = availableCount = read(fileDescriptor, buffer, BUFFER_SIZE - 1);
         buffer[availableCount] = 0;
         while (readCount > 0) {
-            if (!parser) {
-                parser = [[MODJsonToObjectParser alloc] init];
-                parser.multiPartParsing = YES;
+            const char *eol;
+            
+            eol = strpbrk(buffer, "\n\r");
+            if (eol) {
+                NSString *tmp;
+                
+                tmp = [[NSString alloc] initWithBytes:buffer length:eol - buffer encoding:NSUTF8StringEncoding];
+                [line appendString:tmp];
+                [tmp release];
+                if (line.length > 0) {
+                    id document;
+                    
+                    document = [parser parseJson:line];
+                    *error = parser.error;
+                    if (document) {
+                        [documents addObject:document];
+                        if (documents.count >= 100) {
+                            [_latestQuery release];
+                            _latestQuery = [[_collection insertWithDocuments:documents callback:^(MODQuery *query) {
+                                if (query.error) {
+                                    [_errorForDocument setObject:query.error forKey:[NSNumber numberWithLongLong:documentStarting]];
+                                }
+                            }] retain];
+                            documentStarting = totalCount + parsedCount;
+                            self.importedDocumentCount += documents.count;
+                            [documents release];
+                            documents = [[NSMutableArray alloc] init];
+                        }
+                    } else {
+                        break;
+                    }
+                }
+                while (*eol == '\n' || *eol == '\r') {
+                    eol++;
+                }
+                
             }
             parsedCount = parsedCount + [parser parseJsonWithCstring:buffer + parsedCount error:error];
             if ([parser parsingDone]) {
@@ -77,8 +118,6 @@
                     }
                 }] retain];
                 [documents release];
-                [parser release];
-                parser = nil;
                 documentStarting = totalCount + parsedCount;
             } else {
                 memmove(buffer, buffer + parsedCount, availableCount - parsedCount + 1);
@@ -94,7 +133,11 @@
             
         }
         close(fileDescriptor);
+        free(buffer);
         result = YES;
+        [line release];
+        [parser release];
+        parser = nil;
     }
     [_latestQuery waitUntilFinished];
     return result;

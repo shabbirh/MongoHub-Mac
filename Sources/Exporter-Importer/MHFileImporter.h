@@ -23,5 +23,8 @@
 
 @property (nonatomic, retain, readonly) NSString *importPath;
 @property (nonatomic, retain, readonly) MODCollection *collection;
+@property (nonatomic, assign, readonly) NSUInteger importedDocumentCount;
+@property (nonatomic, assign, readonly) NSUInteger fileSize;
+@property (nonatomic, assign, readonly) NSUInteger fileRead;
 
 @end

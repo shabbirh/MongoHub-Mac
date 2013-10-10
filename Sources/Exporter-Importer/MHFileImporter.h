@@ -16,6 +16,8 @@
     MODCollection *_collection;
     NSMutableDictionary *_errorForDocument;
     MODQuery *_latestQuery;
+    NSUInteger                      _importedDocumentCount;
+    NSUInteger                      _fileRead;
 }
 
 - (id)initWithCollection:(MODCollection *)collection importPath:(NSString *)importPath;
@@ -24,7 +26,6 @@
 @property (nonatomic, retain, readonly) NSString *importPath;
 @property (nonatomic, retain, readonly) MODCollection *collection;
 @property (nonatomic, assign, readonly) NSUInteger importedDocumentCount;
-@property (nonatomic, assign, readonly) NSUInteger fileSize;
 @property (nonatomic, assign, readonly) NSUInteger fileRead;
 
 @end

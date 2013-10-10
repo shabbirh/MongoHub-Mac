@@ -13,13 +13,12 @@
 
 @interface MHFileImporter()
 @property (nonatomic, assign, readwrite) NSUInteger importedDocumentCount;
-@property (nonatomic, assign, readwrite) NSUInteger fileSize;
 @property (nonatomic, assign, readwrite) NSUInteger fileRead;
 @end
 
 @implementation MHFileImporter
 
-@synthesize collection = _collection, importPath = _importPath;
+@synthesize collection = _collection, importPath = _importPath, importedDocumentCount = _importedDocumentCount, fileRead = _fileRead;
 
 - (id)initWithCollection:(MODCollection *)collection importPath:(NSString *)importPath
 {
@@ -56,7 +55,6 @@
         result = NO;
     } else {
         char *buffer;
-        size_t readCount = 0;
         size_t availableCount = 0;
         size_t parsedCount = 0;
         size_t totalCount = 0;
@@ -66,23 +64,26 @@
         NSMutableArray *documents = [[NSMutableArray alloc] init];
         
         buffer = malloc(BUFFER_SIZE);
-        readCount = availableCount = read(fileDescriptor, buffer, BUFFER_SIZE - 1);
-        buffer[availableCount] = 0;
-        while (readCount > 0) {
+        availableCount = read(fileDescriptor, buffer, BUFFER_SIZE);
+        self.fileRead += availableCount;
+        while (availableCount > 0) {
             const char *eol;
             
             eol = strpbrk(buffer, "\n\r");
-            if (eol) {
+            if (eol || availableCount < BUFFER_SIZE) {
                 NSString *tmp;
                 
-                tmp = [[NSString alloc] initWithBytes:buffer length:eol - buffer encoding:NSUTF8StringEncoding];
+                if (eol) {
+                    tmp = [[NSString alloc] initWithBytes:buffer length:eol - buffer encoding:NSUTF8StringEncoding];
+                } else {
+                    tmp = [[NSString alloc] initWithBytes:buffer length:availableCount encoding:NSUTF8StringEncoding];
+                }
                 [line appendString:tmp];
                 [tmp release];
                 if (line.length > 0) {
                     id document;
                     
-                    document = [parser parseJson:line];
-                    *error = parser.error;
+                    document = [parser parseJson:line withError:error];
                     if (document) {
                         [documents addObject:document];
                         if (documents.count >= 100) {
@@ -101,36 +102,26 @@
                         break;
                     }
                 }
-                while (*eol == '\n' || *eol == '\r') {
-                    eol++;
-                }
-                
-            }
-            parsedCount = parsedCount + [parser parseJsonWithCstring:buffer + parsedCount error:error];
-            if ([parser parsingDone]) {
-                NSArray *documents;
-                
-                documents = [[NSArray alloc] initWithObjects:(id)[parser mainObject], nil];
-                [_latestQuery release];
-                _latestQuery = [[_collection insertWithDocuments:documents callback:^(MODQuery *query) {
-                    if (query.error) {
-                        [_errorForDocument setObject:query.error forKey:[NSNumber numberWithLongLong:documentStarting]];
+                if (eol) {
+                    while (*eol == '\n' || *eol == '\r') {
+                        eol++;
                     }
-                }] retain];
-                [documents release];
-                documentStarting = totalCount + parsedCount;
-            } else {
-                memmove(buffer, buffer + parsedCount, availableCount - parsedCount + 1);
-                totalCount += parsedCount;
-                availableCount = readCount - parsedCount;
-                parsedCount = 0;
-                readCount = read(fileDescriptor, buffer + availableCount, BUFFER_SIZE - availableCount - 1);
-                if (readCount > 0) {
-                    availableCount += readCount;
-                    buffer[availableCount] = 0;
                 }
+                [line release];
+                if (eol && eol - buffer < availableCount) {
+                    line = [[NSMutableString alloc] initWithBytes:eol length:availableCount - (eol - buffer) encoding:NSUTF8StringEncoding];
+                } else {
+                    line = [[NSMutableString alloc] init];
+                }
+            } else {
+                NSString *tmp;
+                
+                tmp = [[NSString alloc] initWithBytes:buffer length:availableCount encoding:NSUTF8StringEncoding];
+                [line appendString:tmp];
+                [tmp release];
             }
-            
+            availableCount = read(fileDescriptor, buffer, BUFFER_SIZE);
+            self.fileRead += availableCount;
         }
         close(fileDescriptor);
         free(buffer);

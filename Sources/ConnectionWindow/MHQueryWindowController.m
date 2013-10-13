@@ -188,9 +188,9 @@
     if (IS_OBJECT_ID(value) || IS_OBJECT_ID(valueWithoutDoubleQuotes)) {
         // 24 char length and only hex char... it must be an objectid
         if (valueWithoutDoubleQuotes) {
-            query = [NSString stringWithFormat:@"{\"_id\": { \"$oid\": \"%@\" }}", valueWithoutDoubleQuotes];
+            query = [NSString stringWithFormat:@"{\"_id\": ObjectId(\"%@\")}", valueWithoutDoubleQuotes];
         } else {
-            query = [NSString stringWithFormat:@"{\"_id\": { \"$oid\": \"%@\" }}", value];
+            query = [NSString stringWithFormat:@"{\"_id\": ObjectId(\"%@\")}", value];
         }
     } else if ([value length] > 0) {
         if ([value hasPrefix:@"{"]) {
@@ -202,8 +202,10 @@
             } else {
                 query = value;
             }
+        } else if ([value hasPrefix:@"ObjectId"]) {
+          query = [NSString stringWithFormat:@"{\"_id\": %@}",value];
         } else if ([value hasPrefix:@"\"$oid\""] || [value hasPrefix:@"'$iod'"]) {
-            query = [NSString stringWithFormat:@"{\"_id\": {%@}}",value];
+          query = [NSString stringWithFormat:@"{\"_id\": {%@}}",value];
         } else if ([value hasPrefix:@"\""]) {
             query = [NSString stringWithFormat:@"{\"_id\": %@}",value];
         } else {

@@ -343,6 +343,7 @@
 		02CF87E1142F7316000C4C7F /* MODJsonParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MODJsonParser.m; sourceTree = "<group>"; };
 		02CF87E2142F7316000C4C7F /* MODTimestamp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MODTimestamp.h; sourceTree = "<group>"; };
 		02CF87E3142F7316000C4C7F /* MODTimestamp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MODTimestamp.m; sourceTree = "<group>"; };
+		02D13F5C180C941300FB5176 /* su_feed_beta.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = su_feed_beta.xml; sourceTree = "<group>"; };
 		02D5A86A144207CF00C7768C /* APACHE-2.0.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = "APACHE-2.0.txt"; sourceTree = "<group>"; };
 		02D5A86D144207CF00C7768C /* __init__.py */ = {isa = PBXFileReference; lastKnownFileType = text.script.python; path = __init__.py; sourceTree = "<group>"; };
 		02D5A86E144207CF00C7768C /* docs.py */ = {isa = PBXFileReference; lastKnownFileType = text.script.python; path = docs.py; sourceTree = "<group>"; };
@@ -1209,6 +1210,7 @@
 			children = (
 				02683D5D1442759100467EBE /* README.markdown */,
 				0213CAF31431FEF50027795D /* su_feed.xml */,
+				02D13F5C180C941300FB5176 /* su_feed_beta.xml */,
 				1DD1CA8512C8F004007F2909 /* Syntax Definitions */,
 				1DD1CA8112C8EFD4007F2909 /* SyntaxDefinition.plist */,
 				1DD1CA8212C8EFD4007F2909 /* SyntaxColorDefaults.plist */,

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle"  xmlns:dc="http://purl.org/dc/elements/1.1/">
+   <channel>
+      <title>MongoHub</title>
+      <link>https://mongohub.s3.amazonaws.com/su_feed_beta.xml</link>
+      <description>Most recent changes with links to updates.</description>
+      <language>en</language>      
+         <item>
+            <title>Version 2.6b</title>
+            <enclosure url="https://mongohub.s3.amazonaws.com/MongoHub-2.6b.zip" sparkle:shortVersionString="2.6b" length="3172611" type="application/octet-stream" />
+            <description><![CDATA[
+<ul>
+<li>New build to fix the font problem in the query window <a href="https://github.com/fotonauts/MongoHub-Mac/issues/91">91</a></li>
+</ul>
+            ]]>
+            </description>
+         </item>
+   </channel>
+</rss>

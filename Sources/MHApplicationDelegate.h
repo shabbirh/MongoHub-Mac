@@ -8,6 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 #import "MHConnectionEditorWindowController.h"
+#import <Sparkle/Sparkle.h>
 
 @class ConnectionsCollectionView;
 @class ConnectionsArrayController;
@@ -15,7 +16,7 @@
 @class MHConnectionEditorWindowController;
 @class SUUpdater;
 
-@interface MHApplicationDelegate : NSObject <NSApplicationDelegate, NSCollectionViewDelegate>
+@interface MHApplicationDelegate : NSObject <NSApplicationDelegate, NSCollectionViewDelegate, SUVersionComparison>
 {
     IBOutlet NSWindow                       *_window;
     

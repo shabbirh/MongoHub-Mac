@@ -417,6 +417,24 @@
     [_window makeKeyAndOrderFront:sender];
 }
 
+- (id <SUVersionComparison>)versionComparatorForUpdater:(SUUpdater *)updater
+{
+    return self;
+}
+
+- (NSComparisonResult)compareVersion:(NSString *)versionA toVersion:(NSString *)versionB
+{
+    if ([versionA isEqualToString:[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"]]) {
+        versionA = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
+    }
+    if ([versionB isEqualToString:[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"]]) {
+        versionB = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
+    }
+    id comparateur = [(NSObject *)NSClassFromString(@"SUStandardVersionComparator") performSelector:@selector(defaultComparator)];
+    
+    return [comparateur compareVersion:versionA toVersion:versionB];
+}
+
 @end
 
 @implementation MHApplicationDelegate(MHConnectionEditorWindowControllerDelegate)

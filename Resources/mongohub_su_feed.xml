@@ -7,7 +7,7 @@
       <language>en</language>      
          <item>
             <title>Version 2.5.13</title>
-            <enclosure url="https://mongohub.s3.amazonaws.com/MongoHub-2.5.13.zip" sparkle:version="107" sparkle:shortVersionString="2.5.13" length="3178253" type="application/octet-stream" />
+            <enclosure url="https://mongohub.s3.amazonaws.com/MongoHub-2.5.13.zip" sparkle:version="2.5.13" length="3178253" type="application/octet-stream" />
             <description><![CDATA[
 <ul>
 <li>Can type any value without double quote in the search field, it will be replaced by { "_id": "<value>" }</li>

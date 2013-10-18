@@ -6,11 +6,14 @@
       <description>Most recent changes with links to updates.</description>
       <language>en</language>      
          <item>
-            <title>Version 2.5.12</title>
-            <enclosure url="https://mongohub.s3.amazonaws.com/MongoHub-2.5.12.zip" sparkle:version="106" sparkle:shortVersionString="2.5.12" length="3172611" type="application/octet-stream" />
+            <title>Version 2.5.13</title>
+            <enclosure url="https://mongohub.s3.amazonaws.com/MongoHub-2.5.13.zip" sparkle:version="107" sparkle:shortVersionString="2.5.13" length="3178253" type="application/octet-stream" />
             <description><![CDATA[
 <ul>
-<li>New build to fix the font problem in the query window <a href="https://github.com/fotonauts/MongoHub-Mac/issues/91">91</a></li>
+<li>Can type any value without double quote in the search field, it will be replaced by { "_id": "<value>" }</li>
+<li>Adding support for retina display (thanks to Patryk Kasperski)</li>
+<li>Following the strict json for undefined value according to <a href="http://docs.mongodb.org/manual/reference/mongodb-extended-json/">MongoDB Extended JSON</a>" (now, exporting and parsing undefined as { "$undefined": true }</li>
+<li>Fixing a crash when trying to save an invalid json document</li>
 </ul>
             ]]>
             </description>

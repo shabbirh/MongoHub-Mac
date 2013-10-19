@@ -28,6 +28,8 @@ This project is very new. Any issues or bug reports are welcome. And I still don
     
 ** Current **
 
+    - Using the ssh-agent when having passphrase https://github.com/fotonauts/MongoHub-Mac/issues/93 (thanks for Nick Brook's help)
+
 ## History
 
 ** 2.5.13(107) - october 19, 2013 **

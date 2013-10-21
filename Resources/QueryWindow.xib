@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="4510" systemVersion="12E55" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="4510" systemVersion="12F37" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
         <deployment defaultVersion="1060" identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="4510"/>
@@ -557,6 +557,9 @@
                                             <rect key="frame" x="549" y="17" width="15" height="267"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </scroller>
+                                        <connections>
+                                            <outlet property="nextKeyView" destination="689" id="yeT-dX-Fhg"/>
+                                        </connections>
                                     </scrollView>
                                     <button toolTip="Right arrow, or option+right arrow" verticalHuggingPriority="750" id="475">
                                         <rect key="frame" x="509" y="5" width="75" height="18"/>

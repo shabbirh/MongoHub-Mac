@@ -69,8 +69,8 @@
 + (NSMutableDictionary *)convertForOutlineWithValue:(id)dataValue dataKey:(NSString *)dataKey
 {
     NSArray *child = nil;
-    NSString *value = nil;
-    NSString *type;
+    NSString *value = @"";
+    NSString *type = @"";
     NSMutableDictionary *result = nil;
     
     if ([dataValue isKindOfClass:[NSNumber class]]) {
@@ -117,31 +117,27 @@
     } else if ([dataValue isKindOfClass:[MODSortedMutableDictionary class]]) {
         NSUInteger count = [dataValue count];
       
-        value = @"";
-        type = @"Object";
         if (count == 0) {
-            value = NSLocalizedString(@"No item", @"about an dictionary");
+            type = NSLocalizedString(@"Object, no item", @"about an dictionary");
         } else if (count == 1) {
-            value = NSLocalizedString(@"1 item", @"about an dictionary");
+            type = NSLocalizedString(@"Object, 1 item", @"about an dictionary");
         } else {
-            value = [NSString stringWithFormat:NSLocalizedString(@"%d items", @"about an dictionary"), count];
+            type = [NSString stringWithFormat:NSLocalizedString(@"Object, %d items", @"about an dictionary"), count];
         }
         child = [self convertForOutlineWithObject:dataValue];
     } else if ([dataValue isKindOfClass:[MODSymbol class]]) {
         type = @"Symbol";
         value = [dataValue value];
     } else if ([dataValue isKindOfClass:[NSArray class]]) {
-        NSUInteger ii, count;
+        NSUInteger ii, count = [dataValue count];
         
-        count = [dataValue count];
         if (count == 0) {
-            value = NSLocalizedString(@"No item", @"about an array");
+            type = NSLocalizedString(@"Array, no item", @"about an array");
         } else if (count == 1) {
-            value = NSLocalizedString(@"1 item", @"about an array");
+            type = NSLocalizedString(@"Array, 1 item", @"about an array");
         } else {
-            value = [NSString stringWithFormat:NSLocalizedString(@"%d items", @"about an array"), count];
+            type = [NSString stringWithFormat:NSLocalizedString(@"Array, %d items", @"about an array"), count];
         }
-        type = @"Array";
         child = [NSMutableArray arrayWithCapacity:[dataValue count]];
         for (ii = 0; ii < count; ii++) {
             NSString *arrayDataKey;

@@ -115,17 +115,32 @@
         type = @"NULL";
         value = @"NULL";
     } else if ([dataValue isKindOfClass:[MODSortedMutableDictionary class]]) {
+        NSUInteger count = [dataValue count];
+      
         value = @"";
         type = @"Object";
+        if (count == 0) {
+            value = NSLocalizedString(@"No item", @"about an dictionary");
+        } else if (count == 1) {
+            value = NSLocalizedString(@"1 item", @"about an dictionary");
+        } else {
+            value = [NSString stringWithFormat:NSLocalizedString(@"%d items", @"about an dictionary"), count];
+        }
         child = [self convertForOutlineWithObject:dataValue];
     } else if ([dataValue isKindOfClass:[MODSymbol class]]) {
         type = @"Symbol";
         value = [dataValue value];
     } else if ([dataValue isKindOfClass:[NSArray class]]) {
-        NSInteger ii, count;
+        NSUInteger ii, count;
         
         count = [dataValue count];
-        value = @"";
+        if (count == 0) {
+            value = NSLocalizedString(@"No item", @"about an array");
+        } else if (count == 1) {
+            value = NSLocalizedString(@"1 item", @"about an array");
+        } else {
+            value = [NSString stringWithFormat:NSLocalizedString(@"%d items", @"about an array"), count];
+        }
         type = @"Array";
         child = [NSMutableArray arrayWithCapacity:[dataValue count]];
         for (ii = 0; ii < count; ii++) {

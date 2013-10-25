@@ -255,7 +255,7 @@
         if (mongoQuery.error) {
             [findQueryLoaderIndicator stop];
             flashColor = [NSColor redColor];
-            [totalResultsTextField setStringValue:[NSString stringWithFormat:@"ERROR: %@", [mongoQuery.error localizedDescription]]];
+            [totalResultsTextField setStringValue:[NSString stringWithFormat:@"Error: %@", [mongoQuery.error localizedDescription]]];
         } else {
             if ([queryTitle length] > 0) {
                 [_connectionStore addNewQuery:[NSDictionary dictionaryWithObjectsAndKeys:queryTitle, @"title", [_sortTextField stringValue], @"sort", [_fieldsTextField stringValue], @"fields", [_limitTextField stringValue], @"limit", [_skipTextField stringValue], @"skip", nil] withDatabaseName:_mongoCollection.databaseName collectionName:_mongoCollection.collectionName];
@@ -314,7 +314,7 @@
     }];
     [_mongoCollection updateWithCriteria:criteria update:[updateSetTextField stringValue] upsert:[upsetCheckBox state] multiUpdate:[multiCheckBox state] callback:^(MODQuery *mongoQuery) {
         if (mongoQuery.error) {
-            [updateResultsTextField setStringValue:[NSString stringWithFormat:@"ERROR: %@", mongoQuery.error.localizedDescription]];
+            [updateResultsTextField setStringValue:[NSString stringWithFormat:@"Error: %@", mongoQuery.error.localizedDescription]];
         }
         [updateQueryLoaderIndicator stop];
     }];
@@ -336,7 +336,7 @@
     }];
     [_mongoCollection removeWithCriteria:criteria callback:^(MODQuery *mongoQuery) {
         if (mongoQuery.error) {
-            [updateResultsTextField setStringValue:[NSString stringWithFormat:@"ERROR: %@", mongoQuery.error.localizedDescription]];
+            [updateResultsTextField setStringValue:[NSString stringWithFormat:@"Error: %@", mongoQuery.error.localizedDescription]];
         }
         [removeQueryLoaderIndicator stop];
     }];

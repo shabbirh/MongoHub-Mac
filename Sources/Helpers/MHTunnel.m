@@ -7,7 +7,7 @@
 //
 
 #import "MHTunnel.h"
-#import <Security/Security.h>
+#import "MHKeychain.h"
 #import "NSString+Extras.h"
 
 #import <assert.h>
@@ -263,8 +263,6 @@ static BOOL testLocalPortAvailable(unsigned short port)
         self.compression = [coder decodeBoolForKey:@"compression"];
         self.additionalArgs = [coder decodeObjectForKey:@"additionalArgs"];
         self.portForwardings = [[[coder decodeObjectForKey:@"portForwardings"] mutableCopy] autorelease];
-        
-        [self tunnelLoaded];
     }
     
     return (self);
@@ -299,8 +297,6 @@ static BOOL testLocalPortAvailable(unsigned short port)
     [coder encodeBool:self.compression forKey:@"compression"];
     [coder encodeObject:self.additionalArgs forKey:@"additionalArgs"];
     [coder encodeObject:self.portForwardings forKey:@"portForwardings"];
-    
-    [self tunnelSaved];
 }
 
 - (void)_connected
@@ -316,9 +312,12 @@ static BOOL testLocalPortAvailable(unsigned short port)
     NSMutableDictionary *result;
     
     result = [[NSMutableDictionary alloc] init];
-    [result setObject:[[NSBundle mainBundle] pathForResource:@"SSHCommand" ofType:@"sh"] forKey:@"SSH_ASKPASS"];
+    if (![_password isEqualToString:@""]) {
+        [result setObject:[[NSBundle mainBundle] pathForResource:@"SSHCommand" ofType:@"sh"] forKey:@"SSH_ASKPASS"];
+        [result setObject:_password forKey:@"SSHPASSWORD"];
+    }
     [result setObject:@":0" forKey:@"DISPLAY"];
-    [result setObject:_password forKey:@"SSHPASSWORD"];
+    [result setObject:[[[NSProcessInfo processInfo] environment] objectForKey:@"SSH_AUTH_SOCK"] forKey:@"SSH_AUTH_SOCK"];
     return [result autorelease];
 }
 
@@ -484,293 +483,6 @@ static BOOL testLocalPortAvailable(unsigned short port)
     forwardPort = [[NSString alloc] initWithFormat:@"%@%@%@:%d:%@:%d", reverseForwarding?@"R":@"L", bindAddress?bindAddress:@"", bindAddress?@":":@"", (int)bindPort, hostAddress, (int)hostPort];
     [self.portForwardings addObject:forwardPort];
     [forwardPort release];
-}
-
-- (void)tunnelLoaded
-{
-    if (uid == nil || [uid length] == 0) {
-        CFUUIDRef uidref = CFUUIDCreate(nil);
-        uid = (NSString *)CFUUIDCreateString(nil, uidref);
-        CFRelease(uidref);
-    }
-    
-    if ([self keychainItemExists]) {
-        _password = [self keychainGetPassword];
-    } else {
-        _password = @"";
-    }
-}
-
-- (void)tunnelSaved
-{
-    if ([self keychainItemExists]) {
-        [self keychainModifyItem];
-    } else {
-        [self keychainAddItem];
-    }
-}
-
-- (void)tunnelRemoved
-{
-    if([self keychainItemExists]) {
-        [self keychainDeleteItem];
-    }
-}
-
-- (BOOL)keychainItemExists
-{
-    SecKeychainSearchRef search;
-    SecKeychainAttributeList list;
-    SecKeychainAttribute attributes[3];
-    
-    NSString *keychainItemName = [NSString stringWithFormat:@"SSHTunnel <%@>", uid];
-    NSString *keychainItemKind = @"application password";
-    
-    attributes[0].tag = kSecAccountItemAttr;
-    attributes[0].data = (void *)[uid UTF8String];
-    attributes[0].length = [uid length];
-    
-    attributes[1].tag = kSecDescriptionItemAttr;
-    attributes[1].data = (void *)[keychainItemKind UTF8String];
-    attributes[1].length = [keychainItemKind length];
-    
-    attributes[2].tag = kSecLabelItemAttr;
-    attributes[2].data = (void *)[keychainItemName UTF8String];
-    attributes[2].length = [keychainItemName length];
-    
-    list.count = 3;
-    list.attr = attributes;
-    
-    OSErr result = SecKeychainSearchCreateFromAttributes(NULL, kSecGenericPasswordItemClass, &list, &search);
-    
-    if (result != noErr) {
-        NSLog (@"Error status %d from SecKeychainSearchCreateFromAttributes\n", result);
-        return FALSE;
-    }
-    
-    uint itemsFound = 0;
-    SecKeychainItemRef item;
-    
-    while (SecKeychainSearchCopyNext(search, &item) == noErr) {
-        CFRelease (item);
-        itemsFound++;
-    }
-    
-    CFRelease (search);
-    return itemsFound > 0;
-}
-
-- (BOOL)keychainAddItem
-{
-    SecKeychainItemRef item;
-    SecKeychainAttributeList list;
-    SecKeychainAttribute attributes[3];
-    
-    NSString *keychainItemName = [NSString stringWithFormat:@"SSHTunnel <%@>", uid];
-    NSString *keychainItemKind = @"application password";
-    
-    attributes[0].tag = kSecAccountItemAttr;
-    attributes[0].data = (void *)[uid UTF8String];
-    attributes[0].length = [uid length];
-    
-    attributes[1].tag = kSecDescriptionItemAttr;
-    attributes[1].data = (void *)[keychainItemKind UTF8String];
-    attributes[1].length = [keychainItemKind length];
-    
-    attributes[2].tag = kSecLabelItemAttr;
-    attributes[2].data = (void *)[keychainItemName UTF8String];
-    attributes[2].length = [keychainItemName length];    
-    
-    list.count = 3;
-    list.attr = attributes;
-    
-    OSStatus status = SecKeychainItemCreateFromContent(kSecGenericPasswordItemClass, &list, [_password length], [_password UTF8String], NULL,NULL,&item);
-    if (status != 0) {
-        NSLog(@"Error creating new item: %d for %@\n", (int)status, keychainItemName);
-    }
-    
-    return !status;
-}
-
-- (BOOL)keychainModifyItem
-{
-    SecKeychainItemRef item;
-    SecKeychainSearchRef search;
-    OSStatus status;
-    OSErr result;
-    SecKeychainAttributeList list;
-    SecKeychainAttribute attributes[3];
-    
-    NSString *keychainItemName = [NSString stringWithFormat:@"SSHTunnel <%@>", uid];
-    NSString *keychainItemKind = @"application password";
-    
-    attributes[0].tag = kSecAccountItemAttr;
-    attributes[0].data = (void *)[uid UTF8String];
-    attributes[0].length = [uid length];
-    
-    attributes[1].tag = kSecDescriptionItemAttr;
-    attributes[1].data = (void *)[keychainItemKind UTF8String];
-    attributes[1].length = [keychainItemKind length];
-    
-    attributes[2].tag = kSecLabelItemAttr;
-    attributes[2].data = (void *)[keychainItemName UTF8String];
-    attributes[2].length = [keychainItemName length];
-    
-    list.count = 3;
-    list.attr = attributes;
-    
-    result = SecKeychainSearchCreateFromAttributes(NULL, kSecGenericPasswordItemClass, &list, &search);
-    NSLog(@"%hd", result);
-    SecKeychainSearchCopyNext (search, &item);
-    status = SecKeychainItemModifyContent(item, &list, [_password length], [_password UTF8String]);
-    
-    if (status != 0) {
-        NSLog(@"Error modifying item: %d", (int)status);
-    }
-    
-    CFRelease (item);
-    CFRelease(search);
-    
-    return !status;
-}
-
-- (BOOL)keychainDeleteItem
-{
-    SecKeychainItemRef item;
-    SecKeychainSearchRef search;
-    OSStatus status = 0;
-    OSErr result;
-    SecKeychainAttributeList list;
-    SecKeychainAttribute attributes[3];
-    uint itemsFound = 0;
-    
-    NSString *keychainItemName = [NSString stringWithFormat:@"SSHTunnel <%@>", uid];
-    NSString *keychainItemKind = @"application password";
-    
-    attributes[0].tag = kSecAccountItemAttr;
-    attributes[0].data = (void *)[uid UTF8String];
-    attributes[0].length = [uid length];
-    
-    attributes[1].tag = kSecDescriptionItemAttr;
-    attributes[1].data = (void *)[keychainItemKind UTF8String];
-    attributes[1].length = [keychainItemKind length];
-    
-    attributes[2].tag = kSecLabelItemAttr;
-    attributes[2].data = (void *)[keychainItemName UTF8String];
-    attributes[2].length = [keychainItemName length];
-    
-    list.count = 3;
-    list.attr = attributes;
-    
-    result = SecKeychainSearchCreateFromAttributes(NULL, kSecGenericPasswordItemClass, &list, &search);
-    NSLog(@"%hd", result);
-    while (SecKeychainSearchCopyNext (search, &item) == noErr) {
-        itemsFound++;
-    }
-    if (itemsFound) {
-        status = SecKeychainItemDelete(item);
-    }
-    
-    if (status != 0) {
-        NSLog(@"Error deleting item: %d\n", (int)status);
-    }
-    CFRelease (item);
-    CFRelease (search);
-    
-    return !status;
-}
-
-- (NSString *)keychainGetPassword
-{
-    SecKeychainItemRef item;
-    SecKeychainSearchRef search;
-    OSErr result;
-    SecKeychainAttributeList list;
-    SecKeychainAttribute attributes[3];
-    
-    NSString *keychainItemName = [NSString stringWithFormat:@"SSHTunnel <%@>", uid];
-    NSString *keychainItemKind = @"application password";
-    
-    attributes[0].tag = kSecAccountItemAttr;
-    attributes[0].data = (void *)[uid UTF8String];
-    attributes[0].length = [uid length];
-    
-    attributes[1].tag = kSecDescriptionItemAttr;
-    attributes[1].data = (void *)[keychainItemKind UTF8String];
-    attributes[1].length = [keychainItemKind length];
-    
-    attributes[2].tag = kSecLabelItemAttr;
-    attributes[2].data = (void *)[keychainItemName UTF8String];
-    attributes[2].length = [keychainItemName length];
-    
-    
-    list.count = 3;
-    list.attr = attributes;
-    
-    result = SecKeychainSearchCreateFromAttributes(NULL, kSecGenericPasswordItemClass, &list, &search);
-    
-    if (result != noErr) {
-        NSLog(@"status %d from SecKeychainSearchCreateFromAttributes\n", result);
-    }
-    
-    NSString *pass = @"";
-    if (SecKeychainSearchCopyNext (search, &item) == noErr) {
-        pass = [self keychainGetPasswordFromItemRef:item];
-        if(!pass) {
-            pass = @"";
-        }
-        CFRelease (item);
-        CFRelease (search);
-    }
-    
-    return pass;
-}
-
-- (NSString *)keychainGetPasswordFromItemRef:(SecKeychainItemRef)item
-{
-    NSString *retPass = nil;
-    
-    UInt32 length;
-    char *pass;
-    SecKeychainAttribute attributes[8];
-    SecKeychainAttributeList list;
-    OSStatus status;
-    
-    attributes[0].tag = kSecAccountItemAttr;
-    attributes[1].tag = kSecDescriptionItemAttr;
-    attributes[2].tag = kSecLabelItemAttr;
-    attributes[3].tag = kSecModDateItemAttr;
-    
-    list.count = 4;
-    list.attr = attributes;
-    
-    status = SecKeychainItemCopyContent (item, NULL, &list, &length, (void **)&pass);
-    
-    if (status == noErr) {
-        if (pass != NULL) {
-            
-            // copy the password into a buffer so we can attach a
-            // trailing zero byte in order to be able to print
-            // it out with printf
-            char passwordBuffer[1024];
-            
-            if (length > 1023) {
-                length = 1023; // save room for trailing \0
-            }
-            strncpy (passwordBuffer, pass, length);
-            
-            passwordBuffer[length] = '\0';
-            
-            retPass = [NSString stringWithUTF8String:passwordBuffer];
-        }
-        
-        SecKeychainItemFreeContent (&list, pass);
-        
-        return retPass;
-    } else {
-        printf("Error getting password = %d\n", (int)status);
-        return @"";
-    }
 }
 
 @end

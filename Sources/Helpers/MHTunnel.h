@@ -80,17 +80,6 @@ typedef enum {
 - (void)start;
 - (void)stop;
 
-- (void)tunnelLoaded;
-- (void)tunnelSaved;
-- (void)tunnelRemoved;
-
 - (void)addForwardingPortWithBindAddress:(NSString *)bindAddress bindPort:(unsigned short)bindPort hostAddress:(NSString *)hostAddress hostPort:(unsigned short)hostPort reverseForwarding:(BOOL)reverseForwarding;
-
-- (BOOL)keychainItemExists;
-- (BOOL)keychainAddItem;
-- (BOOL)keychainModifyItem;
-- (BOOL)keychainDeleteItem;
-- (NSString *)keychainGetPassword;
-- (NSString *)keychainGetPasswordFromItemRef:(SecKeychainItemRef)item;
 
 @end

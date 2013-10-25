@@ -251,12 +251,11 @@
     [_mongoCollection findWithCriteria:criteria fields:fields skip:[_skipTextField intValue] limit:limit sort:sort callback:^(NSArray *documents, MODQuery *mongoQuery) {
         NSColor *currentColor;
         NSColor *flashColor;
-        
+
         if (mongoQuery.error) {
             [findQueryLoaderIndicator stop];
-            NSRunAlertPanel(@"Error", [mongoQuery.error localizedDescription], @"OK", nil, nil);
             flashColor = [NSColor redColor];
-            [totalResultsTextField setStringValue:@"Error"];
+            [totalResultsTextField setStringValue:[NSString stringWithFormat:@"Error: %@", [mongoQuery.error localizedDescription]]];
         } else {
             if ([queryTitle length] > 0) {
                 [_connectionStore addNewQuery:[NSDictionary dictionaryWithObjectsAndKeys:queryTitle, @"title", [_sortTextField stringValue], @"sort", [_fieldsTextField stringValue], @"fields", [_limitTextField stringValue], @"limit", [_skipTextField stringValue], @"skip", nil] withDatabaseName:_mongoCollection.databaseName collectionName:_mongoCollection.collectionName];
@@ -314,6 +313,9 @@
         [NSViewHelpers setColor:currentColor fromColor:[NSColor greenColor] toTarget:updateResultsTextField withSelector:@selector(setTextColor:) delay:1];
     }];
     [_mongoCollection updateWithCriteria:criteria update:[updateSetTextField stringValue] upsert:[upsetCheckBox state] multiUpdate:[multiCheckBox state] callback:^(MODQuery *mongoQuery) {
+        if (mongoQuery.error) {
+            [updateResultsTextField setStringValue:[NSString stringWithFormat:@"Error: %@", mongoQuery.error.localizedDescription]];
+        }
         [updateQueryLoaderIndicator stop];
     }];
 }
@@ -333,6 +335,9 @@
         [NSViewHelpers setColor:currentColor fromColor:[NSColor redColor] toTarget:removeResultsTextField withSelector:@selector(setTextColor:) delay:1];
     }];
     [_mongoCollection removeWithCriteria:criteria callback:^(MODQuery *mongoQuery) {
+        if (mongoQuery.error) {
+            [updateResultsTextField setStringValue:[NSString stringWithFormat:@"Error: %@", mongoQuery.error.localizedDescription]];
+        }
         [removeQueryLoaderIndicator stop];
     }];
 }

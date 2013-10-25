@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle"  xmlns:dc="http://purl.org/dc/elements/1.1/">
+   <channel>
+      <title>MongoHub</title>
+      <link>https://mongohub.s3.amazonaws.com/su_feed.xml</link>
+      <description>Most recent changes with links to updates.</description>
+      <language>en</language>      
+         <item>
+            <title>Version 2.5.13</title>
+            <enclosure url="https://mongohub.s3.amazonaws.com/MongoHub-2.5.13.zip" sparkle:version="2.5.13" length="3178253" type="application/octet-stream" />
+            <description><![CDATA[
+<ul>
+<li>Can type any value without double quote in the search field, it will be replaced by { "_id": "<value>" }</li>
+<li>Adding support for retina display (thanks to Patryk Kasperski)</li>
+<li>Following the strict json for undefined value according to <a href="http://docs.mongodb.org/manual/reference/mongodb-extended-json/">MongoDB Extended JSON</a>" (now, exporting and parsing undefined as { "$undefined": true }</li>
+<li>Fixing a crash when trying to save an invalid json document</li>
+</ul>
+            ]]>
+            </description>
+         </item>
+   </channel>
+</rss>

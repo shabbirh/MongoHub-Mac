@@ -69,8 +69,8 @@
 + (NSMutableDictionary *)convertForOutlineWithValue:(id)dataValue dataKey:(NSString *)dataKey
 {
     NSArray *child = nil;
-    NSString *value = nil;
-    NSString *type;
+    NSString *value = @"";
+    NSString *type = @"";
     NSMutableDictionary *result = nil;
     
     if ([dataValue isKindOfClass:[NSNumber class]]) {
@@ -115,18 +115,29 @@
         type = @"NULL";
         value = @"NULL";
     } else if ([dataValue isKindOfClass:[MODSortedMutableDictionary class]]) {
-        value = @"";
-        type = @"Object";
+        NSUInteger count = [dataValue count];
+      
+        if (count == 0) {
+            type = NSLocalizedString(@"Object, no item", @"about an dictionary");
+        } else if (count == 1) {
+            type = NSLocalizedString(@"Object, 1 item", @"about an dictionary");
+        } else {
+            type = [NSString stringWithFormat:NSLocalizedString(@"Object, %d items", @"about an dictionary"), count];
+        }
         child = [self convertForOutlineWithObject:dataValue];
     } else if ([dataValue isKindOfClass:[MODSymbol class]]) {
         type = @"Symbol";
         value = [dataValue value];
     } else if ([dataValue isKindOfClass:[NSArray class]]) {
-        NSInteger ii, count;
+        NSUInteger ii, count = [dataValue count];
         
-        count = [dataValue count];
-        value = @"";
-        type = @"Array";
+        if (count == 0) {
+            type = NSLocalizedString(@"Array, no item", @"about an array");
+        } else if (count == 1) {
+            type = NSLocalizedString(@"Array, 1 item", @"about an array");
+        } else {
+            type = [NSString stringWithFormat:NSLocalizedString(@"Array, %d items", @"about an array"), count];
+        }
         child = [NSMutableArray arrayWithCapacity:[dataValue count]];
         for (ii = 0; ii < count; ii++) {
             NSString *arrayDataKey;

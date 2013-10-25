@@ -38,11 +38,11 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>2.5.12</string>
+	<string>2.5.13</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>106</string>
+	<string>2.5.13</string>
 	<key>LSMinimumSystemVersion</key>
 	<string>${MACOSX_DEPLOYMENT_TARGET}</string>
 	<key>NSHumanReadableCopyright</key>
@@ -52,7 +52,7 @@
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
 	<key>SUFeedURL</key>
-	<string>https://mongohub.s3.amazonaws.com/su_feed.xml</string>
+	<string>https://mongohub.s3.amazonaws.com/mongohub_su_feed.xml</string>
 	<key>NSHighResolutionCapable</key>
 	<true/>
 </dict>

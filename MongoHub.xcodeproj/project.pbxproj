@@ -29,7 +29,7 @@
 		020F5128148973BA00D4B54B /* MHStatusViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 020F5126148973BA00D4B54B /* MHStatusViewController.m */; };
 		020F5129148973BA00D4B54B /* MHStatusViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 020F5127148973BA00D4B54B /* MHStatusViewController.xib */; };
 		0213CAEE1431F3400027795D /* dsa_pub.pem in Resources */ = {isa = PBXBuildFile; fileRef = 1DFC2A8C11970BD0006AA167 /* dsa_pub.pem */; };
-		0213CAF41431FEF50027795D /* su_feed.xml in Resources */ = {isa = PBXBuildFile; fileRef = 0213CAF31431FEF50027795D /* su_feed.xml */; };
+		0213CAF41431FEF50027795D /* mongohub_su_feed.xml in Resources */ = {isa = PBXBuildFile; fileRef = 0213CAF31431FEF50027795D /* mongohub_su_feed.xml */; };
 		021BEA681463709A0091C2EA /* MongoHub_DataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 021BEA641463709A0091C2EA /* MongoHub_DataModel.xcdatamodeld */; };
 		021DB3881425819D0033E77C /* MODCursor.m in Sources */ = {isa = PBXBuildFile; fileRef = 021DB3861425819D0033E77C /* MODCursor.m */; };
 		021DB3891425819D0033E77C /* MODServer_utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 021DB3871425819D0033E77C /* MODServer_utils.m */; };
@@ -257,7 +257,7 @@
 		020F5125148973BA00D4B54B /* MHStatusViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MHStatusViewController.h; sourceTree = "<group>"; };
 		020F5126148973BA00D4B54B /* MHStatusViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MHStatusViewController.m; sourceTree = "<group>"; };
 		020F5127148973BA00D4B54B /* MHStatusViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MHStatusViewController.xib; sourceTree = "<group>"; };
-		0213CAF31431FEF50027795D /* su_feed.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = su_feed.xml; sourceTree = "<group>"; };
+		0213CAF31431FEF50027795D /* mongohub_su_feed.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = mongohub_su_feed.xml; sourceTree = "<group>"; };
 		021BEA651463709A0091C2EA /* MongoHub_DataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = MongoHub_DataModel.xcdatamodel; sourceTree = "<group>"; };
 		021BEA661463709A0091C2EA /* MongoHub_DataModel1.0.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = MongoHub_DataModel1.0.xcdatamodel; sourceTree = "<group>"; };
 		021BEA671463709A0091C2EA /* MongoHub_DataModel2.0.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = MongoHub_DataModel2.0.xcdatamodel; sourceTree = "<group>"; };
@@ -1202,7 +1202,7 @@
 			isa = PBXGroup;
 			children = (
 				02683D5D1442759100467EBE /* README.markdown */,
-				0213CAF31431FEF50027795D /* su_feed.xml */,
+				0213CAF31431FEF50027795D /* mongohub_su_feed.xml */,
 				1DD1CA8512C8F004007F2909 /* Syntax Definitions */,
 				1DD1CA8112C8EFD4007F2909 /* SyntaxDefinition.plist */,
 				1DD1CA8212C8EFD4007F2909 /* SyntaxColorDefaults.plist */,
@@ -1370,7 +1370,7 @@
 				1DD1CA8B12C8F004007F2909 /* Objective C.plist in Resources */,
 				1DDC486912CB7758009924A1 /* JSON.plist in Resources */,
 				0213CAEE1431F3400027795D /* dsa_pub.pem in Resources */,
-				0213CAF41431FEF50027795D /* su_feed.xml in Resources */,
+				0213CAF41431FEF50027795D /* mongohub_su_feed.xml in Resources */,
 				020F511B14896DE700D4B54B /* MHTabViewController.xib in Resources */,
 				020F5129148973BA00D4B54B /* MHStatusViewController.xib in Resources */,
 				02E0FE36151DE2420094C1CD /* background-grey_center.png in Resources */,

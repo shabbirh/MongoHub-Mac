@@ -28,12 +28,18 @@ This project is very new. Any issues or bug reports are welcome. And I still don
     
 ** Current **
 
+    - Using the ssh-agent when having passphrase https://github.com/fotonauts/MongoHub-Mac/issues/93 (thanks for Nick Brook's help)
+    - Fix from a bug introduced in 2.5.13(107), problem to tab away the document outline view to the delete button https://github.com/fotonauts/MongoHub-Mac/issues/97
+    - Better error reporting for find, update or delete (thanks to Johannes Schriewer)
+
+## History
+
+** 2.5.13(107) - october 19, 2013 **
+
     - Can type any value without double quote in the search field, it will be replaced by { "_id": "<value>" }
     - Adding support for retina display (thanks to Patryk Kasperski)
     - Following the strict json for undefined value according to http://docs.mongodb.org/manual/reference/mongodb-extended-json/ (now, exporting and parsing undefined as { "$undefined": true }
     - Fixing a crash when trying to save an invalid json document
-
-## History
 
 ** 2.5.12(106) - september 8, 2013 **
     

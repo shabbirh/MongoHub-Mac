@@ -7,7 +7,6 @@
 //
 
 #import "MHTunnel.h"
-#import "MHKeychain.h"
 #import "NSString+Extras.h"
 
 #import <assert.h>

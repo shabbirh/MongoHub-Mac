@@ -28,6 +28,10 @@ This project is very new. Any issues or bug reports are welcome. And I still don
     
 ** Current **
 
+    - Using the ssh-agent when having passphrase https://github.com/fotonauts/MongoHub-Mac/issues/93 (thanks for Nick Brook's help)
+    - Fix from a bug introduced in 2.5.13(107), problem to tab away the document outline view to the delete button https://github.com/fotonauts/MongoHub-Mac/issues/97
+    - Better error reporting for find, update or delete (thanks to Johannes Schriewer)
+
 ## History
 
 ** 2.5.13(107) - october 19, 2013 **

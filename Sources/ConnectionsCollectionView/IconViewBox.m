@@ -35,7 +35,7 @@
         int minY = NSMinY(bgRect);
         int midY = NSMidY(bgRect);
         int maxY = NSMaxY(bgRect);
-        float radius = 25.0; // correct value to duplicate Panther's App Switcher
+        float radius = self.bounds.size.height / 10.0; // correct value to duplicate Panther's App Switcher
         NSBezierPath *bgPath = [NSBezierPath bezierPath];
         
         // Bottom edge and bottom-right curve

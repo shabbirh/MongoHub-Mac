@@ -557,6 +557,9 @@
                                             <rect key="frame" x="549" y="17" width="15" height="267"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </scroller>
+                                        <connections>
+                                            <outlet property="nextKeyView" destination="689" id="yeT-dX-Fhg"/>
+                                        </connections>
                                     </scrollView>
                                     <button toolTip="Right arrow, or option+right arrow" verticalHuggingPriority="750" id="475">
                                         <rect key="frame" x="509" y="5" width="75" height="18"/>
@@ -616,8 +619,8 @@ CA
                                         </connections>
                                     </button>
                                     <textField verticalHuggingPriority="750" id="98">
-                                        <rect key="frame" x="17" y="7" width="193" height="14"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <rect key="frame" x="17" y="7" width="329" height="14"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
                                         <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" selectable="YES" sendsActionOnEndEditing="YES" placeholderString="Query Results" id="99">
                                             <font key="font" metaFont="smallSystem"/>
                                             <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>

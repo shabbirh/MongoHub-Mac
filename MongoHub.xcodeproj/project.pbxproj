@@ -42,6 +42,7 @@
 		023230AE15E051300075498C /* MHConnectionEditorWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 023230AD15E051300075498C /* MHConnectionEditorWindowController.m */; };
 		023ED002148526E700185781 /* MODSymbol.m in Sources */ = {isa = PBXBuildFile; fileRef = 023ED001148526E700185781 /* MODSymbol.m */; };
 		024F67901427F3DE00956BF6 /* MODHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 024F678F1427F3DE00956BF6 /* MODHelper.m */; };
+		0255B568181A9A210019739D /* MHKeychain.m in Sources */ = {isa = PBXBuildFile; fileRef = 0255B567181A9A210019739D /* MHKeychain.m */; };
 		025B8F0C1531C76E00849A71 /* MHTabTitleContainerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 025B8F0B1531C76E00849A71 /* MHTabTitleContainerView.m */; };
 		025B8F911531FC7500849A71 /* unselected-tab-border.png in Resources */ = {isa = PBXBuildFile; fileRef = 025B8F901531FC7500849A71 /* unselected-tab-border.png */; };
 		025C563214350DEF0064B010 /* MODRegex.m in Sources */ = {isa = PBXBuildFile; fileRef = 025C562A14350DEF0064B010 /* MODRegex.m */; };
@@ -290,6 +291,8 @@
 		02411ABC1432D55900A5FFCA /* MOD_public.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MOD_public.h; sourceTree = "<group>"; };
 		024F678E1427F3DE00956BF6 /* MODHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MODHelper.h; sourceTree = "<group>"; };
 		024F678F1427F3DE00956BF6 /* MODHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MODHelper.m; sourceTree = "<group>"; };
+		0255B566181A9A210019739D /* MHKeychain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MHKeychain.h; sourceTree = "<group>"; };
+		0255B567181A9A210019739D /* MHKeychain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MHKeychain.m; sourceTree = "<group>"; };
 		025B8F0A1531C76E00849A71 /* MHTabTitleContainerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MHTabTitleContainerView.h; sourceTree = "<group>"; };
 		025B8F0B1531C76E00849A71 /* MHTabTitleContainerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MHTabTitleContainerView.m; sourceTree = "<group>"; };
 		025B8F901531FC7500849A71 /* unselected-tab-border.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "unselected-tab-border.png"; sourceTree = "<group>"; };
@@ -1161,6 +1164,8 @@
 		1D93C608118417D5003216F7 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				0255B566181A9A210019739D /* MHKeychain.h */,
+				0255B567181A9A210019739D /* MHKeychain.m */,
 				1DA6806A11888BDD00DFDD29 /* NSString+Extras.h */,
 				1DA6806B11888BDD00DFDD29 /* NSString+Extras.m */,
 				1D26618F11CFD1640092C6B5 /* FieldMapDataObject.h */,
@@ -1480,6 +1485,7 @@
 			files = (
 				02D5A8EB1442089300C7768C /* json.c in Sources */,
 				02F2A1FA1817E4BC0053CB20 /* MHPreferenceController.m in Sources */,
+				0255B568181A9A210019739D /* MHKeychain.m in Sources */,
 				02D5A8E41442087F00C7768C /* bson.c in Sources */,
 				02D5A8E51442087F00C7768C /* encoding.c in Sources */,
 				02D5A8E61442087F00C7768C /* gridfs.c in Sources */,

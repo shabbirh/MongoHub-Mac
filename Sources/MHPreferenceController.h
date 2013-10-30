@@ -8,6 +8,15 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface MHPreferenceController : NSViewController
+#define MHPreferenceControllerClosing           @"MHPreferenceControllerClosing"
 
+@interface MHPreferenceController : NSViewController
+{
+    IBOutlet NSWindow                *_window;
+}
+@property (nonatomic, strong, readonly) NSWindow *window;
+
++ (MHPreferenceController *)preferenceController;
+
+- (IBAction)openWindow:(id)sender;
 @end

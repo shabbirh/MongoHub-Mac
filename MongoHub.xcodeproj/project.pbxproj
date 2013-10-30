@@ -89,7 +89,7 @@
 		02E0FE40151DE2420094C1CD /* button_ArrowRight_overlay.png in Resources */ = {isa = PBXBuildFile; fileRef = 02E0FE33151DE2420094C1CD /* button_ArrowRight_overlay.png */; };
 		02E0FE41151DE2420094C1CD /* close_button.png in Resources */ = {isa = PBXBuildFile; fileRef = 02E0FE34151DE2420094C1CD /* close_button.png */; };
 		02E0FE42151DE2420094C1CD /* overlay_close_button.png in Resources */ = {isa = PBXBuildFile; fileRef = 02E0FE35151DE2420094C1CD /* overlay_close_button.png */; };
-		02F2A1F71817E48B0053CB20 /* MHPreference.xib in Resources */ = {isa = PBXBuildFile; fileRef = 02F2A1F61817E48B0053CB20 /* MHPreference.xib */; };
+		02F2A1F71817E48B0053CB20 /* MHPreferenceController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 02F2A1F61817E48B0053CB20 /* MHPreferenceController.xib */; };
 		02F2A1FA1817E4BC0053CB20 /* MHPreferenceController.m in Sources */ = {isa = PBXBuildFile; fileRef = 02F2A1F91817E4BC0053CB20 /* MHPreferenceController.m */; };
 		02FCD3CF13BB9EA400316A9F /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 02FCD3CE13BB9EA400316A9F /* Sparkle.framework */; };
 		02FCD3D813BBA4A300316A9F /* MCPKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 02FCD3D713BBA4A300316A9F /* MCPKit.framework */; };
@@ -457,7 +457,7 @@
 		02E0FE33151DE2420094C1CD /* button_ArrowRight_overlay.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = button_ArrowRight_overlay.png; sourceTree = "<group>"; };
 		02E0FE34151DE2420094C1CD /* close_button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = close_button.png; sourceTree = "<group>"; };
 		02E0FE35151DE2420094C1CD /* overlay_close_button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = overlay_close_button.png; sourceTree = "<group>"; };
-		02F2A1F61817E48B0053CB20 /* MHPreference.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MHPreference.xib; sourceTree = "<group>"; };
+		02F2A1F61817E48B0053CB20 /* MHPreferenceController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MHPreferenceController.xib; sourceTree = "<group>"; };
 		02F2A1F81817E4BC0053CB20 /* MHPreferenceController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MHPreferenceController.h; sourceTree = "<group>"; };
 		02F2A1F91817E4BC0053CB20 /* MHPreferenceController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MHPreferenceController.m; sourceTree = "<group>"; };
 		02FCD3CE13BB9EA400316A9F /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Sparkle.framework; sourceTree = "<group>"; };
@@ -1226,7 +1226,7 @@
 				020F511914896DE700D4B54B /* MHTabViewController.xib */,
 				020F5127148973BA00D4B54B /* MHStatusViewController.xib */,
 				2F7446970DB6B7EA00F9684A /* MHMainMenu.xib */,
-				02F2A1F61817E48B0053CB20 /* MHPreference.xib */,
+				02F2A1F61817E48B0053CB20 /* MHPreferenceController.xib */,
 				1D93C29F118343EF003216F7 /* MHConnectionEditorWindowController.xib */,
 				1D93C3D01183690E003216F7 /* MHConnectionWindow.xib */,
 				1D79945611875E7A009C187F /* NewDB.xib */,
@@ -1354,7 +1354,7 @@
 				1DF96E3D11881EB400C35AB8 /* NewCollection.xib in Resources */,
 				1DF96F9411883D5E00C35AB8 /* QueryWindow.xib in Resources */,
 				1DA68047118875B300DFDD29 /* findmenu.png in Resources */,
-				02F2A1F71817E48B0053CB20 /* MHPreference.xib in Resources */,
+				02F2A1F71817E48B0053CB20 /* MHPreferenceController.xib in Resources */,
 				1DA68048118875B300DFDD29 /* insertmenu.png in Resources */,
 				1DA68049118875B300DFDD29 /* removemenu.png in Resources */,
 				1DA6804A118875B300DFDD29 /* runmenu.png in Resources */,

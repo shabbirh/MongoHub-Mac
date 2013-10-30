@@ -14,6 +14,7 @@
 @class MHConnectionStore;
 @class MHConnectionEditorWindowController;
 @class SUUpdater;
+@class MHPreferenceController;
 
 @interface MHApplicationDelegate : NSObject <NSApplicationDelegate, NSCollectionViewDelegate>
 {
@@ -24,6 +25,7 @@
     NSManagedObjectContext                  *managedObjectContext;
     MHConnectionEditorWindowController      *_addConnectionWindowController;
     NSMutableArray                          *_editConnectionWindowControllers;
+    MHPreferenceController                  *_preferenceController;
     
     IBOutlet ConnectionsCollectionView      *connectionsCollectionView;
     IBOutlet ConnectionsArrayController     *connectionsArrayController;
@@ -42,6 +44,7 @@
 @property (nonatomic, retain) ConnectionsCollectionView *connectionsCollectionView;
 @property (nonatomic, retain) ConnectionsArrayController *connectionsArrayController;
 @property (nonatomic, retain) NSTextField *bundleVersion;
+@property (nonatomic, strong, readonly) MHPreferenceController *preferenceController;
 
 - (void)saveConnections;
 - (IBAction)showAddConnectionPanel:(id)sender;
@@ -56,6 +59,7 @@
 - (IBAction)closeSupportPanel:(id)sender;
 - (IBAction)openFeatureRequestBugReport:(id)sender;
 - (IBAction)openConnectionWindow:(id)sender;
+- (IBAction)openPreferenceWindow:(id)sender;
 
 @end
 

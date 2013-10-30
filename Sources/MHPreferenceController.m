@@ -10,4 +10,24 @@
 
 @implementation MHPreferenceController
 
+@synthesize window = _window;
+
++ (MHPreferenceController *)preferenceController
+{
+    MHPreferenceController *result;
+    result = [[[MHPreferenceController alloc] initWithNibName:@"MHPreferenceController" bundle:NSBundle.mainBundle] autorelease];
+    [result loadView];
+    return result;
+}
+
+- (IBAction)openWindow:(id)sender
+{
+    [_window makeKeyAndOrderFront:sender];
+}
+
+- (void)windowWillClose:(NSNotification *)notification
+{
+    [[NSNotificationCenter defaultCenter] postNotificationName:MHPreferenceControllerClosing object:self];
+}
+
 @end

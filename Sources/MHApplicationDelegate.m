@@ -13,6 +13,7 @@
 #import "ConnectionsCollectionView.h"
 #import "MHConnectionEditorWindowController.h"
 #import "MHConnectionStore.h"
+#import "MHPreferenceController.h"
 #import <Sparkle/Sparkle.h>
 
 #define YOUR_EXTERNAL_RECORD_EXTENSION @"mgo"
@@ -24,6 +25,7 @@
 @synthesize connectionsCollectionView;
 @synthesize connectionsArrayController;
 @synthesize bundleVersion;
+@synthesize preferenceController = _preferenceController;
 
 - (void)awakeFromNib
 {
@@ -415,6 +417,24 @@
 - (IBAction)openConnectionWindow:(id)sender
 {
     [_window makeKeyAndOrderFront:sender];
+}
+
+- (IBAction)openPreferenceWindow:(id)sender
+{
+    if (!_preferenceController) {
+        _preferenceController = [[MHPreferenceController preferenceController] retain];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(closingPreferenceController:) name:MHPreferenceControllerClosing object:_preferenceController];
+    }
+    [_preferenceController openWindow:sender];
+}
+
+- (void)closingPreferenceController:(NSNotification *)notification
+{
+    if (notification.object == _preferenceController) {
+        [[NSNotificationCenter defaultCenter] removeObserver:self name:nil object:notification.object];
+        [_preferenceController autorelease];
+        _preferenceController = nil;
+    }
 }
 
 @end

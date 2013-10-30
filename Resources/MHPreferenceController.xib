@@ -19,15 +19,15 @@
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="196" y="240" width="480" height="270"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="1440" height="878"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1920" height="1178"/>
             <view key="contentView" id="2">
                 <rect key="frame" x="0.0" y="0.0" width="480" height="270"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="yg5-Uy-dN9">
-                        <rect key="frame" x="18" y="234" width="248" height="18"/>
+                        <rect key="frame" x="18" y="234" width="175" height="18"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <buttonCell key="cell" type="check" title="Download Beta MongoHub Versions" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="fpg-No-pfN">
+                        <buttonCell key="cell" type="check" title="Download Beta Versions" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="fpg-No-pfN">
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                             <font key="font" metaFont="system"/>
                         </buttonCell>

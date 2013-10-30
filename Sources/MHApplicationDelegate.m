@@ -463,6 +463,7 @@
             break;
     }
     [NSUserDefaults.standardUserDefaults synchronize];
+    [updater checkForUpdatesInBackground];
 }
 
 @end

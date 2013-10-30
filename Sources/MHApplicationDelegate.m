@@ -468,6 +468,53 @@
 
 @end
 
+@implementation MHApplicationDelegate (SUUpdate)
+
++ (NSString *)systemVersionString
+{
+    return [[NSDictionary dictionaryWithContentsOfFile:@"/System/Library/CoreServices/SystemVersion.plist"] objectForKey:@"ProductVersion"];
+}
+
++ (id)defaultComparator
+{
+    return [NSClassFromString(@"SUStandardVersionComparator") performSelector:@selector(defaultComparator)];
+}
+
+- (BOOL)hostSupportsItem:(SUAppcastItem *)ui
+{
+    if ([ui minimumSystemVersion] == nil || [[ui minimumSystemVersion] isEqualToString:@""]) { return YES; }
+    
+    BOOL minimumVersionOK = TRUE;
+    
+    // Check minimum and maximum System Version
+    if ([ui minimumSystemVersion] != nil && ![[ui minimumSystemVersion] isEqualToString:@""]) {
+        minimumVersionOK = [[MHApplicationDelegate defaultComparator] compareVersion:[ui minimumSystemVersion] toVersion:[MHApplicationDelegate systemVersionString]] != NSOrderedDescending;
+    }
+    
+    return minimumVersionOK;
+}
+
+- (SUAppcastItem *)bestValidUpdateInAppcast:(SUAppcast *)appcast forUpdater:(SUUpdater *)bundle
+{
+    SUAppcastItem *result = nil;
+    BOOL shouldUseBeta = self.softwareUpdateChannel == MHSoftwareUpdateChannelBeta;
+    id comparator = [MHApplicationDelegate defaultComparator];
+  
+    NSAssert(comparator != nil, @"cannot get an instance of 'SUStandardVersionComparator'");
+    for (SUAppcastItem *item in appcast.items) {
+        if ([self hostSupportsItem:item] && (shouldUseBeta || ![[item.propertiesDictionary objectForKey:@"beta"] isEqualToString:@"1"])) {
+          if (result == nil) {
+              result = item;
+          } else if ([comparator compareVersion:result.versionString toVersion:item.versionString] != NSOrderedDescending) {
+              result = item;
+          }
+        }
+    }
+    return result;
+}
+
+@end
+
 @implementation MHApplicationDelegate(MHConnectionEditorWindowControllerDelegate)
 
 - (void)connectionWindowControllerDidCancel:(MHConnectionEditorWindowController *)controller

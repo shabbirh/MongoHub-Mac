@@ -477,7 +477,10 @@
 
 + (id)defaultComparator
 {
-    return [NSClassFromString(@"SUStandardVersionComparator") performSelector:@selector(defaultComparator)];
+    id comparator = [NSClassFromString(@"SUStandardVersionComparator") performSelector:@selector(defaultComparator)];
+  
+    NSAssert(comparator != nil, @"cannot get an instance of 'SUStandardVersionComparator'");
+    return comparator;
 }
 
 - (BOOL)hostSupportsItem:(SUAppcastItem *)ui
@@ -500,7 +503,6 @@
     BOOL shouldUseBeta = self.softwareUpdateChannel == MHSoftwareUpdateChannelBeta;
     id comparator = [MHApplicationDelegate defaultComparator];
   
-    NSAssert(comparator != nil, @"cannot get an instance of 'SUStandardVersionComparator'");
     for (SUAppcastItem *item in appcast.items) {
         if ([self hostSupportsItem:item] && (shouldUseBeta || ![[item.propertiesDictionary objectForKey:@"beta"] isEqualToString:@"1"])) {
           if (result == nil) {

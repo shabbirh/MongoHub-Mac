@@ -7,6 +7,8 @@
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="MHPreferenceController">
             <connections>
+                <outlet property="_betaButton" destination="yg5-Uy-dN9" id="zo9-3e-Iy2"/>
+                <outlet property="_betaSoftwareButton" destination="yg5-Uy-dN9" id="6by-Uy-fOd"/>
                 <outlet property="_window" destination="1" id="zLK-qK-6cf"/>
                 <outlet property="view" destination="2" id="3sn-dd-Hmn"/>
             </connections>
@@ -29,6 +31,9 @@
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                             <font key="font" metaFont="system"/>
                         </buttonCell>
+                        <connections>
+                            <action selector="betaSoftwareAction:" target="-2" id="cGl-jv-4U6"/>
+                        </connections>
                     </button>
                     <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" setsMaxLayoutWidthAtFirstLayout="YES" translatesAutoresizingMaskIntoConstraints="NO" id="onr-DV-6N9">
                         <rect key="frame" x="17" y="186" width="446" height="42"/>

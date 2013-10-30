@@ -19,6 +19,8 @@
 #define YOUR_EXTERNAL_RECORD_EXTENSION @"mgo"
 #define YOUR_STORE_TYPE NSXMLStoreType
 
+#define MHSofwareUpdateChannelKey           @"MHSofwareUpdateChannel"
+
 @implementation MHApplicationDelegate
 
 @synthesize window = _window;
@@ -435,6 +437,32 @@
         [_preferenceController autorelease];
         _preferenceController = nil;
     }
+}
+
+- (MHSoftwareUpdateChannel)softwareUpdateChannel
+{
+    NSString *value;
+    MHSoftwareUpdateChannel result = MHSoftwareUpdateChannelDefault;
+    
+    value = [NSUserDefaults.standardUserDefaults objectForKey:MHSofwareUpdateChannelKey];
+    if ([value isEqualToString:@"beta"]) {
+        result = MHSoftwareUpdateChannelBeta;
+    }
+    return result;
+}
+
+- (void)setSoftwareUpdateChannel:(MHSoftwareUpdateChannel)value
+{
+    switch (value) {
+        case MHSoftwareUpdateChannelDefault:
+            [NSUserDefaults.standardUserDefaults removeObjectForKey:MHSofwareUpdateChannelKey];
+            break;
+        
+        case MHSoftwareUpdateChannelBeta:
+            [NSUserDefaults.standardUserDefaults setObject:@"beta" forKey:MHSofwareUpdateChannelKey];
+            break;
+    }
+    [NSUserDefaults.standardUserDefaults synchronize];
 }
 
 @end

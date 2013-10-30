@@ -16,6 +16,11 @@
 @class SUUpdater;
 @class MHPreferenceController;
 
+typedef enum {
+    MHSoftwareUpdateChannelDefault,
+    MHSoftwareUpdateChannelBeta
+} MHSoftwareUpdateChannel;
+
 @interface MHApplicationDelegate : NSObject <NSApplicationDelegate, NSCollectionViewDelegate>
 {
     IBOutlet NSWindow                       *_window;
@@ -45,6 +50,7 @@
 @property (nonatomic, retain) ConnectionsArrayController *connectionsArrayController;
 @property (nonatomic, retain) NSTextField *bundleVersion;
 @property (nonatomic, strong, readonly) MHPreferenceController *preferenceController;
+@property (nonatomic, assign, readwrite) MHSoftwareUpdateChannel softwareUpdateChannel;
 
 - (void)saveConnections;
 - (IBAction)showAddConnectionPanel:(id)sender;

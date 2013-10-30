@@ -12,11 +12,13 @@
 
 @interface MHPreferenceController : NSViewController
 {
-    IBOutlet NSWindow                *_window;
+    IBOutlet NSWindow                   *_window;
+    IBOutlet NSButton                   *_betaSoftwareButton;
 }
 @property (nonatomic, strong, readonly) NSWindow *window;
 
 + (MHPreferenceController *)preferenceController;
 
 - (IBAction)openWindow:(id)sender;
+- (IBAction)betaSoftwareAction:(id)sender;
 @end

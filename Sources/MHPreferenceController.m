@@ -7,6 +7,7 @@
 //
 
 #import "MHPreferenceController.h"
+#import "MHApplicationDelegate.h"
 
 @implementation MHPreferenceController
 
@@ -18,6 +19,24 @@
     result = [[[MHPreferenceController alloc] initWithNibName:@"MHPreferenceController" bundle:NSBundle.mainBundle] autorelease];
     [result loadView];
     return result;
+}
+
+- (void)awakeFromNib
+{
+    if ([(MHApplicationDelegate *)NSApplication.sharedApplication.delegate softwareUpdateChannel] == MHSoftwareUpdateChannelBeta) {
+        _betaSoftwareButton.state = NSOnState;
+    } else {
+        _betaSoftwareButton.state = NSOffState;
+    }
+}
+
+- (void)betaSoftwareAction:(id)sender
+{
+    if (_betaSoftwareButton.state == NSOffState) {
+        [(MHApplicationDelegate *)NSApplication.sharedApplication.delegate setSoftwareUpdateChannel:MHSoftwareUpdateChannelDefault];
+    } else {
+        [(MHApplicationDelegate *)NSApplication.sharedApplication.delegate setSoftwareUpdateChannel:MHSoftwareUpdateChannelBeta];
+    }
 }
 
 - (IBAction)openWindow:(id)sender

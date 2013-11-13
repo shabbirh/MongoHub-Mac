@@ -8,6 +8,17 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface MHPreferenceController : NSViewController
+#define MHPreferenceControllerClosing           @"MHPreferenceControllerClosing"
 
+@interface MHPreferenceController : NSViewController
+{
+    IBOutlet NSWindow                   *_window;
+    IBOutlet NSButton                   *_betaSoftwareButton;
+}
+@property (nonatomic, strong, readonly) NSWindow *window;
+
++ (MHPreferenceController *)preferenceController;
+
+- (IBAction)openWindow:(id)sender;
+- (IBAction)betaSoftwareAction:(id)sender;
 @end

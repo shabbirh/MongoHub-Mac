@@ -13,10 +13,13 @@
 #import "ConnectionsCollectionView.h"
 #import "MHConnectionEditorWindowController.h"
 #import "MHConnectionStore.h"
+#import "MHPreferenceController.h"
 #import <Sparkle/Sparkle.h>
 
 #define YOUR_EXTERNAL_RECORD_EXTENSION @"mgo"
 #define YOUR_STORE_TYPE NSXMLStoreType
+
+#define MHSofwareUpdateChannelKey           @"MHSofwareUpdateChannel"
 
 @implementation MHApplicationDelegate
 
@@ -24,6 +27,7 @@
 @synthesize connectionsCollectionView;
 @synthesize connectionsArrayController;
 @synthesize bundleVersion;
+@synthesize preferenceController = _preferenceController;
 
 - (void)awakeFromNib
 {
@@ -415,6 +419,100 @@
 - (IBAction)openConnectionWindow:(id)sender
 {
     [_window makeKeyAndOrderFront:sender];
+}
+
+- (IBAction)openPreferenceWindow:(id)sender
+{
+    if (!_preferenceController) {
+        _preferenceController = [[MHPreferenceController preferenceController] retain];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(closingPreferenceController:) name:MHPreferenceControllerClosing object:_preferenceController];
+    }
+    [_preferenceController openWindow:sender];
+}
+
+- (void)closingPreferenceController:(NSNotification *)notification
+{
+    if (notification.object == _preferenceController) {
+        [[NSNotificationCenter defaultCenter] removeObserver:self name:nil object:notification.object];
+        [_preferenceController autorelease];
+        _preferenceController = nil;
+    }
+}
+
+- (MHSoftwareUpdateChannel)softwareUpdateChannel
+{
+    NSString *value;
+    MHSoftwareUpdateChannel result = MHSoftwareUpdateChannelDefault;
+    
+    value = [NSUserDefaults.standardUserDefaults objectForKey:MHSofwareUpdateChannelKey];
+    if ([value isEqualToString:@"beta"]) {
+        result = MHSoftwareUpdateChannelBeta;
+    }
+    return result;
+}
+
+- (void)setSoftwareUpdateChannel:(MHSoftwareUpdateChannel)value
+{
+    switch (value) {
+        case MHSoftwareUpdateChannelDefault:
+            [NSUserDefaults.standardUserDefaults removeObjectForKey:MHSofwareUpdateChannelKey];
+            break;
+        
+        case MHSoftwareUpdateChannelBeta:
+            [NSUserDefaults.standardUserDefaults setObject:@"beta" forKey:MHSofwareUpdateChannelKey];
+            break;
+    }
+    [NSUserDefaults.standardUserDefaults synchronize];
+    [updater checkForUpdatesInBackground];
+}
+
+@end
+
+@implementation MHApplicationDelegate (SUUpdate)
+
++ (NSString *)systemVersionString
+{
+    return [[NSDictionary dictionaryWithContentsOfFile:@"/System/Library/CoreServices/SystemVersion.plist"] objectForKey:@"ProductVersion"];
+}
+
++ (id)defaultComparator
+{
+    id comparator = [NSClassFromString(@"SUStandardVersionComparator") performSelector:@selector(defaultComparator)];
+  
+    NSAssert(comparator != nil, @"cannot get an instance of 'SUStandardVersionComparator'");
+    return comparator;
+}
+
+- (BOOL)hostSupportsItem:(SUAppcastItem *)ui
+{
+    if ([ui minimumSystemVersion] == nil || [[ui minimumSystemVersion] isEqualToString:@""]) { return YES; }
+    
+    BOOL minimumVersionOK = TRUE;
+    
+    // Check minimum and maximum System Version
+    if ([ui minimumSystemVersion] != nil && ![[ui minimumSystemVersion] isEqualToString:@""]) {
+        minimumVersionOK = [[MHApplicationDelegate defaultComparator] compareVersion:[ui minimumSystemVersion] toVersion:[MHApplicationDelegate systemVersionString]] != NSOrderedDescending;
+    }
+    
+    return minimumVersionOK;
+}
+
+- (SUAppcastItem *)bestValidUpdateInAppcast:(SUAppcast *)appcast forUpdater:(SUUpdater *)bundle
+{
+    SUAppcastItem *result = nil;
+    BOOL shouldUseBeta = self.softwareUpdateChannel == MHSoftwareUpdateChannelBeta;
+    id comparator = [MHApplicationDelegate defaultComparator];
+  
+    for (SUAppcastItem *item in appcast.items) {
+        if ([self hostSupportsItem:item] && (shouldUseBeta || ![[item.propertiesDictionary objectForKey:@"beta"] isEqualToString:@"1"])) {
+          if (result == nil) {
+              result = item;
+          } else if ([comparator compareVersion:result.versionString toVersion:item.versionString] != NSOrderedDescending) {
+              result = item;
+          }
+        }
+    }
+    return result;
 }
 
 @end

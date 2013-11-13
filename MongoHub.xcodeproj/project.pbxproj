@@ -345,7 +345,6 @@
 		02CF87E1142F7316000C4C7F /* MODJsonParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MODJsonParser.m; sourceTree = "<group>"; };
 		02CF87E2142F7316000C4C7F /* MODTimestamp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MODTimestamp.h; sourceTree = "<group>"; };
 		02CF87E3142F7316000C4C7F /* MODTimestamp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MODTimestamp.m; sourceTree = "<group>"; };
-		02D5A86A144207CF00C7768C /* APACHE-2.0.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = "APACHE-2.0.txt"; sourceTree = "<group>"; };
 		02D5A86D144207CF00C7768C /* __init__.py */ = {isa = PBXFileReference; lastKnownFileType = text.script.python; path = __init__.py; sourceTree = "<group>"; };
 		02D5A86E144207CF00C7768C /* docs.py */ = {isa = PBXFileReference; lastKnownFileType = text.script.python; path = docs.py; sourceTree = "<group>"; };
 		02D5A871144207CF00C7768C /* make.bat */ = {isa = PBXFileReference; lastKnownFileType = text; path = make.bat; sourceTree = "<group>"; };
@@ -378,20 +377,13 @@
 		02D5A896144207CF00C7768C /* count_delete.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = count_delete.c; sourceTree = "<group>"; };
 		02D5A897144207CF00C7768C /* cpptest.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = cpptest.cpp; sourceTree = "<group>"; };
 		02D5A898144207CF00C7768C /* cursors.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = cursors.c; sourceTree = "<group>"; };
-		02D5A899144207CF00C7768C /* endian_swap.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = endian_swap.c; sourceTree = "<group>"; };
 		02D5A89A144207CF00C7768C /* errors.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = errors.c; sourceTree = "<group>"; };
-		02D5A89B144207CF00C7768C /* examples.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = examples.c; sourceTree = "<group>"; };
 		02D5A89C144207CF00C7768C /* functions.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = functions.c; sourceTree = "<group>"; };
-		02D5A89E144207CF00C7768C /* helpers.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = helpers.c; sourceTree = "<group>"; };
-		02D5A89F144207CF00C7768C /* json.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = json.c; sourceTree = "<group>"; };
 		02D5A8A0144207CF00C7768C /* oid.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = oid.c; sourceTree = "<group>"; };
 		02D5A8A3144207CF00C7768C /* timeouts.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = timeouts.c; sourceTree = "<group>"; };
-		02D5A8A4144207CF00C7768C /* replica_set.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = replica_set.c; sourceTree = "<group>"; };
 		02D5A8A5144207CF00C7768C /* resize.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = resize.c; sourceTree = "<group>"; };
-		02D5A8A6144207CF00C7768C /* simple.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = simple.c; sourceTree = "<group>"; };
 		02D5A8A7144207CF00C7768C /* sizes.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = sizes.c; sourceTree = "<group>"; };
 		02D5A8A8144207CF00C7768C /* test.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = test.h; sourceTree = "<group>"; };
-		02D5A8A9144207CF00C7768C /* update.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = update.c; sourceTree = "<group>"; };
 		02D5A8AA144207CF00C7768C /* validate.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = validate.c; sourceTree = "<group>"; };
 		02D5A8AD144207CF00C7768C /* changelog */ = {isa = PBXFileReference; lastKnownFileType = text; path = changelog; sourceTree = "<group>"; };
 		02D5A8AE144207CF00C7768C /* compat */ = {isa = PBXFileReference; lastKnownFileType = text; path = compat; sourceTree = "<group>"; };
@@ -804,7 +796,6 @@
 			isa = PBXGroup;
 			children = (
 				02D5A87E144207CF00C7768C /* src */,
-				02D5A86A144207CF00C7768C /* APACHE-2.0.txt */,
 				02D5A86B144207CF00C7768C /* docs */,
 				02D5A87A144207CF00C7768C /* doxygenConfig */,
 				02D5A87B144207CF00C7768C /* HISTORY.md */,
@@ -896,20 +887,13 @@
 				02D5A896144207CF00C7768C /* count_delete.c */,
 				02D5A897144207CF00C7768C /* cpptest.cpp */,
 				02D5A898144207CF00C7768C /* cursors.c */,
-				02D5A899144207CF00C7768C /* endian_swap.c */,
 				02D5A89A144207CF00C7768C /* errors.c */,
-				02D5A89B144207CF00C7768C /* examples.c */,
 				02D5A89C144207CF00C7768C /* functions.c */,
-				02D5A89E144207CF00C7768C /* helpers.c */,
-				02D5A89F144207CF00C7768C /* json.c */,
 				02D5A8A0144207CF00C7768C /* oid.c */,
 				02D5A8A1144207CF00C7768C /* platform */,
-				02D5A8A4144207CF00C7768C /* replica_set.c */,
 				02D5A8A5144207CF00C7768C /* resize.c */,
-				02D5A8A6144207CF00C7768C /* simple.c */,
 				02D5A8A7144207CF00C7768C /* sizes.c */,
 				02D5A8A8144207CF00C7768C /* test.h */,
-				02D5A8A9144207CF00C7768C /* update.c */,
 				02D5A8AA144207CF00C7768C /* validate.c */,
 			);
 			path = test;

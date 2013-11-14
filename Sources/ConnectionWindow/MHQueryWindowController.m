@@ -248,7 +248,7 @@
         }
     }
     [findQueryLoaderIndicator start];
-    [_mongoCollection findWithCriteria:criteria fields:fields skip:[_skipTextField intValue] limit:limit sort:sort callback:^(NSArray *documents, MODQuery *mongoQuery) {
+    [_mongoCollection findWithCriteria:criteria fields:fields skip:[_skipTextField intValue] limit:limit sort:sort callback:^(NSArray *documents, NSArray *bsonData, MODQuery *mongoQuery) {
         NSColor *currentColor;
         NSColor *flashColor;
 

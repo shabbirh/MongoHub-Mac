@@ -46,7 +46,9 @@
         [dict setObject:[self convertForOutlineWithObject:object] forKey:@"child"];
         [dict setObject:[MODServer convertObjectToJson:object pretty:YES strictJson:YES] forKey:@"beautified"];
         [dict setObject:object forKey:@"objectvalue"];
-        [dict setObject:[allData objectAtIndex:index] forKey:@"bson"];
+        if (allData) {
+            [dict setObject:[allData objectAtIndex:index] forKey:@"bson"];
+        }
         [result addObject:dict];
         index++;
     }

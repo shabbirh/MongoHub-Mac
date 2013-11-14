@@ -48,7 +48,8 @@
     [[NSNotificationCenter defaultCenter] postNotificationName:kJsonWindowWillClose object:self];
 }
 
-- (void)windowDidLoad {
+- (void)windowDidLoad
+{
     [super windowDidLoad];
     NSString *title = [[NSString alloc] initWithFormat:@"%@ _id:%@", mongoCollection.absoluteCollectionName, [jsonDict objectForKey:@"value"]];
     [self.window setTitle:title];

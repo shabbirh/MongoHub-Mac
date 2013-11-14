@@ -60,6 +60,9 @@
     [syntaxColoringController setView: myTextView];
     
     [MODServer compareJson:[jsonDict objectForKey:@"beautified"] document:[jsonDict objectForKey:@"objectvalue"]];
+    if ([jsonDict objectForKey:@"bsondata"]) {
+        [MODServer compareJson:[jsonDict objectForKey:@"beautified"] bsonData:[jsonDict objectForKey:@"bsondata"]];
+    }
 }
 
 

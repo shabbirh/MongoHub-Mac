@@ -47,7 +47,7 @@
         [dict setObject:[MODServer convertObjectToJson:object pretty:YES strictJson:YES] forKey:@"beautified"];
         [dict setObject:object forKey:@"objectvalue"];
         if (allData) {
-            [dict setObject:[allData objectAtIndex:index] forKey:@"bson"];
+            [dict setObject:[allData objectAtIndex:index] forKey:@"bsondata"];
         }
         [result addObject:dict];
         index++;

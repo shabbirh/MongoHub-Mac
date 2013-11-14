@@ -415,7 +415,7 @@
 
 - (IBAction) indexQuery:(id)sender
 {
-    [_mongoCollection indexListWithcallback:^(NSArray *indexes, MODQuery *mongoQuery) {
+    [_mongoCollection indexListWithCallback:^(NSArray *indexes, MODQuery *mongoQuery) {
         if (mongoQuery.error) {
             NSRunAlertPanel(@"Error", [mongoQuery.error localizedDescription], @"OK", nil, nil);
         }

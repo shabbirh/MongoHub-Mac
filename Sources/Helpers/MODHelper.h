@@ -12,7 +12,7 @@
 
 @interface MODHelper : NSObject
 
-+ (NSArray *)convertForOutlineWithObjects:(NSArray *)mongoObjects;
++ (NSArray *)convertForOutlineWithObjects:(NSArray *)mongoObjects bsonData:(NSArray *)allData;
 + (NSArray *)convertForOutlineWithObject:(MODSortedMutableDictionary *)mongoObject;
 
 @end

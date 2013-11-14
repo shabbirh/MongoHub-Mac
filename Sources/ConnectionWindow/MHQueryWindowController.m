@@ -250,7 +250,7 @@
         }
     }
     [findQueryLoaderIndicator start];
-    [_mongoCollection findWithCriteria:criteria fields:fields skip:[_skipTextField intValue] limit:limit sort:sort callback:^(NSArray *documents, MODQuery *mongoQuery) {
+    [_mongoCollection findWithCriteria:criteria fields:fields skip:[_skipTextField intValue] limit:limit sort:sort callback:^(NSArray *documents, NSArray *bsonData, MODQuery *mongoQuery) {
         NSColor *currentColor;
         NSColor *flashColor;
 
@@ -262,7 +262,7 @@
             if ([queryTitle length] > 0) {
                 [_connectionStore addNewQuery:[NSDictionary dictionaryWithObjectsAndKeys:queryTitle, @"title", [_sortTextField stringValue], @"sort", [_fieldsTextField stringValue], @"fields", [_limitTextField stringValue], @"limit", [_skipTextField stringValue], @"skip", nil] withDatabaseName:_mongoCollection.databaseName collectionName:_mongoCollection.collectionName];
             }
-            findResultsViewController.results = [MODHelper convertForOutlineWithObjects:documents];
+            findResultsViewController.results = [MODHelper convertForOutlineWithObjects:documents bsonData:bsonData];
             [_mongoCollection countWithCriteria:criteria callback:^(int64_t count, MODQuery *mongoQuery) {
                 [findQueryLoaderIndicator stop];
                 [totalResultsTextField setStringValue:[NSString stringWithFormat:@"Total Results: %lld (%0.2fs)", count, [[mongoQuery.userInfo objectForKey:@"timequery"] duration]]];
@@ -417,11 +417,11 @@
 
 - (IBAction) indexQuery:(id)sender
 {
-    [_mongoCollection indexListWithcallback:^(NSArray *indexes, MODQuery *mongoQuery) {
+    [_mongoCollection indexListWithCallback:^(NSArray *indexes, MODQuery *mongoQuery) {
         if (mongoQuery.error) {
             NSRunAlertPanel(@"Error", [mongoQuery.error localizedDescription], @"OK", nil, nil);
         }
-        indexesOutlineViewController.results = [MODHelper convertForOutlineWithObjects:indexes];
+        indexesOutlineViewController.results = [MODHelper convertForOutlineWithObjects:indexes bsonData:nil];
     }];
 }
 

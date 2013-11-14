@@ -16,9 +16,10 @@
 
 @implementation MODHelper
 
-+ (NSArray *)convertForOutlineWithObjects:(NSArray *)mongoObjects
++ (NSArray *)convertForOutlineWithObjects:(NSArray *)mongoObjects bsonData:(NSArray *)allData
 {
     NSMutableArray *result;
+    NSUInteger index = 0;
     
     result = [NSMutableArray arrayWithCapacity:[mongoObjects count]];
     for (MODSortedMutableDictionary *object in mongoObjects) {
@@ -45,7 +46,11 @@
         [dict setObject:[self convertForOutlineWithObject:object] forKey:@"child"];
         [dict setObject:[MODServer convertObjectToJson:object pretty:YES strictJson:NO] forKey:@"beautified"];
         [dict setObject:object forKey:@"objectvalue"];
+        if (allData) {
+            [dict setObject:[allData objectAtIndex:index] forKey:@"bsondata"];
+        }
         [result addObject:dict];
+        index++;
     }
     return result;
 }

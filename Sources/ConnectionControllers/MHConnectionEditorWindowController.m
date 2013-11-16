@@ -18,7 +18,7 @@
 
 @implementation MHConnectionEditorWindowController
 
-@synthesize connectionStore = _connectionStore;
+@synthesize editedConnectionStore = _editedConnectionStore;
 @synthesize delegate = _delegate;
 @synthesize newConnection = _newConnection;
 
@@ -30,7 +30,7 @@
 
 - (void)dealloc
 {
-    [_connectionStore release];
+    self.editedConnectionStore = nil;
     [super dealloc];
 }
 
@@ -38,33 +38,33 @@
 {
     [_hostportTextField.cell setPlaceholderString:[NSString stringWithFormat:@"%d", MONGO_DEFAULT_PORT]];
     [_sshuserTextField.cell setPlaceholderString:[NSProcessInfo.processInfo.environment objectForKey:@"USER" ]];
-    if (_connectionStore) {
-        [_hostTextField setStringValue:_connectionStore.host];
-        if (_connectionStore.hostport.stringValue.longLongValue == 0) {
+    if (self.editedConnectionStore) {
+        [_hostTextField setStringValue:self.editedConnectionStore.host];
+        if (self.editedConnectionStore.hostport.stringValue.longLongValue == 0) {
             [_hostportTextField setStringValue:@""];
         } else {
-            [_hostportTextField setStringValue:_connectionStore.hostport.stringValue];
+            [_hostportTextField setStringValue:self.editedConnectionStore.hostport.stringValue];
         }
-        if (_connectionStore.servers) [_serversTextField setStringValue:_connectionStore.servers];
-        if (_connectionStore.repl_name) [_replnameTextField setStringValue:_connectionStore.repl_name];
-        [_usereplCheckBox setState:_connectionStore.userepl.boolValue?NSOnState:NSOffState];
-        [_aliasTextField setStringValue:_connectionStore.alias];
-        if (_connectionStore.adminuser) [_adminuserTextField setStringValue:_connectionStore.adminuser];
-        if (_connectionStore.adminpass) [_adminpassTextField setStringValue:_connectionStore.adminpass];
-        if (_connectionStore.defaultdb) [_defaultdbTextField setStringValue:_connectionStore.defaultdb];
-        if (_connectionStore.sshhost) [_sshhostTextField setStringValue:_connectionStore.sshhost];
-        if (_connectionStore.sshport.stringValue.longLongValue == 0) {
+        if (self.editedConnectionStore.servers) [_serversTextField setStringValue:self.editedConnectionStore.servers];
+        if (self.editedConnectionStore.repl_name) [_replnameTextField setStringValue:self.editedConnectionStore.repl_name];
+        [_usereplCheckBox setState:self.editedConnectionStore.userepl.boolValue?NSOnState:NSOffState];
+        [_aliasTextField setStringValue:self.editedConnectionStore.alias];
+        if (self.editedConnectionStore.adminuser) [_adminuserTextField setStringValue:self.editedConnectionStore.adminuser];
+        if (self.editedConnectionStore.adminpass) [_adminpassTextField setStringValue:self.editedConnectionStore.adminpass];
+        if (self.editedConnectionStore.defaultdb) [_defaultdbTextField setStringValue:self.editedConnectionStore.defaultdb];
+        if (self.editedConnectionStore.sshhost) [_sshhostTextField setStringValue:self.editedConnectionStore.sshhost];
+        if (self.editedConnectionStore.sshport.stringValue.longLongValue == 0) {
             [_sshportTextField setStringValue:@""];
         } else {
-            [_sshportTextField setStringValue:_connectionStore.sshport.stringValue];
+            [_sshportTextField setStringValue:self.editedConnectionStore.sshport.stringValue];
         }
-        if (_connectionStore.sshuser) [_sshuserTextField setStringValue:_connectionStore.sshuser];
-        if (_connectionStore.sshpassword) [_sshpasswordTextField setStringValue:_connectionStore.sshpassword];
-        if (_connectionStore.sshkeyfile) [_sshkeyfileTextField setStringValue:_connectionStore.sshkeyfile];
-        [_usesshCheckBox setState:_connectionStore.usessh.boolValue?NSOnState:NSOffState];
+        if (self.editedConnectionStore.sshuser) [_sshuserTextField setStringValue:self.editedConnectionStore.sshuser];
+        if (self.editedConnectionStore.sshpassword) [_sshpasswordTextField setStringValue:self.editedConnectionStore.sshpassword];
+        if (self.editedConnectionStore.sshkeyfile) [_sshkeyfileTextField setStringValue:self.editedConnectionStore.sshkeyfile];
+        [_usesshCheckBox setState:self.editedConnectionStore.usessh.boolValue?NSOnState:NSOffState];
         _addSaveButton.title = NSLocalizedString(@"Save", @"Save connection (after updating)");
         _newConnection = NO;
-        self.window.title = _connectionStore.alias;
+        self.window.title = self.editedConnectionStore.alias;
     } else {
         [_hostTextField setStringValue:@""];
         [_hostportTextField setStringValue:@""];
@@ -159,30 +159,30 @@
     }
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"alias=%@", alias];
     NSArray *items = [_connectionsArrayController itemsUsingFetchPredicate:predicate];
-    if (items.count == 1 && [items objectAtIndex:0] != _connectionStore) {
+    if (items.count == 1 && [items objectAtIndex:0] != self.editedConnectionStore) {
         NSBeginAlertSheet(NSLocalizedString(@"Error", @"Error"), NSLocalizedString(@"OK", @"OK"), nil, nil, self.window, nil, nil, nil, nil, NSLocalizedString(@"Name already in use!", @""));
         return;
     }
-    if (!_connectionStore) {
-        _connectionStore = [[_connectionsArrayController newObject] retain];
+    if (!self.editedConnectionStore) {
+        self.editedConnectionStore = [[_connectionsArrayController newObject] retain];
     }
-    _connectionStore.host = hostName;
-    _connectionStore.hostport = [NSNumber numberWithLongLong:hostPort];
-    _connectionStore.servers = replicaServers;
-    _connectionStore.repl_name = replicaName;
-    _connectionStore.userepl = [NSNumber numberWithBool:useReplica];
-    _connectionStore.alias = alias;
-    _connectionStore.adminuser = [_adminuserTextField.stringValue stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-    _connectionStore.adminpass = _adminpassTextField.stringValue;
-    _connectionStore.defaultdb = defaultdb;
-    _connectionStore.sshhost = sshHost;
-    _connectionStore.sshport = [NSNumber numberWithLongLong:sshPort];
-    _connectionStore.sshuser = _sshuserTextField.stringValue;
-    _connectionStore.sshpassword = _sshpasswordTextField.stringValue;
-    _connectionStore.sshkeyfile = _sshkeyfileTextField.stringValue;
-    _connectionStore.usessh = [NSNumber numberWithBool:useSSH];
+    self.editedConnectionStore.host = hostName;
+    self.editedConnectionStore.hostport = [NSNumber numberWithLongLong:hostPort];
+    self.editedConnectionStore.servers = replicaServers;
+    self.editedConnectionStore.repl_name = replicaName;
+    self.editedConnectionStore.userepl = [NSNumber numberWithBool:useReplica];
+    self.editedConnectionStore.alias = alias;
+    self.editedConnectionStore.adminuser = [_adminuserTextField.stringValue stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    self.editedConnectionStore.adminpass = _adminpassTextField.stringValue;
+    self.editedConnectionStore.defaultdb = defaultdb;
+    self.editedConnectionStore.sshhost = sshHost;
+    self.editedConnectionStore.sshport = [NSNumber numberWithLongLong:sshPort];
+    self.editedConnectionStore.sshuser = _sshuserTextField.stringValue;
+    self.editedConnectionStore.sshpassword = _sshpasswordTextField.stringValue;
+    self.editedConnectionStore.sshkeyfile = _sshkeyfileTextField.stringValue;
+    self.editedConnectionStore.usessh = [NSNumber numberWithBool:useSSH];
     if (_newConnection) {
-        [_connectionsArrayController addObject:_connectionStore];
+        [_connectionsArrayController addObject:self.editedConnectionStore];
     }
     [_delegate connectionWindowControllerDidValidate:self];
     [self close];

@@ -341,7 +341,7 @@
     MHConnectionEditorWindowController *editor = NULL;
     
     for (MHConnectionEditorWindowController *element in _editConnectionWindowControllers) {
-        if (element.connectionStore == connection) {
+        if (element.editedConnectionStore == connection) {
             editor = element;
             break;
         }
@@ -350,7 +350,7 @@
         editor = [[MHConnectionEditorWindowController alloc] init];
         [_editConnectionWindowControllers addObject:editor];
         editor.delegate = self;
-        editor.connectionStore = connection;
+        editor.editedConnectionStore = connection;
         [editor autorelease];
     }
     [editor showWindow:self];

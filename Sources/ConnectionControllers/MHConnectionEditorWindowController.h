@@ -38,11 +38,11 @@
     IBOutlet NSButton                   *_selectKeyFileButton;
     IBOutlet NSButton                   *_addSaveButton;
     
-    MHConnectionStore                   *_connectionStore;
+    MHConnectionStore                   *_editedConnectionStore;
     BOOL                                _newConnection;
     id<MHConnectionEditorWindowControllerDelegate> _delegate;
 }
-@property(nonatomic, retain, readwrite) MHConnectionStore *connectionStore;
+@property(nonatomic, retain, readwrite) MHConnectionStore *editedConnectionStore;
 @property(nonatomic, assign, readwrite) id<MHConnectionEditorWindowControllerDelegate> delegate;
 @property(nonatomic, retain, readonly) NSManagedObjectContext *managedObjectContext;
 @property(nonatomic, assign, readonly, getter=isNewConnetion) BOOL newConnection;

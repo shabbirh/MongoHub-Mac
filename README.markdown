@@ -28,6 +28,10 @@ This project is very new. Any issues or bug reports are welcome. And I still don
     
 ** Current **
 
+## History
+
+** 2.5.14 - november 16, 2013 **
+
     - Using the ssh-agent when having passphrase https://github.com/fotonauts/MongoHub-Mac/issues/93 (thanks for Nick Brook's help)
     - Fix from a bug introduced in 2.5.13(107), problem to tab away the document outline view to the delete button https://github.com/fotonauts/MongoHub-Mac/issues/97
     - Better error reporting for find, update or delete (thanks to Johannes Schriewer)
@@ -35,8 +39,6 @@ This project is very new. Any issues or bug reports are welcome. And I still don
     - Fix for generating/parsing json with a date with milliseconds https://github.com/fotonauts/MongoHub-Mac/issues/102
     - Adding a preference panel to choose to get beta version (this will support tengen json)
     - Dropping support for Mac OS X 10.6.x
-
-## History
 
 ** 2.5.13(107) - october 19, 2013 **
 

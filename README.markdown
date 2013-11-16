@@ -30,6 +30,7 @@ This project is very new. Any issues or bug reports are welcome. And I still don
 
     - Connection editor is displayed as a sheet
     - Can duplication a connection https://github.com/fotonauts/MongoHub-Mac/issues/75
+    - Short cut to delete a connection (command-backspace) https://github.com/fotonauts/MongoHub-Mac/issues/69
 
 ## History
 

@@ -185,18 +185,20 @@
                                     <binding destination="542" name="enabled" keyPath="selectedObjects.@count" id="7kl-d9-zUa"/>
                                 </connections>
                             </menuItem>
-                            <menuItem title="Delete Connection" id="587">
-                                <modifierMask key="keyEquivalentModifierMask"/>
-                                <connections>
-                                    <action selector="performClick:" target="556" id="591"/>
-                                    <binding destination="542" name="enabled" keyPath="selectedObjects.@count" id="613"/>
-                                </connections>
-                            </menuItem>
                             <menuItem title="Edit Connection" id="588">
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <connections>
                                     <action selector="performClick:" target="558" id="592"/>
                                     <binding destination="542" name="enabled" keyPath="selectedObjects.@count" id="616"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Delete Connection" id="587">
+                                <string key="keyEquivalent" base64-UTF8="YES">
+CA
+</string>
+                                <connections>
+                                    <action selector="performClick:" target="556" id="591"/>
+                                    <binding destination="542" name="enabled" keyPath="selectedObjects.@count" id="613"/>
                                 </connections>
                             </menuItem>
                             <menuItem isSeparatorItem="YES" id="594"/>

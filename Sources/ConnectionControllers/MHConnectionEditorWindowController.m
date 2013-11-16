@@ -98,6 +98,16 @@
     [super windowDidLoad];
 }
 
+- (void)modalForWindow:(NSWindow *)window
+{
+    [NSApp beginSheet:self.window modalForWindow:window modalDelegate:self didEndSelector:@selector(didEndSheet:returnCode:contextInfo:) contextInfo:nil];
+}
+
+- (void)didEndSheet:(NSWindow *)window returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo
+{
+    [self.window orderOut:self];
+}
+
 - (NSManagedObjectContext *)managedObjectContext
 {
     return _delegate.managedObjectContext;
@@ -106,7 +116,7 @@
 - (IBAction)cancelAction:(id)sender
 {
     [_delegate connectionWindowControllerDidCancel:self];
-    [self close];
+    [NSApp endSheet:self.window];
 }
 
 - (IBAction)addSaveAction:(id)sender
@@ -185,7 +195,7 @@
         [_connectionsArrayController addObject:self.editedConnectionStore];
     }
     [_delegate connectionWindowControllerDidValidate:self];
-    [self close];
+    [NSApp endSheet:self.window];
 }
 
 - (IBAction)enableSSH:(id)sender

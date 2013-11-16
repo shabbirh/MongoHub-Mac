@@ -21,6 +21,10 @@
 
 #define MHSofwareUpdateChannelKey           @"MHSofwareUpdateChannel"
 
+@interface MHApplicationDelegate()
+@property (nonatomic, strong, readwrite) MHConnectionEditorWindowController *connectionEditorWindowController;
+@end
+
 @implementation MHApplicationDelegate
 
 @synthesize window = _window;
@@ -28,16 +32,15 @@
 @synthesize connectionsArrayController;
 @synthesize bundleVersion;
 @synthesize preferenceController = _preferenceController;
+@synthesize connectionEditorWindowController = _connectionEditorWindowController;
 
 - (void)awakeFromNib
 {
-    _editConnectionWindowControllers = [[NSMutableArray alloc] init];
     [connectionsArrayController setSortDescriptors:[NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"alias" ascending:YES selector:@selector(caseInsensitiveCompare:)]]];
 }
 
 - (void)dealloc
 {
-    [_editConnectionWindowControllers release];
     [_window release];
     [managedObjectContext release];
     [persistentStoreCoordinator release];
@@ -307,11 +310,11 @@
 #pragma mark connections related method
 - (IBAction)showAddConnectionPanel:(id)sender
 {
-    if (!_addConnectionWindowController) {
-        _addConnectionWindowController = [[MHConnectionEditorWindowController alloc] init];
-        _addConnectionWindowController.delegate = self;
+    if (!self.connectionEditorWindowController) {
+        self.connectionEditorWindowController = [[[MHConnectionEditorWindowController alloc] init] autorelease];
+        self.connectionEditorWindowController.delegate = self;
+        [self.connectionEditorWindowController modalForWindow:self.window];
     }
-    [_addConnectionWindowController showWindow:self];
 }
 
 - (IBAction)deleteConnection:(id)sender
@@ -334,26 +337,15 @@
 
 - (IBAction)showEditConnectionPanel:(id)sender
 {
-    if (![connectionsArrayController selectedObjects]) {
+    if (![connectionsArrayController selectedObjects] || self.connectionEditorWindowController) {
         return;
     }
     MHConnectionStore *connection = [[connectionsArrayController selectedObjects] objectAtIndex:0];
-    MHConnectionEditorWindowController *editor = NULL;
     
-    for (MHConnectionEditorWindowController *element in _editConnectionWindowControllers) {
-        if (element.editedConnectionStore == connection) {
-            editor = element;
-            break;
-        }
-    }
-    if (!editor) {
-        editor = [[MHConnectionEditorWindowController alloc] init];
-        [_editConnectionWindowControllers addObject:editor];
-        editor.delegate = self;
-        editor.editedConnectionStore = connection;
-        [editor autorelease];
-    }
-    [editor showWindow:self];
+    self.connectionEditorWindowController = [[[MHConnectionEditorWindowController alloc] init] autorelease];
+    self.connectionEditorWindowController.delegate = self;
+    self.connectionEditorWindowController.editedConnectionStore = connection;
+    [self.connectionEditorWindowController modalForWindow:self.window];
 }
 
 - (IBAction)resizeConnectionItemView:(id)sender
@@ -521,20 +513,16 @@
 
 - (void)connectionWindowControllerDidCancel:(MHConnectionEditorWindowController *)controller
 {
-    [_editConnectionWindowControllers removeObject:controller];
-    if (_addConnectionWindowController == controller) {
-        [_addConnectionWindowController release];
-        _addConnectionWindowController = NULL;
+    if (self.connectionEditorWindowController == controller) {
+        self.connectionEditorWindowController = nil;
     }
 }
 
 - (void)connectionWindowControllerDidValidate:(MHConnectionEditorWindowController *)controller
 {
-    [_editConnectionWindowControllers removeObject:controller];
     [self saveConnections];
-    if (_addConnectionWindowController == controller) {
-        [_addConnectionWindowController release];
-        _addConnectionWindowController = NULL;
+    if (self.connectionEditorWindowController == controller) {
+        self.connectionEditorWindowController = nil;
     }
 }
 

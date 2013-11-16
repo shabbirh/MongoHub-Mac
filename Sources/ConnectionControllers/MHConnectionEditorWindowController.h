@@ -50,5 +50,6 @@
 - (IBAction)cancelAction:(id)sender;
 - (IBAction)addSaveAction:(id)sender;
 - (IBAction)chooseKeyPathAction:(id)sender;
+- (void)modalForWindow:(NSWindow *)window;
 
 @end

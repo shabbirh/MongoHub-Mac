@@ -28,8 +28,7 @@ typedef enum {
     NSPersistentStoreCoordinator            *persistentStoreCoordinator;
     NSManagedObjectModel                    *managedObjectModel;
     NSManagedObjectContext                  *managedObjectContext;
-    MHConnectionEditorWindowController      *_addConnectionWindowController;
-    NSMutableArray                          *_editConnectionWindowControllers;
+    MHConnectionEditorWindowController      *_connectionEditorWindowController;
     MHPreferenceController                  *_preferenceController;
     
     IBOutlet ConnectionsCollectionView      *connectionsCollectionView;

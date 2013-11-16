@@ -54,6 +54,7 @@ typedef enum {
 - (void)saveConnections;
 - (IBAction)showAddConnectionPanel:(id)sender;
 - (IBAction)showEditConnectionPanel:(id)sender;
+- (IBAction)duplicateConnection:(id)sender;
 - (IBAction)deleteConnection:(id)sender;
 - (IBAction)resizeConnectionItemView:(id)sender;
 - (IBAction)showConnectionWindow:(id)sender;

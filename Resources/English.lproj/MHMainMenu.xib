@@ -179,6 +179,12 @@
                                     <action selector="performClick:" target="554" id="590"/>
                                 </connections>
                             </menuItem>
+                            <menuItem title="Duplicate Connection" keyEquivalent="d" id="7zg-uW-JzR">
+                                <connections>
+                                    <action selector="duplicateConnection:" target="205" id="ua4-qW-kY0"/>
+                                    <binding destination="542" name="enabled" keyPath="selectedObjects.@count" id="7kl-d9-zUa"/>
+                                </connections>
+                            </menuItem>
                             <menuItem title="Delete Connection" id="587">
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <connections>

@@ -13,6 +13,7 @@
 
 @protocol MHConnectionEditorWindowControllerDelegate <NSObject>
 @property (nonatomic, retain, readonly) NSManagedObjectContext *managedObjectContext;
+@property (nonatomic, retain, readonly) ConnectionsArrayController *connectionsArrayController;
 - (void)connectionWindowControllerDidCancel:(MHConnectionEditorWindowController *)controller;
 - (void)connectionWindowControllerDidValidate:(MHConnectionEditorWindowController *)controller;
 @end
@@ -34,17 +35,19 @@
     IBOutlet NSTextField                *_sshuserTextField;
     IBOutlet NSSecureTextField          *_sshpasswordTextField;
     IBOutlet NSTextField                *_sshkeyfileTextField;
-    IBOutlet ConnectionsArrayController *_connectionsArrayController;
     IBOutlet NSButton                   *_selectKeyFileButton;
     IBOutlet NSButton                   *_addSaveButton;
     
     MHConnectionStore                   *_editedConnectionStore;
+    MHConnectionStore                   *_connectionStoreDefaultValue;
     BOOL                                _newConnection;
     id<MHConnectionEditorWindowControllerDelegate> _delegate;
 }
 @property(nonatomic, retain, readwrite) MHConnectionStore *editedConnectionStore;
+@property(nonatomic, retain, readwrite) MHConnectionStore *connectionStoreDefaultValue;
 @property(nonatomic, assign, readwrite) id<MHConnectionEditorWindowControllerDelegate> delegate;
 @property(nonatomic, retain, readonly) NSManagedObjectContext *managedObjectContext;
+@property (nonatomic, assign, readonly) ConnectionsArrayController *connectionsArrayController;
 @property(nonatomic, assign, readonly, getter=isNewConnetion) BOOL newConnection;
 
 - (IBAction)cancelAction:(id)sender;

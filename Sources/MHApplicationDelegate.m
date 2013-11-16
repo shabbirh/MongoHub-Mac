@@ -317,6 +317,16 @@
     }
 }
 
+- (IBAction)duplicateConnection:(id)sender
+{
+    if ([connectionsArrayController selectedObjects] && !self.connectionEditorWindowController) {
+        self.connectionEditorWindowController = [[MHConnectionEditorWindowController alloc] init];
+        self.connectionEditorWindowController.delegate = self;
+        self.connectionEditorWindowController.connectionStoreDefaultValue = [[connectionsArrayController selectedObjects] objectAtIndex:0];
+        [self.connectionEditorWindowController modalForWindow:self.window];
+    }
+}
+
 - (IBAction)deleteConnection:(id)sender
 {
     NSAlert *alert = [[[NSAlert alloc] init] autorelease];
@@ -521,6 +531,7 @@
 - (void)connectionWindowControllerDidValidate:(MHConnectionEditorWindowController *)controller
 {
     [self saveConnections];
+    [connectionsCollectionView setNeedsDisplay:YES];
     if (self.connectionEditorWindowController == controller) {
         self.connectionEditorWindowController = nil;
     }

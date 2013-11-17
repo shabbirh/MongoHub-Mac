@@ -30,6 +30,13 @@ This project is very new. Any issues or bug reports are welcome. And I still don
 
 ## History
 
+** 2.5.14 - november 17, 2013 **
+
+    - Removing an assert (while editing a document) with too much false positive
+    - Connection editor window is displayed as a sheet
+    - Can duplication a connection https://github.com/fotonauts/MongoHub-Mac/issues/75
+    - Short cut to delete a connection (command-backspace) https://github.com/fotonauts/MongoHub-Mac/issues/69
+
 ** 2.5.14 - november 16, 2013 **
 
     - Using the ssh-agent when having passphrase https://github.com/fotonauts/MongoHub-Mac/issues/93 (thanks for Nick Brook's help)

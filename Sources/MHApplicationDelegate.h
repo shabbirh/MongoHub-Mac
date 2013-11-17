@@ -28,8 +28,7 @@ typedef enum {
     NSPersistentStoreCoordinator            *persistentStoreCoordinator;
     NSManagedObjectModel                    *managedObjectModel;
     NSManagedObjectContext                  *managedObjectContext;
-    MHConnectionEditorWindowController      *_addConnectionWindowController;
-    NSMutableArray                          *_editConnectionWindowControllers;
+    MHConnectionEditorWindowController      *_connectionEditorWindowController;
     MHPreferenceController                  *_preferenceController;
     
     IBOutlet ConnectionsCollectionView      *connectionsCollectionView;
@@ -55,6 +54,7 @@ typedef enum {
 - (void)saveConnections;
 - (IBAction)showAddConnectionPanel:(id)sender;
 - (IBAction)showEditConnectionPanel:(id)sender;
+- (IBAction)duplicateConnection:(id)sender;
 - (IBAction)deleteConnection:(id)sender;
 - (IBAction)resizeConnectionItemView:(id)sender;
 - (IBAction)showConnectionWindow:(id)sender;

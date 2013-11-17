@@ -60,9 +60,14 @@
     [syntaxColoringController setView: myTextView];
     
     [MODServer compareJson:[jsonDict objectForKey:@"beautified"] document:[jsonDict objectForKey:@"objectvalue"]];
-    if ([jsonDict objectForKey:@"bsondata"]) {
-        [MODServer compareJson:[jsonDict objectForKey:@"beautified"] bsonData:[jsonDict objectForKey:@"bsondata"]];
-    }
+//    if ([jsonDict objectForKey:@"bsondata"]) {
+//        NSDictionary *info = nil;
+//        
+//        if (![MODServer isEqualWithJson:[jsonDict objectForKey:@"beautified"] bsonData:[jsonDict objectForKey:@"bsondata"] info:&info]) {
+//            NSLog(@"%@", info);
+//            [MODServer isEqualWithJson:[jsonDict objectForKey:@"beautified"] bsonData:[jsonDict objectForKey:@"bsondata"] info:&info];
+//        }
+//    }
 }
 
 

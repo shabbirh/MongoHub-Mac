@@ -1,25 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
 <rss version="2.0" xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle"  xmlns:dc="http://purl.org/dc/elements/1.1/">
-   <channel>
-      <title>MongoHub</title>
-      <link>https://mongohub.s3.amazonaws.com/su_feed.xml</link>
-      <description>Most recent changes with links to updates.</description>
-      <language>en</language>      
-         <item>
-            <title>Version 2.5.14</title>
-            <enclosure url="https://mongohub.s3.amazonaws.com/MongoHub-2.5.14.zip" sparkle:version="2.5.14" length="3195786" type="application/octet-stream" />
+    <channel>
+        <title>MongoHub</title>
+        <link>https://mongohub.s3.amazonaws.com/su_feed.xml</link>
+        <description>Most recent changes with links to updates.</description>
+        <language>en</language>
+        <item>
+            <title>Version 2.5.15</title>
+            <enclosure url="https://mongohub.s3.amazonaws.com/MongoHub-2.5.15.zip" sparkle:version="2.5.15" length="3199950" type="application/octet-stream" />
             <description><![CDATA[
-<ul>
-<li>Using the ssh-agent when having passphrase <a href='https://github.com/fotonauts/MongoHub-Mac/issues/93'>issue 93</a> (thanks for Nick Brook's help)</li>
-<li>Fix from a bug introduced in 2.5.13(107), problem to tab away the document outline view to the delete button <a href='https://github.com/fotonauts/MongoHub-Mac/issues/97'>issue 97</a></li>
-<li>Better error reporting for find, update or delete (thanks to Johannes Schriewer)</li>
-<li>Fix for database with no name <a href='https://github.com/fotonauts/MongoHub-Mac/issues/101'>issue 101</a></li>
-<li>Fix for generating/parsing json with a date with milliseconds <a href='https://github.com/fotonauts/MongoHub-Mac/issues/102'>issue 102</a></li>
-<li>Adding a preference panel to choose to get beta version (this will support tengen json)</li>
-<li>Dropping support for Mac OS X 10.6.x</li>
-</ul>
+                <h3>2.5.15</h3>
+                <ul>
+                    <li>Removing an assert (while editing a document) with too much false positive</li>
+                    <li>Connection editor window is displayed as a sheet</li>
+                    <li>Can duplication a connection <a href='https://github.com/fotonauts/MongoHub-Mac/issues/75'>issue 75</a></li>
+                    <li>Short cut to delete a connection (command-backspace) <a href='https://github.com/fotonauts/MongoHub-Mac/issues/69'>issue 69</a></li>
+                </ul>
+                <h3>2.5.14</h3>
+                <ul>
+                    <li><strong>Adding a preference panel to be able to get beta versions (the beta version will support tengen json)</strong></li>
+                    <br/>
+                    <li>Using the ssh-agent when having passphrase <a href='https://github.com/fotonauts/MongoHub-Mac/issues/93'>issue 93</a> (thanks for Nick Brook's help)</li>
+                    <li>Fix from a bug introduced in 2.5.13(107), problem to tab away the document outline view to the delete button <a href='https://github.com/fotonauts/MongoHub-Mac/issues/97'>issue 97</a></li>
+                    <li>Better error reporting for find, update or delete (thanks to Johannes Schriewer)</li>
+                    <li>Fix for database with no name <a href='https://github.com/fotonauts/MongoHub-Mac/issues/101'>issue 101</a></li>
+                    <li>Fix for generating/parsing json with a date with milliseconds <a href='https://github.com/fotonauts/MongoHub-Mac/issues/102'>issue 102</a></li>
+                    <li>Dropping support for Mac OS X 10.6.x</li>
+                </ul>
             ]]>
             </description>
-         </item>
-   </channel>
+        </item>
+    </channel>
+    <channel>
+        <item>
+            <beta>1</beta>
+            <title>Version 2.6 beta 1</title>
+            <enclosure url="https://mongohub.s3.amazonaws.com/MongoHub-2.6b1.zip" sparkle:version="2.6b1" length="3178253" type="application/octet-stream" />
+            <description><![CDATA[
+                <ul>
+                <li>Regular mongodb json is now supported</li>
+                </ul>
+            ]]>
+            </description>
+        </item>
+    </channel>
 </rss>

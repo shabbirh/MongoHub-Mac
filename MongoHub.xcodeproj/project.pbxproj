@@ -29,7 +29,6 @@
 		020F5128148973BA00D4B54B /* MHStatusViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 020F5126148973BA00D4B54B /* MHStatusViewController.m */; };
 		020F5129148973BA00D4B54B /* MHStatusViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 020F5127148973BA00D4B54B /* MHStatusViewController.xib */; };
 		0213CAEE1431F3400027795D /* dsa_pub.pem in Resources */ = {isa = PBXBuildFile; fileRef = 1DFC2A8C11970BD0006AA167 /* dsa_pub.pem */; };
-		0213CAF41431FEF50027795D /* mongohub_su_feed.xml in Resources */ = {isa = PBXBuildFile; fileRef = 0213CAF31431FEF50027795D /* mongohub_su_feed.xml */; };
 		021BEA681463709A0091C2EA /* MongoHub_DataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 021BEA641463709A0091C2EA /* MongoHub_DataModel.xcdatamodeld */; };
 		021DB3881425819D0033E77C /* MODCursor.m in Sources */ = {isa = PBXBuildFile; fileRef = 021DB3861425819D0033E77C /* MODCursor.m */; };
 		021DB3891425819D0033E77C /* MODServer_utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 021DB3871425819D0033E77C /* MODServer_utils.m */; };
@@ -1376,7 +1375,6 @@
 				1DD1CA8B12C8F004007F2909 /* Objective C.plist in Resources */,
 				1DDC486912CB7758009924A1 /* JSON.plist in Resources */,
 				0213CAEE1431F3400027795D /* dsa_pub.pem in Resources */,
-				0213CAF41431FEF50027795D /* mongohub_su_feed.xml in Resources */,
 				020F511B14896DE700D4B54B /* MHTabViewController.xib in Resources */,
 				020F5129148973BA00D4B54B /* MHStatusViewController.xib in Resources */,
 				02E0FE36151DE2420094C1CD /* background-grey_center.png in Resources */,

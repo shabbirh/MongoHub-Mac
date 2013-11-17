@@ -31,17 +31,4 @@
             </description>
         </item>
     </channel>
-    <channel>
-        <item>
-            <beta>1</beta>
-            <title>Version 2.6 beta 1</title>
-            <enclosure url="https://mongohub.s3.amazonaws.com/MongoHub-2.6b1.zip" sparkle:version="2.6b1" length="3178253" type="application/octet-stream" />
-            <description><![CDATA[
-                <ul>
-                <li>Regular mongodb json is now supported</li>
-                </ul>
-            ]]>
-            </description>
-        </item>
-    </channel>
 </rss>

@@ -30,7 +30,7 @@ This project is very new. Any issues or bug reports are welcome. And I still don
 
 ## History
 
-** 2.5.14 - november 17, 2013 **
+** 2.5.15 - november 17, 2013 **
 
     - Removing an assert (while editing a document) with too much false positive
     - Connection editor window is displayed as a sheet

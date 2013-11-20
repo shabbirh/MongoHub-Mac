@@ -82,8 +82,11 @@
         if (strcmp([dataValue objCType], @encode(double)) == 0 || strcmp([dataValue objCType], @encode(float)) == 0) {
             type = @"Double";
             value = [dataValue description];
-        } else if (strcmp([dataValue objCType], @encode(int)) == 0 || strcmp([dataValue objCType], @encode(long long)) == 0) {
+        } else if (strcmp([dataValue objCType], @encode(int)) == 0) {
             type = @"Integer";
+            value = [dataValue description];
+        } else if (strcmp([dataValue objCType], @encode(long long)) == 0) {
+            type = @"Long Integer";
             value = [dataValue description];
         } else if (strcmp([dataValue objCType], @encode(BOOL)) == 0) {
             type = @"Boolean";

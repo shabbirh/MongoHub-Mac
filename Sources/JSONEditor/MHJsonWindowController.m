@@ -65,12 +65,14 @@
         
         if (![MODServer isEqualWithJson:[jsonDict objectForKey:@"beautified"] bsonData:[jsonDict objectForKey:@"bsondata"] info:&info]) {
             NSLog(@"%@", info);
-            [MODServer isEqualWithJson:[jsonDict objectForKey:@"beautified"] bsonData:[jsonDict objectForKey:@"bsondata"] info:&info];
-            NSAssert(NO, @"error");
+            if ([info objectForKey:@"json key"] && [info objectForKey:@"original key"] && [info objectForKey:@"json key"]) {
+                NSBeginAlertSheet(@"Error", @"OK", nil, nil, self.window, self, nil, nil, nil, @"There is a problem to generate the json. If you save the current json, at least the value of \"%@\" will be modify", [info objectForKey:@"json key"]);
+            } else {
+                NSAssert(NO, @"problem with %@", info);
+            }
         }
     }
 }
-
 
 - (void)textViewControllerWillStartSyntaxRecoloring: (UKSyntaxColoredTextViewController*)sender
 {

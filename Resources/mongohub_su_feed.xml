@@ -42,10 +42,6 @@
                     <li>Make sure we don't mixup double and integer type (while editing a document)</li>
                     <li>Trying to explain to the user if a document might be changed while editing it</li>
                 </ul>
-                <h3>2.6 beta 1</h3>
-                <ul>
-                    <li>Regular mongodb json is now supported</li>
-                </ul>
             ]]>
             </description>
         </item>

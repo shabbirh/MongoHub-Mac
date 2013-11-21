@@ -28,9 +28,12 @@ This project is very new. Any issues or bug reports are welcome. And I still don
     
 ** Current **
 
-    - Make sure we don't mixup double and integer type (while editing a document)
-
 ## History
+
+** 2.6 beta 4 - november 21, 2013 **
+
+    - Make sure we don't mixup double and integer type (while editing a document)
+    - Trying to explain to the user if a document might be changed while editing it
 
 ** 2.6 beta 3 - november 21, 2013 **
 

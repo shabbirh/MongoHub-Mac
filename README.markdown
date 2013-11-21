@@ -30,6 +30,10 @@ This project is very new. Any issues or bug reports are welcome. And I still don
 
 ## History
 
+** 2.6 beta 3 - november 21, 2013 **
+
+    - Correct support for integer and long integer type (no more mix up)
+
 ** 2.5.14 - november 17, 2013 **
 
     - Removing an assert (while editing a document) with too much false positive

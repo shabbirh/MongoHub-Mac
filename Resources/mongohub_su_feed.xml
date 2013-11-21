@@ -34,15 +34,12 @@
     <channel>
         <item>
             <beta>1</beta>
-            <title>Version 2.6 beta 2</title>
-            <enclosure url="https://mongohub.s3.amazonaws.com/MongoHub-2.6b2.zip" sparkle:version="2.6b2" length="3200714" type="application/octet-stream" />
+            <title>Version 2.6 beta 3</title>
+            <enclosure url="https://mongohub.s3.amazonaws.com/MongoHub-2.6b2.zip" sparkle:version="2.6b3" length="3192739" type="application/octet-stream" />
             <description><![CDATA[
-                <h3>2.6 beta 2</h3>
+                <h3>2.6 beta 3</h3>
                 <ul>
-                    <li>Removing an assert (while editing a document) with too much false positive</li>
-                    <li>Connection editor window is displayed as a sheet</li>
-                    <li>Can duplication a connection <a href='https://github.com/fotonauts/MongoHub-Mac/issues/75'>issue 75</a></li>
-                    <li>Short cut to delete a connection (command-backspace) <a href='https://github.com/fotonauts/MongoHub-Mac/issues/69'>issue 69</a></li>
+                    <li>Correct support for integer and long integer type (no more mix up)</li>
                 </ul>
                 <h3>2.6 beta 1</h3>
                 <ul>

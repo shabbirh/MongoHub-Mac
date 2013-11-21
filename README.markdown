@@ -28,6 +28,8 @@ This project is very new. Any issues or bug reports are welcome. And I still don
     
 ** Current **
 
+    - Make sure we don't mixup double and integer type (while editing a document)
+
 ## History
 
 ** 2.5.15 - november 17, 2013 **

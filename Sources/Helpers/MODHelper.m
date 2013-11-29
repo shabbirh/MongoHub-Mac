@@ -91,9 +91,9 @@
         } else if (strcmp([dataValue objCType], @encode(BOOL)) == 0) {
             type = @"Boolean";
             if ([dataValue boolValue]) {
-                value = @"YES";
+                value = @"true";
             } else {
-                value = @"NO";
+                value = @"false";
             }
         } else {
             NSLog(@"%s %@ %@", [dataValue objCType], dataValue, dataKey);

@@ -53,6 +53,7 @@
             jsonDocument = [MODServer convertObjectToJson:document pretty:NO strictJson:YES];
             cString = [jsonDocument UTF8String];
             write(fileDescriptor, cString, strlen(cString));
+            write(fileDescriptor, "\n", 1);
             return YES;
         } endCallback:^(uint64_t documentCounts, BOOL cursorStopped, MODQuery *mongoQuery) {
             close(fileDescriptor);

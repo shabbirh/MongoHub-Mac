@@ -88,6 +88,7 @@
 		02E0FE40151DE2420094C1CD /* button_ArrowRight_overlay.png in Resources */ = {isa = PBXBuildFile; fileRef = 02E0FE33151DE2420094C1CD /* button_ArrowRight_overlay.png */; };
 		02E0FE41151DE2420094C1CD /* close_button.png in Resources */ = {isa = PBXBuildFile; fileRef = 02E0FE34151DE2420094C1CD /* close_button.png */; };
 		02E0FE42151DE2420094C1CD /* overlay_close_button.png in Resources */ = {isa = PBXBuildFile; fileRef = 02E0FE35151DE2420094C1CD /* overlay_close_button.png */; };
+		02ECA397185149DE00BDA28E /* MODBsonComparator.m in Sources */ = {isa = PBXBuildFile; fileRef = 02ECA396185149DE00BDA28E /* MODBsonComparator.m */; };
 		02F2A1F71817E48B0053CB20 /* MHPreferenceController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 02F2A1F61817E48B0053CB20 /* MHPreferenceController.xib */; };
 		02F2A1FA1817E4BC0053CB20 /* MHPreferenceController.m in Sources */ = {isa = PBXBuildFile; fileRef = 02F2A1F91817E4BC0053CB20 /* MHPreferenceController.m */; };
 		02FCD3CF13BB9EA400316A9F /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 02FCD3CE13BB9EA400316A9F /* Sparkle.framework */; };
@@ -448,6 +449,8 @@
 		02E0FE33151DE2420094C1CD /* button_ArrowRight_overlay.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = button_ArrowRight_overlay.png; sourceTree = "<group>"; };
 		02E0FE34151DE2420094C1CD /* close_button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = close_button.png; sourceTree = "<group>"; };
 		02E0FE35151DE2420094C1CD /* overlay_close_button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = overlay_close_button.png; sourceTree = "<group>"; };
+		02ECA395185149DE00BDA28E /* MODBsonComparator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MODBsonComparator.h; sourceTree = "<group>"; };
+		02ECA396185149DE00BDA28E /* MODBsonComparator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MODBsonComparator.m; sourceTree = "<group>"; };
 		02F2A1F61817E48B0053CB20 /* MHPreferenceController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MHPreferenceController.xib; sourceTree = "<group>"; };
 		02F2A1F81817E4BC0053CB20 /* MHPreferenceController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MHPreferenceController.h; sourceTree = "<group>"; };
 		02F2A1F91817E4BC0053CB20 /* MHPreferenceController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MHPreferenceController.m; sourceTree = "<group>"; };
@@ -641,6 +644,8 @@
 				02216EBB14128CBF00789BD1 /* MODServer.h */,
 				02216EBC14128CBF00789BD1 /* MODServer.m */,
 				021DB3871425819D0033E77C /* MODServer_utils.m */,
+				02ECA395185149DE00BDA28E /* MODBsonComparator.h */,
+				02ECA396185149DE00BDA28E /* MODBsonComparator.m */,
 				02216EB714128CBF00789BD1 /* MODDatabase.h */,
 				02216EB814128CBF00789BD1 /* MODDatabase.m */,
 				02216EB514128CBF00789BD1 /* MODCollection.h */,
@@ -1540,6 +1545,7 @@
 				0280706917675D8D00653483 /* NSData+Base64.m in Sources */,
 				0280706A17675D8D00653483 /* NSString+Base64.m in Sources */,
 				027A1D941767DC1F0048AD60 /* MODMaxKey.m in Sources */,
+				02ECA397185149DE00BDA28E /* MODBsonComparator.m in Sources */,
 				027A1D951767DC1F0048AD60 /* MODMinKey.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

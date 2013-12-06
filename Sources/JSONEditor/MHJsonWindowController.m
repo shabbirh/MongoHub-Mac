@@ -65,7 +65,7 @@
         
         if (![MODServer isEqualWithJson:[jsonDict objectForKey:@"beautified"] bsonData:[jsonDict objectForKey:@"bsondata"] info:&info]) {
             NSLog(@"%@", info);
-            NSBeginAlertSheet(@"Error", @"OK", nil, nil, self.window, self, nil, nil, nil, @"There is a problem to generate the json. If you save the current json, at least the value of \"%@\" will be modify", [info objectForKey:@"differences"]);
+            NSBeginAlertSheet(@"Error", @"OK", nil, nil, self.window, self, nil, nil, nil, @"There is a problem to generate the json. If you save the current json, those values might modified:\n%@", [[info objectForKey:@"differences"] componentsJoinedByString:@"\n"]);
         }
     }
 }

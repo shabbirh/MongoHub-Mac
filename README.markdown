@@ -28,6 +28,8 @@ This project is very new. Any issues or bug reports are welcome. And I still don
     
 ** Current **
 
+    - A better test to make sure no data are corrupted while editing a document
+
 ## History
 
 ** 2.6 beta 4 - november 21, 2013 **

@@ -65,7 +65,8 @@
         
         if (![MODServer isEqualWithJson:[jsonDict objectForKey:@"beautified"] bsonData:[jsonDict objectForKey:@"bsondata"] info:&info]) {
             NSLog(@"%@", info);
-            NSBeginAlertSheet(@"Error", @"OK", nil, nil, self.window, self, nil, nil, nil, @"There is a problem to generate the json. If you save the current json, those values might modified:\n%@", [[info objectForKey:@"differences"] componentsJoinedByString:@"\n"]);
+            NSLog(@"%@", [jsonDict objectForKey:@"bsondata"]);
+            NSBeginAlertSheet(@"Error", @"OK", nil, nil, self.window, self, nil, nil, nil, @"There is a problem to generate the json. If you save the current json, those values might modified:\n%@\n\nPlease open an issue at https://github.com/fotonauts/mongohub-mac/issues", [[info objectForKey:@"differences"] componentsJoinedByString:@"\n"]);
         }
     }
 }

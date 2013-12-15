@@ -503,26 +503,6 @@ CA
                 <imageView id="538">
                     <rect key="frame" x="17" y="36" width="142" height="105"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                    <contentFilters>
-                        <ciFilter name="CISpotLight">
-                            <configuration>
-                                <real key="inputBrightness" value="3"/>
-                                <ciColor key="inputColor" red="1" green="1" blue="1" alpha="1"/>
-                                <real key="inputConcentration" value="0.10000000000000001"/>
-                                <null key="inputImage"/>
-                                <ciVector key="inputLightPointsAt">
-                                    <real value="200"/>
-                                    <real value="200"/>
-                                    <real value="0.0"/>
-                                </ciVector>
-                                <ciVector key="inputLightPosition">
-                                    <real value="400"/>
-                                    <real value="600"/>
-                                    <real value="150"/>
-                                </ciVector>
-                            </configuration>
-                        </ciFilter>
-                    </contentFilters>
                     <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="database" id="539"/>
                 </imageView>
                 <textField verticalHuggingPriority="750" id="540">
@@ -550,12 +530,6 @@ CA
                 <binding destination="205" name="managedObjectContext" keyPath="managedObjectContext" id="543"/>
             </connections>
         </arrayController>
-        <view autoresizesSubviews="NO" id="595">
-            <autoresizingMask key="autoresizingMask"/>
-            <connections>
-                <outlet property="parentWindow" destination="21" id="596"/>
-            </connections>
-        </view>
         <window title="Support Panel" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" hidesOnDeactivate="YES" oneShot="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" id="599" customClass="NSPanel">
             <windowStyleMask key="styleMask" titled="YES" utility="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>

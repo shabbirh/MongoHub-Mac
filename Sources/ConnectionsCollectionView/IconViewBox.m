@@ -17,6 +17,7 @@
 - (void)setSelected:(BOOL)flag
 {
     selectedFlag = flag;
+    [self needsDisplay];
 }
 
 - (BOOL)selected
@@ -62,8 +63,6 @@
         
         [bgColor set];
         [bgPath fill];  
-    } else {
-        [self setWantsLayer:NO];
     }
 
     [super drawRect:rect];

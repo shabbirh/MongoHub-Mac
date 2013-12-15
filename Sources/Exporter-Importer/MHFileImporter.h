@@ -8,16 +8,21 @@
 
 #import <Foundation/Foundation.h>
 
-@class MODCollection, MODQuery;
+@class MODCollection, MODQuery, MODRagelJsonParser;
 
 @interface MHFileImporter : NSObject
 {
     NSString *_importPath;
     MODCollection *_collection;
-    NSMutableDictionary *_errorForDocument;
     MODQuery *_latestQuery;
     NSUInteger                      _importedDocumentCount;
     NSUInteger                      _fileRead;
+    
+    NSMutableString                 *_buffer;
+    NSMutableArray                  *_pendingDocuments;
+    MODRagelJsonParser              *_parser;
+    int                             _fileDescriptor;
+    NSError                         *_firstDocumentError;
 }
 
 - (id)initWithCollection:(MODCollection *)collection importPath:(NSString *)importPath;
@@ -27,5 +32,6 @@
 @property (nonatomic, retain, readonly) MODCollection *collection;
 @property (nonatomic, assign, readonly) NSUInteger importedDocumentCount;
 @property (nonatomic, assign, readonly) NSUInteger fileRead;
+@property (nonatomic, strong, readonly) NSError *firstDocumentError;
 
 @end

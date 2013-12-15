@@ -34,13 +34,14 @@
     <channel>
         <item>
             <beta>1</beta>
-            <title>Version 2.6 beta 4</title>
-            <enclosure url="https://mongohub.s3.amazonaws.com/MongoHub-2.6b4.zip" sparkle:version="2.6b4" length="3193292" type="application/octet-stream" />
+            <title>Version 2.6 beta 5</title>
+            <enclosure url="https://mongohub.s3.amazonaws.com/MongoHub-2.6b5.zip" sparkle:version="2.6b5" length="3203944" type="application/octet-stream" />
             <description><![CDATA[
-                <h3>2.6 beta 4</h3>
+                <h3>2.6 beta 5</h3>
                 <ul>
-                    <li>Make sure we don't mixup double and integer type (while editing a document)</li>
-                    <li>Trying to explain to the user if a document might be changed while editing it</li>
+                    <li>Fixing connexion icon display at launch</li>
+                    <li>Json export/import working</li>
+                    <li>A better test to make sure no data are corrupted while editing a document</li>
                 </ul>
             ]]>
             </description>

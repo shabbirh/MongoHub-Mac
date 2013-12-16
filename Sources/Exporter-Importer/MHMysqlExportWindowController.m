@@ -60,7 +60,6 @@
 }
 
 - (void)windowWillClose:(NSNotification *)notification {
-    [[NSNotificationCenter defaultCenter] postNotificationName:kExportWindowWillClose object:dbname];
     dbname = nil;
     db = nil;
     [self initInterface];

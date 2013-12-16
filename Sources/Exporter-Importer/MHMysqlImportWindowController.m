@@ -57,7 +57,6 @@
 }
 
 - (void)windowWillClose:(NSNotification *)notification {
-    [[NSNotificationCenter defaultCenter] postNotificationName:kImportWindowWillClose object:dbname];
     dbname = nil;
     db = nil;
     [dbsArrayController setContent:nil];

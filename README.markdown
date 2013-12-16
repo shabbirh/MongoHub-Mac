@@ -24,6 +24,8 @@ This project is very new. Any issues or bug reports are welcome. And I still don
     
 ** Current **
 
+    - Using a sheet to remove a connection
+
 ## History
 
 ** 2.6 beta 5 - december 15, 2013 **

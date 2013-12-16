@@ -330,17 +330,19 @@
 - (IBAction)deleteConnection:(id)sender
 {
     NSAlert *alert = [[[NSAlert alloc] init] autorelease];
-    [alert addButtonWithTitle:@"OK"];
     [alert addButtonWithTitle:@"Cancel"];
+    [alert addButtonWithTitle:@"Delete"];
     [alert setMessageText:@"Delete the connection?"];
     [alert setInformativeText:@"Deleted connections cannot be restored."];
     [alert setAlertStyle:NSWarningAlertStyle];
 
-    NSInteger answer = [alert runModal];
-    alert = nil;
-    
-    if (answer == NSAlertFirstButtonReturn) {
-        [connectionsArrayController remove:sender];
+    [alert beginSheetModalForWindow:_window modalDelegate:self didEndSelector:@selector(deleteConnectionAlertDidEnd:returnCode:contextInfo:) contextInfo:nil];
+}
+
+- (void)deleteConnectionAlertDidEnd:(NSAlert *)alert returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo
+{
+    if (returnCode == NSAlertSecondButtonReturn) {
+        [connectionsArrayController remove:self];
         [self saveConnections];
     }
 }

@@ -59,7 +59,6 @@
     [syntaxColoringController setDelegate: self];
     [syntaxColoringController setView: myTextView];
     
-    [MODServer compareJson:[jsonDict objectForKey:@"beautified"] document:[jsonDict objectForKey:@"objectvalue"]];
     if ([jsonDict objectForKey:@"bsondata"]) {
         NSDictionary *info = nil;
         
@@ -68,6 +67,8 @@
             NSLog(@"%@", [jsonDict objectForKey:@"bsondata"]);
             NSBeginAlertSheet(@"Error", @"OK", nil, nil, self.window, self, nil, nil, nil, @"There is a problem to generate the json. If you save the current json, those values might modified:\n%@\n\nPlease open an issue at https://github.com/fotonauts/mongohub-mac/issues", [[info objectForKey:@"differences"] componentsJoinedByString:@"\n"]);
         }
+    } else if (![MODServer isEqualWithJson:[jsonDict objectForKey:@"beautified"] document:[jsonDict objectForKey:@"objectvalue"] info:nil]) {
+        NSBeginAlertSheet(@"Error", @"OK", nil, nil, self.window, self, nil, nil, nil, @"There is a problem to generate the json. If you save the current json (without modifiyingn it), somve values might be modified https://github.com/fotonauts/mongohub-mac/issues");
     }
 }
 

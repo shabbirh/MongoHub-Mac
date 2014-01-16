@@ -30,20 +30,14 @@
     [super dealloc];
 }
 
-- (void)windowWillClose:(NSNotification *)notification
-{
-    [[NSNotificationCenter defaultCenter] postNotificationName:kNewCollectionWindowWillClose object:dbInfo];
-    dbInfo = nil;
-}
-
 - (IBAction)cancel:(id)sender
 {
-    dbInfo = nil;
-    [self close];
+    [NSApp endSheet:self.window];
 }
 
 - (IBAction)add:(id)sender
 {
+    [self retain];
     if ([ [collectionname stringValue] length] == 0) {
         NSRunAlertPanel(@"Error", @"Collection name can not be empty", @"OK", nil, nil);
         return;
@@ -58,7 +52,21 @@
     dbInfo = [NSMutableDictionary dictionaryWithObjects:objs forKeys:keys];
     [objs release];
     [keys release];
-    [self close];
+    // the delegate will release this instance in this notification, so we need to make sure we keep ourself arround to close the window
+    [[NSNotificationCenter defaultCenter] postNotificationName:kNewCollectionWindowWillClose object:dbInfo];
+    [NSApp endSheet:self.window];
+    [self release];
+}
+
+- (void)modalForWindow:(NSWindow *)window
+{
+    [NSApp beginSheet:self.window modalForWindow:window modalDelegate:self didEndSelector:@selector(didEndSheet:returnCode:contextInfo:) contextInfo:nil];
+}
+
+- (void)didEndSheet:(NSWindow *)window returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo
+{
+    [self.window orderOut:self];
+    dbInfo = nil;
 }
 
 @end

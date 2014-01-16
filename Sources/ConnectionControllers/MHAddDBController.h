@@ -9,6 +9,7 @@
 #import <Cocoa/Cocoa.h>
 @class DatabasesArrayController;
 @class MHConnectionStore;
+@class MHAddDBController;
 
 @interface MHAddDBController : NSWindowController
 {
@@ -32,5 +33,6 @@
 
 - (IBAction)add:(id)sender;
 - (IBAction)cancel:(id)sender;
-- (void)saveAction;
+- (void)modalForWindow:(NSWindow *)window;
+
 @end

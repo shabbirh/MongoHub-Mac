@@ -22,5 +22,6 @@
 
 - (IBAction)add:(id)sender;
 - (IBAction)cancel:(id)sender;
+- (void)modalForWindow:(NSWindow *)window;
 
 @end

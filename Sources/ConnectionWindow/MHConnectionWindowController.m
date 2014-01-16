@@ -462,7 +462,7 @@
         self.addCollectionController = [[[MHAddCollectionController alloc] init] autorelease];
     }
     self.addCollectionController.dbname = dbname;
-    [self.addCollectionController showWindow:self];
+    [self.addCollectionController modalForWindow:self.window];
 }
 
 - (void)createDB
@@ -471,24 +471,25 @@
         self.addDBController = [[[MHAddDBController alloc] init] autorelease];
     }
     self.addDBController.conn = _connectionStore;
-    [self.addDBController showWindow:self];
+    [self.addDBController modalForWindow:self.window];
 }
 
-- (void)addDB:(id)sender
+- (void)addDB:(NSNotification *)notification
 {
-    if (![sender object]) {
+    if (![notification object]) {
         return;
     }
-    [[_mongoServer databaseForName:[[sender object] objectForKey:@"dbname"]] fetchDatabaseStatsWithCallback:nil];
+    [[_mongoServer databaseForName:[[notification object] objectForKey:@"dbname"]] fetchDatabaseStatsWithCallback:nil];
     [self getDatabaseList];
+    self.addDBController = nil;
 }
 
-- (void)addCollection:(id)sender
+- (void)addCollection:(NSNotification *)notification
 {
-    if (![sender object]) {
+    if (![notification object]) {
         return;
     }
-    NSString *collectionName = [[sender object] objectForKey:@"collectionname"];
+    NSString *collectionName = [[notification object] objectForKey:@"collectionname"];
     MODDatabase *mongoDatabase;
     
     mongoDatabase = [[self selectedDatabaseItem] mongoDatabase];
@@ -500,6 +501,7 @@
         }
         [self getCollectionListForDatabaseName:mongoDatabase.databaseName];
     }];
+    self.addCollectionController = nil;
 }
 
 - (IBAction)dropDBorCollection:(id)sender

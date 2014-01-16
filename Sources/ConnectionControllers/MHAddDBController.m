@@ -38,12 +38,6 @@
     [super dealloc];
 }
 
-- (void)windowWillClose:(NSNotification *)notification
-{
-    [[NSNotificationCenter defaultCenter] postNotificationName:kNewDBWindowWillClose object:dbInfo];
-    dbInfo = nil;
-}
-
 - (NSManagedObjectContext *)managedObjectContext
 {
     return [conn managedObjectContext];
@@ -51,12 +45,12 @@
 
 - (IBAction)cancel:(id)sender
 {
-    dbInfo = nil;
-    [self close];
+    [NSApp endSheet:self.window];
 }
 
 - (IBAction)add:(id)sender
 {
+    [self retain];
     if ([ [dbname stringValue] length] == 0) {
         NSRunAlertPanel(@"Error", @"Database name can not be empty", @"OK", nil, nil);
         return;
@@ -85,10 +79,14 @@
         }
         [self saveAction];
     }
-    [self close];
+    // the delegate will release this instance in this notification, so we need to make sure we keep ourself arround to close the window
+    [[NSNotificationCenter defaultCenter] postNotificationName:kNewDBWindowWillClose object:dbInfo];
+    [NSApp endSheet:self.window];
+    [self release];
 }
 
-- (void) saveAction {
+- (void) saveAction
+{
     
     NSError *error = nil;
     
@@ -99,6 +97,17 @@
     if (![self.managedObjectContext save:&error]) {
         [[NSApplication sharedApplication] presentError:error];
     }
+}
+
+- (void)modalForWindow:(NSWindow *)window
+{
+    [NSApp beginSheet:self.window modalForWindow:window modalDelegate:self didEndSelector:@selector(didEndSheet:returnCode:contextInfo:) contextInfo:nil];
+}
+
+- (void)didEndSheet:(NSWindow *)window returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo
+{
+    [self.window orderOut:self];
+    dbInfo = nil;
 }
 
 @end

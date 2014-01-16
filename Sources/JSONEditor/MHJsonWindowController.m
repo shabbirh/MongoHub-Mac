@@ -50,8 +50,11 @@
 
 - (void)windowDidLoad
 {
+    NSDictionary *info = nil;
+    NSString *title;
+    
     [super windowDidLoad];
-    NSString *title = [[NSString alloc] initWithFormat:@"%@ _id:%@", mongoCollection.absoluteCollectionName, [jsonDict objectForKey:@"value"]];
+    title = [[NSString alloc] initWithFormat:@"%@ _id:%@", mongoCollection.absoluteCollectionName, [jsonDict objectForKey:@"value"]];
     [self.window setTitle:title];
     [title release];
     [myTextView setString:[jsonDict objectForKey:@"beautified"]];
@@ -60,8 +63,6 @@
     [syntaxColoringController setView: myTextView];
     
     if ([jsonDict objectForKey:@"bsondata"]) {
-        NSDictionary *info = nil;
-        
         if (![MODServer isEqualWithJson:[jsonDict objectForKey:@"beautified"] toBsonData:[jsonDict objectForKey:@"bsondata"] info:&info]) {
             NSLog(@"%@", info);
             NSLog(@"%@", [jsonDict objectForKey:@"bsondata"]);

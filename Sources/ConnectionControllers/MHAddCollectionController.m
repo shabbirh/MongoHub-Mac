@@ -18,7 +18,7 @@
 
 - (id)init
 {
-    self = [super initWithWindowNibName:@"NewCollection"];
+    self = [super initWithWindowNibName:@"MHAddCollectionController"];
     return self;
 }
 

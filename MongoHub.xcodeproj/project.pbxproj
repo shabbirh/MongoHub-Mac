@@ -122,7 +122,7 @@
 		1D64100D12C8E3D90030AA4C /* MHJsonWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D64100C12C8E3D90030AA4C /* MHJsonWindowController.m */; };
 		1D64100F12C8E6BE0030AA4C /* MHJsonWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1D64100E12C8E6BE0030AA4C /* MHJsonWindow.xib */; };
 		1D799455118755EE009C187F /* MHAddDBController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D799454118755EE009C187F /* MHAddDBController.m */; };
-		1D79945711875E7A009C187F /* NewDB.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1D79945611875E7A009C187F /* NewDB.xib */; };
+		1D79945711875E7A009C187F /* MHAddDBController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1D79945611875E7A009C187F /* MHAddDBController.xib */; };
 		1D8A624E11897C6800D55937 /* indexmenu.png in Resources */ = {isa = PBXBuildFile; fileRef = 1D8A624D11897C6800D55937 /* indexmenu.png */; };
 		1D93C1DA11832C1D003216F7 /* MHConnectionStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D93C1D911832C1D003216F7 /* MHConnectionStore.m */; };
 		1D93C1E411833342003216F7 /* ConnectionsCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D93C1DF11833342003216F7 /* ConnectionsCollectionView.m */; };
@@ -159,7 +159,7 @@
 		1DEC7FF112B7EDB900FC804E /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DEC7FF012B7EDB900FC804E /* Security.framework */; };
 		1DEC803512B7EE2100FC804E /* SSHCommand.sh in Resources */ = {isa = PBXBuildFile; fileRef = 1DEC803412B7EE2100FC804E /* SSHCommand.sh */; };
 		1DF96E3B11881AED00C35AB8 /* MHAddCollectionController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DF96E3A11881AED00C35AB8 /* MHAddCollectionController.m */; };
-		1DF96E3D11881EB400C35AB8 /* NewCollection.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1DF96E3C11881EB400C35AB8 /* NewCollection.xib */; };
+		1DF96E3D11881EB400C35AB8 /* MHAddCollectionController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1DF96E3C11881EB400C35AB8 /* MHAddCollectionController.xib */; };
 		1DF96F9211883B3800C35AB8 /* MHQueryWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DF96F9111883B3800C35AB8 /* MHQueryWindowController.m */; };
 		1DF96F9411883D5E00C35AB8 /* QueryWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1DF96F9311883D5E00C35AB8 /* QueryWindow.xib */; };
 		2F7446990DB6B7EA00F9684A /* MHMainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2F7446970DB6B7EA00F9684A /* MHMainMenu.xib */; };
@@ -497,7 +497,7 @@
 		1D64100E12C8E6BE0030AA4C /* MHJsonWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MHJsonWindow.xib; sourceTree = "<group>"; };
 		1D799453118755EE009C187F /* MHAddDBController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MHAddDBController.h; sourceTree = "<group>"; };
 		1D799454118755EE009C187F /* MHAddDBController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MHAddDBController.m; sourceTree = "<group>"; };
-		1D79945611875E7A009C187F /* NewDB.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NewDB.xib; sourceTree = "<group>"; };
+		1D79945611875E7A009C187F /* MHAddDBController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MHAddDBController.xib; sourceTree = "<group>"; };
 		1D8A624D11897C6800D55937 /* indexmenu.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = indexmenu.png; path = Resources/images/indexmenu.png; sourceTree = SOURCE_ROOT; };
 		1D93C1D811832C1D003216F7 /* MHConnectionStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MHConnectionStore.h; sourceTree = "<group>"; };
 		1D93C1D911832C1D003216F7 /* MHConnectionStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MHConnectionStore.m; sourceTree = "<group>"; };
@@ -550,7 +550,7 @@
 		1DEC803412B7EE2100FC804E /* SSHCommand.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = SSHCommand.sh; sourceTree = "<group>"; };
 		1DF96E3911881AED00C35AB8 /* MHAddCollectionController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MHAddCollectionController.h; sourceTree = "<group>"; };
 		1DF96E3A11881AED00C35AB8 /* MHAddCollectionController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MHAddCollectionController.m; sourceTree = "<group>"; };
-		1DF96E3C11881EB400C35AB8 /* NewCollection.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NewCollection.xib; sourceTree = "<group>"; };
+		1DF96E3C11881EB400C35AB8 /* MHAddCollectionController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MHAddCollectionController.xib; sourceTree = "<group>"; };
 		1DF96F9111883B3800C35AB8 /* MHQueryWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MHQueryWindowController.m; sourceTree = "<group>"; };
 		1DF96F9311883D5E00C35AB8 /* QueryWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QueryWindow.xib; sourceTree = "<group>"; };
 		1DFC2A8C11970BD0006AA167 /* dsa_pub.pem */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = dsa_pub.pem; path = Resources/dsa_pub.pem; sourceTree = SOURCE_ROOT; };
@@ -1225,8 +1225,8 @@
 				02F2A1F61817E48B0053CB20 /* MHPreferenceController.xib */,
 				1D93C29F118343EF003216F7 /* MHConnectionEditorWindowController.xib */,
 				1D93C3D01183690E003216F7 /* MHConnectionWindow.xib */,
-				1D79945611875E7A009C187F /* NewDB.xib */,
-				1DF96E3C11881EB400C35AB8 /* NewCollection.xib */,
+				1D79945611875E7A009C187F /* MHAddDBController.xib */,
+				1DF96E3C11881EB400C35AB8 /* MHAddCollectionController.xib */,
 				1DF96F9311883D5E00C35AB8 /* QueryWindow.xib */,
 				1D210BFF11930E18000EF41C /* Auth.xib */,
 				1D601B5511C8F24300C86274 /* MysqlImport.xib */,
@@ -1346,8 +1346,8 @@
 				1D93C3D11183690E003216F7 /* MHConnectionWindow.xib in Resources */,
 				1D93C42C1183744D003216F7 /* collectionicon.png in Resources */,
 				1D93C42D1183744D003216F7 /* dbicon.png in Resources */,
-				1D79945711875E7A009C187F /* NewDB.xib in Resources */,
-				1DF96E3D11881EB400C35AB8 /* NewCollection.xib in Resources */,
+				1D79945711875E7A009C187F /* MHAddDBController.xib in Resources */,
+				1DF96E3D11881EB400C35AB8 /* MHAddCollectionController.xib in Resources */,
 				1DF96F9411883D5E00C35AB8 /* QueryWindow.xib in Resources */,
 				1DA68047118875B300DFDD29 /* findmenu.png in Resources */,
 				02F2A1F71817E48B0053CB20 /* MHPreferenceController.xib in Resources */,

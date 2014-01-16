@@ -23,7 +23,7 @@
 
 - (id)init
 {
-    self = [super initWithWindowNibName:@"NewDB"];
+    self = [super initWithWindowNibName:@"MHAddDBController"];
     return self;
 }
 

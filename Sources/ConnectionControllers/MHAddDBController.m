@@ -1,5 +1,5 @@
 //
-//  AddDBController.m
+//  MHAddDBController.m
 //  MongoHub
 //
 //  Created by Syd on 10-4-28.
@@ -7,12 +7,12 @@
 //
 
 #import "Configure.h"
-#import "AddDBController.h"
+#import "MHAddDBController.h"
 #import "DatabasesArrayController.h"
 #import "MHDatabaseStore.h"
 #import "NSString+Extras.h"
 
-@implementation AddDBController
+@implementation MHAddDBController
 
 @synthesize dbname;
 @synthesize user;

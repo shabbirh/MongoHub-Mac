@@ -11,8 +11,8 @@
 #import "NSProgressIndicator+Extras.h"
 #import "MHConnectionWindowController.h"
 #import "MHQueryWindowController.h"
-#import "AddDBController.h"
-#import "AddCollectionController.h"
+#import "MHAddDBController.h"
+#import "MHAddCollectionController.h"
 #import "AuthWindowController.h"
 #import "MHMysqlImportWindowController.h"
 #import "MHMysqlExportWindowController.h"
@@ -45,6 +45,9 @@
 #define DEFAULT_MONGO_IP                            @"127.0.0.1"
 
 @interface MHConnectionWindowController()
+@property (nonatomic, readwrite, retain) MHAddDBController *addDBController;
+@property (nonatomic, readwrite, retain) MHAddCollectionController *addCollectionController;
+
 - (void)updateToolbarItems;
 
 - (void)closeMongoDB;
@@ -70,8 +73,8 @@
 @synthesize statMonitorTableController;
 @synthesize databases = _databases;
 @synthesize sshTunnel = _sshTunnel;
-@synthesize addDBController;
-@synthesize addCollectionController;
+@synthesize addDBController = _addDBController;
+@synthesize addCollectionController = _addCollectionController;
 @synthesize resultsTitle;
 @synthesize bundleVersion;
 @synthesize authWindowController;
@@ -97,8 +100,8 @@
     [_connectionStore release];
     [_databases release];
     [_sshTunnel release];
-    [addDBController release];
-    [addCollectionController release];
+    self.addDBController = nil;
+    self.addCollectionController = nil;
     [resultsTitle release];
     [loaderIndicator release];
     [reconnectButton release];
@@ -455,21 +458,20 @@
 
 - (void)createCollectionForDB:(NSString *)dbname
 {
-    if (!addCollectionController) {
-        addCollectionController = [[AddCollectionController alloc] init];
+    if (!self.addCollectionController) {
+        self.addCollectionController = [[[MHAddCollectionController alloc] init] autorelease];
     }
-    addCollectionController.dbname = dbname;
-    [addCollectionController showWindow:self];
+    self.addCollectionController.dbname = dbname;
+    [self.addCollectionController showWindow:self];
 }
 
 - (void)createDB
 {
-    if (!addDBController)
-    {
-        addDBController = [[AddDBController alloc] init];
+    if (!self.addDBController) {
+        self.addDBController = [[[MHAddDBController alloc] init] autorelease];
     }
-    addDBController.conn = _connectionStore;
-    [addDBController showWindow:self];
+    self.addDBController.conn = _connectionStore;
+    [self.addDBController showWindow:self];
 }
 
 - (void)addDB:(id)sender

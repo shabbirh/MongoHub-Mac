@@ -1,5 +1,5 @@
 //
-//  AddDBController.h
+//  MHAddDBController.h
 //  MongoHub
 //
 //  Created by Syd on 10-4-28.
@@ -10,7 +10,7 @@
 @class DatabasesArrayController;
 @class MHConnectionStore;
 
-@interface AddDBController : NSWindowController {
+@interface MHAddDBController : NSWindowController {
     IBOutlet NSTextField *dbname;
     IBOutlet NSTextField *user;
     IBOutlet NSSecureTextField *password;

@@ -1,5 +1,5 @@
 //
-//  AddCollectionController.h
+//  MHAddCollectionController.h
 //  MongoHub
 //
 //  Created by Syd on 10-4-28.
@@ -9,7 +9,7 @@
 #import <Cocoa/Cocoa.h>
 
 
-@interface AddCollectionController : NSWindowController {
+@interface MHAddCollectionController : NSWindowController {
     IBOutlet NSTextField *collectionname;
     NSMutableString *dbname;
     NSMutableDictionary *dbInfo;

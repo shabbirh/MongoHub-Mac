@@ -1,5 +1,5 @@
 //
-//  AddCollectionController.m
+//  MHAddCollectionController.m
 //  MongoHub
 //
 //  Created by Syd on 10-4-28.
@@ -7,10 +7,10 @@
 //
 
 #import "Configure.h"
-#import "AddCollectionController.h"
+#import "MHAddCollectionController.h"
 
 
-@implementation AddCollectionController
+@implementation MHAddCollectionController
 
 @synthesize dbname;
 @synthesize collectionname;

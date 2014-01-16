@@ -14,8 +14,8 @@
 @class BWSheetController;
 @class DatabasesArrayController;
 @class StatMonitorTableController;
-@class AddDBController;
-@class AddCollectionController;
+@class MHAddDBController;
+@class MHAddCollectionController;
 @class AuthWindowController;
 @class MHMysqlImportWindowController;
 @class MHMysqlExportWindowController;
@@ -53,8 +53,8 @@
     NSMutableArray *_databases;
     MHTunnel                                *_sshTunnel;
     unsigned short                          _sshTunnelPort;
-    AddDBController *addDBController;
-    AddCollectionController *addCollectionController;
+    MHAddDBController                       *_addDBController;
+    MHAddCollectionController               *_addCollectionController;
     AuthWindowController *authWindowController;
     MHMysqlImportWindowController *_mysqlImportWindowController;
     MHMysqlExportWindowController *_mysqlExportWindowController;
@@ -76,8 +76,6 @@
 @property (nonatomic, retain) NSButton *monitorButton;
 @property (nonatomic, retain) NSButton *reconnectButton;
 @property (nonatomic, retain) StatMonitorTableController *statMonitorTableController;
-@property (nonatomic, retain) AddDBController *addDBController;
-@property (nonatomic, retain) AddCollectionController *addCollectionController;
 @property (nonatomic, retain) NSTextField *bundleVersion;
 @property (nonatomic, retain) AuthWindowController *authWindowController;
 @property (nonatomic, retain) MHMysqlImportWindowController *mysqlImportWindowController;

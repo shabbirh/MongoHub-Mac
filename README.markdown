@@ -25,6 +25,8 @@ This project is very new. Any issues or bug reports are welcome. And I still don
 ** Current **
 
     - Using a sheet to remove a connection
+    - Removing a crash when trying to remove some documents (with the tab)
+    - Better way to make sure we don't modify a document, and better way to notify it to the user
 
 ## History
 

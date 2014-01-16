@@ -24,11 +24,14 @@ This project is very new. Any issues or bug reports are welcome. And I still don
     
 ** Current **
 
+## History
+
+** 2.6 beta 6 - january 16, 2014 **
+
     - Using a sheet to remove a connection
     - Removing a crash when trying to remove some documents (with the tab)
     - Better way to make sure we don't modify a document, and better way to notify it to the user
-
-## History
+    - Using sheet to add a database or a collection
 
 ** 2.6 beta 5 - december 15, 2013 **
 

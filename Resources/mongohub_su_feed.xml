@@ -34,14 +34,15 @@
     <channel>
         <item>
             <beta>1</beta>
-            <title>Version 2.6 beta 5</title>
-            <enclosure url="https://mongohub.s3.amazonaws.com/MongoHub-2.6b5.zip" sparkle:version="2.6b5" length="3203944" type="application/octet-stream" />
+            <title>Version 2.6 beta 6</title>
+            <enclosure url="https://mongohub.s3.amazonaws.com/MongoHub-2.6b6.zip" sparkle:version="2.6b6" length="3197442" type="application/octet-stream" />
             <description><![CDATA[
-                <h3>2.6 beta 5</h3>
+                <h3>2.6 beta 6</h3>
                 <ul>
-                    <li>Fixing connexion icon display at launch</li>
-                    <li>Json export/import working</li>
-                    <li>A better test to make sure no data are corrupted while editing a document</li>
+                    <li>Using a sheet to remove a connection</li>
+                    <li>Removing a crash when trying to remove some documents (with the tab)</li>
+                    <li>Better way to make sure we don't modify a document, and better way to notify it to the user</li>
+                    <li>Using sheet to add a database or a collection</li>
                 </ul>
             ]]>
             </description>

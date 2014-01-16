@@ -9,7 +9,8 @@
 #import <Cocoa/Cocoa.h>
 
 
-@interface MHAddCollectionController : NSWindowController {
+@interface MHAddCollectionController : NSWindowController
+{
     IBOutlet NSTextField *collectionname;
     NSMutableString *dbname;
     NSMutableDictionary *dbInfo;

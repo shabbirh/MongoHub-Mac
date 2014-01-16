@@ -10,7 +10,8 @@
 @class DatabasesArrayController;
 @class MHConnectionStore;
 
-@interface MHAddDBController : NSWindowController {
+@interface MHAddDBController : NSWindowController
+{
     IBOutlet NSTextField *dbname;
     IBOutlet NSTextField *user;
     IBOutlet NSSecureTextField *password;

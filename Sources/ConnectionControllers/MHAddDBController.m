@@ -21,12 +21,14 @@
 @synthesize conn;
 @synthesize databasesArrayController = _databasesArrayController;
 
-- (id)init {
+- (id)init
+{
     self = [super initWithWindowNibName:@"NewDB"];
     return self;
 }
 
-- (void)dealloc {
+- (void)dealloc
+{
     [dbname release];
     [user release];
     [password release];
@@ -36,7 +38,8 @@
     [super dealloc];
 }
 
-- (void)windowWillClose:(NSNotification *)notification {
+- (void)windowWillClose:(NSNotification *)notification
+{
     [[NSNotificationCenter defaultCenter] postNotificationName:kNewDBWindowWillClose object:dbInfo];
     dbInfo = nil;
 }
@@ -46,12 +49,14 @@
     return [conn managedObjectContext];
 }
 
-- (IBAction)cancel:(id)sender {
+- (IBAction)cancel:(id)sender
+{
     dbInfo = nil;
     [self close];
 }
 
-- (IBAction)add:(id)sender {
+- (IBAction)add:(id)sender
+{
     if ([ [dbname stringValue] length] == 0) {
         NSRunAlertPanel(@"Error", @"Database name can not be empty", @"OK", nil, nil);
         return;

@@ -16,29 +16,34 @@
 @synthesize collectionname;
 @synthesize dbInfo;
 
-- (id)init {
+- (id)init
+{
     self = [super initWithWindowNibName:@"NewCollection"];
     return self;
 }
 
-- (void)dealloc {
+- (void)dealloc
+{
     [dbname release];
     [collectionname release];
     [dbInfo release];
     [super dealloc];
 }
 
-- (void)windowWillClose:(NSNotification *)notification {
+- (void)windowWillClose:(NSNotification *)notification
+{
     [[NSNotificationCenter defaultCenter] postNotificationName:kNewCollectionWindowWillClose object:dbInfo];
     dbInfo = nil;
 }
 
-- (IBAction)cancel:(id)sender {
+- (IBAction)cancel:(id)sender
+{
     dbInfo = nil;
     [self close];
 }
 
-- (IBAction)add:(id)sender {
+- (IBAction)add:(id)sender
+{
     if ([ [collectionname stringValue] length] == 0) {
         NSRunAlertPanel(@"Error", @"Collection name can not be empty", @"OK", nil, nil);
         return;
@@ -55,4 +60,5 @@
     [keys release];
     [self close];
 }
+
 @end

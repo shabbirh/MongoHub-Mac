@@ -528,7 +528,7 @@
 																<reference ref="329837016"/>
 																<object class="NSMenuItem" id="854397762">
 																	<reference key="NSMenu" ref="411813433"/>
-																	<string key="NSTitle">Add Database</string>
+																	<string key="NSTitle">Add Database…</string>
 																	<string key="NSKeyEquiv"/>
 																	<int key="NSKeyEquivModMask">1048576</int>
 																	<int key="NSMnemonicLoc">2147483647</int>
@@ -540,7 +540,7 @@
 																</object>
 																<object class="NSMenuItem" id="115547344">
 																	<reference key="NSMenu" ref="411813433"/>
-																	<string key="NSTitle">Add Collection</string>
+																	<string key="NSTitle">Add Collection…</string>
 																	<string key="NSKeyEquiv"/>
 																	<int key="NSKeyEquivModMask">1048576</int>
 																	<int key="NSMnemonicLoc">2147483647</int>

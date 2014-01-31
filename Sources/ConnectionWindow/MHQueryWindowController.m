@@ -258,6 +258,7 @@
             [findQueryLoaderIndicator stop];
             flashColor = [NSColor redColor];
             [totalResultsTextField setStringValue:[NSString stringWithFormat:@"Error: %@", [mongoQuery.error localizedDescription]]];
+            [findQueryTextField setStringValue:[NSString stringWithFormat:@"Error: %@", [mongoQuery.error localizedDescription]]];
         } else {
             if ([queryTitle length] > 0) {
                 [_connectionStore addNewQuery:[NSDictionary dictionaryWithObjectsAndKeys:queryTitle, @"title", [_sortTextField stringValue], @"sort", [_fieldsTextField stringValue], @"fields", [_limitTextField stringValue], @"limit", [_skipTextField stringValue], @"skip", nil] withDatabaseName:_mongoCollection.databaseName collectionName:_mongoCollection.collectionName];

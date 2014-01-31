@@ -137,7 +137,8 @@
         } else if (_selectedTabIndex == 0) {
             [self _tabItemViewControllerWithIndex:0];
         } else {
-            [self _tabItemViewControllerWithIndex:_selectedTabIndex - 1];
+            NSUInteger newIndex = index > _selectedTabIndex ? _selectedTabIndex : _selectedTabIndex - 1;
+            [self _tabItemViewControllerWithIndex: newIndex];
         }
         [self _updateTitleViewesWithAnimation:NO exceptView:nil];
         [self didChangeValueForKey:@"selectedTabIndex"];

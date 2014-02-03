@@ -24,6 +24,8 @@ This project is very new. Any issues or bug reports are welcome. And I still don
     
 ** Current **
 
+    - { _id: "my_value" } can be parsed
+
 ## History
 
 ** 2.6 beta 6 - january 16, 2014 **

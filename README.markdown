@@ -25,6 +25,7 @@ This project is very new. Any issues or bug reports are welcome. And I still don
 ** Current **
 
     - { _id: "my_value" } can be parsed
+    - problem to convert from bson to json, dates with milliseconds that can't be converted correctly in decimal (like 0.820)
 
 ## History
 

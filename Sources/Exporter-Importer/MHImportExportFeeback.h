@@ -14,4 +14,11 @@
     IBOutlet NSTextField                *_label;
     IBOutlet NSProgressIndicator        *_progressIndicator;
 }
+
+- (void)setLabel:(NSString *)label;
+- (void)setMaxValue:(double)maxValue;
+- (void)setProgressValue:(double)progressValue;
+- (void)displayForWindow:(NSWindow *)window;
+- (void)close;
+
 @end

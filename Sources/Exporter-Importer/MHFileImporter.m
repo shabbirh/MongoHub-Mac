@@ -58,7 +58,6 @@
 
 - (void)_appendDocumentToParse:(NSString *)stringDocument flush:(BOOL)flush
 {
-    NSLog(@"%@", stringDocument);
     if (stringDocument.length > 0) {
         [self.pendingDocuments addObject:stringDocument];
     }

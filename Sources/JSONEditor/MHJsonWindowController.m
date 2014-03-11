@@ -134,7 +134,7 @@
     [progress display];
     [mongoCollection saveWithDocument:[myTextView string] callback:^(MODQuery *mongoQuery) {
         if (mongoQuery.error) {
-            NSRunAlertPanel(@"Error", [mongoQuery.error localizedDescription], @"OK", nil, nil);
+            NSRunAlertPanel(@"Error", @"%@", @"OK", nil, nil, [mongoQuery.error localizedDescription]);
         }
         [progress stopAnimation: self];
         [progress display];

@@ -385,7 +385,7 @@
         NSColor *currentColor;
         
         [insertLoaderIndicator stop];
-        NSRunAlertPanel(@"Error", [error localizedDescription], @"OK", nil, nil);
+        NSRunAlertPanel(@"Error", @"%@", @"OK", nil, nil,[error localizedDescription]);
         insertResultsTextField.stringValue = @"Parsing error";
         [NSViewHelpers cancelColorForTarget:insertResultsTextField selector:@selector(setTextColor:)];
         currentColor = insertResultsTextField.textColor;
@@ -403,7 +403,7 @@
             if (mongoQuery.error) {
                 flashColor = [NSColor redColor];
                 [insertResultsTextField setStringValue:@"Error!"];
-                NSRunAlertPanel(@"Error", [mongoQuery.error localizedDescription], @"OK", nil, nil);
+                NSRunAlertPanel(@"Error", @"%@", @"OK", nil, nil, [mongoQuery.error localizedDescription]);
             } else {
                 flashColor = [NSColor greenColor];
                 [insertResultsTextField setStringValue:@"Completed!"];
@@ -420,7 +420,7 @@
 {
     [_mongoCollection indexListWithCallback:^(NSArray *indexes, MODQuery *mongoQuery) {
         if (mongoQuery.error) {
-            NSRunAlertPanel(@"Error", [mongoQuery.error localizedDescription], @"OK", nil, nil);
+            NSRunAlertPanel(@"Error", @"%@", @"OK", nil, nil, [mongoQuery.error localizedDescription]);
         }
         indexesOutlineViewController.results = [MODHelper convertForOutlineWithObjects:indexes bsonData:nil];
     }];
@@ -431,7 +431,7 @@
     [indexLoaderIndicator start];
     [_mongoCollection createIndex:[indexTextField stringValue] name:nil options:0 callback:^(MODQuery *mongoQuery) {
         if (mongoQuery.error) {
-            NSRunAlertPanel(@"Error", [mongoQuery.error localizedDescription], @"OK", nil, nil);
+            NSRunAlertPanel(@"Error", @"%@", @"OK", nil, nil, [mongoQuery.error localizedDescription]);
         } else {
             [indexTextField setStringValue:@""];
         }
@@ -446,7 +446,7 @@
     [indexLoaderIndicator start];
     [_mongoCollection reIndexWithCallback:^(MODQuery *mongoQuery) {
         if (mongoQuery.error) {
-            NSRunAlertPanel(@"Error", [mongoQuery.error localizedDescription], @"OK", nil, nil);
+            NSRunAlertPanel(@"Error", @"%@", @"OK", nil, nil, [mongoQuery.error localizedDescription]);
         } else {
             [indexTextField setStringValue:@""];
         }
@@ -463,7 +463,7 @@
     if (indexes.count == 1) {
         [_mongoCollection dropIndex:[[[indexes objectAtIndex:0] objectForKey:@"objectvalue"] objectForKey:@"key"] callback:^(MODQuery *mongoQuery) {
             if (mongoQuery.error) {
-                NSRunAlertPanel(@"Error", [mongoQuery.error localizedDescription], @"OK", nil, nil);
+                NSRunAlertPanel(@"Error", @"%@", @"OK", nil, nil, [mongoQuery.error localizedDescription]);
             }
             [indexLoaderIndicator stop];
             [self indexQuery:nil];
@@ -475,7 +475,7 @@
 {
     [_mongoCollection mapReduceWithMapFunction:[mapFunctionTextView string] reduceFunction:[reduceFunctionTextView string] query:[mrcriticalTextField stringValue] sort:nil limit:-1 output:[mroutputTextField stringValue] keepTemp:NO finalizeFunction:nil scope:nil jsmode:NO verbose:NO callback:^(MODQuery *mongoQuery) {
         if (mongoQuery.error) {
-            NSRunAlertPanel(@"Error", [mongoQuery.error localizedDescription], @"OK", nil, nil);
+            NSRunAlertPanel(@"Error", @"%@", @"OK", nil, nil, [mongoQuery.error localizedDescription]);
         }
     }];
 }
@@ -496,7 +496,7 @@
     criteria = [[MODSortedMutableDictionary alloc] initWithObjectsAndKeys:inCriteria, @"_id", nil];
     [_mongoCollection removeWithCriteria:criteria callback:^(MODQuery *mongoQuery) {
         if (mongoQuery.error) {
-            NSRunAlertPanel(@"Error", [mongoQuery.error localizedDescription], @"OK", nil, nil);
+            NSRunAlertPanel(@"Error", @"%@", @"OK", nil, nil, [mongoQuery.error localizedDescription]);
         } else {
             
         }
@@ -766,7 +766,7 @@
     [findQueryLoaderIndicator stop];
     if (collection == _mongoCollection) {
         if (errorMessage) {
-            NSRunAlertPanel(@"Error", errorMessage, @"OK", nil, nil);
+            NSRunAlertPanel(@"Error", @"%@", @"OK", nil, nil, errorMessage);
         } else {
             findResultsViewController.results = result;
         }
@@ -791,7 +791,7 @@
     if (collection == _mongoCollection) {
         [findQueryLoaderIndicator stop];
         if (errorMessage) {
-            NSRunAlertPanel(@"Error", errorMessage, @"OK", nil, nil);
+            NSRunAlertPanel(@"Error", @"%@", @"OK", nil, nil, errorMessage);
         }
     }
 }

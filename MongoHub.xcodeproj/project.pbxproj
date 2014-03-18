@@ -1294,7 +1294,7 @@
 		29B97313FDCFA39411CA2CEA /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0430;
+				LastUpgradeCheck = 0510;
 				ORGANIZATIONNAME = ThePeppersStudio.COM;
 			};
 			buildConfigurationList = 26FC0A880875C7B200E6366F /* Build configuration list for PBXProject "MongoHub" */;
@@ -1615,6 +1615,7 @@
 		26FC0A850875C7B200E6366F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"/Frameworks",
@@ -1629,6 +1630,7 @@
 		26FC0A860875C7B200E6366F /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1643,19 +1645,18 @@
 		26FC0A890875C7B200E6366F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				COPY_PHASE_STRIP = NO;
 				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				ONLY_ACTIVE_ARCH = YES;
 			};
 			name = Debug;
 		};
 		26FC0A8A0875C7B200E6366F /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				COPY_PHASE_STRIP = NO;
 				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
@@ -1668,7 +1669,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_MODEL_TUNING = G5;
@@ -1689,7 +1690,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_MODEL_TUNING = G5;

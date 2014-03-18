@@ -201,7 +201,7 @@
 {
     [loaderIndicator stop];
     _statusViewController.title = [NSString stringWithFormat:@"Error: %@", error.localizedDescription];
-    NSRunAlertPanel(@"Error", [error localizedDescription], @"OK", nil, nil);
+    NSRunAlertPanel(@"Error", @"%@", @"OK", nil, nil, [error localizedDescription]);
 }
 
 - (void)connectToServer
@@ -345,7 +345,7 @@
                 [_databaseCollectionOutlineView reloadData];
             }
         } else if (mongoQuery.error) {
-            NSRunAlertPanel(@"Error", [mongoQuery.error localizedDescription], @"OK", nil, nil);
+            NSRunAlertPanel(@"Error", @"%@", @"OK", nil, nil, [mongoQuery.error localizedDescription]);
         }
         
         [_databaseStoreArrayController clean:_connectionStore databases:_databases];
@@ -380,7 +380,7 @@
                 [_databaseCollectionOutlineView reloadData];
             }
         } else if (mongoQuery.error) {
-            NSRunAlertPanel(@"Error", [mongoQuery.error localizedDescription], @"OK", nil, nil);
+            NSRunAlertPanel(@"Error", @"%@", @"OK", nil, nil, [mongoQuery.error localizedDescription]);
         }
     }];
     return result;
@@ -494,7 +494,7 @@
     [mongoDatabase createCollectionWithName:collectionName callback:^(MODQuery *mongoQuery) {
         [loaderIndicator stop];
         if (mongoQuery.error) {
-            NSRunAlertPanel(@"Error", [mongoQuery.error localizedDescription], @"OK", nil, nil);
+            NSRunAlertPanel(@"Error", @"%@", @"OK", nil, nil, [mongoQuery.error localizedDescription]);
         }
         [self getCollectionListForDatabaseName:mongoDatabase.databaseName];
     }];
@@ -519,7 +519,7 @@
         [databaseItem.mongoDatabase dropCollectionWithName:collectionName callback:^(MODQuery *mongoQuery) {
             [loaderIndicator stop];
             if (mongoQuery.error) {
-                NSRunAlertPanel(@"Error", [mongoQuery.error localizedDescription], @"OK", nil, nil);
+                NSRunAlertPanel(@"Error", @"%@", @"OK", nil, nil, [mongoQuery.error localizedDescription]);
             } else {
                 [self getCollectionListForDatabaseName:dbname];
             }
@@ -552,7 +552,7 @@
         [loaderIndicator stop];
         [self getDatabaseList];
         if (mongoQuery.error) {
-            NSRunAlertPanel(@"Error", [mongoQuery.error localizedDescription], @"OK", nil, nil);
+            NSRunAlertPanel(@"Error", @"%@", @"OK", nil, nil, [mongoQuery.error localizedDescription]);
         }
     }];
 }
